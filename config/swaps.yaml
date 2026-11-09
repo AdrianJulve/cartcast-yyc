@@ -1,0 +1,25 @@
+# CartCast YYC — "same meal, lower price" swap suggestions
+#
+# A swap is offered when `from` is in the basket and `to` is currently cheaper.
+# `ratio` converts quantity: qty_to = qty_from * ratio (default 1.0).
+#   e.g. 1 kg of fresh salmon -> ~4.7 cans of 213 g canned salmon (ratio 4.7)
+# `group` drives the Protein / Dairy / Produce / Pantry tabs.
+
+swaps:
+  - { from: "Chicken breasts, per kilogram",     to: "Chicken thigh, per kilogram",       group: "Protein" }
+  - { from: "Ground beef, per kilogram",         to: "Pork shoulder cuts, per kilogram",  group: "Protein" }
+  - { from: "Beef striploin cuts, per kilogram", to: "Pork loin cuts, per kilogram",      group: "Protein" }
+  - { from: "Beef top sirloin cuts, per kilogram", to: "Whole chicken, per kilogram",     group: "Protein" }
+  - { from: "Beef stewing cuts, per kilogram",   to: "Chicken drumsticks, per kilogram",  group: "Protein" }
+  - { from: "Salmon, per kilogram",              to: "Canned salmon, 213 grams", ratio: 4.7, group: "Protein" }
+  - { from: "Bacon, 500 grams",                  to: "Wieners, 400 grams",                group: "Protein" }
+  - { from: "Butter, 454 grams",                 to: "Margarine, 907 grams", ratio: 0.5,  group: "Dairy" }
+  - { from: "Milk, 1 litre",                     to: "Milk, 4 litres", ratio: 0.25,       group: "Dairy" }
+  - { from: "Milk, 2 litres",                    to: "Milk, 4 litres", ratio: 0.5,        group: "Dairy" }
+  - { from: "Onions, per kilogram",              to: "Onions, 1.36 kilograms", ratio: 0.735, group: "Produce" }
+  - { from: "Potatoes, per kilogram",            to: "Potatoes, 4.54 kilograms", ratio: 0.22, group: "Produce" }
+  - { from: "Oranges, per kilogram",             to: "Oranges, 1.36 kilograms", ratio: 0.735, group: "Produce" }
+  - { from: "Broccoli, unit",                    to: "Frozen broccoli, 500 grams",        group: "Produce" }
+  - { from: "Strawberries, 454 grams",           to: "Frozen strawberries, 600 grams", ratio: 0.757, group: "Produce" }
+  - { from: "Brown rice, 900 grams",             to: "White rice, 2 kilograms", ratio: 0.45, group: "Pantry" }
+  - { from: "Olive oil, 1 litre",                to: "Canola oil, 3 litres", ratio: 0.333, group: "Pantry" }
