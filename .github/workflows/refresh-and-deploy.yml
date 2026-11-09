@@ -54,7 +54,7 @@ jobs:
           mkdir -p site/data
           cp data/processed/*.json site/data/
 
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site/
