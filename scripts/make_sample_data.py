@@ -3,14 +3,14 @@
 The files use the exact column layouts of the real sources so the same loaders
 work on both:
 
-* ``prices_sample.csv`` — StatCan 18-10-0245-01 layout
-* ``cpi_sample.csv``    — StatCan 18-10-0004-01 layout
-* ``stores_sample.json``— City of Calgary Socrata (vdjc-pybd) record layout
+* ``prices_sample.csv``: StatCan 18-10-0245-01 layout
+* ``cpi_sample.csv``: StatCan 18-10-0004-01 layout
+* ``stores_sample.json``: City of Calgary Socrata (vdjc-pybd) record layout
 
 Prices are SYNTHETIC. Each series is anchored on the real Alberta average price
 for June 2024 (StatCan via Alberta Open Data) and then simulated forwards and
 backwards with category trends and noise. Store names are fictional. Never
-present sample figures as real — run ``cartcast fetch`` for live data.
+present sample figures as real. Run ``cartcast fetch`` for live data.
 
 Usage:  python scripts/make_sample_data.py
 """

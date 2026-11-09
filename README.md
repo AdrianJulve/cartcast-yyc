@@ -1,158 +1,173 @@
-# CartCast YYC 🛒
+# CartCast YYC
 
-**Know your grocery bill before you shop.** CartCast YYC prices a Calgary household's
-weekly grocery basket every month using Statistics Canada's Alberta average retail
-prices. It shows what moved, suggests cheaper swaps for the same meal, and maps
-licensed grocery retailers from City of Calgary Open Data.
+CartCast YYC is a dashboard that estimates what a Calgary household spends on
+groceries each week. It prices a basket of common items using Statistics Canada's
+monthly average retail prices for Alberta, shows which items changed most in the
+past year, suggests cheaper substitutes, and maps licensed grocery retailers using
+City of Calgary Open Data.
 
 [![CI](https://github.com/AdrianJulve/cartcast-yyc/actions/workflows/ci.yml/badge.svg)](https://github.com/AdrianJulve/cartcast-yyc/actions/workflows/ci.yml)
-[![Refresh & deploy](https://github.com/AdrianJulve/cartcast-yyc/actions/workflows/refresh-and-deploy.yml/badge.svg)](https://github.com/AdrianJulve/cartcast-yyc/actions/workflows/refresh-and-deploy.yml)
+[![Refresh and deploy](https://github.com/AdrianJulve/cartcast-yyc/actions/workflows/refresh-and-deploy.yml/badge.svg)](https://github.com/AdrianJulve/cartcast-yyc/actions/workflows/refresh-and-deploy.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 ![CartCast YYC dashboard built from the sample dataset](docs/img/dashboard-sample.png)
-<sub>Dashboard built from the offline **sample** dataset. Prices are synthetic, so build with live data before presenting numbers.</sub>
 
----
+The screenshot uses the offline sample dataset, so the prices shown are synthetic.
 
-## Why
+## Background
 
-- Canada's Food Price Report 2026 forecasts food prices rising **4–6%** in 2026. It puts the average family of four's food bill at **$17,571.79**, and food is about 27% more expensive than five years ago. Alberta is among the provinces expected to rise faster than the national average.
-- Calgary Food Bank demand is at record levels, and a growing share of its clients are working households.
-- The data to plan a grocery budget already exists, but it lives in a StatCan table with ~110 products × 13 geographies that nobody browses before shopping.
+Canada's Food Price Report 2026 forecasts that food prices will rise 4 to 6 percent
+in 2026. It estimates that an average family of four will spend $17,571.79 on food
+this year, and that food prices are 27 percent higher than five years ago. Alberta
+is one of the provinces expected to see increases above the national average.
+Demand at the Calgary Food Bank is at record levels.
 
-CartCast turns those tables into one page a household, a community agency or a
-funder can act on.
+Statistics Canada already publishes the prices needed to plan a grocery budget, but
+the table covers about 110 products across 13 geographies and is not designed for
+household use. CartCast presents the same data as a single page.
 
 ## Features
 
-| | |
-|---|---|
-| 💵 **Weekly basket cost** | Editable basket of real StatCan products, scaled for household size |
-| 📈 **Cost over time + outlook** | 2-year history with a 3-month band based on the Food Price Report's 4–6% range |
-| 🔺 **What moved** | 12-month change in average price for every item in the basket |
-| 🔁 **Smart swaps** | "Same meal, lower price" pairs with weekly savings. Tap a saving to apply it |
-| 🥕 **Aisle breakdown** | Where the grocery dollar goes |
-| 📍 **Store map** | Licensed food retailers by community, from City of Calgary business licences |
-| 📊 **Inflation context** | CPI "food purchased from stores" for Alberta (and Calgary CMA) |
-| 🔗 **Share links** | The basket, household and applied swaps are encoded in the URL. Ideal for the live demo |
-| 🧪 **Offline sample mode** | Builds with no internet, which is safe for presenting |
-| 🔄 **Monthly auto-refresh** | A GitHub Action fetches new data and redeploys to GitHub Pages |
+- Weekly basket cost for an editable list of StatCan products, scaled by household size.
+- Basket cost over the past two years, with a three-month outlook range.
+- Twelve-month change in average price for each item in the basket.
+- Substitution suggestions with the weekly saving for each. Selecting one applies it to the basket.
+- Share of the basket cost by aisle.
+- Map and list of licensed food retailers, filterable by community.
+- Grocery inflation from the Consumer Price Index for Alberta and the Calgary CMA.
+- Shareable links. The basket, household size and applied substitutions are stored in the URL.
+- An offline sample mode for working without an internet connection.
+- A monthly GitHub Actions job that downloads new data and redeploys the site to GitHub Pages.
 
-## Quick start
+## Getting started
 
 ```bash
 git clone https://github.com/AdrianJulve/cartcast-yyc.git
 cd cartcast-yyc
-python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
+python -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\Activate.ps1
 pip install -e ".[dev]"
+```
 
-# Offline, using sample data
+Build and preview with the sample data:
+
+```bash
 python -m cartcast build --sample
-python -m cartcast serve                               # → http://localhost:8000
+python -m cartcast serve           # http://localhost:8000
+```
 
-# Live data (the CPI table is a large download; the first fetch takes a few minutes)
+Build with live data. The CPI table is a large download, so the first fetch takes a
+few minutes.
+
+```bash
 python -m cartcast fetch
 python -m cartcast validate
 python -m cartcast build
 ```
 
-With `make`: `make demo` (sample build + serve), `make data build`, `make check`.
-Run `make help` for every target.
+If `make` is installed, `make help` lists shortcuts such as `make demo`,
+`make data build` and `make check`.
 
 ## Commands
 
-| Command | What it does |
+| Command | Description |
 |---|---|
-| `cartcast fetch [--only prices cpi stores]` | Downloads the source tables into `data/raw/` |
-| `cartcast validate [--sample]` | Checks every basket/swap product name against the data and suggests fixes |
-| `cartcast build [--sample] [--out DIR]` | Writes `data/processed/*.json` and the self-contained `site/index.html` |
-| `cartcast serve [--port 8000]` | Local preview server |
+| `cartcast fetch [--only prices cpi stores]` | Download the source tables into `data/raw/` |
+| `cartcast validate [--sample]` | Check basket and substitution product names against the data |
+| `cartcast build [--sample] [--out DIR]` | Write `data/processed/*.json` and `site/index.html` |
+| `cartcast serve [--port 8000]` | Serve the built site locally |
 
 ## Data sources
 
-| Dataset | Used for | Refresh |
+| Dataset | Used for | Updated |
 |---|---|---|
-| [StatCan 18-10-0245-01](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810024501): monthly average retail prices, Alberta | Basket cost, movers, swaps, aisles | Monthly |
-| [StatCan 18-10-0004-01](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401): Consumer Price Index | Grocery inflation KPI | Monthly |
-| [City of Calgary Business Licences (`vdjc-pybd`)](https://data.calgary.ca/d/vdjc-pybd) | Store map | Daily (fetched monthly) |
-| [Canada's Food Price Report 2026](https://www.dal.ca/sites/agri-food/research/canada-s-food-price-report-2026.html) | Outlook range (4–6%) | Annual |
+| [StatCan Table 18-10-0245-01](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810024501), monthly average retail prices (Alberta) | Basket cost, price changes, substitutions, aisle shares | Monthly |
+| [StatCan Table 18-10-0004-01](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401), Consumer Price Index | Grocery inflation figure | Monthly |
+| [City of Calgary Business Licences](https://data.calgary.ca/d/vdjc-pybd) (`vdjc-pybd`) | Store map | Daily (fetched monthly) |
+| [Canada's Food Price Report 2026](https://www.dal.ca/sites/agri-food/research/canada-s-food-price-report-2026.html) | Outlook range | Annually |
 
-Full detail, field mappings and caveats: [`docs/data-sources.md`](docs/data-sources.md) ·
-licences: [`DATA_LICENSE.md`](DATA_LICENSE.md).
+Field mappings and known issues are documented in
+[docs/data-sources.md](docs/data-sources.md). Licences are listed in
+[DATA_LICENSE.md](DATA_LICENSE.md).
 
-> **Method note.** StatCan advises that average retail prices describe *price levels*
-> and shouldn't be used to calculate price change over time. For inflation, use
-> the CPI. CartCast labels basket changes as "price change" and uses the CPI for
-> every inflation figure. See [`docs/methodology.md`](docs/methodology.md).
+Statistics Canada advises that average retail prices describe price levels in a
+given month and should not be used to measure price change over time. CartCast
+labels item-level changes as "change in average price" and uses the CPI for all
+inflation figures. See [docs/methodology.md](docs/methodology.md).
 
 ## How it works
 
 ```mermaid
 flowchart LR
-  A[StatCan 18-10-0245-01<br/>avg retail prices] --> F
+  A[StatCan 18-10-0245-01<br/>average retail prices] --> F
   B[StatCan 18-10-0004-01<br/>CPI] --> F
   C[City of Calgary<br/>business licences] --> F
   F[cartcast fetch] --> R[(data/raw)]
   R --> V[cartcast validate]
-  R --> P[cartcast build<br/>clean · cost · swaps · outlook]
-  K[config/*.yaml<br/>basket · swaps · settings] --> P
+  R --> P[cartcast build]
+  K[config/*.yaml] --> P
   P --> J[(data/processed/*.json)]
-  P --> S[site/index.html<br/>self-contained dashboard]
+  P --> S[site/index.html]
   S --> G[GitHub Pages]
 ```
 
-More in [`docs/architecture.md`](docs/architecture.md).
+The build step produces one HTML file with the data embedded in it. It has no
+server or external dependencies. Details are in
+[docs/architecture.md](docs/architecture.md).
 
 ## Project structure
 
 ```
 cartcast-yyc/
-├── config/                 # basket.yaml · swaps.yaml · settings.yaml  ← edit these
-├── src/cartcast/           # pipeline package + CLI
-│   ├── sources.py          #   downloads (StatCan zip, Socrata API)
-│   ├── prices.py  cpi.py   #   StatCan loaders
-│   ├── stores.py           #   licence → grocery store classification
-│   ├── basket.py           #   costing, swaps, aisle shares, outlook
-│   ├── build.py  cli.py    #   payload + site rendering, commands
+├── config/                 basket.yaml, swaps.yaml, settings.yaml
+├── src/cartcast/           pipeline package and CLI
+│   ├── sources.py          downloads (StatCan zip files, Socrata API)
+│   ├── prices.py, cpi.py   StatCan table loaders
+│   ├── stores.py           business licence classification
+│   ├── basket.py           basket cost, substitutions, aisle shares, outlook
+│   ├── build.py, cli.py    site rendering and commands
 │   └── templates/dashboard.html
 ├── data/
-│   ├── sample/             # synthetic offline dataset (committed)
-│   ├── raw/                # downloads (git-ignored)
-│   └── processed/          # build output (git-ignored)
+│   ├── sample/             synthetic offline dataset (committed)
+│   ├── raw/                downloaded files (ignored by git)
+│   └── processed/          build output (ignored by git)
 ├── scripts/make_sample_data.py
-├── tests/                  # pytest suite
-├── design/                 # pitch mockup (PNG + HTML source)
-├── docs/                   # data sources, methodology, architecture, presentation plan
-└── .github/                # CI, monthly refresh + Pages deploy, templates
+├── tests/
+├── design/                 dashboard mockup (PNG and HTML)
+├── docs/
+└── .github/                workflows, issue and pull request templates
 ```
 
-## Customise
+## Configuration
 
-- **Basket:** edit `config/basket.yaml`. Product names must match StatCan exactly; `cartcast validate` suggests corrections.
-- **Swaps:** edit `config/swaps.yaml`. `ratio` converts quantities, e.g. 1 kg fresh salmon ≈ 4.7 cans.
-- **Geography:** change `geography.prices` in `config/settings.yaml` to any province.
-- **Outlook:** `dashboard.outlook_annual_low/high`.
+- Basket: `config/basket.yaml`. Product names must match StatCan exactly. Run `cartcast validate` to check them.
+- Substitutions: `config/swaps.yaml`. The `ratio` field converts between package sizes. For example, 1 kg of fresh salmon is about 4.7 cans of 213 g.
+- Geography: `geography.prices` in `config/settings.yaml` accepts any province.
+- Outlook range: `dashboard.outlook_annual_low` and `dashboard.outlook_annual_high`.
 
-## Deploying
+## Deployment
 
-1. Push to GitHub, then go to **Settings → Pages → Source: GitHub Actions**.
-2. Run **Actions → Refresh data & deploy dashboard → Run workflow**. Tick *use sample* if you want a demo build.
-3. After that it refreshes automatically on the 22nd of each month.
+1. Push the repository to GitHub.
+2. In the repository settings, open Pages and set the source to GitHub Actions.
+3. Run the "Refresh data and deploy dashboard" workflow from the Actions tab. Select `use_sample` for a build that does not depend on the live sources.
+
+The workflow then runs automatically on the 22nd of each month.
 
 ## Presentation
 
-This repo is the live demonstration for a 10-minute DATA 398.1 pitch. The scenario,
-run of show, roles, demo script and backup plan are in
-[`docs/presentation-plan.md`](docs/presentation-plan.md).
+This project is the live demonstration for a 10-minute DATA 398.1 presentation.
+The scenario, schedule, roles, demo steps and fallback plan are in
+[docs/presentation-plan.md](docs/presentation-plan.md).
 
 ## Contributing
 
-Branch → commit (Conventional Commits) → `make check` → pull request → review. See
-[`CONTRIBUTING.md`](CONTRIBUTING.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Licence
 
-Code: [MIT](LICENSE). Data: publishers' open licences, see [`DATA_LICENSE.md`](DATA_LICENSE.md).
-*Adapted from Statistics Canada. This does not constitute an endorsement by Statistics
-Canada of this product.*
+The code is released under the [MIT licence](LICENSE). The data is covered by its
+publishers' licences, listed in [DATA_LICENSE.md](DATA_LICENSE.md).
+
+Adapted from Statistics Canada. This does not constitute an endorsement by
+Statistics Canada of this product.

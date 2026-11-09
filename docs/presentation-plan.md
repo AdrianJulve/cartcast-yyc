@@ -1,58 +1,59 @@
-# Presentation plan: DATA 398.1 Part 1 (10 minutes, in class)
+# Presentation plan: DATA 398.1, Part 1 (10 minutes, in class)
 
-## Scenario and audience (state these before you start)
+## Scenario and audience
 
-> **Scenario:** a funding pitch to a community innovation fund (for example, a municipal
-> or foundation grant for food-security tools).
-> **Audience:** non-technical funders and community food-security partners, such as
-> food banks and family-support agencies.
-> **Ask:** seed funding and one partner agency to pilot CartCast YYC for six months.
+State these before the presentation starts.
 
-Topic type: **a proposed solution to a real-world problem** (rising grocery costs).
+- Scenario: a funding pitch to a community innovation fund, such as a municipal or foundation grant for food security projects.
+- Audience: funders and community food security partners, such as food banks and family support agencies. They are not assumed to have a technical background.
+- Request: seed funding and one partner agency to pilot CartCast YYC for six months.
+- Topic type: a proposed solution to a real-world problem (rising grocery costs).
 
-## Engagement tool: live demonstration with audience participation
+## Engagement tool: live demonstration
 
-The class builds a basket live. A teammate asks the room for 3–4 items ("What's
-always in your cart?") and adds them in the dashboard. The room watches the weekly
-cost, the movers and the swaps update. Finish by applying a swap and showing the
-savings. Optional: put a QR code to the shared-basket link on the slide so people
-can open it on their phones.
+The class builds a basket during the presentation. One presenter asks the room for
+three or four items people buy every week and adds them on the dashboard, while the
+audience watches the weekly cost, price changes and substitutions update. The demo
+ends by applying a substitution and showing the saving. A QR code linking to the
+shared basket can be added to a slide so people can follow along on their phones.
 
-## Run of show (adjust names and team size)
+## Schedule
 
-| Time | Who | Segment | Key points |
+Adjust names and segment lengths for the size of the team.
+
+| Time | Presenter | Segment | Content |
 |---|---|---|---|
-| 0:00–0:45 | Presenter 1 | Scenario + hook | State scenario and audience. "Hands up if your grocery bill went up this year." |
-| 0:45–2:15 | Presenter 1 | The problem | Food Price Report 2026: +4–6% in 2026; family of four ≈ $17,572/yr; +27% in five years; Alberta above national average. Record Calgary Food Bank demand, including working households |
-| 2:15–3:30 | Presenter 2 | The solution + the data | What CartCast does in one sentence. Four open datasets. Pipeline diagram (README). Average prices vs CPI caveat |
-| 3:30–7:00 | Presenters 3 + 2 | **Live demo** | Household → Couple. Audience adds items. Read the movers. Apply a swap and watch the savings KPI. Store map: filter a community. Copy the share link |
-| 7:00–8:30 | Presenter 4 | Impact + roadmap | Who uses it (households, agency caseworkers). Pilot metrics: weekly active users, swaps applied, $ saved per household. Cost: free hosting, ~2 hrs/month maintenance |
-| 8:30–9:15 | Presenter 4 | The ask | Seed funding + one partner agency + feedback on the basket |
-| 9:15–10:00 | All | Close / Q&A buffer | Repeat the one-line value proposition |
+| 0:00 to 0:45 | Presenter 1 | Scenario and opening | State the scenario and audience. Ask how many people have noticed their grocery bill going up this year. |
+| 0:45 to 2:15 | Presenter 1 | The problem | Food Price Report 2026: food prices forecast to rise 4 to 6 percent in 2026; a family of four spending about $17,572 a year; prices up 27 percent in five years; Alberta above the national average. Record demand at the Calgary Food Bank, including from working households. |
+| 2:15 to 3:30 | Presenter 2 | The solution and the data | What CartCast does, in one sentence. The four data sources. The pipeline diagram from the README. Why average prices and the CPI are used for different things. |
+| 3:30 to 7:00 | Presenters 3 and 2 | Live demo | Change the household to Couple. Add items suggested by the audience. Read out the largest price changes. Apply a substitution and point to the savings figure. Filter the store map by community. Copy the share link. |
+| 7:00 to 8:30 | Presenter 4 | Impact and next steps | Who would use it (households and agency caseworkers). Pilot measures: weekly users, substitutions applied, estimated savings per household. Costs: free hosting and about two hours of maintenance a month. |
+| 8:30 to 9:15 | Presenter 4 | The request | Seed funding, one partner agency, and feedback on the default basket. |
+| 9:15 to 10:00 | All | Closing and questions | Restate what the tool does and who it is for. |
 
-## Slide outline (8 slides)
+## Slides
 
-1. Title + scenario + audience
-2. The problem in three numbers
-3. Who feels it (food bank context)
-4. CartCast in one screen (`design/cartcast_mockup.png`)
-5. The data (four sources + licences) and the methodology caveat
-6. *(Live demo, no slide, or a "demo" title card)*
-7. Pilot plan, metrics and costs
-8. The ask + thank you
+1. Title, scenario and audience
+2. The problem, in three figures
+3. Who is affected (food bank demand)
+4. The dashboard (`design/cartcast_mockup.png`)
+5. Data sources, licences and the method note
+6. Live demo (title slide only)
+7. Pilot plan, measures and costs
+8. The request and thank you
 
-## Demo checklist
+## Demo preparation
 
-- [ ] Run `make data build` the night before, so the demo uses **live** data and has no sample banner
-- [ ] Also keep `site/index.html` from a `make build-sample` run on a USB stick as an offline fallback
-- [ ] Browser zoom at 110–125% for the projector. Close other tabs
-- [ ] Pre-load the default basket. Practise: Couple → add "Avocado, unit" → apply the top swap → filter the map
-- [ ] Screenshots of every demo step in hidden backup slides, in case the laptop or projector fails
-- [ ] One person drives, one narrates. Never type in silence
+- [ ] Run `python -m cartcast fetch` and `python -m cartcast build` the night before so the demo uses live data and no sample banner appears.
+- [ ] Copy a sample build of `site/index.html` to a USB drive as a fallback that works offline.
+- [ ] Set the browser zoom to 110 to 125 percent for the projector and close other tabs.
+- [ ] Rehearse the sequence: change to Couple, add "Avocado, unit", apply the top substitution, filter the map.
+- [ ] Put screenshots of each demo step in hidden slides in case the laptop or projector fails.
+- [ ] Have one person operate the laptop while another narrates.
 
 ## Likely questions
 
-- **"Why Alberta prices, not Calgary?"** StatCan publishes average prices by province only. The CPI is available for the Calgary CMA, which we use for context.
-- **"Isn't price change over time misleading?"** StatCan says average prices aren't a pure inflation measure, so the inflation KPI uses the CPI.
-- **"How do you keep it current?"** A GitHub Action re-downloads and redeploys monthly.
-- **"Privacy?"** No accounts and no tracking. The basket lives only in the link.
+- Why Alberta prices and not Calgary prices? StatCan publishes average prices by province only. The CPI is available for the Calgary CMA and is shown for context.
+- Can average prices be used to show change over time? StatCan advises against it, so the inflation figure on the dashboard comes from the CPI.
+- How is the data kept current? A GitHub Actions workflow downloads the data and redeploys the site every month.
+- Is any personal data collected? No. There are no accounts or tracking, and the basket is stored only in the link.

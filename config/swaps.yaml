@@ -1,9 +1,9 @@
-# CartCast YYC — "same meal, lower price" swap suggestions
+# CartCast YYC substitution suggestions.
 #
-# A swap is offered when `from` is in the basket and `to` is currently cheaper.
-# `ratio` converts quantity: qty_to = qty_from * ratio (default 1.0).
-#   e.g. 1 kg of fresh salmon -> ~4.7 cans of 213 g canned salmon (ratio 4.7)
-# `group` drives the Protein / Dairy / Produce / Pantry tabs.
+# A substitution is offered when `from` is in the basket and `to` costs less.
+# `ratio` converts the quantity: qty_to = qty_from * ratio (default 1.0).
+# For example, 1 kg of fresh salmon is about 4.7 cans of 213 g, so the ratio is 4.7.
+# `group` sets the tab the suggestion appears under (Protein, Dairy, Produce, Pantry).
 
 swaps:
   - { from: "Chicken breasts, per kilogram",     to: "Chicken thigh, per kilogram",       group: "Protein" }

@@ -1,4 +1,4 @@
-"""Command-line interface: ``cartcast fetch | validate | build | serve``."""
+"""Command-line interface for CartCast YYC (fetch, validate, build, serve)."""
 
 from __future__ import annotations
 
@@ -22,16 +22,18 @@ def cmd_fetch(args: argparse.Namespace) -> int:
     src = cfg.settings["sources"]
     targets = args.only or ["prices", "cpi", "stores"]
     if "prices" in targets:
-        print("↓ StatCan 18-10-0245-01 (average retail prices)…")
+        print("Downloading StatCan 18-10-0245-01 (average retail prices)...")
         path = download_statcan_table(src["prices"]["url"], src["prices"]["table_id"], RAW_DIR)
-        print("  saved", path)
+        print("  Saved", path)
     if "cpi" in targets:
-        print("↓ StatCan 18-10-0004-01 (CPI — large file, this can take a minute)…")
+        print(
+            "Downloading StatCan 18-10-0004-01 (CPI, a large file; this can take a few minutes)..."
+        )
         path = download_statcan_table(src["cpi"]["url"], src["cpi"]["table_id"], RAW_DIR)
-        print("  saved", path)
+        print("  Saved", path)
     if "stores" in targets:
-        print("↓ City of Calgary business licences (grocery retailers)…")
-        print("  saved", download_calgary_stores(cfg.settings, RAW_DIR / "stores.json"))
+        print("Downloading City of Calgary business licences (grocery retailers)...")
+        print("  Saved", download_calgary_stores(cfg.settings, RAW_DIR / "stores.json"))
     return 0
 
 
@@ -44,9 +46,9 @@ def cmd_validate(args: argparse.Namespace) -> int:
     names += [s.source for s in cfg.swaps] + [s.target for s in cfg.swaps]
     issues = validate_products(sorted(set(names)), available)
     for issue in issues:
-        print("✗", issue)
+        print("ERROR:", issue)
     if not issues:
-        print(f"✓ All {len(set(names))} basket and swap products found in {inputs.prices.name}")
+        print(f"OK: all {len(set(names))} basket and swap products found in {inputs.prices.name}")
     return 1 if issues else 0
 
 
@@ -55,18 +57,18 @@ def cmd_build(args: argparse.Namespace) -> int:
     inputs = resolve_inputs(args.sample)
     for p in (inputs.prices, inputs.cpi, inputs.stores):
         if not p.exists():
-            hint = "run `cartcast fetch` first" if not args.sample else "run `make sample`"
-            print(f"Missing input {p} — {hint}.", file=sys.stderr)
+            hint = "Run `cartcast fetch` first." if not args.sample else "Run `make sample`."
+            print(f"Missing input file: {p}. {hint}", file=sys.stderr)
             return 2
     payload = build_payload(cfg, inputs)
     write_processed(payload)
     out = render_site(payload, Path(args.out))
     s = payload["summary"]
-    label = "SAMPLE data" if inputs.is_sample else "live data"
-    print(f"✓ Built {out} from {label}, latest month {payload['meta']['latest_month']}")
+    label = "sample data" if inputs.is_sample else "live data"
+    print(f"Built {out} from {label}. Latest month: {payload['meta']['latest_month']}")
     print(
-        f"  Weekly basket: ${s['weekly_cost']:.2f} · {len(payload['stores'])} stores · "
-        f"{len(s['swaps'])} swaps"
+        f"Weekly basket: ${s['weekly_cost']:.2f}, {len(payload['stores'])} stores, "
+        f"{len(s['swaps'])} substitutions"
     )
     return 0
 

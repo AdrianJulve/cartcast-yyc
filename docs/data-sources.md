@@ -1,43 +1,47 @@
 # Data sources
 
-## 1. Monthly average retail prices for selected products: StatCan Table 18-10-0245-01
+## 1. Monthly average retail prices for selected products (StatCan Table 18-10-0245-01)
 
-- **Page:** <https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810024501>
-- **Download used:** `https://www150.statcan.gc.ca/n1/tbl/csv/18100245-eng.zip`, which contains `18100245.csv` and `18100245_MetaData.csv`
-- **Geography:** Canada, provinces, Whitehorse and Yellowknife. CartCast uses `GEO = "Alberta"`. There is no Calgary-level price.
-- **Frequency:** monthly, published about 5–6 weeks after the reference month.
-- **Method:** built from retailers' scanner (point-of-sale) data. Products are a specific size (e.g. `Eggs, 1 dozen`) or standardised to one (e.g. `Block cheese, 500 grams`), and fresh produce and meat are per kilogram.
-- **Columns used:** `REF_DATE` → `month`, `GEO`, `Products` → `product`, `VALUE` → `price`
-- **Gotchas:**
-  - Some cells are suppressed (blank `VALUE`). The loader drops them and the dashboard carries the last price forward.
-  - Product names occasionally change when StatCan updates the basket. `cartcast validate` catches this and suggests the closest names.
-  - StatCan cautions against using average prices to compute change over time (see methodology).
+- Table page: <https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810024501>
+- Download: `https://www150.statcan.gc.ca/n1/tbl/csv/18100245-eng.zip`, which contains `18100245.csv` and `18100245_MetaData.csv`.
+- Geography: Canada, the provinces, Whitehorse and Yellowknife. CartCast uses `GEO = "Alberta"`. StatCan does not publish these prices for Calgary.
+- Frequency: monthly, released about five to six weeks after the reference month.
+- Method: prices come from retailers' scanner (point-of-sale) data. Each product is either a specific size (for example `Eggs, 1 dozen`) or standardized to one (for example `Block cheese, 500 grams`). Fresh produce and meat are priced per kilogram.
+- Columns used: `REF_DATE` (month), `GEO`, `Products` (product) and `VALUE` (price).
 
-## 2. Consumer Price Index, monthly, not seasonally adjusted: StatCan Table 18-10-0004-01
+Known issues:
 
-- **Page:** <https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401>
-- **Download used:** `https://www150.statcan.gc.ca/n1/tbl/csv/18100004-eng.zip`. It's a large file, so it is streamed in chunks.
-- **Filters:** `GEO ∈ {"Alberta", "Calgary, Alberta"}`, products `All-items` and `Food purchased from stores`, `UOM = 2002=100`
-- **Derived:** 12-month % change (`yoy`) = index / index 12 months earlier − 1
-- **Use:** the "grocery inflation" KPI. This is the correct measure of food inflation.
+- Some values are suppressed and appear as blanks. The loader drops them, and the dashboard uses the previous month's price in their place.
+- StatCan occasionally renames products when it updates the list. `cartcast validate` reports names that no longer match and suggests the closest current names.
+- StatCan advises against using average prices to measure change over time. See `docs/methodology.md`.
 
-## 3. Calgary Business Licences: City of Calgary Open Data (`vdjc-pybd`)
+## 2. Consumer Price Index, monthly, not seasonally adjusted (StatCan Table 18-10-0004-01)
 
-- **Page:** <https://data.calgary.ca/d/vdjc-pybd> · **API:** `https://data.calgary.ca/resource/vdjc-pybd.json` (Socrata SoQL)
-- **Fields used:** `tradename`, `address`, `comdistnm` (community), `licencetypes`, `jobstatusdesc`, `point` (GeoJSON lon/lat)
-- **Query:** licence type contains `RETAIL DEALER - PREMISES`, status `Licensed` or `Pending Renewal`, and the trade name matches a grocery keyword (see `config/settings.yaml → stores`).
-- **Classification:** `supermarket` if the name matches a chain/supermarket keyword, otherwise `specialty`. Names matching exclusion keywords (e.g. "flea market") are dropped.
-- **Limitations:** licences have no "grocery" category, so keyword matching will miss some stores and catch a few non-grocers. Tune the keyword lists, and mention this in the presentation as a data-quality trade-off.
+- Table page: <https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401>
+- Download: `https://www150.statcan.gc.ca/n1/tbl/csv/18100004-eng.zip`. The file is large, so it is read in chunks.
+- Filters: `GEO` is "Alberta" or "Calgary, Alberta"; the product is "All-items" or "Food purchased from stores"; `UOM` is "2002=100".
+- Derived field: the 12-month percentage change, calculated as the index divided by the index 12 months earlier, minus 1.
+- Used for: the grocery inflation figure on the dashboard.
+
+## 3. Calgary Business Licences (City of Calgary Open Data, `vdjc-pybd`)
+
+- Dataset page: <https://data.calgary.ca/d/vdjc-pybd>
+- API: `https://data.calgary.ca/resource/vdjc-pybd.json` (Socrata SoQL)
+- Fields used: `tradename`, `address`, `comdistnm` (community), `licencetypes`, `jobstatusdesc` and `point` (GeoJSON longitude and latitude).
+- Query: the licence type includes "RETAIL DEALER - PREMISES", the status is "Licensed" or "Pending Renewal", and the trade name contains one of the grocery keywords listed in `config/settings.yaml` under `stores`.
+- Classification: a store is a supermarket if its name matches a chain or supermarket keyword, and specialty otherwise. Names that match an exclusion keyword, such as "flea market", are removed.
+- Limitation: there is no grocery licence category, so keyword matching will miss some stores and include a few that are not grocers. The keyword lists can be adjusted in the config.
 
 ## 4. Canada's Food Price Report 2026
 
-- **Page:** <https://www.dal.ca/sites/agri-food/research/canada-s-food-price-report-2026.html>
-- **Used for:** the outlook band only. Overall food prices are forecast to rise 4% to 6% in 2026 (`dashboard.outlook_annual_low/high`).
-- **Context figures for the pitch:** the average family of four is expected to spend $17,571.79 on food in 2026, up to $994.63 more than 2025. Food prices are 27% higher than five years ago, and Alberta is among the provinces forecast above the national average.
+- Report page: <https://www.dal.ca/sites/agri-food/research/canada-s-food-price-report-2026.html>
+- Used for: the outlook range only. The report forecasts a 4 to 6 percent increase in overall food prices in 2026, set in `dashboard.outlook_annual_low` and `dashboard.outlook_annual_high`.
+- Other figures from the report used in the presentation: an average family of four is expected to spend $17,571.79 on food in 2026, up to $994.63 more than in 2025. Food prices are 27 percent higher than five years ago, and Alberta is among the provinces forecast to rise above the national average.
 
 ## Sample dataset (`data/sample/`)
 
-Synthetic, generated by `scripts/make_sample_data.py` (seeded, reproducible). Files
-match the real layouts exactly. Price series are anchored on the real Alberta June
-2024 average prices and then simulated. Store names are `SAMPLE …`. The dashboard
-shows a banner whenever sample data is used.
+The sample files are synthetic and are generated by `scripts/make_sample_data.py`
+with a fixed random seed, so the output is reproducible. They use the same column
+layouts as the real sources. Price series start from the real Alberta average
+prices for June 2024 and are simulated from there. Store names begin with "SAMPLE".
+The dashboard shows a banner whenever sample data is used.
