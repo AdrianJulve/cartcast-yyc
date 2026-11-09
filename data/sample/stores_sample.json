@@ -1,0 +1,1370 @@
+[
+ {
+  "getbusid": "1049",
+  "tradename": "SAMPLE ASIAN FOOD CENTRE #79",
+  "homeoccind": "N",
+  "address": "5340 113 AV NE",
+  "comdistcd": "BEL",
+  "comdistnm": "BELTLINE",
+  "licencetypes": "RETAIL DEALER - PREMISES; FOOD SERVICE - PREMISES (NO SEATING)",
+  "first_iss_dt": "2019-01-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.077312,
+    51.032889
+   ]
+  }
+ },
+ {
+  "getbusid": "1052",
+  "tradename": "SAMPLE FLEA MARKET #82",
+  "homeoccind": "N",
+  "address": "5101 14 AV NW",
+  "comdistcd": "BEL",
+  "comdistnm": "BELTLINE",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2013-06-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.080193,
+    51.030201
+   ]
+  }
+ },
+ {
+  "getbusid": "1075",
+  "tradename": "SAMPLE SUPERMARKET #8",
+  "homeoccind": "N",
+  "address": "9966 9 AV SE",
+  "comdistcd": "BEL",
+  "comdistnm": "BELTLINE",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2020-08-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.057209,
+    51.033941
+   ]
+  }
+ },
+ {
+  "getbusid": "1120",
+  "tradename": "SAMPLE ASIAN FOOD CENTRE #53",
+  "homeoccind": "N",
+  "address": "6412 15 AV NE",
+  "comdistcd": "BEL",
+  "comdistnm": "BELTLINE",
+  "licencetypes": "RETAIL DEALER - PREMISES; FOOD SERVICE - PREMISES (NO SEATING)",
+  "first_iss_dt": "2007-04-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.07544,
+    51.032564
+   ]
+  }
+ },
+ {
+  "getbusid": "1127",
+  "tradename": "SAMPLE ASIAN FOOD CENTRE #60",
+  "homeoccind": "N",
+  "address": "3471 59 AV SE",
+  "comdistcd": "BEL",
+  "comdistnm": "BELTLINE",
+  "licencetypes": "RETAIL DEALER - PREMISES; FOOD SERVICE - PREMISES (NO SEATING)",
+  "first_iss_dt": "2025-08-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.07027,
+    51.039892
+   ]
+  }
+ },
+ {
+  "getbusid": "1173",
+  "tradename": "SAMPLE FRESH MARKET #9",
+  "homeoccind": "N",
+  "address": "900 108 AV SE",
+  "comdistcd": "BRI",
+  "comdistnm": "BRIDGELAND/RIVERSIDE",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2015-08-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.054477,
+    51.059912
+   ]
+  }
+ },
+ {
+  "getbusid": "1201",
+  "tradename": "SAMPLE FRESH MARKET #37",
+  "homeoccind": "N",
+  "address": "9758 10 AV NW",
+  "comdistcd": "BRI",
+  "comdistnm": "BRIDGELAND/RIVERSIDE",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2022-07-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.03493,
+    51.049989
+   ]
+  }
+ },
+ {
+  "getbusid": "1221",
+  "tradename": "SAMPLE HALAL MEAT & GROCERY #57",
+  "homeoccind": "N",
+  "address": "1349 22 AV NW",
+  "comdistcd": "BRI",
+  "comdistnm": "BRIDGELAND/RIVERSIDE",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2012-01-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.046645,
+    51.049481
+   ]
+  }
+ },
+ {
+  "getbusid": "1243",
+  "tradename": "SAMPLE FRESH MARKET #79",
+  "homeoccind": "N",
+  "address": "1057 77 AV SW",
+  "comdistcd": "KEN",
+  "comdistnm": "KENSINGTON",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2019-09-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.075456,
+    51.042284
+   ]
+  }
+ },
+ {
+  "getbusid": "1250",
+  "tradename": "SAMPLE SUPERMARKET EXPRESS #86",
+  "homeoccind": "N",
+  "address": "8679 86 AV SE",
+  "comdistcd": "KEN",
+  "comdistnm": "KENSINGTON",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2006-07-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.080438,
+    51.049464
+   ]
+  }
+ },
+ {
+  "getbusid": "1281",
+  "tradename": "SAMPLE PRODUCE CO #20",
+  "homeoccind": "N",
+  "address": "8799 69 AV NE",
+  "comdistcd": "KEN",
+  "comdistnm": "KENSINGTON",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2014-06-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.097113,
+    51.051048
+   ]
+  }
+ },
+ {
+  "getbusid": "1323",
+  "tradename": "SAMPLE FLEA MARKET #62",
+  "homeoccind": "N",
+  "address": "7995 82 AV NW",
+  "comdistcd": "KEN",
+  "comdistnm": "KENSINGTON",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2024-08-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.10062,
+    51.059095
+   ]
+  }
+ },
+ {
+  "getbusid": "1354",
+  "tradename": "SAMPLE ASIAN FOOD CENTRE #93",
+  "homeoccind": "N",
+  "address": "3615 81 AV NW",
+  "comdistcd": "KEN",
+  "comdistnm": "KENSINGTON",
+  "licencetypes": "RETAIL DEALER - PREMISES; FOOD SERVICE - PREMISES (NO SEATING)",
+  "first_iss_dt": "2010-04-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.090507,
+    51.046612
+   ]
+  }
+ },
+ {
+  "getbusid": "1390",
+  "tradename": "SAMPLE HALAL MEAT & GROCERY #32",
+  "homeoccind": "N",
+  "address": "1911 8 AV NW",
+  "comdistcd": "FOR",
+  "comdistnm": "FOREST LAWN",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2022-07-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.97859,
+    51.030435
+   ]
+  }
+ },
+ {
+  "getbusid": "1398",
+  "tradename": "SAMPLE AUTO PARTS #40",
+  "homeoccind": "N",
+  "address": "2049 81 AV SE",
+  "comdistcd": "FOR",
+  "comdistnm": "FOREST LAWN",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2016-02-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.968383,
+    51.03991
+   ]
+  }
+ },
+ {
+  "getbusid": "1423",
+  "tradename": "SAMPLE ASIAN FOOD CENTRE #65",
+  "homeoccind": "N",
+  "address": "3909 13 AV NW",
+  "comdistcd": "FOR",
+  "comdistnm": "FOREST LAWN",
+  "licencetypes": "RETAIL DEALER - PREMISES; FOOD SERVICE - PREMISES (NO SEATING)",
+  "first_iss_dt": "2023-04-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.963133,
+    51.045504
+   ]
+  }
+ },
+ {
+  "getbusid": "1433",
+  "tradename": "SAMPLE SUPERMARKET #75",
+  "homeoccind": "N",
+  "address": "9187 2 AV NE",
+  "comdistcd": "FOR",
+  "comdistnm": "FOREST LAWN",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2005-08-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.959432,
+    51.041448
+   ]
+  }
+ },
+ {
+  "getbusid": "1452",
+  "tradename": "SAMPLE ASIAN FOOD CENTRE #94",
+  "homeoccind": "N",
+  "address": "9264 123 AV SW",
+  "comdistcd": "FOR",
+  "comdistnm": "FOREST LAWN",
+  "licencetypes": "RETAIL DEALER - PREMISES; FOOD SERVICE - PREMISES (NO SEATING)",
+  "first_iss_dt": "2015-08-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.973819,
+    51.047895
+   ]
+  }
+ },
+ {
+  "getbusid": "1471",
+  "tradename": "SAMPLE BUTCHER SHOP #16",
+  "homeoccind": "N",
+  "address": "4476 40 AV NW",
+  "comdistcd": "MAR",
+  "comdistnm": "MARLBOROUGH",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2008-01-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.971555,
+    51.0472
+   ]
+  }
+ },
+ {
+  "getbusid": "1479",
+  "tradename": "SAMPLE ASIAN FOOD CENTRE #24",
+  "homeoccind": "N",
+  "address": "8126 70 AV SE",
+  "comdistcd": "MAR",
+  "comdistnm": "MARLBOROUGH",
+  "licencetypes": "RETAIL DEALER - PREMISES; FOOD SERVICE - PREMISES (NO SEATING)",
+  "first_iss_dt": "2018-07-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.947067,
+    51.053049
+   ]
+  }
+ },
+ {
+  "getbusid": "1508",
+  "tradename": "SAMPLE PRODUCE CO #53",
+  "homeoccind": "N",
+  "address": "384 109 AV SE",
+  "comdistcd": "MAR",
+  "comdistnm": "MARLBOROUGH",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2012-03-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.950399,
+    51.058464
+   ]
+  }
+ },
+ {
+  "getbusid": "1535",
+  "tradename": "SAMPLE HALAL MEAT & GROCERY #80",
+  "homeoccind": "N",
+  "address": "8945 88 AV NW",
+  "comdistcd": "SAD",
+  "comdistnm": "SADDLE RIDGE",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2012-05-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.927516,
+    51.138548
+   ]
+  }
+ },
+ {
+  "getbusid": "1540",
+  "tradename": "SAMPLE SUPERMARKET EXPRESS #85",
+  "homeoccind": "N",
+  "address": "9529 22 AV NW",
+  "comdistcd": "SAD",
+  "comdistnm": "SADDLE RIDGE",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2022-08-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.95707,
+    51.140924
+   ]
+  }
+ },
+ {
+  "getbusid": "1547",
+  "tradename": "SAMPLE SUPERMARKET #92",
+  "homeoccind": "N",
+  "address": "1368 98 AV SE",
+  "comdistcd": "SAD",
+  "comdistnm": "SADDLE RIDGE",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2016-07-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.957308,
+    51.125944
+   ]
+  }
+ },
+ {
+  "getbusid": "1596",
+  "tradename": "SAMPLE HALAL MEAT & GROCERY #44",
+  "homeoccind": "N",
+  "address": "9997 113 AV NW",
+  "comdistcd": "TUS",
+  "comdistnm": "TUSCANY",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2024-08-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.235262,
+    51.131997
+   ]
+  }
+ },
+ {
+  "getbusid": "1630",
+  "tradename": "SAMPLE ASIAN FOOD CENTRE #78",
+  "homeoccind": "N",
+  "address": "8999 4 AV NW",
+  "comdistcd": "TUS",
+  "comdistnm": "TUSCANY",
+  "licencetypes": "RETAIL DEALER - PREMISES; FOOD SERVICE - PREMISES (NO SEATING)",
+  "first_iss_dt": "2023-04-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.246087,
+    51.129092
+   ]
+  }
+ },
+ {
+  "getbusid": "1651",
+  "tradename": "SAMPLE PRODUCE CO #2",
+  "homeoccind": "N",
+  "address": "9669 112 AV NW",
+  "comdistcd": "TUS",
+  "comdistnm": "TUSCANY",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2025-05-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.240176,
+    51.126599
+   ]
+  }
+ },
+ {
+  "getbusid": "1658",
+  "tradename": "SAMPLE PRODUCE CO #9",
+  "homeoccind": "N",
+  "address": "224 10 AV SW",
+  "comdistcd": "TUS",
+  "comdistnm": "TUSCANY",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2025-03-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.248628,
+    51.132546
+   ]
+  }
+ },
+ {
+  "getbusid": "1659",
+  "tradename": "SAMPLE ASIAN FOOD CENTRE #10",
+  "homeoccind": "N",
+  "address": "6159 109 AV NE",
+  "comdistcd": "BOW",
+  "comdistnm": "BOWNESS",
+  "licencetypes": "RETAIL DEALER - PREMISES; FOOD SERVICE - PREMISES (NO SEATING)",
+  "first_iss_dt": "2010-04-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.197674,
+    51.079107
+   ]
+  }
+ },
+ {
+  "getbusid": "1690",
+  "tradename": "SAMPLE ASIAN FOOD CENTRE #41",
+  "homeoccind": "N",
+  "address": "7617 108 AV SW",
+  "comdistcd": "BOW",
+  "comdistnm": "BOWNESS",
+  "licencetypes": "RETAIL DEALER - PREMISES; FOOD SERVICE - PREMISES (NO SEATING)",
+  "first_iss_dt": "2007-02-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.196432,
+    51.095768
+   ]
+  }
+ },
+ {
+  "getbusid": "1704",
+  "tradename": "SAMPLE AUTO PARTS #55",
+  "homeoccind": "N",
+  "address": "1158 118 AV NW",
+  "comdistcd": "BOW",
+  "comdistnm": "BOWNESS",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2024-06-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.210038,
+    51.078043
+   ]
+  }
+ },
+ {
+  "getbusid": "1721",
+  "tradename": "SAMPLE BUTCHER SHOP #72",
+  "homeoccind": "N",
+  "address": "1301 70 AV SE",
+  "comdistcd": "MAH",
+  "comdistnm": "MAHOGANY",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2024-07-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.949374,
+    50.89158
+   ]
+  }
+ },
+ {
+  "getbusid": "1734",
+  "tradename": "SAMPLE HALAL MEAT & GROCERY #85",
+  "homeoccind": "N",
+  "address": "5450 59 AV SE",
+  "comdistcd": "MAH",
+  "comdistnm": "MAHOGANY",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2014-04-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.947363,
+    50.898012
+   ]
+  }
+ },
+ {
+  "getbusid": "1773",
+  "tradename": "SAMPLE FRESH MARKET #27",
+  "homeoccind": "N",
+  "address": "5774 89 AV SW",
+  "comdistcd": "MAH",
+  "comdistnm": "MAHOGANY",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2014-08-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.924333,
+    50.909056
+   ]
+  }
+ },
+ {
+  "getbusid": "1802",
+  "tradename": "SAMPLE ASIAN FOOD CENTRE #56",
+  "homeoccind": "N",
+  "address": "542 57 AV NW",
+  "comdistcd": "SUN",
+  "comdistnm": "SUNDANCE",
+  "licencetypes": "RETAIL DEALER - PREMISES; FOOD SERVICE - PREMISES (NO SEATING)",
+  "first_iss_dt": "2017-01-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.06572,
+    50.904395
+   ]
+  }
+ },
+ {
+  "getbusid": "1841",
+  "tradename": "SAMPLE AUTO PARTS #95",
+  "homeoccind": "N",
+  "address": "4314 10 AV SW",
+  "comdistcd": "SUN",
+  "comdistnm": "SUNDANCE",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2019-04-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.055878,
+    50.908468
+   ]
+  }
+ },
+ {
+  "getbusid": "1867",
+  "tradename": "SAMPLE FLEA MARKET #24",
+  "homeoccind": "N",
+  "address": "969 35 AV NW",
+  "comdistcd": "SUN",
+  "comdistnm": "SUNDANCE",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2013-05-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.032483,
+    50.901526
+   ]
+  }
+ },
+ {
+  "getbusid": "1883",
+  "tradename": "SAMPLE ASIAN FOOD CENTRE #40",
+  "homeoccind": "N",
+  "address": "2729 108 AV NW",
+  "comdistcd": "SHA",
+  "comdistnm": "SHAWNESSY",
+  "licencetypes": "RETAIL DEALER - PREMISES; FOOD SERVICE - PREMISES (NO SEATING)",
+  "first_iss_dt": "2024-09-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.080393,
+    50.896031
+   ]
+  }
+ },
+ {
+  "getbusid": "1902",
+  "tradename": "SAMPLE PRODUCE CO #59",
+  "homeoccind": "N",
+  "address": "3176 11 AV NE",
+  "comdistcd": "SHA",
+  "comdistnm": "SHAWNESSY",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2018-09-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.083361,
+    50.903185
+   ]
+  }
+ },
+ {
+  "getbusid": "1913",
+  "tradename": "SAMPLE AUTO PARTS #70",
+  "homeoccind": "N",
+  "address": "8732 48 AV NE",
+  "comdistcd": "SHA",
+  "comdistnm": "SHAWNESSY",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2025-07-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.07078,
+    50.915352
+   ]
+  }
+ },
+ {
+  "getbusid": "1949",
+  "tradename": "SAMPLE BUTCHER SHOP #9",
+  "homeoccind": "N",
+  "address": "3242 51 AV NE",
+  "comdistcd": "CRA",
+  "comdistnm": "CRANSTON",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2011-01-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.976861,
+    50.880614
+   ]
+  }
+ },
+ {
+  "getbusid": "1968",
+  "tradename": "SAMPLE HALAL MEAT & GROCERY #28",
+  "homeoccind": "N",
+  "address": "9165 23 AV SW",
+  "comdistcd": "CRA",
+  "comdistnm": "CRANSTON",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2007-01-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.990564,
+    50.873529
+   ]
+  }
+ },
+ {
+  "getbusid": "1985",
+  "tradename": "SAMPLE SUPERMARKET EXPRESS #45",
+  "homeoccind": "N",
+  "address": "5296 18 AV SE",
+  "comdistcd": "CRA",
+  "comdistnm": "CRANSTON",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2005-03-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.996808,
+    50.872921
+   ]
+  }
+ },
+ {
+  "getbusid": "2014",
+  "tradename": "SAMPLE ASIAN FOOD CENTRE #74",
+  "homeoccind": "N",
+  "address": "6403 95 AV SW",
+  "comdistcd": "CRA",
+  "comdistnm": "CRANSTON",
+  "licencetypes": "RETAIL DEALER - PREMISES; FOOD SERVICE - PREMISES (NO SEATING)",
+  "first_iss_dt": "2006-09-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.994912,
+    50.884381
+   ]
+  }
+ },
+ {
+  "getbusid": "2037",
+  "tradename": "SAMPLE HALAL MEAT & GROCERY #0",
+  "homeoccind": "N",
+  "address": "7340 92 AV NW",
+  "comdistcd": "CRA",
+  "comdistnm": "CRANSTON",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2023-03-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.975173,
+    50.874387
+   ]
+  }
+ },
+ {
+  "getbusid": "2071",
+  "tradename": "SAMPLE BUTCHER SHOP #34",
+  "homeoccind": "N",
+  "address": "2264 62 AV NW",
+  "comdistcd": "DOV",
+  "comdistnm": "DOVER",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2006-07-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.990339,
+    51.021981
+   ]
+  }
+ },
+ {
+  "getbusid": "2105",
+  "tradename": "SAMPLE PRODUCE CO #68",
+  "homeoccind": "N",
+  "address": "690 117 AV SE",
+  "comdistcd": "DOV",
+  "comdistnm": "DOVER",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2023-02-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.957161,
+    51.020384
+   ]
+  }
+ },
+ {
+  "getbusid": "2108",
+  "tradename": "SAMPLE ASIAN FOOD CENTRE #71",
+  "homeoccind": "N",
+  "address": "8476 54 AV NE",
+  "comdistcd": "OGD",
+  "comdistnm": "OGDEN",
+  "licencetypes": "RETAIL DEALER - PREMISES; FOOD SERVICE - PREMISES (NO SEATING)",
+  "first_iss_dt": "2007-03-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.018715,
+    50.991975
+   ]
+  }
+ },
+ {
+  "getbusid": "2111",
+  "tradename": "SAMPLE SUPERMARKET #74",
+  "homeoccind": "N",
+  "address": "5389 102 AV NW",
+  "comdistcd": "OGD",
+  "comdistnm": "OGDEN",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2013-08-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.005518,
+    50.984548
+   ]
+  }
+ },
+ {
+  "getbusid": "2114",
+  "tradename": "SAMPLE FRESH MARKET #77",
+  "homeoccind": "N",
+  "address": "3633 42 AV NW",
+  "comdistcd": "OGD",
+  "comdistnm": "OGDEN",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2013-09-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.002593,
+    50.980181
+   ]
+  }
+ },
+ {
+  "getbusid": "2138",
+  "tradename": "SAMPLE FRESH MARKET #4",
+  "homeoccind": "N",
+  "address": "4017 2 AV NE",
+  "comdistcd": "HUN",
+  "comdistnm": "HUNTINGTON HILLS",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2012-01-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.057643,
+    51.117695
+   ]
+  }
+ },
+ {
+  "getbusid": "2171",
+  "tradename": "SAMPLE FRESH MARKET #37",
+  "homeoccind": "N",
+  "address": "4525 102 AV NW",
+  "comdistcd": "HUN",
+  "comdistnm": "HUNTINGTON HILLS",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2012-07-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.047356,
+    51.1175
+   ]
+  }
+ },
+ {
+  "getbusid": "2191",
+  "tradename": "SAMPLE BUTCHER SHOP #57",
+  "homeoccind": "N",
+  "address": "1039 4 AV NE",
+  "comdistcd": "HUN",
+  "comdistnm": "HUNTINGTON HILLS",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2018-03-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.074928,
+    51.107911
+   ]
+  }
+ },
+ {
+  "getbusid": "2204",
+  "tradename": "SAMPLE SUPERMARKET EXPRESS #70",
+  "homeoccind": "N",
+  "address": "8555 2 AV NE",
+  "comdistcd": "HUN",
+  "comdistnm": "HUNTINGTON HILLS",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2011-04-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.07459,
+    51.108204
+   ]
+  }
+ },
+ {
+  "getbusid": "2228",
+  "tradename": "SAMPLE FLEA MARKET #94",
+  "homeoccind": "N",
+  "address": "4422 27 AV NW",
+  "comdistcd": "HUN",
+  "comdistnm": "HUNTINGTON HILLS",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2018-05-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.077632,
+    51.107573
+   ]
+  }
+ },
+ {
+  "getbusid": "2246",
+  "tradename": "SAMPLE HALAL MEAT & GROCERY #15",
+  "homeoccind": "N",
+  "address": "9455 66 AV SE",
+  "comdistcd": "EDG",
+  "comdistnm": "EDGEMONT",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2016-07-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.129057,
+    51.118403
+   ]
+  }
+ },
+ {
+  "getbusid": "2272",
+  "tradename": "SAMPLE AUTO PARTS #41",
+  "homeoccind": "N",
+  "address": "6217 122 AV NE",
+  "comdistcd": "EDG",
+  "comdistnm": "EDGEMONT",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2022-03-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.144287,
+    51.124964
+   ]
+  }
+ },
+ {
+  "getbusid": "2294",
+  "tradename": "SAMPLE AUTO PARTS #63",
+  "homeoccind": "N",
+  "address": "1855 43 AV SE",
+  "comdistcd": "EDG",
+  "comdistnm": "EDGEMONT",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2011-06-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.122668,
+    51.126508
+   ]
+  }
+ },
+ {
+  "getbusid": "2331",
+  "tradename": "SAMPLE SUPERMARKET EXPRESS #3",
+  "homeoccind": "N",
+  "address": "3066 74 AV SW",
+  "comdistcd": "EDG",
+  "comdistnm": "EDGEMONT",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2016-04-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.14966,
+    51.120015
+   ]
+  }
+ },
+ {
+  "getbusid": "2352",
+  "tradename": "SAMPLE SUPERMARKET #24",
+  "homeoccind": "N",
+  "address": "6669 79 AV NE",
+  "comdistcd": "SIG",
+  "comdistnm": "SIGNAL HILL",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2005-05-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.162261,
+    51.021946
+   ]
+  }
+ },
+ {
+  "getbusid": "2394",
+  "tradename": "SAMPLE HALAL MEAT & GROCERY #66",
+  "homeoccind": "N",
+  "address": "7800 77 AV NE",
+  "comdistcd": "SIG",
+  "comdistnm": "SIGNAL HILL",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2007-03-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.17007,
+    51.012997
+   ]
+  }
+ },
+ {
+  "getbusid": "2437",
+  "tradename": "SAMPLE SUPERMARKET EXPRESS #12",
+  "homeoccind": "N",
+  "address": "9255 30 AV NE",
+  "comdistcd": "SIG",
+  "comdistnm": "SIGNAL HILL",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2010-09-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.18056,
+    51.01852
+   ]
+  }
+ },
+ {
+  "getbusid": "2485",
+  "tradename": "SAMPLE ASIAN FOOD CENTRE #60",
+  "homeoccind": "N",
+  "address": "6634 115 AV NE",
+  "comdistcd": "SIG",
+  "comdistnm": "SIGNAL HILL",
+  "licencetypes": "RETAIL DEALER - PREMISES; FOOD SERVICE - PREMISES (NO SEATING)",
+  "first_iss_dt": "2017-05-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.192125,
+    51.019164
+   ]
+  }
+ },
+ {
+  "getbusid": "2535",
+  "tradename": "SAMPLE BUTCHER SHOP #13",
+  "homeoccind": "N",
+  "address": "5832 19 AV SW",
+  "comdistcd": "SIG",
+  "comdistnm": "SIGNAL HILL",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2014-06-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.165324,
+    51.014412
+   ]
+  }
+ },
+ {
+  "getbusid": "2549",
+  "tradename": "SAMPLE HALAL MEAT & GROCERY #27",
+  "homeoccind": "N",
+  "address": "682 31 AV NE",
+  "comdistcd": "WOO",
+  "comdistnm": "WOODBINE",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2019-04-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.116699,
+    50.929482
+   ]
+  }
+ },
+ {
+  "getbusid": "2598",
+  "tradename": "SAMPLE FRESH MARKET #76",
+  "homeoccind": "N",
+  "address": "561 94 AV SE",
+  "comdistcd": "WOO",
+  "comdistnm": "WOODBINE",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2013-03-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.119851,
+    50.949186
+   ]
+  }
+ },
+ {
+  "getbusid": "2616",
+  "tradename": "SAMPLE PRODUCE CO #94",
+  "homeoccind": "N",
+  "address": "8232 76 AV NE",
+  "comdistcd": "MCK",
+  "comdistnm": "MCKENZIE TOWNE",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2018-07-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.963891,
+    50.914186
+   ]
+  }
+ },
+ {
+  "getbusid": "2650",
+  "tradename": "SAMPLE BUTCHER SHOP #31",
+  "homeoccind": "N",
+  "address": "5653 46 AV SE",
+  "comdistcd": "MCK",
+  "comdistnm": "MCKENZIE TOWNE",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2018-03-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.957519,
+    50.9137
+   ]
+  }
+ },
+ {
+  "getbusid": "2666",
+  "tradename": "SAMPLE AUTO PARTS #47",
+  "homeoccind": "N",
+  "address": "9951 98 AV SE",
+  "comdistcd": "MCK",
+  "comdistnm": "MCKENZIE TOWNE",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2010-09-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.952539,
+    50.918321
+   ]
+  }
+ },
+ {
+  "getbusid": "2683",
+  "tradename": "SAMPLE PRODUCE CO #64",
+  "homeoccind": "N",
+  "address": "4013 48 AV NE",
+  "comdistcd": "EVA",
+  "comdistnm": "EVANSTON",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2011-05-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.089207,
+    51.172529
+   ]
+  }
+ },
+ {
+  "getbusid": "2729",
+  "tradename": "SAMPLE FRESH MARKET #13",
+  "homeoccind": "N",
+  "address": "9062 43 AV NE",
+  "comdistcd": "EVA",
+  "comdistnm": "EVANSTON",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2019-03-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.095813,
+    51.174626
+   ]
+  }
+ },
+ {
+  "getbusid": "2733",
+  "tradename": "SAMPLE FLEA MARKET #17",
+  "homeoccind": "N",
+  "address": "5006 115 AV SW",
+  "comdistcd": "EVA",
+  "comdistnm": "EVANSTON",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "first_iss_dt": "2010-01-15",
+  "exp_dt": "2027-03-31T00:00:00.000",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.119357,
+    51.182848
+   ]
+  }
+ }
+]
