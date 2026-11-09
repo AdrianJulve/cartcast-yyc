@@ -1,0 +1,55 @@
+# CartCast YYC — default weekly basket
+#
+# `product` must match a product name in StatCan table 18-10-0245-01 exactly.
+# Run `cartcast validate` to check names and get suggestions for typos.
+# `qty` is the number of the product's own unit per week for a FAMILY OF 4:
+#   "Ground beef, per kilogram" qty 1.0  -> 1 kg per week
+#   "Milk, 4 litres"            qty 2    -> two 4 L jugs per week
+# Household presets scale every qty by `scale`.
+
+households:
+  single: { label: "Single adult", scale: 0.35 }
+  couple: { label: "Couple", scale: 0.6 }
+  family4: { label: "Family of 4", scale: 1.0 }
+  family6: { label: "Family of 6", scale: 1.45 }
+
+default_household: family4
+
+items:
+  - { product: "Ground beef, per kilogram",           qty: 1.0,  aisle: "Meat & fish" }
+  - { product: "Chicken breasts, per kilogram",       qty: 1.5,  aisle: "Meat & fish" }
+  - { product: "Pork loin cuts, per kilogram",        qty: 0.8,  aisle: "Meat & fish" }
+  - { product: "Bacon, 500 grams",                    qty: 1,    aisle: "Meat & fish" }
+  - { product: "Canned tuna, 170 grams",              qty: 2,    aisle: "Meat & fish" }
+  - { product: "Milk, 4 litres",                      qty: 2,    aisle: "Dairy & eggs" }
+  - { product: "Eggs, 1 dozen",                       qty: 2,    aisle: "Dairy & eggs" }
+  - { product: "Block cheese, 500 grams",             qty: 1,    aisle: "Dairy & eggs" }
+  - { product: "Butter, 454 grams",                   qty: 0.5,  aisle: "Dairy & eggs" }
+  - { product: "Yogurt, 500 grams",                   qty: 2,    aisle: "Dairy & eggs" }
+  - { product: "Bananas, per kilogram",               qty: 1.5,  aisle: "Fruit & veg" }
+  - { product: "Apples, per kilogram",                qty: 1.5,  aisle: "Fruit & veg" }
+  - { product: "Potatoes, 4.54 kilograms",            qty: 0.5,  aisle: "Fruit & veg" }
+  - { product: "Carrots, 1.36 kilograms",             qty: 1,    aisle: "Fruit & veg" }
+  - { product: "Onions, per kilogram",                qty: 1,    aisle: "Fruit & veg" }
+  - { product: "Tomatoes, per kilogram",              qty: 1,    aisle: "Fruit & veg" }
+  - { product: "Broccoli, unit",                      qty: 2,    aisle: "Fruit & veg" }
+  - { product: "White bread, 675 grams",              qty: 2,    aisle: "Bakery" }
+  - { product: "Dry or fresh pasta, 500 grams",       qty: 2,    aisle: "Pantry" }
+  - { product: "White rice, 2 kilograms",             qty: 0.5,  aisle: "Pantry" }
+  - { product: "Cereal, 400 grams",                   qty: 1,    aisle: "Pantry" }
+  - { product: "Pasta sauce, 650 millilitres",        qty: 1,    aisle: "Pantry" }
+  - { product: "Peanut butter, 1 kilogram",           qty: 0.5,  aisle: "Pantry" }
+  - { product: "Roasted or ground coffee, 340 grams", qty: 0.5,  aisle: "Drinks" }
+  - { product: "Orange juice, 2 litres",              qty: 1,    aisle: "Drinks" }
+
+# Aisle used when a product is added from the dashboard and has no aisle yet.
+aisle_rules:
+  "Meat & fish": ["beef", "pork", "chicken", "bacon", "wieners", "tuna", "salmon", "shrimp"]
+  "Dairy & eggs": ["milk", "cream", "butter", "cheese", "yogurt", "eggs", "margarine"]
+  "Fruit & veg": ["apples", "oranges", "bananas", "pears", "lemons", "limes", "grapes", "cantaloupe",
+                  "avocado", "potatoes", "tomatoes", "cabbage", "carrots", "onions", "celery",
+                  "cucumber", "mushrooms", "broccoli", "peppers", "lettuce", "strawberries",
+                  "squash", "salad greens", "frozen"]
+  "Bakery": ["bread", "flatbread", "crackers", "cookies"]
+  "Drinks": ["juice", "coffee", "tea", "soy milk", "nut milk"]
+  "Household": ["deodorant", "toothpaste", "shampoo", "laundry"]

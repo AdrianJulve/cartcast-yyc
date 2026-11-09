@@ -1,0 +1,85 @@
+# CartCast YYC — pipeline settings
+# Every value here can be changed without touching code.
+
+geography:
+  prices: "Alberta"                 # GEO value in StatCan table 18-10-0245-01
+  cpi:                              # GEO values in StatCan table 18-10-0004-01
+    - "Alberta"
+    - "Calgary, Alberta"
+  cpi_headline_geo: "Alberta"       # geo used for the KPI tile
+  cpi_products:
+    - "All-items"
+    - "Food purchased from stores"
+
+sources:
+  prices:
+    name: "Statistics Canada, Table 18-10-0245-01 — Monthly average retail prices for selected products"
+    table_id: "18100245"
+    url: "https://www150.statcan.gc.ca/n1/tbl/csv/18100245-eng.zip"
+    page: "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810024501"
+    licence: "Statistics Canada Open Licence"
+  cpi:
+    name: "Statistics Canada, Table 18-10-0004-01 — Consumer Price Index, monthly, not seasonally adjusted"
+    table_id: "18100004"
+    url: "https://www150.statcan.gc.ca/n1/tbl/csv/18100004-eng.zip"
+    page: "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401"
+    licence: "Statistics Canada Open Licence"
+  stores:
+    name: "City of Calgary Open Data — Calgary Business Licences"
+    dataset_id: "vdjc-pybd"
+    url: "https://data.calgary.ca/resource/vdjc-pybd.json"
+    page: "https://data.calgary.ca/d/vdjc-pybd"
+    licence: "Open Government Licence – City of Calgary"
+  outlook:
+    name: "Canada's Food Price Report 2026 (Dalhousie University et al.)"
+    page: "https://www.dal.ca/sites/agri-food/research/canada-s-food-price-report-2026.html"
+
+dashboard:
+  history_months: 24                # months of basket history shown
+  outlook_months: 3                 # months projected forward
+  outlook_annual_low: 0.04          # Food Price Report 2026: overall food +4% to +6%
+  outlook_annual_high: 0.06
+  title: "CartCast YYC"
+  tagline: "Know your grocery bill before you shop."
+
+stores:
+  # Business licences don't have a "grocery" licence type, so retailers are
+  # identified by licence type + keywords in the trade name.
+  licence_types_any:
+    - "RETAIL DEALER - PREMISES"
+  status_any:
+    - "Licensed"
+    - "Pending Renewal"
+  supermarket_keywords:
+    - "SUPERSTORE"
+    - "SAFEWAY"
+    - "SOBEYS"
+    - "CO-OP"
+    - "NO FRILLS"
+    - "FRESHCO"
+    - "SAVE-ON-FOODS"
+    - "WALMART SUPERCENTRE"
+    - "COSTCO"
+    - "T & T"
+    - "T&T"
+    - "WHOLESALE CLUB"
+    - "IGA"
+    - "FOOD BASICS"
+    - "SUPERMARKET"
+  specialty_keywords:
+    - "GROCERY"
+    - "GROCERIES"
+    - "MARKET"
+    - "FOODS"
+    - "BUTCHER"
+    - "MEAT"
+    - "PRODUCE"
+    - "BAKERY"
+    - "HALAL"
+    - "ASIAN FOOD"
+    - "DELI"
+  exclude_keywords:
+    - "FLEA MARKET"
+    - "MARKETING"
+    - "PET FOOD"
+    - "SUPERMARKET OF FLOORING"
