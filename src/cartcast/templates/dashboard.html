@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CartCast YYC — Calgary grocery outlook</title>
+<meta name="description" content="Price your weekly grocery basket with Statistics Canada's Alberta average retail prices, see what moved, and find cheaper swaps.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%230f5c4a'/%3E%3Cpath d='M5 7h1.6l1.6 7.2a1 1 0 0 0 1 .8h5.7a1 1 0 0 0 1-.8L17.5 9.5H7' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --page:#f4f3ee; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781;
+    --grid:#e1e0d9; --axis:#c3c2b7; --ring:rgba(11,11,11,0.08); --wash:#efeee8;
+    --brand:#0f5c4a; --brand-2:#17806a; --accent:#eb6834;
+    --up:#d03b3b; --down:#2a78d6; --good:#006300; --good-bg:#e6f4e6; --up-bg:#fbe9e8;
+    --s1:#2a78d6; --band:#cde2fb;
+    --seq1:#1c5cab; --seq2:#2a78d6; --seq3:#5598e7; --seq4:#86b6ef;
+    --font: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--page)}
+  body{font-family:var(--font);color:var(--ink);-webkit-font-smoothing:antialiased;min-width:340px}
+  button,select,input{font:inherit;color:inherit}
+  button{cursor:pointer}
+  :focus-visible{outline:2px solid var(--s1);outline-offset:2px;border-radius:6px}
+  .app{display:grid;grid-template-columns:76px 1fr;min-height:100vh;background:linear-gradient(90deg,var(--brand) 76px,transparent 76px)}
+  .rail{background:var(--brand);display:flex;flex-direction:column;align-items:center;padding:22px 0;gap:14px;position:sticky;top:0;height:100vh}
+  .logo{width:42px;height:42px;border-radius:12px;background:#fff;display:grid;place-items:center;margin-bottom:18px}
+  .navi{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;opacity:.6;background:none;border:0}
+  .navi:hover{opacity:.9;background:rgba(255,255,255,.08)}
+  .navi.on{background:rgba(255,255,255,.14);opacity:1}
+  .navi svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .main{padding:26px 32px 22px;display:flex;flex-direction:column;gap:18px;min-width:0;max-width:1680px}
+  .banner{background:#fff6e5;border:1px solid #f3d9a4;color:#6b4a00;border-radius:12px;padding:10px 14px;font-size:13px;display:flex;gap:10px;align-items:center}
+  .banner code{background:rgba(0,0,0,.06);padding:1px 6px;border-radius:5px;font-size:12px}
+  header{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+  .eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-2)}
+  h1{font-family:"Inter Display",var(--font);font-size:30px;font-weight:700;letter-spacing:-.02em;margin-top:4px}
+  h1 span{color:var(--muted);font-weight:500}
+  .sub{font-size:14px;color:var(--ink2);margin-top:4px}
+  .filters{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .chip{white-space:nowrap;background:var(--surface);border:1px solid var(--ring);border-radius:10px;padding:8px 12px;font-size:13px;
+        display:flex;gap:8px;align-items:center;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+  .chip .lbl{color:var(--muted)}
+  .chip select{border:0;background:transparent;font-weight:600;cursor:pointer;padding-right:2px}
+  .chip select:focus{outline:none}
+  .btn{white-space:nowrap;border-radius:10px;padding:9px 14px;font-size:13px;font-weight:600;border:1px solid var(--ring);background:var(--surface);display:inline-flex;gap:8px;align-items:center}
+  .btn:hover{background:#fff}
+  .btn.primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .btn.primary:hover{background:var(--brand-2)}
+  .btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+  .kpis{display:grid;grid-template-columns:1.25fr 1fr 1fr 1fr;gap:16px}
+  .card{background:var(--surface);border-radius:16px;border:1px solid var(--ring);box-shadow:0 1px 3px rgba(20,20,10,.04)}
+  .kpi{padding:18px 20px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;min-height:132px}
+  .kpi .k{font-size:13px;color:var(--ink2);font-weight:500;display:flex;align-items:center;gap:8px}
+  .kpi .ico{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;flex:none}
+  .kpi .ico svg{width:15px;height:15px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .kpi .v{font-family:"Inter Display",var(--font);font-size:34px;font-weight:700;letter-spacing:-.02em;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .kpi .v small{font-size:16px;font-weight:500;color:var(--muted);margin-left:4px}
+  .kpi .d{font-size:12.5px;color:var(--ink2)}
+  .pill{display:inline-flex;align-items:center;gap:4px;font-weight:600;font-size:12px;padding:2px 8px;border-radius:999px;white-space:nowrap}
+  .pill.up{background:var(--up-bg);color:#a82828}
+  .pill.dn{background:var(--good-bg);color:var(--good)}
+  .kpi.hero{background:linear-gradient(135deg,#0f5c4a 0%,#17806a 100%);color:#fff;border:0}
+  .kpi.hero .k,.kpi.hero .d{color:rgba(255,255,255,.85)}
+  .kpi.hero .v small{color:rgba(255,255,255,.72)}
+  .kpi.hero .pill{background:rgba(255,255,255,.18);color:#fff}
+  .kpi.hero .spark{position:absolute;right:16px;bottom:14px}
+  .row{display:grid;gap:16px;min-height:0}
+  .row.a{grid-template-columns:1.65fr 1fr}
+  .row.b{grid-template-columns:1fr 1.05fr 1fr}
+  .panel{padding:18px 20px;display:flex;flex-direction:column;min-height:0;min-width:0}
+  .ph{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:12px}
+  .ph h2{font-size:15.5px;font-weight:650;letter-spacing:-.01em}
+  .ph p{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .legend{white-space:nowrap;display:flex;gap:14px;font-size:12px;color:var(--ink2);align-items:center}
+  .sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  .seg{display:flex;background:var(--wash);border-radius:8px;padding:3px;font-size:12px;flex:none}
+  .seg button{padding:4px 10px;border-radius:6px;color:var(--ink2);border:0;background:none}
+  .seg button[aria-pressed="true"]{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  svg text{font-family:var(--font)}
+  .tick{font-size:11px;fill:var(--muted);font-variant-numeric:tabular-nums}
+  .chart{width:100%;display:block}
+  .swap{display:grid;grid-template-columns:1fr 18px 1fr auto;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--grid)}
+  .swap:first-child{border-top:0}
+  .item{display:flex;flex-direction:column;min-width:0}
+  .item b{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .item span{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .arrow{color:var(--muted);font-size:14px;text-align:center}
+  .save{font-size:13px;font-weight:700;color:var(--good);background:var(--good-bg);padding:5px 10px;border-radius:8px;font-variant-numeric:tabular-nums;white-space:nowrap;border:1px solid transparent}
+  .save[aria-pressed="true"]{background:var(--good);color:#fff}
+  .empty{font-size:13px;color:var(--muted);padding:18px 0}
+  .hbar{display:grid;grid-template-columns:108px 1fr 54px;align-items:center;gap:10px;font-size:13px;padding:8px 0}
+  .hbar .t{color:var(--ink2)}
+  .hbar .track{height:12px;background:#f0efec;border-radius:4px;position:relative}
+  .hbar .fill{position:absolute;left:0;top:0;bottom:0;border-radius:0 4px 4px 0;transition:width .35s ease}
+  .hbar .n{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+  .mapwrap{position:relative;border-radius:12px;overflow:hidden;background:#eef3ef}
+  .storelist{max-height:210px;overflow:auto;font-size:12.5px}
+  .storelist div{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-top:1px solid var(--grid)}
+  .storelist div:first-child{border-top:0}
+  .storelist span{color:var(--muted);white-space:nowrap}
+  .storebadge{font-size:11.5px;color:var(--ink2);display:flex;gap:12px;margin-top:8px;align-items:center;flex-wrap:wrap}
+  .storebadge select{border:1px solid var(--ring);border-radius:7px;background:#fff;padding:2px 6px;font-size:11.5px;max-width:170px}
+  footer{display:flex;justify-content:space-between;gap:16px;font-size:11.5px;color:var(--muted);flex-wrap:wrap}
+  footer a{color:var(--ink2)}
+  .dot{width:7px;height:7px;border-radius:50%;background:#0ca30c;display:inline-block;margin-right:6px}
+  /* tooltip */
+  #tip{position:fixed;pointer-events:none;background:#0b0b0b;color:#fff;border-radius:10px;padding:9px 12px;font-size:12px;line-height:1.45;
+       box-shadow:0 6px 20px rgba(0,0,0,.18);opacity:0;transition:opacity .12s;z-index:50;max-width:260px}
+  #tip b{font-size:14px}
+  #tip .m{color:#c3c2b7}
+  /* drawer */
+  .scrim{position:fixed;inset:0;background:rgba(11,11,11,.28);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
+  .scrim.open{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100vw);background:var(--surface);z-index:41;transform:translateX(100%);
+          transition:transform .25s ease;display:flex;flex-direction:column;box-shadow:-10px 0 30px rgba(0,0,0,.12)}
+  .drawer.open{transform:none}
+  .drawer header{padding:20px 22px 12px;align-items:center;flex-wrap:nowrap}
+  .drawer h3{font-size:18px}
+  .drawer .body{overflow:auto;padding:0 22px 18px;flex:1}
+  .addrow{display:flex;gap:8px;padding:0 22px 14px}
+  .addrow input{flex:1;border:1px solid var(--ring);border-radius:10px;padding:9px 12px;font-size:13px;background:#fff}
+  .bi{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--grid);font-size:13px}
+  .bi .nm{min-width:0}
+  .bi .nm b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bi .nm span{font-size:11.5px;color:var(--muted)}
+  .step{display:flex;align-items:center;border:1px solid var(--ring);border-radius:8px;overflow:hidden}
+  .step button{border:0;background:#fff;width:28px;height:28px}
+  .step input{width:46px;border:0;text-align:center;font-variant-numeric:tabular-nums;background:#fff;height:28px}
+  .rm{border:0;background:none;color:var(--muted);width:28px;height:28px;border-radius:7px}
+  .rm:hover{background:var(--up-bg);color:var(--up)}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#0b0b0b;color:#fff;padding:10px 16px;border-radius:10px;
+         font-size:13px;opacity:0;transition:all .2s;z-index:60}
+  .toast.show{opacity:1;transform:translateX(-50%)}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  @media (max-width:1200px){.kpis{grid-template-columns:1fr 1fr}.row.a,.row.b{grid-template-columns:1fr}}
+  @media (max-width:700px){.app{grid-template-columns:1fr}.rail{display:none}.main{padding:18px 14px}.kpis{grid-template-columns:1fr}h1{font-size:24px}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="rail" aria-label="Sections">
+    <div class="logo" aria-hidden="true">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f5c4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2.3 10.5a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.1L21 8H6.3"/><circle cx="9.5" cy="20" r="1.3" fill="#0f5c4a"/><circle cx="17" cy="20" r="1.3" fill="#0f5c4a"/><path d="M11 11.5l2 -2 2 1.5 2.5-3" stroke="#eb6834"/></svg>
+    </div>
+    <button class="navi on" title="Overview" aria-label="Overview" data-scroll="top"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/></svg></button>
+    <button class="navi" title="Edit basket" aria-label="Edit basket" data-open-basket><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg></button>
+    <button class="navi" title="Stores" aria-label="Stores" data-scroll="stores"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></button>
+    <button class="navi" title="Data sources" aria-label="Data sources" data-scroll="sources"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></button>
+  </nav>
+
+  <main class="main" id="top">
+    <div class="banner" id="sampleBanner" hidden>
+      <strong>Sample data.</strong> Prices are synthetic (anchored on real June 2024 Alberta averages) and store names are fictional.
+      Run <code>make data build</code> to load live Statistics Canada and City of Calgary data.
+    </div>
+
+    <header>
+      <div>
+        <div class="eyebrow" id="eyebrow">CartCast YYC · Household grocery intelligence</div>
+        <h1>Your grocery outlook <span id="monthLabel"></span></h1>
+        <div class="sub" id="tagline"></div>
+      </div>
+      <div class="filters">
+        <label class="chip"><span class="lbl">Household</span><select id="household" aria-label="Household size"></select></label>
+        <button class="btn" data-open-basket><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg><span id="itemCount"></span></button>
+        <button class="btn" id="share" title="Copy a link to this basket"><svg viewBox="0 0 24 24"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>Share</button>
+        <button class="btn primary" data-open-basket data-focus-add><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add item</button>
+      </div>
+    </header>
+
+    <section class="kpis" aria-label="Key figures">
+      <div class="card kpi hero">
+        <div class="k">Your weekly basket this month</div>
+        <div class="v" id="kCost"></div>
+        <div class="d" id="kCostD"></div>
+        <svg class="spark" id="spark" width="150" height="54" viewBox="0 0 150 54" aria-hidden="true"></svg>
+      </div>
+      <div class="card kpi">
+        <div class="k"><span class="ico" style="background:var(--up-bg)"><svg viewBox="0 0 24 24" stroke="#d03b3b"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span><span id="kInfL"></span></div>
+        <div class="v" id="kInf"></div>
+        <div class="d" id="kInfD"></div>
+      </div>
+      <div class="card kpi">
+        <div class="k"><span class="ico" style="background:#fdeee6"><svg viewBox="0 0 24 24" stroke="#eb6834"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></span>Biggest jump in your basket</div>
+        <div class="v" id="kJump"></div>
+        <div class="d" id="kJumpD"></div>
+      </div>
+      <div class="card kpi">
+        <div class="k"><span class="ico" style="background:var(--good-bg)"><svg viewBox="0 0 24 24" stroke="#006300"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg></span><span id="kSaveL">Savings found with swaps</span></div>
+        <div class="v" id="kSave"></div>
+        <div class="d" id="kSaveD"></div>
+      </div>
+    </section>
+
+    <section class="row a">
+      <div class="card panel">
+        <div class="ph">
+          <div><h2>What your basket costs over time</h2><p id="lineSub"></p></div>
+          <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
+            <div class="legend">
+              <span><i class="sw" style="background:var(--s1)"></i>Actual</span>
+              <span><i class="sw" style="background:var(--band);border:1.5px dashed var(--s1)"></i>Outlook range</span>
+            </div>
+            <div class="seg" role="group" aria-label="Time range" id="range">
+              <button data-r="6">6M</button><button data-r="12">1Y</button><button data-r="24" aria-pressed="true">2Y</button>
+            </div>
+          </div>
+        </div>
+        <svg id="line" class="chart" height="276" role="img" aria-label="Line chart of weekly basket cost by month"></svg>
+      </div>
+      <div class="card panel">
+        <div class="ph">
+          <div><h2>What moved in the past year</h2><p>12-month change in average price, items in your basket</p></div>
+          <div class="legend"><span><i class="sw" style="background:var(--up)"></i>Up</span><span><i class="sw" style="background:var(--down)"></i>Down</span></div>
+        </div>
+        <svg id="movers" class="chart" height="276" role="img" aria-label="Bar chart of 12-month price change by item"></svg>
+      </div>
+    </section>
+
+    <section class="row b">
+      <div class="card panel">
+        <div class="ph"><div><h2>Smart swaps</h2><p>Same meal, lower price · tap a saving to apply it</p></div>
+          <div class="seg" role="group" aria-label="Swap category" id="swapTabs"></div></div>
+        <div id="swaps"></div>
+      </div>
+      <div class="card panel">
+        <div class="ph"><div><h2>Where your grocery dollar goes</h2><p>Share of this week's basket by aisle</p></div></div>
+        <div id="aisles" style="margin-top:4px"></div>
+      </div>
+      <div class="card panel" id="stores">
+        <div class="ph"><div><h2>Grocery stores near you</h2><p id="storeSub">Licensed food retailers · City of Calgary</p></div>
+          <div class="seg" role="group" aria-label="Store view" id="storeView"><button data-v="map" aria-pressed="true">Map</button><button data-v="list">List</button></div></div>
+        <div class="mapwrap" id="mapwrap"><svg id="map" class="chart" height="200" role="img" aria-label="Map of grocery retailers"></svg></div>
+        <div class="storelist" id="storelist" hidden></div>
+        <div class="storebadge">
+          <span><i class="sw" style="background:#0f5c4a;border-radius:50%"></i>Supermarket</span>
+          <span><i class="sw" style="background:#eb6834;border-radius:50%"></i>Specialty / independent</span>
+          <label style="margin-left:auto"><span class="sr">Community</span><select id="community" aria-label="Filter by community"></select></label>
+        </div>
+      </div>
+    </section>
+
+    <footer id="sources"></footer>
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Edit basket" aria-hidden="true">
+  <header><div><h3>Your weekly basket</h3><div class="sub" id="drawerSub"></div></div>
+    <button class="btn" id="closeDrawer" aria-label="Close">Done</button></header>
+  <div class="addrow">
+    <input id="addInput" list="productList" placeholder="Add a product, e.g. Avocado, unit" aria-label="Product to add">
+    <datalist id="productList"></datalist>
+    <button class="btn primary" id="addBtn">Add</button>
+  </div>
+  <div class="addrow" style="padding-top:0"><button class="btn" id="resetBasket">Reset to default basket</button></div>
+  <div class="body" id="basketList"></div>
+</aside>
+<div id="tip" role="tooltip"></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script id="cartcast-data" type="application/json">/*__CARTCAST_DATA__*/null</script>
+<script>
+(function(){
+"use strict";
+const D = JSON.parse(document.getElementById('cartcast-data').textContent);
+if(!D){document.body.innerHTML='<p style="padding:40px;font-family:sans-serif">No data embedded — run <code>cartcast build</code>.</p>';return;}
+
+/* ---------- helpers ---------- */
+const NS='http://www.w3.org/2000/svg';
+const $=s=>document.querySelector(s);
+function el(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+function h(tag,attrs,html){const e=document.createElement(tag);if(attrs)for(const k in attrs)e.setAttribute(k,attrs[k]);if(html!=null)e.innerHTML=html;return e}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money=v=>v==null?'—':'$'+v.toLocaleString('en-CA',{minimumFractionDigits:2,maximumFractionDigits:2});
+const pct=(v,d=1)=>v==null?'—':(v>0?'+':'')+v.toFixed(d)+'%';
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const mLabel=(ym,long)=>{const[y,m]=ym.split('-').map(Number);return long?['January','February','March','April','May','June','July','August','September','October','November','December'][m-1]+' '+y:MONTHS[m-1]};
+const addMonths=(ym,k)=>{let[y,m]=ym.split('-').map(Number);m+=k;while(m>12){m-=12;y++}while(m<1){m+=12;y--}return y+'-'+String(m).padStart(2,'0')};
+// "Ground beef, per kilogram" -> {name:"Ground beef", unit:"per kilogram"}
+function split(p){const i=p.indexOf(', ');if(i<0){const m=p.match(/^(.*?)\s*\((.*)\)$/);return m?{name:m[1],unit:m[2]}:{name:p,unit:''}}return{name:p.slice(0,i),unit:p.slice(i+2)}}
+const unitShort=u=>u.replace('per kilogram','/ kg').replace('kilograms','kg').replace('kilogram','kg').replace('millilitres','mL').replace('litres','L').replace('litre','L').replace('grams','g').replace('unit','each');
+const tip=$('#tip');
+function showTip(html,ev){tip.innerHTML=html;tip.style.opacity=1;moveTip(ev)}
+function moveTip(ev){const r=tip.getBoundingClientRect();let x=ev.clientX+14,y=ev.clientY-r.height-12;if(x+r.width>innerWidth-8)x=ev.clientX-r.width-14;if(y<8)y=ev.clientY+16;tip.style.left=x+'px';tip.style.top=y+'px'}
+function hideTip(){tip.style.opacity=0}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),2200)}
+
+/* ---------- state ---------- */
+const N=D.months.length, LAST=N-1;
+const products=D.products, names=Object.keys(products).sort();
+const state={household:D.default_household,items:D.basket.map(i=>({product:i.product,qty:i.qty,aisle:i.aisle})),applied:[],range:24,swapGroup:'All',community:'All',view:'map'};
+
+function readHash(){
+  try{
+    if(!location.hash.startsWith('#b='))return;
+    const s=JSON.parse(decodeURIComponent(escape(atob(location.hash.slice(3)))));
+    if(s.h&&D.households[s.h])state.household=s.h;
+    if(Array.isArray(s.i))state.items=s.i.filter(x=>products[x[0]]).map(x=>({product:x[0],qty:+x[1]||1,aisle:products[x[0]].aisle}));
+    if(Array.isArray(s.a))state.applied=s.a;
+  }catch(e){/* ignore malformed links */}
+}
+function writeHash(){
+  try{
+    const s={h:state.household,i:state.items.map(x=>[x.product,+x.qty.toFixed(3)]),a:state.applied};
+    history.replaceState(null,'','#b='+btoa(unescape(encodeURIComponent(JSON.stringify(s)))));
+  }catch(e){}
+}
+const scale=()=>+D.households[state.household].scale;
+const price=(p,i)=>{const s=products[p]&&products[p].series;if(!s)return null;for(let k=i;k>=0;k--)if(s[k]!=null)return s[k];return null};
+const swapKey=s=>s.from+'→'+s.to;
+
+/** Items after household scaling and applied swaps. */
+function effectiveItems(){
+  const out=[];
+  for(const it of state.items){
+    const q=it.qty*scale();
+    const sw=D.swaps.find(s=>s.from===it.product&&state.applied.includes(swapKey(s))&&products[s.to]);
+    if(sw)out.push({product:sw.to,qty:q*sw.ratio,aisle:it.aisle,swappedFrom:it.product});
+    else out.push({product:it.product,qty:q,aisle:it.aisle});
+  }
+  return out;
+}
+function costAt(items,i){let t=0,any=false;for(const it of items){const p=price(it.product,i);if(p!=null){t+=p*it.qty;any=true}}return any?t:null}
+function yoy(p){const a=price(p,LAST),b=price(p,LAST-12);return a!=null&&b?(a/b-1)*100:null}
+function availableSwaps(){
+  const out=[];
+  for(const it of state.items){
+    for(const s of D.swaps){
+      if(s.from!==it.product||!products[s.to])continue;
+      const pf=price(s.from,LAST),pt=price(s.to,LAST);if(pf==null||pt==null)continue;
+      const q=it.qty*scale();const saving=q*pf-q*s.ratio*pt;
+      if(saving>0.01)out.push({...s,pf,pt,saving,applied:state.applied.includes(swapKey(s))});
+    }
+  }
+  // one suggestion per source product: the best saving
+  const best={};for(const s of out)if(!best[s.from]||s.saving>best[s.from].saving)best[s.from]=s;
+  return Object.values(best).sort((a,b)=>b.saving-a.saving);
+}
+
+/* ---------- static header & footer ---------- */
+function initStatic(){
+  const m=D.meta;
+  document.title=m.title+' — '+mLabel(m.latest_month,true)+' grocery outlook';
+  $('#monthLabel').textContent='· '+mLabel(m.latest_month,true)+' prices';
+  $('#tagline').textContent=m.tagline+' Priced monthly from '+m.price_geo+' average retail prices, with swaps that keep the same meals for less.';
+  $('#sampleBanner').hidden=!m.is_sample;
+  const sel=$('#household');
+  for(const[k,v]of Object.entries(D.households)){const o=h('option',{value:k},esc(v.label));sel.appendChild(o)}
+  const dl=$('#productList');for(const n of names)dl.appendChild(h('option',{value:n}));
+  const f=$('#sources');
+  const links=m.sources.map(s=>s.page?`<a href="${esc(s.page)}" target="_blank" rel="noopener">${esc(s.name)}</a>`:esc(s.name)).join(' · ');
+  f.innerHTML=`<span><span class="dot"></span><b>Data through ${mLabel(m.latest_month,true)}</b> · built ${esc(m.generated_at.slice(0,10))} · ${links}</span>
+    <span>Average prices show price levels; inflation figures use the CPI. ${m.is_sample?'<b>Sample data — not real figures.</b>':''} v${esc(m.version)}</span>`;
+}
+
+/* ---------- KPIs ---------- */
+function renderKpis(items){
+  const now=costAt(items,LAST),prev=costAt(items,LAST-1);
+  $('#kCost').innerHTML=money(now)+'<small>/ week</small>';
+  const d=now-prev;
+  $('#kCostD').innerHTML=`<span class="pill">${d>=0?'▲':'▼'} ${money(Math.abs(d))}</span>&nbsp; vs. ${mLabel(D.months[LAST-1],true).split(' ')[0]} · ≈ ${money(now*52/12).replace(/\.\d\d$/,'')} / month`;
+  // sparkline: last 12 months
+  const sp=$('#spark');sp.innerHTML='';
+  const vals=[];for(let i=LAST-11;i<=LAST;i++)vals.push(costAt(items,i));
+  const mn=Math.min(...vals),mx=Math.max(...vals);
+  const pts=vals.map((v,i)=>[2+i*(144/11),48-(mx===mn?0.5:(v-mn)/(mx-mn))*38]);
+  el('path',{d:'M'+pts.map(p=>p.join(',')).join(' L'),fill:'none',stroke:'rgba(255,255,255,.85)','stroke-width':2,'stroke-linecap':'round','stroke-linejoin':'round'},sp);
+  el('circle',{cx:pts[11][0],cy:pts[11][1],r:4,fill:'#fff'},sp);
+
+  const c=D.cpi;
+  $('#kInfL').textContent=c.headline_geo+' grocery inflation';
+  $('#kInf').innerHTML=c.food_yoy==null?'—':c.food_yoy.toFixed(1)+'%<small>12-mo</small>';
+  $('#kInfD').textContent=`Food purchased from stores · CPI${c.food_month?' · '+mLabel(c.food_month)+' '+c.food_month.slice(0,4):''}${c.all_items_yoy!=null?' · all items '+c.all_items_yoy.toFixed(1)+'%':''}`;
+
+  const movers=state.items.map(i=>({p:i.product,v:yoy(i.product)})).filter(x=>x.v!=null).sort((a,b)=>b.v-a.v);
+  if(movers.length){
+    const top=movers[0],sp2=split(top.p);
+    const kj=$('#kJump');kj.textContent=sp2.name;kj.title=top.p;kj.style.fontSize=sp2.name.length<=13?'':sp2.name.length<=18?'28px':'23px';
+    $('#kJumpD').innerHTML=`<span class="pill ${top.v>=0?'up':'dn'}">${top.v>=0?'▲':'▼'} ${Math.abs(top.v).toFixed(1)}%</span>&nbsp; year over year · now ${money(price(top.p,LAST))} ${esc(unitShort(sp2.unit))}`;
+  }else{$('#kJump').textContent='—';$('#kJumpD').textContent=''}
+
+  const sw=availableSwaps();
+  const appliedSave=sw.filter(s=>s.applied).reduce((a,s)=>a+s.saving,0);
+  const openSave=sw.filter(s=>!s.applied).reduce((a,s)=>a+s.saving,0);
+  const base=costAt(state.items.map(i=>({product:i.product,qty:i.qty*scale()})),LAST);
+  if(appliedSave>0){
+    $('#kSaveL').textContent='Saving with your swaps';
+    $('#kSave').innerHTML=money(appliedSave)+'<small>/ week</small>';
+    $('#kSaveD').innerHTML=`<span class="pill dn">▼ ${(appliedSave/base*100).toFixed(0)}%</span>&nbsp; off your basket${openSave>0?' · '+money(openSave)+' more available':''}`;
+  }else{
+    $('#kSaveL').textContent='Savings found with swaps';
+    $('#kSave').innerHTML=money(openSave)+'<small>/ week</small>';
+    $('#kSaveD').innerHTML=sw.length?`<span class="pill dn">▼ ${(openSave/base*100).toFixed(0)}%</span>&nbsp; off your basket · ${sw.length} swap${sw.length>1?'s':''} suggested`:'No cheaper swaps for this basket right now';
+  }
+}
+
+/* ---------- line chart ---------- */
+function renderLine(items){
+  const s=$('#line');s.innerHTML='';
+  const W=Math.max(320,s.clientWidth||860),H=276,L=48,R=18,T=14,B=28;
+  s.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const hist=Math.min(state.range,D.history_months),start=LAST-hist+1;
+  const idx=[];for(let i=start;i<=LAST;i++)idx.push(i);
+  const vals=idx.map(i=>costAt(items,i));
+  const o=D.outlook,last=vals[vals.length-1];
+  const band=[];for(let m=1;m<=o.months;m++)band.push([last*Math.pow(1+o.annual_low,m/12),last*Math.pow(1+o.annual_high,m/12)]);
+  const n=idx.length+band.length;
+  const all=vals.concat(band.flat());
+  let mn=Math.min(...all),mx=Math.max(...all);const pad=(mx-mn)*0.12||5;mn-=pad;mx+=pad;
+  const step=niceStep((mx-mn)/5);mn=Math.floor(mn/step)*step;mx=Math.ceil(mx/step)*step;
+  const x=i=>L+i*(W-L-R)/(n-1),y=v=>T+(mx-v)*(H-T-B)/(mx-mn);
+  for(let g=mn;g<=mx+1e-9;g+=step){
+    el('line',{x1:L,x2:W-R,y1:y(g),y2:y(g),stroke:'#e1e0d9'},s);
+    el('text',{x:L-8,y:y(g)+4,'text-anchor':'end',class:'tick'},s).textContent='$'+Math.round(g);
+  }
+  el('line',{x1:L,x2:W-R,y1:H-B,y2:H-B,stroke:'#c3c2b7'},s);
+  const every=n>20?3:n>10?2:1;
+  for(let k=0;k<n;k++){
+    if(k%every)continue;
+    const ym=addMonths(D.months[start],k);const lab=mLabel(ym)+((ym.endsWith('-01')||k===0)?" '"+ym.slice(2,4):'');
+    el('text',{x:x(k),y:H-9,'text-anchor':'middle',class:'tick'},s).textContent=lab;
+  }
+  const defs=el('defs',{},s),lg=el('linearGradient',{id:'ga',x1:0,y1:0,x2:0,y2:1},defs);
+  el('stop',{offset:'0%','stop-color':'#2a78d6','stop-opacity':.18},lg);el('stop',{offset:'100%','stop-color':'#2a78d6','stop-opacity':0},lg);
+  const d='M'+vals.map((v,k)=>x(k)+','+y(v)).join(' L');
+  const li=vals.length-1;
+  el('path',{d:d+` L${x(li)},${H-B} L${x(0)},${H-B} Z`,fill:'url(#ga)'},s);
+  const bandPath=`M${x(li)},${y(last)} `+band.map((b,k)=>`L${x(li+1+k)},${y(b[1])}`).join(' ')+' '+band.slice().reverse().map((b,k)=>`L${x(li+band.length-k)},${y(b[0])}`).join(' ')+' Z';
+  el('path',{d:bandPath,fill:'#cde2fb',opacity:.9},s);
+  el('path',{d:`M${x(li)},${y(last)} `+band.map((b,k)=>`L${x(li+1+k)},${y((b[0]+b[1])/2)}`).join(' '),fill:'none',stroke:'#2a78d6','stroke-width':2,'stroke-dasharray':'5 4'},s);
+  el('path',{d,fill:'none',stroke:'#2a78d6','stroke-width':2,'stroke-linejoin':'round','stroke-linecap':'round'},s);
+  el('line',{x1:x(li),x2:x(li),y1:T,y2:H-B,stroke:'#c3c2b7','stroke-dasharray':'2 3'},s);
+  el('text',{x:x(li)+6,y:T+10,class:'tick'},s).textContent='Outlook →';
+  el('circle',{cx:x(li),cy:y(last),r:5,fill:'#2a78d6',stroke:'#fcfcfb','stroke-width':2},s);
+  $('#lineSub').textContent=`${D.meta.price_geo} average retail prices · ${o.months}-month outlook at +${Math.round(o.annual_low*100)}–${Math.round(o.annual_high*100)}% a year`;
+  // hover layer
+  const cross=el('line',{x1:0,x2:0,y1:T,y2:H-B,stroke:'#898781','stroke-width':1,opacity:0},s);
+  const dot=el('circle',{r:5,fill:'#2a78d6',stroke:'#fff','stroke-width':2,opacity:0},s);
+  const hit=el('rect',{x:L,y:T,width:W-L-R,height:H-T-B,fill:'transparent'},s);
+  hit.addEventListener('mousemove',ev=>{
+    const r=s.getBoundingClientRect(),px=(ev.clientX-r.left)*W/r.width;
+    const k=Math.max(0,Math.min(n-1,Math.round((px-L)/((W-L-R)/(n-1)))));
+    const ym=addMonths(D.months[start],k);
+    let html,v;
+    if(k<=li){v=vals[k];const pv=k>0?vals[k-1]:costAt(items,idx[0]-1);const ch=pv?(v/pv-1)*100:null;
+      html=`<span class="m">${mLabel(ym,true)}</span><br><b>${money(v)}</b> / week${ch!=null?` · ${pct(ch)} m/m`:''}`;}
+    else{const b=band[k-li-1];v=(b[0]+b[1])/2;html=`<span class="m">${mLabel(ym,true)} · outlook</span><br><b>${money(b[0])} – ${money(b[1])}</b> / week`;}
+    cross.setAttribute('x1',x(k));cross.setAttribute('x2',x(k));cross.setAttribute('opacity',1);
+    dot.setAttribute('cx',x(k));dot.setAttribute('cy',y(v));dot.setAttribute('opacity',1);
+    showTip(html,ev);
+  });
+  hit.addEventListener('mouseleave',()=>{cross.setAttribute('opacity',0);dot.setAttribute('opacity',0);hideTip()});
+}
+function niceStep(raw){const p=Math.pow(10,Math.floor(Math.log10(raw)));const f=raw/p;return(f<1.5?1:f<3?2:f<7?5:10)*p}
+
+/* ---------- movers ---------- */
+function renderMovers(){
+  const s=$('#movers');s.innerHTML='';
+  const W=Math.max(300,s.clientWidth||470);
+  let data=state.items.map(i=>({p:i.product,v:yoy(i.product)})).filter(d=>d.v!=null).sort((a,b)=>b.v-a.v);
+  if(data.length>10){data=data.slice(0,6).concat(data.slice(-4))} // biggest risers + fallers
+  const rowH=Math.min(26.5,268/Math.max(1,data.length)),H=Math.max(60,data.length*rowH+12);
+  s.setAttribute('viewBox',`0 0 ${W} ${H}`);s.setAttribute('height',H);
+  const L=Math.min(150,W*0.34),R=52,T=6;
+  const mx=Math.max(5,...data.map(d=>d.v)),mn=Math.min(-5,...data.map(d=>d.v));
+  const x=v=>L+(v-mn)*(W-L-R)/(mx-mn),z=x(0);
+  data.forEach((d,i)=>{
+    const cy=T+i*rowH+rowH/2,nm=split(d.p).name;
+    el('text',{x:L-10,y:cy+4,'text-anchor':'end','font-size':12.5,fill:'#52514e'},s).textContent=nm.length>22?nm.slice(0,21)+'…':nm;
+    const w=Math.max(2,Math.abs(x(d.v)-z)),r=Math.min(4,w),hh=12,yy=cy-hh/2;
+    const p=d.v>=0?`M${z},${yy} h${w-r} a${r},${r} 0 0 1 ${r},${r} v${hh-2*r} a${r},${r} 0 0 1 -${r},${r} h-${w-r} Z`
+                  :`M${z},${yy} h-${w-r} a${r},${r} 0 0 0 -${r},${r} v${hh-2*r} a${r},${r} 0 0 0 ${r},${r} h${w-r} Z`;
+    el('path',{d:p,fill:d.v>=0?'#d03b3b':'#2a78d6'},s);
+    // Negative values are labelled just right of the zero line so they never collide with item names.
+    const lx=d.v>=0?z+w+6:z+6;
+    el('text',{x:lx,y:cy+4,'text-anchor':'start','font-size':11.5,'font-weight':600,fill:'#0b0b0b'},s).textContent=pct(d.v);
+    const hit=el('rect',{x:0,y:cy-rowH/2,width:W,height:rowH,fill:'transparent'},s);
+    hit.addEventListener('mousemove',ev=>{const u=unitShort(split(d.p).unit);showTip(`<span class="m">${esc(d.p)}</span><br><b>${money(price(d.p,LAST))}</b> ${esc(u)} now · ${money(price(d.p,LAST-12))} a year ago<br>${pct(d.v)} in 12 months`,ev)});
+    hit.addEventListener('mouseleave',hideTip);
+  });
+  el('line',{x1:z,x2:z,y1:0,y2:T+data.length*rowH,stroke:'#898781'},s);
+  if(!data.length)el('text',{x:W/2,y:30,'text-anchor':'middle',class:'tick'},s).textContent='Add items to see price changes';
+}
+
+/* ---------- swaps ---------- */
+function renderSwaps(){
+  const all=availableSwaps();
+  const groups=['All',...new Set(all.map(s=>s.group))];
+  if(!groups.includes(state.swapGroup))state.swapGroup='All';
+  const tabs=$('#swapTabs');tabs.innerHTML='';
+  groups.slice(0,4).forEach(g=>{const b=h('button',{'aria-pressed':String(g===state.swapGroup)},esc(g));b.onclick=()=>{state.swapGroup=g;renderSwaps()};tabs.appendChild(b)});
+  const list=$('#swaps');list.innerHTML='';
+  const shown=all.filter(s=>state.swapGroup==='All'||s.group===state.swapGroup).slice(0,4);
+  if(!shown.length){list.appendChild(h('div',{class:'empty'},'No cheaper swaps for these items right now.'));return}
+  for(const s of shown){
+    const a=split(s.from),b=split(s.to);
+    const row=h('div',{class:'swap'});
+    row.innerHTML=`<div class="item"><b title="${esc(s.from)}">${esc(a.name)}</b><span>${money(s.pf)} ${esc(unitShort(a.unit))}</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="item"><b title="${esc(s.to)}">${esc(b.name)}</b><span>${money(s.pt)} ${esc(unitShort(b.unit))}</span></div>`;
+    const btn=h('button',{class:'save','aria-pressed':String(s.applied),title:s.applied?'Undo this swap':'Apply this swap to your basket'},(s.applied?'✓ ':'−')+money(s.saving)+'/wk');
+    btn.onclick=()=>{const k=swapKey(s);state.applied=s.applied?state.applied.filter(x=>x!==k):state.applied.concat(k);toast(s.applied?'Swap removed':'Swap applied — saving '+money(s.saving)+' a week');update()};
+    row.appendChild(btn);list.appendChild(row);
+  }
+}
+
+/* ---------- aisles ---------- */
+function renderAisles(items){
+  const tot={};let sum=0;
+  for(const it of items){const p=price(it.product,LAST);if(p==null)continue;const c=p*it.qty;tot[it.aisle]=(tot[it.aisle]||0)+c;sum+=c}
+  const rows=Object.entries(tot).sort((a,b)=>b[1]-a[1]);const top=rows.length?rows[0][1]:1;
+  const fills=['var(--seq1)','var(--seq2)','var(--seq2)','var(--seq3)','var(--seq3)','var(--seq4)','var(--seq4)'];
+  $('#aisles').innerHTML=rows.map(([a,c],i)=>`<div class="hbar" title="${esc(a)}: ${money(c)} / week"><span class="t">${esc(a)}</span><div class="track"><div class="fill" style="width:${(c/top*100).toFixed(1)}%;background:${fills[Math.min(i,fills.length-1)]}"></div></div><span class="n">${Math.round(c/sum*100)}%</span></div>`).join('')
+    ||'<div class="empty">Your basket is empty.</div>';
+}
+
+/* ---------- stores ---------- */
+function initStores(){
+  const sel=$('#community');
+  const comms=[...new Set(D.stores.map(s=>s.community))].sort();
+  sel.appendChild(h('option',{value:'All'},'All communities'));
+  comms.forEach(c=>sel.appendChild(h('option',{value:c},esc(c))));
+  sel.onchange=()=>{state.community=sel.value;renderStores()};
+  document.querySelectorAll('#storeView button').forEach(b=>b.onclick=()=>{state.view=b.dataset.v;document.querySelectorAll('#storeView button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));renderStores()});
+}
+function renderStores(){
+  const st=D.stores,sel=state.community==='All'?st:st.filter(s=>s.community===state.community);
+  const nSup=sel.filter(s=>s.kind==='supermarket').length;
+  $('#storeSub').textContent=`${sel.length} licensed food retailer${sel.length===1?'':'s'} · ${nSup} supermarket${nSup===1?'':'s'}`+(state.community==='All'?' · Calgary':' · '+state.community);
+  const isMap=state.view==='map';
+  $('#mapwrap').hidden=!isMap;$('#storelist').hidden=isMap;
+  if(!isMap){
+    $('#storelist').innerHTML=sel.slice().sort((a,b)=>a.kind.localeCompare(b.kind)||a.name.localeCompare(b.name))
+      .map(s=>`<div><b>${esc(s.name)}</b><span>${esc(s.address)} · ${esc(s.community)}</span></div>`).join('')||'<div class="empty">No stores.</div>';
+    return;
+  }
+  const svg=$('#map');svg.innerHTML='';
+  const W=Math.max(280,svg.clientWidth||440),H=200;svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  if(!st.length){el('text',{x:W/2,y:H/2,'text-anchor':'middle',class:'tick'},svg).textContent='No store data';return}
+  // Equirectangular projection fitted to all stores so the frame stays stable when filtering.
+  const lats=st.map(s=>s.lat),lons=st.map(s=>s.lon);
+  const la0=Math.min(...lats),la1=Math.max(...lats),lo0=Math.min(...lons),lo1=Math.max(...lons);
+  const k=Math.cos((la0+la1)/2*Math.PI/180),pad=14;
+  const sx=(W-2*pad)/((lo1-lo0)*k||1),sy=(H-2*pad)/((la1-la0)||1),sc=Math.min(sx,sy);
+  const ox=(W-(lo1-lo0)*k*sc)/2,oy=(H-(la1-la0)*sc)/2;
+  const X=lo=>ox+(lo-lo0)*k*sc,Y=la=>H-oy-(la-la0)*sc;
+  // Calgary quadrant lines: Centre Street (≈ -114.0626) and Centre Avenue / Bow River (≈ 51.048)
+  const cx=X(-114.0626),cy=Y(51.048);
+  for(let g=0;g<W;g+=24)el('line',{x1:g,x2:g,y1:0,y2:H,stroke:'#e2ebe4'},svg);
+  for(let g=0;g<H;g+=24)el('line',{x1:0,x2:W,y1:g,y2:g,stroke:'#e2ebe4'},svg);
+  if(cx>0&&cx<W)el('line',{x1:cx,x2:cx,y1:0,y2:H,stroke:'#f2c98a','stroke-width':3,opacity:.8},svg);
+  if(cy>0&&cy<H)el('line',{x1:0,x2:W,y1:cy,y2:cy,stroke:'#f2c98a','stroke-width':3,opacity:.8},svg);
+  [['NW',8,16,'start'],['NE',W-8,16,'end'],['SW',8,H-8,'start'],['SE',W-8,H-8,'end']].forEach(q=>el('text',{x:q[1],y:q[2],'text-anchor':q[3],'font-size':11,'font-weight':700,fill:'#9bb3a4'},svg).textContent=q[0]);
+  const ordered=st.slice().sort((a,b)=>(a.kind==='supermarket')-(b.kind==='supermarket'));
+  for(const s of ordered){
+    const on=state.community==='All'||s.community===state.community;
+    const c=el('circle',{cx:X(s.lon),cy:Y(s.lat),r:s.kind==='supermarket'?6:4.5,fill:s.kind==='supermarket'?'#0f5c4a':'#eb6834',stroke:'#fff','stroke-width':1.5,opacity:on?1:.18},svg);
+    c.addEventListener('mousemove',ev=>showTip(`<b>${esc(s.name)}</b><br><span class="m">${esc(s.address)} · ${esc(s.community)}</span><br>${s.kind==='supermarket'?'Supermarket':'Specialty / independent'}`,ev));
+    c.addEventListener('mouseleave',hideTip);
+    c.addEventListener('click',()=>{$('#community').value=s.community;state.community=s.community;renderStores()});
+  }
+}
+
+/* ---------- basket drawer ---------- */
+function openDrawer(focusAdd){$('#drawer').classList.add('open');$('#scrim').classList.add('open');$('#drawer').setAttribute('aria-hidden','false');renderBasket();setTimeout(()=>(focusAdd?$('#addInput'):$('#closeDrawer')).focus(),50)}
+function closeDrawer(){$('#drawer').classList.remove('open');$('#scrim').classList.remove('open');$('#drawer').setAttribute('aria-hidden','true')}
+function renderBasket(){
+  const list=$('#basketList');list.innerHTML='';
+  const hh=D.households[state.household];
+  $('#drawerSub').textContent=`Quantities per week for a family of 4 · scaled ×${hh.scale} for ${hh.label.toLowerCase()}`;
+  state.items.forEach((it,i)=>{
+    const sp=split(it.product),p=price(it.product,LAST);
+    const row=h('div',{class:'bi'});
+    row.innerHTML=`<div class="nm"><b title="${esc(it.product)}">${esc(sp.name)}</b><span>${esc(sp.unit)} · ${money(p)} · ${esc(it.aisle)}</span></div>
+      <div class="step"><button aria-label="Less">−</button><input aria-label="Quantity" inputmode="decimal" value="${+it.qty.toFixed(2)}"><button aria-label="More">+</button></div>
+      <button class="rm" aria-label="Remove ${esc(sp.name)}">✕</button>`;
+    const[minus,plus]=row.querySelectorAll('.step button'),inp=row.querySelector('input');
+    const stepBy=/per kilogram/.test(it.product)?0.25:0.5;
+    minus.onclick=()=>{it.qty=Math.max(stepBy,+(it.qty-stepBy).toFixed(2));inp.value=it.qty;update(false)};
+    plus.onclick=()=>{it.qty=+(it.qty+stepBy).toFixed(2);inp.value=it.qty;update(false)};
+    inp.onchange=()=>{const v=parseFloat(inp.value);if(v>0){it.qty=v;update(false)}else inp.value=it.qty};
+    row.querySelector('.rm').onclick=()=>{state.items.splice(i,1);state.applied=state.applied.filter(k=>!k.startsWith(it.product+'→'));update(false);renderBasket()};
+    list.appendChild(row);
+  });
+}
+function addProduct(){
+  const v=$('#addInput').value.trim();
+  const match=products[v]?v:names.find(n=>n.toLowerCase()===v.toLowerCase())||names.find(n=>n.toLowerCase().includes(v.toLowerCase()));
+  if(!v||!match){toast('No matching product — pick one from the list');return}
+  if(state.items.some(i=>i.product===match)){toast('Already in your basket');return}
+  state.items.push({product:match,qty:1,aisle:products[match].aisle});
+  $('#addInput').value='';update(false);renderBasket();toast('Added '+split(match).name);
+}
+
+/* ---------- wiring ---------- */
+function update(){
+  const items=effectiveItems();
+  $('#itemCount').textContent=`Basket · ${state.items.length} items`;
+  $('#household').value=state.household;
+  renderKpis(items);renderLine(items);renderMovers();renderSwaps();renderAisles(items);
+  writeHash();
+}
+function init(){
+  readHash();initStatic();initStores();
+  $('#household').onchange=e=>{state.household=e.target.value;update();if($('#drawer').classList.contains('open'))renderBasket()};
+  document.querySelectorAll('#range button').forEach(b=>b.onclick=()=>{state.range=+b.dataset.r;document.querySelectorAll('#range button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));renderLine(effectiveItems())});
+  document.querySelectorAll('[data-open-basket]').forEach(b=>b.onclick=()=>openDrawer(b.hasAttribute('data-focus-add')));
+  document.querySelectorAll('[data-scroll]').forEach(b=>b.onclick=()=>document.getElementById(b.dataset.scroll).scrollIntoView({behavior:'smooth'}));
+  $('#closeDrawer').onclick=closeDrawer;$('#scrim').onclick=closeDrawer;
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
+  $('#addBtn').onclick=addProduct;$('#addInput').addEventListener('keydown',e=>{if(e.key==='Enter')addProduct()});
+  $('#resetBasket').onclick=()=>{state.items=D.basket.map(i=>({...i}));state.applied=[];update();renderBasket();toast('Basket reset')};
+  $('#share').onclick=async()=>{writeHash();try{await navigator.clipboard.writeText(location.href);toast('Link copied — anyone with it sees this basket')}catch(e){toast('Copy the address bar to share this basket')}};
+  update();renderStores();
+  let t;new ResizeObserver(()=>{clearTimeout(t);t=setTimeout(()=>{const it=effectiveItems();renderLine(it);renderMovers();renderStores()},80)}).observe(document.querySelector('.main'));
+}
+init();
+})();
+</script>
+</body>
+</html>
