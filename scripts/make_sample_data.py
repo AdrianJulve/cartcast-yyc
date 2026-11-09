@@ -262,7 +262,7 @@ def make_prices(rng: random.Random) -> int:
                     )
                 )
     with (OUT / "prices_sample.csv").open("w", newline="", encoding="utf-8") as fh:
-        writer = csv.DictWriter(fh, fieldnames=cols)
+        writer = csv.DictWriter(fh, fieldnames=cols, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
     return len(rows)
@@ -308,7 +308,7 @@ def make_cpi(rng: random.Random) -> int:
                 )
             )
     with (OUT / "cpi_sample.csv").open("w", newline="", encoding="utf-8") as fh:
-        writer = csv.DictWriter(fh, fieldnames=cols)
+        writer = csv.DictWriter(fh, fieldnames=cols, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
     return len(rows)
