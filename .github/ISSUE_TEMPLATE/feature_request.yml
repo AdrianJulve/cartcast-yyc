@@ -1,0 +1,20 @@
+name: Feature request
+description: Suggest a dashboard feature or improvement
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Who is it for, and what problem does it solve?
+      placeholder: "As a family on a tight budget, I want … so that …"
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Proposed solution
+  - type: textarea
+    id: data
+    attributes:
+      label: Data needed
+      description: Which dataset would power this? Link it if possible.

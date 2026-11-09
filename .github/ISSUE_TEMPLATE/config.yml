@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: StatCan table 18-10-0245-01
+    url: https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810024501
+    about: Check the source table before filing a data issue
