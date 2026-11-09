@@ -16,7 +16,7 @@ class ValidationIssue:
     suggestions: list[str]
 
     def __str__(self) -> str:
-        hint = f" — did you mean: {', '.join(self.suggestions)}?" if self.suggestions else ""
+        hint = f". Closest matches: {', '.join(self.suggestions)}" if self.suggestions else ""
         return f"Unknown product '{self.product}'{hint}"
 
 
@@ -28,8 +28,8 @@ def validate_products(names: list[str], available: list[str]) -> list[Validation
 def basket_cost(wide: pd.DataFrame, items: list[BasketItem], scale: float = 1.0) -> pd.Series:
     """Weekly basket cost per month.
 
-    A month with a missing price for one item carries that item's last known
-    price forward so a single suppressed cell doesn't make the line jump.
+    When an item's price is missing for a month, its previous price is used so
+    that one suppressed value does not cause a jump in the series.
     """
     cols = [i.product for i in items if i.product in wide.columns]
     qty = pd.Series({i.product: i.qty * scale for i in items if i.product in wide.columns})
@@ -38,7 +38,7 @@ def basket_cost(wide: pd.DataFrame, items: list[BasketItem], scale: float = 1.0)
 
 
 def aisle_shares(wide: pd.DataFrame, items: list[BasketItem], month: pd.Timestamp) -> pd.Series:
-    """Share (0–1) of the basket's cost in each aisle for one month."""
+    """Share (0 to 1) of the basket's cost in each aisle for one month."""
     row = wide.ffill().loc[month]
     costs: dict[str, float] = {}
     for item in items:

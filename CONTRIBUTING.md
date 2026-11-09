@@ -1,56 +1,56 @@
-# Contributing to CartCast YYC
+# Contributing
 
-Thanks for helping. This is a team course project, so the workflow below keeps
-everyone's changes reviewable and keeps `main` always presentable.
+This is a team course project. The process below keeps changes reviewable and
+keeps `main` in a working state.
 
-## Set up
+## Setup
 
 ```bash
 git clone https://github.com/AdrianJulve/cartcast-yyc.git
 cd cartcast-yyc
-python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
-make install            # or: pip install -e ".[dev]"
-make build-sample serve # open http://localhost:8000
+python -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\Activate.ps1
+pip install -e ".[dev]"
+python -m cartcast build --sample
+python -m cartcast serve           # http://localhost:8000
 ```
-
-No `make` on Windows? Run the commands directly: `python -m cartcast build --sample`
-then `python -m cartcast serve`.
 
 ## Workflow
 
-1. **Pick or open an issue.** Use the templates (bug, feature, data issue).
-2. **Branch from `main`.** Name branches `type/short-description`, e.g.
-   `feat/basket-presets`, `fix/map-labels`, `docs/presentation-script`, `data/new-swaps`.
-3. **Commit small and often.** Use [Conventional Commits](https://www.conventionalcommits.org/):
-   `feat: add family-of-6 preset`, `fix: handle suppressed prices`, `docs: update demo script`.
-4. **Run the checks.** `make check` runs lint, tests and a sample build, the same as CI.
-5. **Open a pull request** using the template. At least one teammate reviews before merging.
-6. **Squash-merge** into `main`. Delete the branch afterwards.
+1. Open or pick an issue using one of the templates.
+2. Create a branch from `main` named `type/short-description`, for example
+   `feat/basket-presets`, `fix/map-labels` or `docs/demo-script`.
+3. Write commit messages in the [Conventional Commits](https://www.conventionalcommits.org/)
+   format, for example `feat: add family of 6 preset` or `fix: handle suppressed prices`.
+4. Run `make check`, or `python -m pytest` and `ruff check .` if `make` is not installed.
+   CI runs the same checks.
+5. Open a pull request using the template. A teammate reviews it before it is merged.
+6. Squash and merge, then delete the branch.
 
-## What goes where
+## Where to make changes
 
-| Change | Edit |
+| Change | File |
 |---|---|
 | Basket items, quantities, household sizes | `config/basket.yaml` |
-| Swap suggestions | `config/swaps.yaml` |
+| Substitutions | `config/swaps.yaml` |
 | Geography, sources, store keywords, outlook range | `config/settings.yaml` |
-| Data loading or calculations | `src/cartcast/*.py` (+ tests in `tests/`) |
-| Dashboard look and behaviour | `src/cartcast/templates/dashboard.html` |
-| Presentation plan and talking points | `docs/presentation-plan.md` |
+| Data loading and calculations | `src/cartcast/*.py`, with tests in `tests/` |
+| Dashboard layout and behaviour | `src/cartcast/templates/dashboard.html` |
+| Presentation plan | `docs/presentation-plan.md` |
 
-After editing `basket.yaml` or `swaps.yaml`, run `make validate` (live data) or
-`python -m cartcast validate --sample`. It flags product names that don't match
-StatCan exactly and suggests the closest names.
+After editing `basket.yaml` or `swaps.yaml`, run `python -m cartcast validate`
+(or add `--sample` to check against the sample data). It reports any product name
+that does not match StatCan and suggests the closest match.
 
 ## Code style
 
-- Python 3.10+, formatted and linted with `ruff` (`make format`).
-- Every new calculation gets a test using a tiny hand-checkable fixture.
-- Never present sample data as real. The sample banner must stay.
+- Python 3.10 or later, formatted and linted with ruff (`make format`).
+- New calculations need a test with a small fixture that can be checked by hand.
+- Sample data must not be presented as real. Keep the sample data banner.
 
-## Data rules
+## Data
 
-- Don't commit anything in `data/raw/`. It's re-downloadable and git-ignored.
-- Cite sources in the dashboard footer and in `docs/data-sources.md`.
-- Average prices are not an inflation measure. Use CPI figures for inflation claims
-  (see `docs/methodology.md`).
+- Do not commit files in `data/raw/`. They can be downloaded again and are ignored by git.
+- Cite any new dataset in the dashboard footer and in `docs/data-sources.md`.
+- Use CPI figures for any statement about inflation. Average prices are not an
+  inflation measure (see `docs/methodology.md`).
