@@ -1,0 +1,3 @@
+# Default reviewer for everything. Add teammates' GitHub usernames per area, e.g.
+#   /docs/presentation-plan.md  @teammate-username
+*  @AdrianJulve

@@ -1,0 +1,22 @@
+name: Data issue
+description: A source changed, a product name moved, or numbers look off
+labels: [data]
+body:
+  - type: dropdown
+    id: source
+    attributes:
+      label: Source
+      options:
+        - StatCan 18-10-0245-01 (average retail prices)
+        - StatCan 18-10-0004-01 (CPI)
+        - City of Calgary business licences (vdjc-pybd)
+        - Canada's Food Price Report (outlook)
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: What's wrong?
+      description: e.g. "`cartcast validate` says 'Eggs, 1 dozen' is unknown" or "store X is missing"
+    validations:
+      required: true

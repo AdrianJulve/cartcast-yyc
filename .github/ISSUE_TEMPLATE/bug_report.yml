@@ -1,0 +1,25 @@
+name: Bug report
+description: Something in the pipeline or dashboard is wrong
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Include the command you ran or what you clicked.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+  - type: dropdown
+    id: data
+    attributes:
+      label: Data mode
+      options: [Sample data, Live data]
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error output / screenshot
+      render: shell
