@@ -41,7 +41,7 @@ jobs:
         run: python -m cartcast build --sample
       - name: Upload dashboard preview
         if: matrix.python == '3.12'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dashboard-preview
           path: site/
