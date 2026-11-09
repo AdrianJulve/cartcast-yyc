@@ -1,0 +1,3 @@
+# Runtime dependencies (mirrors pyproject.toml). Prefer: pip install -e ".[dev]"
+pandas>=2.0
+pyyaml>=6.0

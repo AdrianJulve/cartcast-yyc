@@ -1,0 +1,7 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.zip binary
+*.pptx binary
+data/sample/*.csv linguist-generated=true
+data/sample/*.json linguist-generated=true
