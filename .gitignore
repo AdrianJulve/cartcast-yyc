@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.env
+
+# Tooling
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Data: raw downloads are large and re-fetchable; processed output is rebuilt
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Built site (deployed by GitHub Actions, not committed)
+site/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+~$*

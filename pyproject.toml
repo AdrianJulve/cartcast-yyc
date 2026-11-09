@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cartcast-yyc"
+version = "0.1.0"
+description = "CartCast YYC: a household grocery-cost dashboard for Calgary built on Statistics Canada and City of Calgary open data."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Adrian Julve" }]
+keywords = ["open-data", "statistics-canada", "calgary", "groceries", "dashboard"]
+dependencies = [
+  "pandas>=2.0",
+  "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "ruff>=0.4"]
+
+[project.scripts]
+cartcast = "cartcast.cli:main"
+
+[project.urls]
+Repository = "https://github.com/AdrianJulve/cartcast-yyc"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+cartcast = ["templates/*.html"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
