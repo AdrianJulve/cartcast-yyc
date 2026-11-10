@@ -23,6 +23,11 @@ Notable changes to this project are recorded here. The format follows
 - Product picker on the Basket page with search, aisle tabs and multi-select. Tick any number of products, then add them together with one button, with Undo.
 
 ### Fixed
+- Supermarkets with a fuel licence on the same record were left out, including the Seton and Signal Hill Superstores and Silverado Sobeys.
+- Costco was left out because it holds a wholesaler licence rather than a retail one.
+- Independent supermarkets with only a food service licence were left out.
+- Staples, flooring and pawn shops named "Superstore", a carpet store and in-store sushi counters were shown as supermarkets.
+- Store dots were too large at the city view. They are now smaller when zoomed out and grow as you zoom in.
 - Distance ring labels, the community outline and marker outlines on the map drew without their colours.
 - Most supermarkets were missing from the map. The store query only accepted the "Licensed" and "Pending Renewal" statuses, but about two-thirds of active licences are "Renewal Licensed". All active statuses are now included.
 - Walmart stores were missing because the licence data spells the name "WAL-MART".

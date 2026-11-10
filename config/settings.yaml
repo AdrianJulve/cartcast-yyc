@@ -94,6 +94,19 @@ stores:
     - "LIQUOR STORE"
     - "CANNABIS STORE"
     - "FUEL SALES/STORAGE"
+  # Records whose name matches a supermarket keyword use these two lists
+  # instead of the three rules above. Supermarkets often hold a fuel licence on
+  # the same record as the store (the Seton Superstore, Silverado Sobeys), Costco
+  # holds a wholesaler licence rather than a retail one, and some independent
+  # supermarkets hold only a food service licence. Chain gas bars and liquor
+  # stores are separate records, left out by name or licence type.
+  supermarket_licence_types_any:
+    - "RETAIL DEALER - PREMISES"
+    - "FOOD SERVICE - PREMISES"
+    - "WHOLESALER"
+  supermarket_licence_types_exclude:
+    - "LIQUOR STORE"
+    - "CANNABIS STORE"
   # Every status of an active licence. "Renewal Licensed" alone covers about
   # two-thirds of the dataset. "Close in Progress" is left out.
   status_any:
@@ -103,8 +116,9 @@ stores:
     - "Renewal Notification Sent"
     - "Pending Renewal"
     - "Move in Progress"
+  # Superstores are matched by "REAL CANADIAN", because "SUPERSTORE" on its own
+  # also matches Staples, flooring and pawn shops.
   supermarket_keywords:
-    - "SUPERSTORE"
     - "SAFEWAY"
     - "SOBEYS"
     - "CO-OP"
@@ -165,3 +179,6 @@ stores:
     - "BEER"
     - "HOME HEALTH"
     - "PORTRAIT"
+    - "CARPET"
+    - "ZENSHI"
+    - "SUSHI"

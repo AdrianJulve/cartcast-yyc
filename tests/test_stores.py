@@ -45,7 +45,8 @@ def test_store_query_has_all_clauses(cfg):
     assert "licencetypes like '%RETAIL DEALER - PREMISES%'" in q
     assert "'Renewal Licensed'" in q and "'Renewal Invoiced'" in q
     assert "'Close in Progress'" not in q
-    assert "upper(tradename) like '%SUPERSTORE%'" in q
+    assert "upper(tradename) like '%REAL CANADIAN%'" in q
+    assert "licencetypes like '%WHOLESALER%'" in q
 
 
 def test_food_retailer_kind_uses_licence_types(cfg):
@@ -83,6 +84,36 @@ def test_food_retailer_kind_uses_licence_types(cfg):
         ): None,
         ("WAL-MART PORTRAIT STUDIO #3010", "PHOTOGRAPHER"): None,
         ("AFC ZENSHI AT SAFEWAY 8841", "FOOD SERVICE - PREMISES (NO SEATING)"): None,
+        ("AFC ZENSHI AT SOBEYS 4057", retail): None,
+        # Supermarkets with a fuel licence on the same record.
+        (
+            "REAL CANADIAN SUPERSTORE (THE)",
+            "FOOD SERVICE - PREMISES, FUEL SALES/STORAGE, RETAIL DEALER - PREMISES",
+        ): "supermarket",
+        (
+            "SILVERADO SOBEYS",
+            "FOOD SERVICE - PREMISES, FUEL SALES/STORAGE, RETAIL DEALER - PREMISES",
+        ): "supermarket",
+        # Costco holds a wholesaler licence, not a retail one.
+        (
+            "COSTCO WHOLESALE",
+            "TOBACCO RETAILER, FUEL SALES/STORAGE, MOTOR VEHICLE REPAIR AND SERVICE (1), "
+            "WHOLESALER, FOOD SERVICE - PREMISES (SEATING)",
+        ): "supermarket",
+        ("COSTCO LIQUOR", "LIQUOR STORE"): None,
+        ("SOBEYS WESTERN CELLARS MILLRISE", "FOOD SERVICE - PREMISES, LIQUOR STORE"): None,
+        # Independent supermarkets with only a food service licence.
+        ("TOPS SUPERMARKET", "FOOD SERVICE - PREMISES, TOBACCO RETAILER"): "supermarket",
+        ("SOBEYS WEST DISTRICT 4066", "FOOD SERVICE - PREMISES"): "supermarket",
+        # Chain gas bars stay out by name.
+        (
+            "SUPERSTORE GAS BAR",
+            "FOOD SERVICE - PREMISES, FUEL SALES/STORAGE, RETAIL DEALER - PREMISES",
+        ): None,
+        # "Superstore" alone is not a grocer.
+        ("STAPLES THE OFFICE SUPERSTORE #110", retail): None,
+        ("FLOORING SUPERSTORES", "RETAIL DEALER - PREMISES, WHOLESALER"): None,
+        ("CARPET SUPERMARKET", "RETAIL DEALER - PREMISES"): None,
     }
     for (name, types), want in cases.items():
         assert food_retailer_kind({"tradename": name, "licencetypes": types}, s) == want, name

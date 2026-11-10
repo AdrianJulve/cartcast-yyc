@@ -961,11 +961,14 @@ class TileMap{
     const mpp=lat=>156543.03392*Math.cos(lat*Math.PI/180)/Math.pow(2,z);
     if(this.opts.overlay)this.opts.overlay(svg,proj,mpp,'under');
     const ordered=this.points.slice().sort((a,b)=>(a.on-b.on)||((a.r||5)-(b.r||5)));
+    // Dots grow with zoom: small at the city view, where they overlap most.
+    const k=Math.max(.8,Math.min(1.15,.8+(z-10.5)*.1));
     for(const p of ordered){
       const[px,py]=TileMap.px(p.lat,p.lon,z),sx=px-ox,sy=py-oy;
       if(sx<-10||sy<-10||sx>W+10||sy>H+10)continue;
-      el('circle',{cx:sx,cy:sy,r:p.r,fill:p.fill,stroke:p.stroke||P.ring,'stroke-width':p.sw||1.5,opacity:p.on?1:.22,class:'mk'},svg);
-      if(p.on)this.screen.push({sx,sy,r:p.r,src:p.src});
+      const r=p.r*k;
+      el('circle',{cx:sx,cy:sy,r,fill:p.fill,stroke:p.stroke||P.ring,'stroke-width':p.sw||1,opacity:p.on?1:.18,class:'mk'},svg);
+      if(p.on)this.screen.push({sx,sy,r,src:p.src});
     }
     if(this.opts.overlay)this.opts.overlay(svg,proj,mpp,'over');
   }
@@ -999,9 +1002,9 @@ function storePoints(){
   return D.stores.map(s=>{
     const isSel=st===s,isTarget=ns&&ns.s===s;
     const on=isSel||isTarget||(storeMatch(s)&&storeSearch(s));
-    const base=s.kind==='supermarket'?6:4.5;
-    return{lat:s.lat,lon:s.lon,src:s,on,r:isSel?base+3:base,fill:s.kind==='supermarket'?P.super:P.spec,
-      stroke:isSel?P.selRing:isTarget?P.selRing:P.ring,sw:isSel?3:isTarget?2:1.5};
+    const base=s.kind==='supermarket'?5:3.8;
+    return{lat:s.lat,lon:s.lon,src:s,on,r:isSel?base+2.5:base,fill:s.kind==='supermarket'?P.super:P.spec,
+      stroke:isSel?P.selRing:isTarget?P.selRing:P.ring,sw:isSel?2.5:isTarget?2:1};
   });
 }
 const storeTip=s=>`<b>${esc(s.name)}</b><br><span class="m">${esc(s.address)}, ${esc(s.community)}</span><br>${s.kind==='supermarket'?'Supermarket':'Specialty or independent'}<br><span class="h">${selStore()===s?'Select to close the details':'Select for details and nearby stores'}</span>`;

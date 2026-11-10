@@ -49,6 +49,12 @@ def food_retailer_kind(rec: dict[str, Any], settings: dict[str, Any]) -> str | N
     types = (rec.get("licencetypes") or "").upper()
     if not kind or not types:
         return kind
+    if kind == "supermarket":
+        block = cfg.get("supermarket_licence_types_exclude", cfg.get("licence_types_exclude", []))
+        allow = cfg.get("supermarket_licence_types_any", cfg.get("licence_types_any", []))
+        if any(t in types for t in block) or not any(t in types for t in allow):
+            return None
+        return kind
     if any(t in types for t in cfg.get("licence_types_exclude", [])):
         return None
     if not any(t in types for t in cfg.get("licence_types_any", [])):
