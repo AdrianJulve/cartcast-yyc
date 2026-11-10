@@ -13,7 +13,7 @@ from typing import Any
 import pandas as pd
 
 from . import __version__
-from .basket import aisle_shares, basket_cost, outlook_band, swap_savings, validate_products
+from .basket import aisle_shares, basket_cost, outlook_band, resolve_config, swap_savings
 from .config import PROCESSED_DIR, SAMPLE_DIR, SITE_DIR, SNAPSHOT_DIR, Config
 from .cpi import latest_yoy, load_cpi
 from .mbm import load_mbm_food
@@ -79,9 +79,9 @@ def build_payload(cfg: Config, inputs: Inputs) -> dict[str, Any]:
     wide = to_wide(prices).ffill()
     latest = wide.index.max()
 
-    issues = validate_products([i.product for i in cfg.items], list(wide.columns))
-    if issues:
-        raise ValueError("Basket config has unknown products:\n  " + "\n  ".join(map(str, issues)))
+    # Match basket and swap names to the data. Close matches are used and
+    # unknown products are left out, so a renamed product never blocks a build.
+    items, swap_rules, issues = resolve_config(cfg.items, cfg.swaps, list(wide.columns))
 
     # Keep enough history for the chart plus 12 months for year-over-year change.
     n_months = int(dash["history_months"]) + 12
@@ -98,7 +98,7 @@ def build_payload(cfg: Config, inputs: Inputs) -> dict[str, Any]:
     }
 
     scale = float(cfg.households[cfg.default_household]["scale"])
-    cost = basket_cost(wide, cfg.items, scale)
+    cost = basket_cost(wide, items, scale)
     band = outlook_band(
         float(cost.iloc[-1]),
         int(dash["outlook_months"]),
@@ -140,10 +140,10 @@ def build_payload(cfg: Config, inputs: Inputs) -> dict[str, Any]:
 
     stores = load_stores(inputs.stores, s)
 
-    swaps_df = swap_savings(wide, cfg.items, cfg.swaps, latest, scale)
-    shares = aisle_shares(wide, cfg.items, latest)
+    swaps_df = swap_savings(wide, items, swap_rules, latest, scale)
+    shares = aisle_shares(wide, items, latest)
     movers = sorted(
-        ({"product": i.product, "yoy": yoy_change(wide, i.product, latest)} for i in cfg.items),
+        ({"product": i.product, "yoy": yoy_change(wide, i.product, latest)} for i in items),
         key=lambda r: -(r["yoy"] if r["yoy"] is not None else -1e9),
     )
 
@@ -161,6 +161,7 @@ def build_payload(cfg: Config, inputs: Inputs) -> dict[str, Any]:
             "latest_month": latest.strftime("%Y-%m"),
             "price_geo": s["geography"]["prices"],
             "is_sample": inputs.is_sample,
+            "data_notes": [str(i) for i in issues],
             "fetched_at": inputs.fetched_at,
             "sources": sources,
         },
@@ -169,10 +170,10 @@ def build_payload(cfg: Config, inputs: Inputs) -> dict[str, Any]:
         "products": products,
         "households": cfg.households,
         "default_household": cfg.default_household,
-        "basket": [{"product": i.product, "qty": i.qty, "aisle": i.aisle} for i in cfg.items],
+        "basket": [{"product": i.product, "qty": i.qty, "aisle": i.aisle} for i in items],
         "swaps": [
             {"from": w.source, "to": w.target, "ratio": w.ratio, "group": w.group}
-            for w in cfg.swaps
+            for w in swap_rules
         ],
         "outlook": {
             "months": int(dash["outlook_months"]),

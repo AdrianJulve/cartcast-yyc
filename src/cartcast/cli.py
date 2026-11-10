@@ -102,10 +102,15 @@ def cmd_validate(args: argparse.Namespace) -> int:
     names += [s.source for s in cfg.swaps] + [s.target for s in cfg.swaps]
     issues = validate_products(sorted(set(names)), available)
     for issue in issues:
-        print("ERROR:", issue)
+        print("NOTE:" if issue.resolved else "WARNING:", issue)
     if not issues:
         print(f"OK: all {len(set(names))} basket and swap products found in {inputs.prices.name}")
-    return 1 if issues else 0
+        return 0
+    print(
+        f"{len(issues)} of {len(set(names))} names need attention. Update config/basket.yaml "
+        "or config/swaps.yaml with the names above."
+    )
+    return 1 if args.strict else 0
 
 
 def cmd_build(args: argparse.Namespace) -> int:
@@ -126,6 +131,8 @@ def cmd_build(args: argparse.Namespace) -> int:
         f"Weekly basket: ${s['weekly_cost']:.2f}, {len(payload['stores'])} stores, "
         f"{len(s['swaps'])} substitutions"
     )
+    for note in payload["meta"]["data_notes"]:
+        print("Note:", note)
     cpi = payload["cpi"]
     print(f"Grocery inflation ({cpi['headline_geo']}): {cpi['food_yoy']}")
     if payload["mbm"]:
@@ -157,6 +164,7 @@ def main(argv: list[str] | None = None) -> int:
 
     p = sub.add_parser("validate", help="check basket and substitution names against the data")
     p.add_argument("--sample", action="store_true", help="validate against sample data")
+    p.add_argument("--strict", action="store_true", help="exit with an error if any name differs")
     p.set_defaults(func=cmd_validate)
 
     p = sub.add_parser("build", help="build the dashboard from the snapshot (or sample data)")

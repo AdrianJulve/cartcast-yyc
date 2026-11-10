@@ -36,7 +36,7 @@ jobs:
       - name: Test
         run: python -m pytest
       - name: Validate basket against sample data
-        run: python -m cartcast validate --sample
+        run: python -m cartcast validate --sample --strict
       - name: Build sample dashboard
         run: python -m cartcast build --sample
       - name: Build from the real-data snapshot
