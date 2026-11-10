@@ -39,6 +39,11 @@ jobs:
         run: python -m cartcast validate --sample
       - name: Build sample dashboard
         run: python -m cartcast build --sample
+      - name: Build from the real-data snapshot
+        if: hashFiles('data/snapshot/manifest.json') != ''
+        run: |
+          python -m cartcast validate
+          python -m cartcast build --out site-real
       - name: Upload dashboard preview
         if: matrix.python == '3.12'
         uses: actions/upload-artifact@v4

@@ -11,7 +11,7 @@ cd cartcast-yyc
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\Activate.ps1
 pip install -e ".[dev]"
-python -m cartcast build --sample
+python -m cartcast build          # uses the committed real-data snapshot
 python -m cartcast serve           # http://localhost:8000
 ```
 
@@ -51,6 +51,7 @@ that does not match StatCan and suggests the closest match.
 ## Data
 
 - Do not commit files in `data/raw/`. They can be downloaded again and are ignored by git.
+- Do commit `data/snapshot/` after running `cartcast fetch`. It is the real data the dashboard is built from.
 - Cite any new dataset in the dashboard footer and in `docs/data-sources.md`.
 - Use CPI figures for any statement about inflation. Average prices are not an
   inflation measure (see `docs/methodology.md`).

@@ -7,11 +7,13 @@
 # "Milk, 4 litres" with qty 2 means two 4 L jugs per week.
 # Each household option multiplies every qty by its `scale`.
 
+# `size` is the number of people. It is used to adjust the Market Basket Measure
+# food benchmark, which is published for a family of four.
 households:
-  single: { label: "Single adult", scale: 0.35 }
-  couple: { label: "Couple", scale: 0.6 }
-  family4: { label: "Family of 4", scale: 1.0 }
-  family6: { label: "Family of 6", scale: 1.45 }
+  single: { label: "Single adult", scale: 0.35, size: 1 }
+  couple: { label: "Couple", scale: 0.6, size: 2 }
+  family4: { label: "Family of 4", scale: 1.0, size: 4 }
+  family6: { label: "Family of 6", scale: 1.45, size: 6 }
 
 default_household: family4
 

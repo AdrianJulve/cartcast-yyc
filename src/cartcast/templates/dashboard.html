@@ -94,6 +94,12 @@
   .hbar .track{height:12px;background:#f0efec;border-radius:4px;position:relative}
   .hbar .fill{position:absolute;left:0;top:0;bottom:0;border-radius:0 4px 4px 0;transition:width .35s ease}
   .hbar .n{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+  .benchmark{margin-top:auto;padding-top:14px;border-top:1px solid var(--grid);font-size:12.5px;color:var(--ink2)}
+  .benchmark .bm-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;color:var(--ink)}
+  .benchmark .bm-row b{font-size:15px;font-variant-numeric:tabular-nums}
+  .benchmark .bm-bar{height:8px;background:#f0efec;border-radius:4px;margin:8px 0;position:relative;overflow:hidden}
+  .benchmark .bm-bar div{position:absolute;left:0;top:0;bottom:0;background:var(--brand-2);border-radius:0 4px 4px 0;transition:width .35s ease}
+  .benchmark p{line-height:1.45}
   .mapwrap{position:relative;border-radius:12px;overflow:hidden;background:#eef3ef}
   .storelist{max-height:210px;overflow:auto;font-size:12.5px}
   .storelist div{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-top:1px solid var(--grid)}
@@ -228,6 +234,7 @@
       <div class="card panel">
         <div class="ph"><div><h2>Basket cost by aisle</h2><p>Share of this week's basket cost</p></div></div>
         <div id="aisles" style="margin-top:4px"></div>
+        <div class="benchmark" id="benchmark" hidden></div>
       </div>
       <div class="card panel" id="stores">
         <div class="ph"><div><h2>Grocery stores</h2><p id="storeSub">Licensed food retailers in Calgary</p></div>
@@ -353,7 +360,7 @@ function initStatic(){
   const dl=$('#productList');for(const n of names)dl.appendChild(h('option',{value:n}));
   const f=$('#sources');
   const links=m.sources.map(s=>s.page?`<a href="${esc(s.page)}" target="_blank" rel="noopener">${esc(s.name)}</a>`:esc(s.name)).join('; ');
-  f.innerHTML=`<span><span class="dot"></span><b>Data through ${mLabel(m.latest_month,true)}.</b> Built ${esc(m.generated_at.slice(0,10))}. Sources: ${links}.</span>
+  f.innerHTML=`<span><span class="dot"></span><b>Data through ${mLabel(m.latest_month,true)}.</b> ${m.fetched_at?'Downloaded '+esc(m.fetched_at.slice(0,10))+'. ':''}Built ${esc(m.generated_at.slice(0,10))}. Sources: ${links}.</span>
     <span>Average prices show price levels. Inflation figures use the CPI. ${m.is_sample?'<b>Sample data, not real figures.</b> ':''}Version ${esc(m.version)}</span>`;
 }
 
@@ -372,7 +379,7 @@ function renderKpis(items){
   el('circle',{cx:pts[11][0],cy:pts[11][1],r:4,fill:'#fff'},sp);
 
   const c=D.cpi;
-  $('#kInfL').textContent=c.headline_geo+' grocery inflation';
+  $('#kInfL').textContent=c.headline_geo.split(',')[0]+' grocery inflation';
   $('#kInf').innerHTML=c.food_yoy==null?'n/a':c.food_yoy.toFixed(1)+'%<small>12-mo</small>';
   $('#kInfD').textContent=`CPI, food purchased from stores${c.food_month?', '+mLabel(c.food_month)+' '+c.food_month.slice(0,4):''}.${c.all_items_yoy!=null?' All items: '+c.all_items_yoy.toFixed(1)+'%.':''}`;
 
@@ -518,6 +525,21 @@ function renderAisles(items){
     ||'<div class="empty">Your basket is empty.</div>';
 }
 
+// Calgary food benchmark (Market Basket Measure)
+function renderBenchmark(items){
+  const box=$('#benchmark'),m=D.mbm;
+  if(!m){box.hidden=true;return}
+  box.hidden=false;
+  const hh=D.households[state.household],size=+(hh.size||4);
+  // MBM uses the square-root equivalence scale: family-of-4 threshold x sqrt(size) / 2.
+  const weekly=m.annual_family4/52*Math.sqrt(size)/2;
+  const cost=costAt(items,LAST),share=cost/weekly*100;
+  const place=m.geo.split(',')[0];
+  box.innerHTML=`<div class="bm-row"><span>${esc(place)} food benchmark for this household</span><b>${money(weekly)} / week</b></div>
+    <div class="bm-bar" role="img" aria-label="Basket is ${Math.round(share)} percent of the benchmark"><div style="width:${Math.min(100,share).toFixed(1)}%"></div></div>
+    <p>Your basket costs ${Math.round(share)}% of the benchmark. The benchmark is the food cost in the Market Basket Measure, Canada's official poverty line, for ${esc(place)} in ${m.year} (${esc(m.base)}), adjusted for household size.</p>`;
+}
+
 // Stores
 function initStores(){
   const sel=$('#community');
@@ -601,7 +623,7 @@ function update(){
   const items=effectiveItems();
   $('#itemCount').textContent=`Basket (${state.items.length} items)`;
   $('#household').value=state.household;
-  renderKpis(items);renderLine(items);renderMovers();renderSwaps();renderAisles(items);
+  renderKpis(items);renderLine(items);renderMovers();renderSwaps();renderAisles(items);renderBenchmark(items);
   writeHash();
 }
 function init(){

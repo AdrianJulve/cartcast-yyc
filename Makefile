@@ -3,7 +3,7 @@ CARTCAST = $(PY) -m cartcast
 export PYTHONPATH := src
 
 .DEFAULT_GOAL := help
-.PHONY: help install sample data validate build build-sample serve test lint format check clean demo
+.PHONY: help install sample data snapshot validate build build-sample serve test lint format check clean demo
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  \033[36m%-14s\033[0m %s\n",$$1,$$2}'
@@ -14,13 +14,16 @@ install: ## Install the package and development tools
 sample: ## Regenerate the offline sample dataset in data/sample/
 	$(PY) scripts/make_sample_data.py
 
-data: ## Download live StatCan + City of Calgary data into data/raw/
+data: ## Download real data and update data/snapshot/
 	$(CARTCAST) fetch
 
-validate: ## Check basket/swap product names against live data
+snapshot: ## Rebuild data/snapshot/ from files already in data/raw/
+	$(CARTCAST) snapshot
+
+validate: ## Check basket and substitution names against the snapshot
 	$(CARTCAST) validate
 
-build: ## Build the dashboard from live data (run make data first)
+build: ## Build the dashboard from the real-data snapshot
 	$(CARTCAST) build
 
 build-sample: ## Build the dashboard from sample data (works offline)

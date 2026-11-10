@@ -7,6 +7,7 @@
 | `meta.latest_month` | `YYYY-MM` | Most recent month with price data |
 | `meta.is_sample` | boolean | `true` when built from `data/sample/` |
 | `meta.generated_at` | ISO 8601, UTC | Time of the build |
+| `meta.fetched_at` | ISO 8601, UTC | Time the snapshot was downloaded (`null` for sample data) |
 | `weekly_cost` | dollars | Cost of the default basket for the default household in the latest month |
 | `weekly_cost_prev` | dollars | The same figure for the previous month |
 | `outlook_band` | list of `[low, high]` | Projected weekly cost for each of the next months |
@@ -29,6 +30,8 @@ This is the payload embedded in the site.
 | `outlook` | `{months, annual_low, annual_high}` |
 | `cpi.series["GEO \| product"]` | `{months, index, yoy}` |
 | `cpi.food_yoy` | Latest 12-month change for Food purchased from stores in the headline geography |
+| `cpi.headline_geo` | Geography used for the inflation figure (Calgary CMA, or Alberta as a fallback) |
+| `mbm` | `{year, annual_family4, geo, base, series}` for the Calgary food benchmark, or `null` if unavailable |
 | `stores` | List of `{name, address, community, lat, lon, kind}` |
 | `summary` | Same contents as `summary.json` |
 

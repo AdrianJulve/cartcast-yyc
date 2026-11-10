@@ -2,9 +2,10 @@
 
 CartCast YYC is a dashboard that estimates what a Calgary household spends on
 groceries each week. It prices a basket of common items using Statistics Canada's
-monthly average retail prices for Alberta, shows which items changed most in the
-past year, suggests cheaper substitutes, and maps licensed grocery retailers using
-City of Calgary Open Data.
+monthly average retail prices for Alberta, compares the result with the official
+food cost for Calgary from the Market Basket Measure, reports grocery inflation for
+the Calgary CMA, suggests cheaper substitutes, and maps licensed grocery retailers
+using City of Calgary Open Data.
 
 [![CI](https://github.com/AdrianJulve/cartcast-yyc/actions/workflows/ci.yml/badge.svg)](https://github.com/AdrianJulve/cartcast-yyc/actions/workflows/ci.yml)
 [![Refresh and deploy](https://github.com/AdrianJulve/cartcast-yyc/actions/workflows/refresh-and-deploy.yml/badge.svg)](https://github.com/AdrianJulve/cartcast-yyc/actions/workflows/refresh-and-deploy.yml)
@@ -13,7 +14,8 @@ City of Calgary Open Data.
 
 ![CartCast YYC dashboard built from the sample dataset](docs/img/dashboard-sample.png)
 
-The screenshot uses the offline sample dataset, so the prices shown are synthetic.
+This screenshot was built from the synthetic sample dataset. Run `cartcast fetch`
+and `cartcast build` to see the dashboard with real data.
 
 ## Background
 
@@ -35,9 +37,11 @@ household use. CartCast presents the same data as a single page.
 - Substitution suggestions with the weekly saving for each. Selecting one applies it to the basket.
 - Share of the basket cost by aisle.
 - Map and list of licensed food retailers, filterable by community.
-- Grocery inflation from the Consumer Price Index for Alberta and the Calgary CMA.
+- Grocery inflation for the Calgary CMA from the Consumer Price Index, with Alberta as a fallback.
+- A Calgary food benchmark: the Market Basket Measure food cost for Calgary, adjusted for household size, compared with the basket.
 - Shareable links. The basket, household size and applied substitutions are stored in the URL.
-- An offline sample mode for working without an internet connection.
+- A committed snapshot of the real data in `data/snapshot/`, so the dashboard can be rebuilt without downloading anything.
+- A synthetic sample dataset for tests and offline development.
 - A monthly GitHub Actions job that downloads new data and redeploys the site to GitHub Pages.
 
 ## Getting started
@@ -50,21 +54,22 @@ source .venv/bin/activate          # Windows: .venv\Scripts\Activate.ps1
 pip install -e ".[dev]"
 ```
 
-Build and preview with the sample data:
+Download the real data, then build and preview the dashboard. The CPI table is a
+large download, so the first fetch takes a few minutes.
 
 ```bash
-python -m cartcast build --sample
+python -m cartcast fetch           # downloads to data/raw/ and updates data/snapshot/
+python -m cartcast validate
+python -m cartcast build
 python -m cartcast serve           # http://localhost:8000
 ```
 
-Build with live data. The CPI table is a large download, so the first fetch takes a
-few minutes.
+Commit `data/snapshot/` after a fetch so teammates and GitHub Actions can build
+from the same real data. Once a snapshot is committed, `cartcast build` works
+without downloading anything.
 
-```bash
-python -m cartcast fetch
-python -m cartcast validate
-python -m cartcast build
-```
+To work with the synthetic sample data instead, add `--sample` to `build` and
+`validate`.
 
 If `make` is installed, `make help` lists shortcuts such as `make demo`,
 `make data build` and `make check`.
@@ -73,9 +78,10 @@ If `make` is installed, `make help` lists shortcuts such as `make demo`,
 
 | Command | Description |
 |---|---|
-| `cartcast fetch [--only prices cpi stores]` | Download the source tables into `data/raw/` |
+| `cartcast fetch [--only prices cpi mbm stores]` | Download the sources into `data/raw/` and update `data/snapshot/` |
+| `cartcast snapshot` | Rebuild `data/snapshot/` from files already in `data/raw/` |
 | `cartcast validate [--sample]` | Check basket and substitution product names against the data |
-| `cartcast build [--sample] [--out DIR]` | Write `data/processed/*.json` and `site/index.html` |
+| `cartcast build [--sample] [--out DIR]` | Build from the snapshot (or sample data) into `data/processed/` and `site/index.html` |
 | `cartcast serve [--port 8000]` | Serve the built site locally |
 
 ## Data sources
@@ -83,9 +89,14 @@ If `make` is installed, `make help` lists shortcuts such as `make demo`,
 | Dataset | Used for | Updated |
 |---|---|---|
 | [StatCan Table 18-10-0245-01](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810024501), monthly average retail prices (Alberta) | Basket cost, price changes, substitutions, aisle shares | Monthly |
-| [StatCan Table 18-10-0004-01](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401), Consumer Price Index | Grocery inflation figure | Monthly |
+| [StatCan Table 18-10-0004-01](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401), Consumer Price Index (Calgary CMA and Alberta) | Grocery inflation figure | Monthly |
+| [StatCan Table 11-10-0066-01](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110006601), Market Basket Measure thresholds (Calgary) | Calgary food benchmark | Annually |
 | [City of Calgary Business Licences](https://data.calgary.ca/d/vdjc-pybd) (`vdjc-pybd`) | Store map | Daily (fetched monthly) |
 | [Canada's Food Price Report 2026](https://www.dal.ca/sites/agri-food/research/canada-s-food-price-report-2026.html) | Outlook range | Annually |
+
+Statistics Canada does not publish average retail prices for individual cities, so
+item prices are Alberta averages. The inflation figure, the food benchmark and the
+store map are specific to Calgary.
 
 Field mappings and known issues are documented in
 [docs/data-sources.md](docs/data-sources.md). Licences are listed in
@@ -102,10 +113,12 @@ inflation figures. See [docs/methodology.md](docs/methodology.md).
 flowchart LR
   A[StatCan 18-10-0245-01<br/>average retail prices] --> F
   B[StatCan 18-10-0004-01<br/>CPI] --> F
+  M[StatCan 11-10-0066-01<br/>Market Basket Measure] --> F
   C[City of Calgary<br/>business licences] --> F
   F[cartcast fetch] --> R[(data/raw)]
-  R --> V[cartcast validate]
-  R --> P[cartcast build]
+  R --> N[(data/snapshot<br/>committed)]
+  N --> V[cartcast validate]
+  N --> P[cartcast build]
   K[config/*.yaml] --> P
   P --> J[(data/processed/*.json)]
   P --> S[site/index.html]
@@ -124,12 +137,15 @@ cartcast-yyc/
 ├── src/cartcast/           pipeline package and CLI
 │   ├── sources.py          downloads (StatCan zip files, Socrata API)
 │   ├── prices.py, cpi.py   StatCan table loaders
+│   ├── mbm.py              Market Basket Measure food threshold
+│   ├── snapshot.py         compact real-data extracts
 │   ├── stores.py           business licence classification
 │   ├── basket.py           basket cost, substitutions, aisle shares, outlook
 │   ├── build.py, cli.py    site rendering and commands
 │   └── templates/dashboard.html
 ├── data/
-│   ├── sample/             synthetic offline dataset (committed)
+│   ├── snapshot/           real data used by the dashboard (committed)
+│   ├── sample/             synthetic dataset for tests (committed)
 │   ├── raw/                downloaded files (ignored by git)
 │   └── processed/          build output (ignored by git)
 ├── scripts/make_sample_data.py
@@ -150,7 +166,7 @@ cartcast-yyc/
 
 1. Push the repository to GitHub.
 2. In the repository settings, open Pages and set the source to GitHub Actions.
-3. Run the "Refresh data and deploy dashboard" workflow from the Actions tab. Select `use_sample` for a build that does not depend on the live sources.
+3. Run the "Refresh data and deploy dashboard" workflow from the Actions tab. It downloads the real data, commits the updated snapshot and deploys the site. Select `skip_fetch` to deploy the snapshot already in the repository.
 
 The workflow then runs automatically on the 22nd of each month.
 
