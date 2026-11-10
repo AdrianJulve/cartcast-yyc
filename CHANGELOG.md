@@ -48,4 +48,4 @@ Notable changes to this project are recorded here. The format follows
 - Interactive dashboard with an editable basket, household sizes, substitutions, price changes, aisle shares, a store map, an outlook range and shareable links.
 - Offline sample dataset and the script that generates it.
 - Tests, ruff linting, a CI workflow, and a monthly workflow that refreshes the data and deploys to GitHub Pages.
-- Design mockup, documentation and presentation plan.
+- Design mockup and documentation.
