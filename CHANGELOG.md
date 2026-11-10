@@ -35,6 +35,7 @@ Notable changes to this project are recorded here. The format follows
 - Butchers and bakeries that hold only a no-seating food licence are now included.
 
 ### Changed
+- The dashboard now uses the full width and height of the screen. The 1680 px width limit is gone, and on the overview the charts and map grow to fill tall screens.
 - Shortened the README. Commands, configuration, deployment and the project layout moved to `docs/development.md`.
 - A push that changes the store rules or data code now downloads fresh data before deploying.
 - Store keywords now match whole words, and more non-food businesses are excluded (florists, pet stores, cannabis shops, music schools and others).
