@@ -244,9 +244,19 @@
   .rm{border:0;background:none;color:var(--muted);width:28px;height:28px;border-radius:7px}
   .rm:hover{background:var(--up-bg);color:var(--up)}
   .prose{font-size:13.5px;line-height:1.6;color:var(--ink2)}
+  .methods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:40px}
+  .method{padding:14px 0;border-top:1px solid var(--grid)}
+  .method:nth-child(-n+2){border-top:0;padding-top:2px}
+  @media (max-width:1000px){.methods{grid-template-columns:1fr}.method:nth-child(2){border-top:1px solid var(--grid);padding-top:14px}}
+  .method h3{font-size:13.5px;font-weight:650;color:var(--ink)}
+  .method p{font-size:13px;line-height:1.55;color:var(--ink2);margin-top:4px}
+  .formula{display:inline-block;margin-top:6px;padding:4px 9px;border-radius:6px;background:var(--wash);color:var(--ink);
+           font:12.5px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .methods .more{grid-column:1/-1;font-size:12.5px;color:var(--muted);padding-top:12px;border-top:1px solid var(--grid)}
+  .methods .more a{color:var(--brand)}
   .prose p+p{margin-top:8px}
   .prose b{color:var(--ink)}
-  .data-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+  .data-grid{display:grid;grid-template-columns:1fr;gap:16px}
   .notes li{margin-left:18px;font-size:13px;color:var(--ink2);line-height:1.6}
   footer{display:flex;justify-content:space-between;gap:16px;font-size:11.5px;color:var(--muted);flex-wrap:wrap}
   footer a{color:var(--ink2)}
@@ -467,11 +477,7 @@
         </div>
         <div class="card panel">
           <div class="ph"><div><h2>How the figures are calculated</h2></div></div>
-          <div class="prose" id="methods"></div>
-          <div id="notesBox" style="margin-top:14px" hidden>
-            <div class="ph" style="margin-bottom:6px"><div><h2>Notes from the latest build</h2></div></div>
-            <ul class="notes" id="notes"></ul>
-          </div>
+          <div class="methods" id="methods"></div>
         </div>
       </div>
     </section>
@@ -1273,16 +1279,27 @@ function renderDataPage(){
   }
   t.appendChild(tb);
   $('#downloads').innerHTML=`Processed data: <a href="data/dashboard.json">dashboard.json</a> and <a href="data/summary.json">summary.json</a> (available on the published site).`;
-  const geo=D.cpi.headline_geo,mb=D.mbm;
-  $('#methods').innerHTML=`<p><b>Basket cost.</b> Each item's ${esc(m.price_geo)} average retail price multiplied by the weekly quantity, scaled for household size. Statistics Canada does not publish these prices for individual cities.</p>
-    <p><b>Price changes.</b> The average price in the selected month compared with 12 months earlier. Statistics Canada advises that average prices show price levels and are not a pure inflation measure.</p>
-    <p><b>Grocery inflation.</b> The Consumer Price Index for food purchased from stores, ${esc(geo)}, 12-month change.</p>
-    ${mb?`<p><b>Food benchmark.</b> The food component of the Market Basket Measure for ${esc(mb.geo)}, ${mb.year} (${esc(mb.base)}): ${money(mb.annual_family4)} a year for a family of four. Other household sizes use the square-root scale (multiplied by the square root of household size, divided by 2).</p>`:''}
-    <p><b>Outlook.</b> The latest weekly cost projected at ${Math.round(D.outlook.annual_low*100)} to ${Math.round(D.outlook.annual_high*100)} percent a year, the range forecast in Canada's Food Price Report 2026.</p>
-    <p><b>Stores.</b> City of Calgary business licences for retail premises, classified by keywords in the trade name. Supermarkets and general grocers are assumed to sell every aisle; butchers, produce stores and bakeries only their own.</p>`;
-  const notes=m.data_notes||[];
-  $('#notesBox').hidden=!notes.length;
-  $('#notes').innerHTML=notes.map(n=>`<li>${esc(n)}</li>`).join('');
+  const geo=D.cpi.headline_geo,mb=D.mbm,o=D.outlook;
+  const factors=Object.values(D.households).map(x=>`${esc(x.label)} ${+x.scale}`).join(', ');
+  const item=(title,formula,text)=>`<div class="method"><h3>${title}</h3>${formula?`<div class="formula">${formula}</div>`:''}<p>${text}</p></div>`;
+  $('#methods').innerHTML=[
+    item('Weekly basket cost','price × weekly quantity × household factor, summed over items',
+      `Prices are ${esc(m.price_geo)} monthly averages, because Statistics Canada does not publish them for individual cities. Quantities are set for a family of four, and the household factor scales them (${factors}). If a price is suppressed for a month, the previous month's price is used. The monthly figure is the weekly cost × 52 ÷ 12.`),
+    item('Change in average price','price this month ÷ price 12 months earlier − 1',
+      'Average prices describe price levels. Package sizes, brands and stores change over time, so Statistics Canada advises against reading them as inflation. They are labelled as changes in average price, never as inflation.'),
+    item('Grocery inflation','CPI, food purchased from stores: 12-month change',
+      `The Consumer Price Index for ${esc(geo)}, not seasonally adjusted.${geo.includes('Calgary')?'':' The Calgary index has no figure for this category in the latest month, so the provincial index is used.'} The all-items rate is shown beside it for comparison.`),
+    item('Substitutions','saving = quantity × price − (quantity × ratio) × replacement price',
+      'The ratio converts between package sizes, for example 1 kg of fresh salmon is about 4.7 cans of 213 g. A substitution is listed only when it saves money in the selected month, and only the largest saving is shown for each item.'),
+    item('Basket cost by aisle','aisle cost ÷ total weekly cost',
+      'Each item belongs to one aisle. The benchmark bar compares the full basket, not the filtered selection.'),
+    mb?item('Calgary food benchmark','annual MBM food cost ÷ 52 × √(household size) ÷ 2',
+      `The food component of the Market Basket Measure, Canada's official poverty line, for ${esc(mb.geo)} in ${mb.year} (${esc(mb.base)}): ${money(mb.annual_family4).replace(/\.00$/,'')} a year for a family of four. Other sizes use Statistics Canada's square-root scale. The MBM year lags the price data, and its basket is a nutrition standard, so the comparison shows scale rather than whether a basket is adequate.`):'',
+    item('Outlook range',`latest cost × (1 + rate) ^ (months ÷ 12), rate ${Math.round(o.annual_low*100)} to ${Math.round(o.annual_high*100)}%`,
+      `The next ${o.months} months, using the range forecast for overall food prices in Canada's Food Price Report 2026. It is a scenario for context, not a forecast for this basket.`),
+    item('Stores and distances','straight-line distance; walking time at 4.8 km/h',
+      'Stores are City of Calgary business licences for active food retail premises, sorted into supermarkets and specialty grocers by licence type and trade name. Supermarkets and general grocers are assumed to sell every aisle; butchers, produce stores and bakeries only their own. Real walking routes are longer, so distances and times are lower bounds.'),
+  ].join('')+`<p class="more">Full details are in the <a href="https://github.com/AdrianJulve/cartcast-yyc/blob/main/docs/methodology.md" target="_blank" rel="noopener">methodology</a>.</p>`;
 }
 
 // Light and dark mode

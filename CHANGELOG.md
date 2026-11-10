@@ -36,6 +36,7 @@ Notable changes to this project are recorded here. The format follows
 - Butchers and bakeries that hold only a no-seating food licence are now included.
 
 ### Changed
+- Rewrote the method notes on the Data page, with a formula for each figure, and removed the build notes panel. Sources now span the full width.
 - The Basket button in the header now toggles. On the Basket page it is highlighted, and selecting it again returns to the previous page.
 - The dashboard now uses the full width and height of the screen. The 1680 px width limit is gone, and on the overview the charts and map grow to fill tall screens.
 - Shortened the README. Commands, configuration, deployment and the project layout moved to `docs/development.md`.
