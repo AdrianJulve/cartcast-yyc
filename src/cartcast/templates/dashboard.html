@@ -58,7 +58,14 @@
   .navi:hover{opacity:.95;background:rgba(255,255,255,.08)}
   .navi[aria-current="page"]{background:rgba(255,255,255,.16);opacity:1}
   .navi svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-  .main{padding:26px 32px 22px;display:flex;flex-direction:column;gap:16px;min-width:0;max-width:1680px}
+  .main{padding:26px 32px 22px;display:flex;flex-direction:column;gap:16px;min-width:0;min-height:100vh}
+  /* The overview fills the window: both chart rows share any spare height. */
+  section[data-section="overview"]:not([hidden]){flex:1;display:flex;flex-direction:column}
+  .ovw{display:flex;flex-direction:column;gap:16px;flex:1}
+  .ovw .row.a{flex:3 1 auto}
+  .ovw .row.b{flex:2 1 auto}
+  #line,#movers{flex:1 1 0;min-height:276px;height:auto}
+  #miniMap{flex:1 1 0;min-height:230px}
   header{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
   .eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-2)}
   h1{font-family:"Inter Display",var(--font);font-size:30px;font-weight:700;letter-spacing:-.02em;margin-top:4px}
@@ -320,7 +327,7 @@
 
     <!-- Overview -->
     <section data-section="overview">
-      <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="ovw">
         <div class="emptybar" id="emptyBar" hidden>
           <span><b>Your basket is empty.</b> Add items, or start again from the default basket.</span>
           <button class="btn small primary" data-goto="basket" data-focus-add>Add items</button>
@@ -364,14 +371,14 @@
                 </div>
               </div>
             </div>
-            <svg id="line" class="chart" height="276" role="img" aria-label="Line chart of weekly basket cost by month. Select a month to filter the dashboard."></svg>
+            <svg id="line" class="chart" role="img" aria-label="Line chart of weekly basket cost by month. Select a month to filter the dashboard."></svg>
           </div>
           <div class="card panel">
             <div class="ph">
               <div><h2>Price changes over the past year</h2><p id="moversSub">12-month change in average price. Select an item to filter.</p></div>
               <div class="legend"><span><i class="sw" style="background:var(--up)"></i>Up</span><span><i class="sw" style="background:var(--down)"></i>Down</span></div>
             </div>
-            <svg id="movers" class="chart" height="276" role="img" aria-label="Bar chart of 12-month price change by item"></svg>
+            <svg id="movers" class="chart" role="img" aria-label="Bar chart of 12-month price change by item"></svg>
           </div>
         </section>
 
@@ -389,7 +396,7 @@
           <div class="card panel">
             <div class="ph"><div><h2>Grocery stores</h2><p id="storeSub"></p></div>
               <button class="btn small" data-goto="stores">Open map</button></div>
-            <div class="tilemap" id="miniMap" style="height:230px" aria-label="Map of grocery retailers"></div>
+            <div class="tilemap" id="miniMap" aria-label="Map of grocery retailers"></div>
             <div class="storebadge" id="miniBadge"></div>
             <div class="infobox" id="miniInfo" hidden></div>
           </div>
@@ -690,7 +697,7 @@ function renderKpis(all){
 // Line chart
 function renderLine(all){
   const s=$('#line');s.innerHTML='';
-  const W=Math.max(320,s.clientWidth||860),H=276,L=48,R=18,T=14,B=28;
+  const W=Math.max(320,s.clientWidth||860),H=Math.max(276,s.clientHeight||276),L=48,R=18,T=14,B=28;
   s.setAttribute('viewBox',`0 0 ${W} ${H}`);
   const vis=filtered(all),scope=scopeLabel();
   const hist=Math.min(state.range,D.history_months),start=LAST-hist+1;
@@ -774,8 +781,8 @@ function renderMovers(all){
     data=keep;
   }
   $('#moversSub').textContent=`12-month change in average price to ${mLabel(D.months[i],true)}${state.f.aisle?', '+state.f.aisle.toLowerCase():''}. Select an item to filter.`;
-  const rowH=Math.min(26.5,268/Math.max(1,data.length)),H=Math.max(60,data.length*rowH+12);
-  s.setAttribute('viewBox',`0 0 ${W} ${H}`);s.setAttribute('height',H);
+  const H=Math.max(276,s.clientHeight||276),rowH=Math.min(46,(H-12)/Math.max(1,data.length));
+  s.setAttribute('viewBox',`0 0 ${W} ${H}`);
   const L=Math.min(150,W*0.34),R=52,T=6;
   const mx=Math.max(5,...data.map(d=>d.v)),mn=Math.min(-5,...data.map(d=>d.v));
   const x=v=>L+(v-mn)*(W-L-R)/(mx-mn),z=x(0);
@@ -785,7 +792,7 @@ function renderMovers(all){
     const g=el('g',{opacity:dim?.3:1},s);
     if(sel)el('rect',{x:0,y:cy-rowH/2+1,width:W,height:rowH-2,rx:6,fill:P.brandBg},g);
     el('text',{x:L-10,y:cy+4,'text-anchor':'end','font-size':12.5,fill:sel?P.brand:P.ink2,'font-weight':sel?600:400},g).textContent=nm.length>22?nm.slice(0,21)+'…':nm;
-    const w=Math.max(2,Math.abs(x(d.v)-z)),r=Math.min(4,w),hh=12,yy=cy-hh/2;
+    const w=Math.max(2,Math.abs(x(d.v)-z)),r=Math.min(4,w),hh=Math.max(12,Math.min(18,rowH*.42)),yy=cy-hh/2;
     const p=d.v>=0?`M${z},${yy} h${w-r} a${r},${r} 0 0 1 ${r},${r} v${hh-2*r} a${r},${r} 0 0 1 -${r},${r} h-${w-r} Z`
                   :`M${z},${yy} h-${w-r} a${r},${r} 0 0 0 -${r},${r} v${hh-2*r} a${r},${r} 0 0 0 ${r},${r} h${w-r} Z`;
     el('path',{d:p,fill:d.v>=0?P.up:P.down},g);
