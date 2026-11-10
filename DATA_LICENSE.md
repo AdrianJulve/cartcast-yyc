@@ -1,16 +1,18 @@
 # Data licences and attribution
 
-CartCast YYC does not redistribute raw data. `cartcast fetch` downloads it from
-each publisher, and the dashboard shows derived figures with attribution.
+`cartcast fetch` downloads the data from each publisher. The repository includes
+`data/snapshot/`, a filtered extract of that data, which the open licences above
+permit with attribution. The full raw downloads are not committed.
 
 | Data | Publisher | Licence |
 |---|---|---|
 | Monthly average retail prices for selected products, Table 18-10-0245-01 | Statistics Canada | [Statistics Canada Open Licence](https://www.statcan.gc.ca/en/reference/licence) |
 | Consumer Price Index, monthly, not seasonally adjusted, Table 18-10-0004-01 | Statistics Canada | [Statistics Canada Open Licence](https://www.statcan.gc.ca/en/reference/licence) |
+| Market Basket Measure thresholds, Table 11-10-0066-01 | Statistics Canada | [Statistics Canada Open Licence](https://www.statcan.gc.ca/en/reference/licence) |
 | Calgary Business Licences (`vdjc-pybd`) | The City of Calgary | [Open Government Licence, City of Calgary](https://data.calgary.ca/d/Open-Data-Terms/u45n-7awa) |
 | Canada's Food Price Report 2026 (outlook range only) | Dalhousie University and partner universities | Cited, not redistributed |
 
-All four sources are credited in the dashboard footer.
+All sources are credited in the dashboard footer.
 
 Products derived from Statistics Canada data should carry this statement: "Adapted
 from Statistics Canada, [table title and number]. This does not constitute an

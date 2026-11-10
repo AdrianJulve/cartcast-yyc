@@ -12,8 +12,9 @@ sequenceDiagram
   participant YYC as data.calgary.ca
   participant P as cartcast build
   participant GP as GitHub Pages
-  GA->>SC: download 18100245-eng.zip and 18100004-eng.zip
+  GA->>SC: download 18100245, 18100004 and 11100066 zip files
   GA->>YYC: query vdjc-pybd (paged)
+  GA->>GA: write data/snapshot/ and commit it to main
   GA->>P: validate basket product names
   P->>P: load, filter to Alberta, reshape, fill gaps
   P->>P: basket cost, CPI change, substitutions, stores, outlook
@@ -29,10 +30,12 @@ sequenceDiagram
 | `sources.py` | Downloads files with retries: StatCan zip extraction and Socrata paging. Uses only the standard library |
 | `prices.py` | Loads Table 18-10-0245-01, filters by geography, reshapes, calculates 12-month change, suggests names |
 | `cpi.py` | Reads Table 18-10-0004-01 in chunks, filters it and calculates 12-month change |
+| `mbm.py` | Loads the Calgary Market Basket Measure food threshold and calculates the weekly benchmark |
+| `snapshot.py` | Writes the compact real-data extracts in `data/snapshot/` and the manifest |
 | `stores.py` | Classifies licence records as supermarket or specialty and removes duplicates |
 | `basket.py` | Basket cost, aisle shares, substitution savings, outlook range and name validation |
 | `build.py` | Builds the data payload and inserts it into the HTML template |
-| `cli.py` | The `fetch`, `validate`, `build` and `serve` commands |
+| `cli.py` | The `fetch`, `snapshot`, `validate`, `build` and `serve` commands |
 
 ## Dashboard (`templates/dashboard.html`)
 

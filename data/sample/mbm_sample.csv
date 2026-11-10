@@ -1,0 +1,109 @@
+REF_DATE,GEO,DGUID,Base year,Dollar concept,Component,UOM,UOM_ID,SCALAR_FACTOR,SCALAR_ID,VECTOR,COORDINATE,VALUE,STATUS,SYMBOL,TERMINATED,DECIMALS
+2018,"Calgary, Alberta",,2018-base,Current dollars,Food,Dollars,81,units,0,v711,1.1,12563,,,,0
+2018,"Calgary, Alberta",,2018-base,Constant dollars,Food,Dollars,81,units,0,v711,1.1,11307,,,,0
+2018,"Calgary, Alberta",,2018-base,Current dollars,Shelter,Dollars,81,units,0,v712,1.1,16332,,,,0
+2018,"Calgary, Alberta",,2018-base,Constant dollars,Shelter,Dollars,81,units,0,v712,1.1,14699,,,,0
+2018,"Calgary, Alberta",,2018-base,Current dollars,Total threshold,Dollars,81,units,0,v713,1.1,45226,,,,0
+2018,"Calgary, Alberta",,2018-base,Constant dollars,Total threshold,Dollars,81,units,0,v713,1.1,40704,,,,0
+2019,"Calgary, Alberta",,2018-base,Current dollars,Food,Dollars,81,units,0,v711,1.1,13151,,,,0
+2019,"Calgary, Alberta",,2018-base,Constant dollars,Food,Dollars,81,units,0,v711,1.1,11836,,,,0
+2019,"Calgary, Alberta",,2018-base,Current dollars,Shelter,Dollars,81,units,0,v712,1.1,17096,,,,0
+2019,"Calgary, Alberta",,2018-base,Constant dollars,Shelter,Dollars,81,units,0,v712,1.1,15386,,,,0
+2019,"Calgary, Alberta",,2018-base,Current dollars,Total threshold,Dollars,81,units,0,v713,1.1,47342,,,,0
+2019,"Calgary, Alberta",,2018-base,Constant dollars,Total threshold,Dollars,81,units,0,v713,1.1,42608,,,,0
+2020,"Calgary, Alberta",,2018-base,Current dollars,Food,Dollars,81,units,0,v711,1.1,13607,,,,0
+2020,"Calgary, Alberta",,2018-base,Constant dollars,Food,Dollars,81,units,0,v711,1.1,12246,,,,0
+2020,"Calgary, Alberta",,2018-base,Current dollars,Shelter,Dollars,81,units,0,v712,1.1,17689,,,,0
+2020,"Calgary, Alberta",,2018-base,Constant dollars,Shelter,Dollars,81,units,0,v712,1.1,15920,,,,0
+2020,"Calgary, Alberta",,2018-base,Current dollars,Total threshold,Dollars,81,units,0,v713,1.1,48986,,,,0
+2020,"Calgary, Alberta",,2018-base,Constant dollars,Total threshold,Dollars,81,units,0,v713,1.1,44087,,,,0
+2021,"Calgary, Alberta",,2018-base,Current dollars,Food,Dollars,81,units,0,v711,1.1,14239,,,,0
+2021,"Calgary, Alberta",,2018-base,Constant dollars,Food,Dollars,81,units,0,v711,1.1,12815,,,,0
+2021,"Calgary, Alberta",,2018-base,Current dollars,Shelter,Dollars,81,units,0,v712,1.1,18511,,,,0
+2021,"Calgary, Alberta",,2018-base,Constant dollars,Shelter,Dollars,81,units,0,v712,1.1,16659,,,,0
+2021,"Calgary, Alberta",,2018-base,Current dollars,Total threshold,Dollars,81,units,0,v713,1.1,51260,,,,0
+2021,"Calgary, Alberta",,2018-base,Constant dollars,Total threshold,Dollars,81,units,0,v713,1.1,46134,,,,0
+2022,"Calgary, Alberta",,2018-base,Current dollars,Food,Dollars,81,units,0,v711,1.1,14854,,,,0
+2022,"Calgary, Alberta",,2018-base,Constant dollars,Food,Dollars,81,units,0,v711,1.1,13369,,,,0
+2022,"Calgary, Alberta",,2018-base,Current dollars,Shelter,Dollars,81,units,0,v712,1.1,19310,,,,0
+2022,"Calgary, Alberta",,2018-base,Constant dollars,Shelter,Dollars,81,units,0,v712,1.1,17379,,,,0
+2022,"Calgary, Alberta",,2018-base,Current dollars,Total threshold,Dollars,81,units,0,v713,1.1,53475,,,,0
+2022,"Calgary, Alberta",,2018-base,Constant dollars,Total threshold,Dollars,81,units,0,v713,1.1,48128,,,,0
+2023,"Calgary, Alberta",,2018-base,Current dollars,Food,Dollars,81,units,0,v711,1.1,15495,,,,0
+2023,"Calgary, Alberta",,2018-base,Constant dollars,Food,Dollars,81,units,0,v711,1.1,13945,,,,0
+2023,"Calgary, Alberta",,2018-base,Current dollars,Shelter,Dollars,81,units,0,v712,1.1,20143,,,,0
+2023,"Calgary, Alberta",,2018-base,Constant dollars,Shelter,Dollars,81,units,0,v712,1.1,18129,,,,0
+2023,"Calgary, Alberta",,2018-base,Current dollars,Total threshold,Dollars,81,units,0,v713,1.1,55782,,,,0
+2023,"Calgary, Alberta",,2018-base,Constant dollars,Total threshold,Dollars,81,units,0,v713,1.1,50203,,,,0
+2024,"Calgary, Alberta",,2018-base,Current dollars,Food,Dollars,81,units,0,v711,1.1,16263,,,,0
+2024,"Calgary, Alberta",,2018-base,Constant dollars,Food,Dollars,81,units,0,v711,1.1,14637,,,,0
+2024,"Calgary, Alberta",,2018-base,Current dollars,Shelter,Dollars,81,units,0,v712,1.1,21142,,,,0
+2024,"Calgary, Alberta",,2018-base,Constant dollars,Shelter,Dollars,81,units,0,v712,1.1,19028,,,,0
+2024,"Calgary, Alberta",,2018-base,Current dollars,Total threshold,Dollars,81,units,0,v713,1.1,58547,,,,0
+2024,"Calgary, Alberta",,2018-base,Constant dollars,Total threshold,Dollars,81,units,0,v713,1.1,52692,,,,0
+2023,"Calgary, Alberta",,2023-base,Current dollars,Food,Dollars,81,units,0,v711,1.1,16332,,,,0
+2023,"Calgary, Alberta",,2023-base,Constant dollars,Food,Dollars,81,units,0,v711,1.1,14699,,,,0
+2023,"Calgary, Alberta",,2023-base,Current dollars,Shelter,Dollars,81,units,0,v712,1.1,21232,,,,0
+2023,"Calgary, Alberta",,2023-base,Constant dollars,Shelter,Dollars,81,units,0,v712,1.1,19108,,,,0
+2023,"Calgary, Alberta",,2023-base,Current dollars,Total threshold,Dollars,81,units,0,v713,1.1,58795,,,,0
+2023,"Calgary, Alberta",,2023-base,Constant dollars,Total threshold,Dollars,81,units,0,v713,1.1,52916,,,,0
+2024,"Calgary, Alberta",,2023-base,Current dollars,Food,Dollars,81,units,0,v711,1.1,16858,,,,0
+2024,"Calgary, Alberta",,2023-base,Constant dollars,Food,Dollars,81,units,0,v711,1.1,15172,,,,0
+2024,"Calgary, Alberta",,2023-base,Current dollars,Shelter,Dollars,81,units,0,v712,1.1,21915,,,,0
+2024,"Calgary, Alberta",,2023-base,Constant dollars,Shelter,Dollars,81,units,0,v712,1.1,19724,,,,0
+2024,"Calgary, Alberta",,2023-base,Current dollars,Total threshold,Dollars,81,units,0,v713,1.1,60689,,,,0
+2024,"Calgary, Alberta",,2023-base,Constant dollars,Total threshold,Dollars,81,units,0,v713,1.1,54620,,,,0
+2018,"Edmonton, Alberta",,2018-base,Current dollars,Food,Dollars,81,units,0,v721,1.1,12159,,,,0
+2018,"Edmonton, Alberta",,2018-base,Constant dollars,Food,Dollars,81,units,0,v721,1.1,10943,,,,0
+2018,"Edmonton, Alberta",,2018-base,Current dollars,Shelter,Dollars,81,units,0,v722,1.1,15807,,,,0
+2018,"Edmonton, Alberta",,2018-base,Constant dollars,Shelter,Dollars,81,units,0,v722,1.1,14226,,,,0
+2018,"Edmonton, Alberta",,2018-base,Current dollars,Total threshold,Dollars,81,units,0,v723,1.1,43773,,,,0
+2018,"Edmonton, Alberta",,2018-base,Constant dollars,Total threshold,Dollars,81,units,0,v723,1.1,39395,,,,0
+2019,"Edmonton, Alberta",,2018-base,Current dollars,Food,Dollars,81,units,0,v721,1.1,12670,,,,0
+2019,"Edmonton, Alberta",,2018-base,Constant dollars,Food,Dollars,81,units,0,v721,1.1,11403,,,,0
+2019,"Edmonton, Alberta",,2018-base,Current dollars,Shelter,Dollars,81,units,0,v722,1.1,16471,,,,0
+2019,"Edmonton, Alberta",,2018-base,Constant dollars,Shelter,Dollars,81,units,0,v722,1.1,14824,,,,0
+2019,"Edmonton, Alberta",,2018-base,Current dollars,Total threshold,Dollars,81,units,0,v723,1.1,45611,,,,0
+2019,"Edmonton, Alberta",,2018-base,Constant dollars,Total threshold,Dollars,81,units,0,v723,1.1,41050,,,,0
+2020,"Edmonton, Alberta",,2018-base,Current dollars,Food,Dollars,81,units,0,v721,1.1,13433,,,,0
+2020,"Edmonton, Alberta",,2018-base,Constant dollars,Food,Dollars,81,units,0,v721,1.1,12090,,,,0
+2020,"Edmonton, Alberta",,2018-base,Current dollars,Shelter,Dollars,81,units,0,v722,1.1,17463,,,,0
+2020,"Edmonton, Alberta",,2018-base,Constant dollars,Shelter,Dollars,81,units,0,v722,1.1,15717,,,,0
+2020,"Edmonton, Alberta",,2018-base,Current dollars,Total threshold,Dollars,81,units,0,v723,1.1,48360,,,,0
+2020,"Edmonton, Alberta",,2018-base,Constant dollars,Total threshold,Dollars,81,units,0,v723,1.1,43524,,,,0
+2021,"Edmonton, Alberta",,2018-base,Current dollars,Food,Dollars,81,units,0,v721,1.1,13835,,,,0
+2021,"Edmonton, Alberta",,2018-base,Constant dollars,Food,Dollars,81,units,0,v721,1.1,12452,,,,0
+2021,"Edmonton, Alberta",,2018-base,Current dollars,Shelter,Dollars,81,units,0,v722,1.1,17986,,,,0
+2021,"Edmonton, Alberta",,2018-base,Constant dollars,Shelter,Dollars,81,units,0,v722,1.1,16187,,,,0
+2021,"Edmonton, Alberta",,2018-base,Current dollars,Total threshold,Dollars,81,units,0,v723,1.1,49807,,,,0
+2021,"Edmonton, Alberta",,2018-base,Constant dollars,Total threshold,Dollars,81,units,0,v723,1.1,44826,,,,0
+2022,"Edmonton, Alberta",,2018-base,Current dollars,Food,Dollars,81,units,0,v721,1.1,14539,,,,0
+2022,"Edmonton, Alberta",,2018-base,Constant dollars,Food,Dollars,81,units,0,v721,1.1,13085,,,,0
+2022,"Edmonton, Alberta",,2018-base,Current dollars,Shelter,Dollars,81,units,0,v722,1.1,18900,,,,0
+2022,"Edmonton, Alberta",,2018-base,Constant dollars,Shelter,Dollars,81,units,0,v722,1.1,17010,,,,0
+2022,"Edmonton, Alberta",,2018-base,Current dollars,Total threshold,Dollars,81,units,0,v723,1.1,52339,,,,0
+2022,"Edmonton, Alberta",,2018-base,Constant dollars,Total threshold,Dollars,81,units,0,v723,1.1,47105,,,,0
+2023,"Edmonton, Alberta",,2018-base,Current dollars,Food,Dollars,81,units,0,v721,1.1,15217,,,,0
+2023,"Edmonton, Alberta",,2018-base,Constant dollars,Food,Dollars,81,units,0,v721,1.1,13695,,,,0
+2023,"Edmonton, Alberta",,2018-base,Current dollars,Shelter,Dollars,81,units,0,v722,1.1,19782,,,,0
+2023,"Edmonton, Alberta",,2018-base,Constant dollars,Shelter,Dollars,81,units,0,v722,1.1,17804,,,,0
+2023,"Edmonton, Alberta",,2018-base,Current dollars,Total threshold,Dollars,81,units,0,v723,1.1,54781,,,,0
+2023,"Edmonton, Alberta",,2018-base,Constant dollars,Total threshold,Dollars,81,units,0,v723,1.1,49303,,,,0
+2024,"Edmonton, Alberta",,2018-base,Current dollars,Food,Dollars,81,units,0,v721,1.1,15348,,,,0
+2024,"Edmonton, Alberta",,2018-base,Constant dollars,Food,Dollars,81,units,0,v721,1.1,13813,,,,0
+2024,"Edmonton, Alberta",,2018-base,Current dollars,Shelter,Dollars,81,units,0,v722,1.1,19952,,,,0
+2024,"Edmonton, Alberta",,2018-base,Constant dollars,Shelter,Dollars,81,units,0,v722,1.1,17957,,,,0
+2024,"Edmonton, Alberta",,2018-base,Current dollars,Total threshold,Dollars,81,units,0,v723,1.1,55252,,,,0
+2024,"Edmonton, Alberta",,2018-base,Constant dollars,Total threshold,Dollars,81,units,0,v723,1.1,49727,,,,0
+2023,"Edmonton, Alberta",,2023-base,Current dollars,Food,Dollars,81,units,0,v721,1.1,15986,,,,0
+2023,"Edmonton, Alberta",,2023-base,Constant dollars,Food,Dollars,81,units,0,v721,1.1,14388,,,,0
+2023,"Edmonton, Alberta",,2023-base,Current dollars,Shelter,Dollars,81,units,0,v722,1.1,20782,,,,0
+2023,"Edmonton, Alberta",,2023-base,Constant dollars,Shelter,Dollars,81,units,0,v722,1.1,18704,,,,0
+2023,"Edmonton, Alberta",,2023-base,Current dollars,Total threshold,Dollars,81,units,0,v723,1.1,57551,,,,0
+2023,"Edmonton, Alberta",,2023-base,Constant dollars,Total threshold,Dollars,81,units,0,v723,1.1,51796,,,,0
+2024,"Edmonton, Alberta",,2023-base,Current dollars,Food,Dollars,81,units,0,v721,1.1,16123,,,,0
+2024,"Edmonton, Alberta",,2023-base,Constant dollars,Food,Dollars,81,units,0,v721,1.1,14511,,,,0
+2024,"Edmonton, Alberta",,2023-base,Current dollars,Shelter,Dollars,81,units,0,v722,1.1,20960,,,,0
+2024,"Edmonton, Alberta",,2023-base,Constant dollars,Shelter,Dollars,81,units,0,v722,1.1,18864,,,,0
+2024,"Edmonton, Alberta",,2023-base,Current dollars,Total threshold,Dollars,81,units,0,v723,1.1,58044,,,,0
+2024,"Edmonton, Alberta",,2023-base,Constant dollars,Total threshold,Dollars,81,units,0,v723,1.1,52240,,,,0

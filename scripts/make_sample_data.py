@@ -6,6 +6,7 @@ work on both:
 * ``prices_sample.csv``: StatCan 18-10-0245-01 layout
 * ``cpi_sample.csv``: StatCan 18-10-0004-01 layout
 * ``stores_sample.json``: City of Calgary Socrata (vdjc-pybd) record layout
+* ``mbm_sample.csv``: StatCan 11-10-0066-01 layout (Market Basket Measure)
 
 Prices are SYNTHETIC. Each series is anchored on the real Alberta average price
 for June 2024 (StatCan via Alberta Open Data) and then simulated forwards and
@@ -382,12 +383,73 @@ def make_stores(rng: random.Random) -> int:
     return len(records)
 
 
+def make_mbm(rng: random.Random) -> int:
+    """Synthetic MBM thresholds with two base years, two dollar concepts and a
+    second region, so the loader's filters are exercised."""
+    cols = [
+        "REF_DATE",
+        "GEO",
+        "DGUID",
+        "Base year",
+        "Dollar concept",
+        "Component",
+        "UOM",
+        "UOM_ID",
+        "SCALAR_FACTOR",
+        "SCALAR_ID",
+        "VECTOR",
+        "COORDINATE",
+        "VALUE",
+        "STATUS",
+        "SYMBOL",
+        "TERMINATED",
+        "DECIMALS",
+    ]
+    rows = []
+    regions = {"Calgary, Alberta": 12400, "Edmonton, Alberta": 12100}
+    components = {"Food": 1.0, "Shelter": 1.3, "Total threshold": 3.6}
+    for r_i, (geo, food_2018) in enumerate(regions.items(), start=1):
+        for base, first_year, factor in (("2018-base", 2018, 1.0), ("2023-base", 2023, 1.04)):
+            for year in range(first_year, 2025):
+                food = food_2018 * factor * (1.045 ** (year - 2018)) * (1 + rng.gauss(0, 0.01))
+                for c_i, (comp, mult) in enumerate(components.items(), start=1):
+                    for concept in ("Current dollars", "Constant dollars"):
+                        value = food * mult if concept == "Current dollars" else food * mult * 0.9
+                        rows.append(
+                            {
+                                "REF_DATE": str(year),
+                                "GEO": geo,
+                                "DGUID": "",
+                                "Base year": base,
+                                "Dollar concept": concept,
+                                "Component": comp,
+                                "UOM": "Dollars",
+                                "UOM_ID": "81",
+                                "SCALAR_FACTOR": "units",
+                                "SCALAR_ID": "0",
+                                "VECTOR": f"v7{r_i}{c_i}",
+                                "COORDINATE": "1.1",
+                                "VALUE": f"{value:.0f}",
+                                "STATUS": "",
+                                "SYMBOL": "",
+                                "TERMINATED": "",
+                                "DECIMALS": "0",
+                            }
+                        )
+    with (OUT / "mbm_sample.csv").open("w", newline="", encoding="utf-8") as fh:
+        writer = csv.DictWriter(fh, fieldnames=cols, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(rows)
+    return len(rows)
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     rng = random.Random(SEED)
     print("prices rows:", make_prices(rng))
     print("cpi rows:   ", make_cpi(rng))
     print("store recs: ", make_stores(rng))
+    print("mbm rows:   ", make_mbm(rng))
     print("wrote", OUT)
 
 

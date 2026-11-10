@@ -14,9 +14,11 @@ import pandas as pd
 
 from . import __version__
 from .basket import aisle_shares, basket_cost, outlook_band, swap_savings, validate_products
-from .config import PROCESSED_DIR, RAW_DIR, SAMPLE_DIR, SITE_DIR, Config
+from .config import PROCESSED_DIR, SAMPLE_DIR, SITE_DIR, SNAPSHOT_DIR, Config
 from .cpi import latest_yoy, load_cpi
+from .mbm import load_mbm_food
 from .prices import load_prices, to_wide, yoy_change
+from .snapshot import CPI_FILE, MBM_FILE, PRICES_FILE, STORES_FILE, read_manifest
 from .stores import load_stores
 
 DATA_PLACEHOLDER = "/*__CARTCAST_DATA__*/null"
@@ -27,19 +29,32 @@ class Inputs:
     prices: Path
     cpi: Path
     stores: Path
+    mbm: Path
     is_sample: bool
+    fetched_at: str | None = None
+
+    @property
+    def required(self) -> tuple[Path, Path, Path]:
+        return (self.prices, self.cpi, self.stores)
 
 
-def resolve_inputs(sample: bool) -> Inputs:
+def resolve_inputs(sample: bool, snapshot_dir: Path = SNAPSHOT_DIR) -> Inputs:
+    """Sample data for offline work and tests, otherwise the real-data snapshot."""
     if sample:
         return Inputs(
             SAMPLE_DIR / "prices_sample.csv",
             SAMPLE_DIR / "cpi_sample.csv",
             SAMPLE_DIR / "stores_sample.json",
+            SAMPLE_DIR / "mbm_sample.csv",
             True,
         )
     return Inputs(
-        RAW_DIR / "18100245.csv", RAW_DIR / "18100004.csv", RAW_DIR / "stores.json", False
+        snapshot_dir / PRICES_FILE,
+        snapshot_dir / CPI_FILE,
+        snapshot_dir / STORES_FILE,
+        snapshot_dir / MBM_FILE,
+        False,
+        read_manifest(snapshot_dir).get("fetched_at"),
     )
 
 
@@ -101,9 +116,27 @@ def build_payload(cfg: Config, inputs: Inputs) -> dict[str, Any]:
         }
         for (geo, prod), grp in cpi_window.groupby(["geo", "product"])
     }
+    # Prefer Calgary. Fall back to Alberta if StatCan has no Calgary food series.
     headline_geo = s["geography"]["cpi_headline_geo"]
     food = latest_yoy(cpi, headline_geo, "Food purchased from stores")
+    if food is None and s["geography"].get("cpi_fallback_geo"):
+        headline_geo = s["geography"]["cpi_fallback_geo"]
+        food = latest_yoy(cpi, headline_geo, "Food purchased from stores")
     allitems = latest_yoy(cpi, headline_geo, "All-items")
+
+    mbm = None
+    if inputs.mbm.exists():
+        mbm_df = load_mbm_food(inputs.mbm, s["geography"].get("mbm_geo_contains", "Calgary"))
+        last = mbm_df.iloc[-1]
+        mbm = {
+            "year": int(last["year"]),
+            "annual_family4": float(last["value"]),
+            "geo": last["geo"],
+            "base": last["base"],
+            "series": [
+                [int(y), float(v)] for y, v in zip(mbm_df["year"], mbm_df["value"], strict=True)
+            ],
+        }
 
     stores = load_stores(inputs.stores, s)
 
@@ -128,6 +161,7 @@ def build_payload(cfg: Config, inputs: Inputs) -> dict[str, Any]:
             "latest_month": latest.strftime("%Y-%m"),
             "price_geo": s["geography"]["prices"],
             "is_sample": inputs.is_sample,
+            "fetched_at": inputs.fetched_at,
             "sources": sources,
         },
         "months": months,
@@ -152,6 +186,7 @@ def build_payload(cfg: Config, inputs: Inputs) -> dict[str, Any]:
             "food_month": food[0].strftime("%Y-%m") if food else None,
             "all_items_yoy": allitems[1] if allitems else None,
         },
+        "mbm": mbm,
         "stores": stores.to_dict(orient="records"),
         "summary": {
             "weekly_cost": float(cost.iloc[-1]),

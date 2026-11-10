@@ -6,7 +6,15 @@ Notable changes to this project are recorded here. The format follows
 
 ## [Unreleased]
 
+### Added
+- Calgary food benchmark from the Market Basket Measure (StatCan Table 11-10-0066-01), adjusted for household size.
+- Real-data snapshot in `data/snapshot/`, written by `cartcast fetch` and committed so the dashboard builds from real data by default.
+- `cartcast snapshot` command.
+
 ### Changed
+- The grocery inflation figure now uses the Calgary CMA CPI, with Alberta as a fallback.
+- `cartcast build` reads the snapshot by default. Use `--sample` for the synthetic data.
+- The monthly workflow commits the refreshed snapshot before deploying.
 - Rewrote documentation, interface text, CLI output and code comments in plain language. Removed emojis and decorative punctuation.
 
 ## [0.1.0] - 2026-11-09

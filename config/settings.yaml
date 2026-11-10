@@ -2,14 +2,22 @@
 # These values can be changed without editing the code.
 
 geography:
+  # StatCan publishes average retail prices by province only, so prices are for
+  # Alberta. Every other source below is filtered to Calgary.
   prices: "Alberta"                 # GEO value in StatCan table 18-10-0245-01
   cpi:                              # GEO values in StatCan table 18-10-0004-01
-    - "Alberta"
     - "Calgary, Alberta"
-  cpi_headline_geo: "Alberta"       # geo used for the KPI tile
+    - "Alberta"
+  cpi_headline_geo: "Calgary, Alberta"   # geo used for the inflation figure
+  cpi_fallback_geo: "Alberta"            # used if the headline geo has no food series
   cpi_products:
     - "All-items"
     - "Food purchased from stores"
+  mbm_geo_contains: "Calgary"       # matched against GEO in StatCan table 11-10-0066-01
+
+snapshot:
+  # Months of Alberta prices kept in data/snapshot/ (committed to the repo).
+  price_months: 60
 
 sources:
   prices:
@@ -30,6 +38,12 @@ sources:
     url: "https://data.calgary.ca/resource/vdjc-pybd.json"
     page: "https://data.calgary.ca/d/vdjc-pybd"
     licence: "Open Government Licence, City of Calgary"
+  mbm:
+    name: "Statistics Canada, Table 11-10-0066-01, Market Basket Measure (MBM) thresholds for the reference family"
+    table_id: "11100066"
+    url: "https://www150.statcan.gc.ca/n1/tbl/csv/11100066-eng.zip"
+    page: "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110006601"
+    licence: "Statistics Canada Open Licence"
   outlook:
     name: "Canada's Food Price Report 2026 (Dalhousie University et al.)"
     page: "https://www.dal.ca/sites/agri-food/research/canada-s-food-price-report-2026.html"

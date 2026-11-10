@@ -56,6 +56,26 @@ The 4 and 6 percent rates are the range forecast for overall food prices in
 Canada's Food Price Report 2026. The range is a scenario, not a forecast for this
 specific basket.
 
+## Calgary food benchmark
+
+The benchmark is the food component of the Market Basket Measure (MBM) for Calgary,
+from StatCan Table 11-10-0066-01. It is the yearly cost of a nutritious diet for a
+family of two adults and two children. The weekly benchmark for a household of `n`
+people is:
+
+```
+weekly_benchmark = annual_food_threshold / 52 x sqrt(n) / 2
+```
+
+This uses the square-root equivalence scale that Statistics Canada applies to MBM
+thresholds for other family sizes. The dashboard shows the basket cost as a
+percentage of the benchmark.
+
+Two cautions apply. The MBM year usually lags the price data by one or two years,
+and the MBM food basket is a nutrition standard, while the CartCast basket is a
+list of common purchases. The comparison shows scale, not whether a basket is
+nutritionally adequate.
+
 ## Store classification
 
 Stores are classified by matching keywords in business licence trade names. The
@@ -63,7 +83,7 @@ limitations are described in `docs/data-sources.md`.
 
 ## Limitations
 
-- Prices are averages for Alberta, not for Calgary or for individual stores.
+- Item prices are averages for Alberta, because StatCan does not publish them for Calgary or for individual stores. The inflation figure, food benchmark and store list are specific to Calgary.
 - Average prices do not reflect sales, loyalty discounts or differences between store brands and national brands.
 - The default basket is illustrative. It has not been checked against a nutritional standard such as a nutritious food basket.
 - The store list depends on the quality of the licence data and on the keyword rules.
