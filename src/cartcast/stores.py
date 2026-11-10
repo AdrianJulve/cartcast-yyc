@@ -37,6 +37,28 @@ def classify(name: str, settings: dict[str, Any]) -> str | None:
     return None
 
 
+def food_retailer_kind(rec: dict[str, Any], settings: dict[str, Any]) -> str | None:
+    """Classify a licence record, checking licence types as well as the name.
+
+    Returns 'supermarket', 'specialty', or None. Records without licence types
+    (such as older snapshots) are judged on the name alone.
+    """
+    cfg = settings["stores"]
+    name = (rec.get("tradename") or "").upper()
+    kind = classify(name, settings)
+    types = (rec.get("licencetypes") or "").upper()
+    if not kind or not types:
+        return kind
+    if any(t in types for t in cfg.get("licence_types_exclude", [])):
+        return None
+    if not any(t in types for t in cfg.get("licence_types_any", [])):
+        return None
+    retail = cfg.get("retail_licence", "RETAIL DEALER - PREMISES")
+    if retail not in types and not _has_word(name, cfg.get("food_service_only_keywords", [])):
+        return None
+    return kind
+
+
 def load_stores(json_path: Path | str, settings: dict[str, Any]) -> pd.DataFrame:
     """Columns: name, address, community, lat, lon, kind, licence, status, issued.
 
@@ -47,7 +69,7 @@ def load_stores(json_path: Path | str, settings: dict[str, Any]) -> pd.DataFrame
     rows = []
     for rec in records:
         name = (rec.get("tradename") or "").strip()
-        kind = classify(name, settings)
+        kind = food_retailer_kind(rec, settings)
         lat, lon = _coords(rec)
         if not kind or lat is None:
             continue

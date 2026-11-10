@@ -38,8 +38,10 @@ Known issues:
 - Dataset page: <https://data.calgary.ca/d/vdjc-pybd>
 - API: `https://data.calgary.ca/resource/vdjc-pybd.json` (Socrata SoQL)
 - Fields used: `tradename`, `address`, `comdistnm` (community), `licencetypes`, `jobstatusdesc` and `point` (GeoJSON longitude and latitude).
-- Query: the licence type includes "RETAIL DEALER - PREMISES", the status is "Licensed" or "Pending Renewal", and the trade name contains one of the grocery keywords listed in `config/settings.yaml` under `stores`.
-- Classification: a store is a supermarket if its name matches a chain or supermarket keyword, and specialty otherwise. Names that match an exclusion keyword, such as "flea market", are removed.
+- Query: the licence types include "RETAIL DEALER - PREMISES" or "FOOD SERVICE - PREMISES (NO SEATING)", the status is any active status (Licensed, Renewal Licensed, Renewal Invoiced, Renewal Notification Sent, Pending Renewal, Move in Progress), and the trade name contains one of the grocery keywords listed in `config/settings.yaml` under `stores`.
+- Status matters: "Renewal Licensed" covers about two-thirds of all licences, so leaving it out removes most established stores.
+- Classification: a store is a supermarket if its name matches a chain or supermarket keyword (including "WAL-MART", as Walmart is spelled in the data), and specialty otherwise. Keywords match whole words.
+- Exclusions: records with a liquor store, cannabis store or fuel sales licence are a chain's separate liquor store, cannabis store or gas bar, and are removed. Names with words such as "gas bar", "wine", "car wash" or "florist" are removed. Records with only a no-seating food licence are kept only if the name says butcher, meat, bakery, produce or grocery.
 - Limitation: there is no grocery licence category, so keyword matching will miss some stores and include a few that are not grocers. The keyword lists can be adjusted in the config.
 
 ## 5. Canada's Food Price Report 2026

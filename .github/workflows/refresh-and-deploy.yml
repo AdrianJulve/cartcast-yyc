@@ -34,6 +34,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -44,7 +46,14 @@ jobs:
       - name: Decide whether to download new data
         id: mode
         run: |
-          if [ "${{ github.event_name }}" = "push" ] && [ -f data/snapshot/manifest.json ]; then
+          # A push downloads new data only when there is no snapshot yet, or when it
+          # changes the settings or code that decide which rows are kept.
+          changed=""
+          if [ "${{ github.event_name }}" = "push" ]; then
+            changed=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" 2>/dev/null \
+              | grep -E '^(config/settings.yaml|src/cartcast/(sources|stores|snapshot|cpi|mbm|prices).py)$' || true)
+          fi
+          if [ "${{ github.event_name }}" = "push" ] && [ -f data/snapshot/manifest.json ] && [ -z "$changed" ]; then
             echo "fetch=false" >> "$GITHUB_OUTPUT"
           elif [ "${{ inputs.skip_fetch }}" = "true" ]; then
             echo "fetch=false" >> "$GITHUB_OUTPUT"
