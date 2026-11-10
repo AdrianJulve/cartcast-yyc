@@ -1,35 +1,49 @@
-# CartCast YYC — pipeline settings
-# Every value here can be changed without touching code.
+# CartCast YYC pipeline settings.
+# These values can be changed without editing the code.
 
 geography:
+  # StatCan publishes average retail prices by province only, so prices are for
+  # Alberta. Every other source below is filtered to Calgary.
   prices: "Alberta"                 # GEO value in StatCan table 18-10-0245-01
   cpi:                              # GEO values in StatCan table 18-10-0004-01
-    - "Alberta"
     - "Calgary, Alberta"
-  cpi_headline_geo: "Alberta"       # geo used for the KPI tile
+    - "Alberta"
+  cpi_headline_geo: "Calgary, Alberta"   # geo used for the inflation figure
+  cpi_fallback_geo: "Alberta"            # used if the headline geo has no food series
   cpi_products:
     - "All-items"
     - "Food purchased from stores"
+  mbm_geo_contains: "Calgary"       # matched against GEO in StatCan table 11-10-0066-01
+
+snapshot:
+  # Months of Alberta prices kept in data/snapshot/ (committed to the repo).
+  price_months: 60
 
 sources:
   prices:
-    name: "Statistics Canada, Table 18-10-0245-01 — Monthly average retail prices for selected products"
+    name: "Statistics Canada, Table 18-10-0245-01, Monthly average retail prices for selected products"
     table_id: "18100245"
     url: "https://www150.statcan.gc.ca/n1/tbl/csv/18100245-eng.zip"
     page: "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810024501"
     licence: "Statistics Canada Open Licence"
   cpi:
-    name: "Statistics Canada, Table 18-10-0004-01 — Consumer Price Index, monthly, not seasonally adjusted"
+    name: "Statistics Canada, Table 18-10-0004-01, Consumer Price Index, monthly, not seasonally adjusted"
     table_id: "18100004"
     url: "https://www150.statcan.gc.ca/n1/tbl/csv/18100004-eng.zip"
     page: "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401"
     licence: "Statistics Canada Open Licence"
   stores:
-    name: "City of Calgary Open Data — Calgary Business Licences"
+    name: "City of Calgary Open Data, Calgary Business Licences"
     dataset_id: "vdjc-pybd"
     url: "https://data.calgary.ca/resource/vdjc-pybd.json"
     page: "https://data.calgary.ca/d/vdjc-pybd"
-    licence: "Open Government Licence – City of Calgary"
+    licence: "Open Government Licence, City of Calgary"
+  mbm:
+    name: "Statistics Canada, Table 11-10-0066-01, Market Basket Measure (MBM) thresholds for the reference family"
+    table_id: "11100066"
+    url: "https://www150.statcan.gc.ca/n1/tbl/csv/11100066-eng.zip"
+    page: "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110006601"
+    licence: "Statistics Canada Open Licence"
   outlook:
     name: "Canada's Food Price Report 2026 (Dalhousie University et al.)"
     page: "https://www.dal.ca/sites/agri-food/research/canada-s-food-price-report-2026.html"
@@ -37,28 +51,84 @@ sources:
 dashboard:
   history_months: 24                # months of basket history shown
   outlook_months: 3                 # months projected forward
-  outlook_annual_low: 0.04          # Food Price Report 2026: overall food +4% to +6%
+  outlook_annual_low: 0.04          # Food Price Report 2026 forecast: overall food prices up 4% to 6%
   outlook_annual_high: 0.06
   title: "CartCast YYC"
-  tagline: "Know your grocery bill before you shop."
+  tagline: "Weekly grocery costs for Calgary households."
+  # Base map tiles for the store map. The viewer's browser loads them directly.
+  # OpenStreetMap's standard tiles are free and need no API key. The usage policy
+  # (https://operations.osmfoundation.org/policies/tiles/) requires HTTPS, visible
+  # attribution and normal browser caching, and forbids bulk downloading.
+  # If tiles cannot load (for example offline), the map shows a plain grid.
+  map:
+    tiles: "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+    subdomains: ""
+    max_zoom: 19
+    attribution: "\u00a9 OpenStreetMap contributors"
+    attribution_url: "https://www.openstreetmap.org/copyright"
 
 stores:
-  # Business licences don't have a "grocery" licence type, so retailers are
-  # identified by licence type + keywords in the trade name.
+  # There is no grocery licence type, so retailers are identified by licence
+  # type and by keywords in the trade name.
+  #
+  # A record must hold at least one of these licence types. Retail licences are
+  # the main one; some butchers and bakeries hold only a no-seating food licence.
   licence_types_any:
     - "RETAIL DEALER - PREMISES"
+    - "FOOD SERVICE - PREMISES (NO SEATING)"
+  retail_licence: "RETAIL DEALER - PREMISES"
+  # Records with only the no-seating food licence (no retail licence) must also
+  # have one of these words in the name, so take-out restaurants are left out.
+  food_service_only_keywords:
+    - "BUTCHER"
+    - "MEAT"
+    - "SAUSAGE"
+    - "SEAFOOD"
+    - "FISH"
+    - "BAKERY"
+    - "PRODUCE"
+    - "GROCERY"
+    - "GROCERIES"
+  # Separate licences for a chain's liquor store, cannabis store or gas bar.
+  licence_types_exclude:
+    - "LIQUOR STORE"
+    - "CANNABIS STORE"
+    - "FUEL SALES/STORAGE"
+  # Records whose name matches a supermarket keyword use these two lists
+  # instead of the three rules above. Supermarkets often hold a fuel licence on
+  # the same record as the store (the Seton Superstore, Silverado Sobeys), Costco
+  # holds a wholesaler licence rather than a retail one, and some independent
+  # supermarkets hold only a food service licence. Chain gas bars and liquor
+  # stores are separate records, left out by name or licence type.
+  supermarket_licence_types_any:
+    - "RETAIL DEALER - PREMISES"
+    - "FOOD SERVICE - PREMISES"
+    - "WHOLESALER"
+  supermarket_licence_types_exclude:
+    - "LIQUOR STORE"
+    - "CANNABIS STORE"
+  # Every status of an active licence. "Renewal Licensed" alone covers about
+  # two-thirds of the dataset. "Close in Progress" is left out.
   status_any:
     - "Licensed"
+    - "Renewal Licensed"
+    - "Renewal Invoiced"
+    - "Renewal Notification Sent"
     - "Pending Renewal"
+    - "Move in Progress"
+  # Superstores are matched by "REAL CANADIAN", because "SUPERSTORE" on its own
+  # also matches Staples, flooring and pawn shops.
   supermarket_keywords:
-    - "SUPERSTORE"
     - "SAFEWAY"
     - "SOBEYS"
     - "CO-OP"
     - "NO FRILLS"
     - "FRESHCO"
     - "SAVE-ON-FOODS"
-    - "WALMART SUPERCENTRE"
+    - "WALMART"
+    - "WAL-MART"
+    - "REAL CANADIAN"
+    - "WHOLE FOODS"
     - "COSTCO"
     - "T & T"
     - "T&T"
@@ -78,8 +148,37 @@ stores:
     - "HALAL"
     - "ASIAN FOOD"
     - "DELI"
+  # Keywords match whole words (a trailing S is allowed), so "DELI" does not
+  # match "DELIGHT" or "DELIVERY". Names with any of these words are left out.
   exclude_keywords:
-    - "FLEA MARKET"
+    - "FLEA"
     - "MARKETING"
-    - "PET FOOD"
-    - "SUPERMARKET OF FLOORING"
+    - "FLOORING"
+    - "PET"
+    - "FLORIST"
+    - "FLOWER"
+    - "MUSIC"
+    - "SCHOOL"
+    - "METAL"
+    - "CANNABIS"
+    - "SMOKE"
+    - "VAPE"
+    - "TOBACCO"
+    - "LIQUOR"
+    - "AUTO"
+    - "FURNITURE"
+    - "CLOTHING"
+    - "JEWELLERY"
+    - "PHONE"
+    - "EQUIPMENT"
+    - "GAS"
+    - "GAS BAR"
+    - "CAR WASH"
+    - "WINE"
+    - "SPIRITS"
+    - "BEER"
+    - "HOME HEALTH"
+    - "PORTRAIT"
+    - "CARPET"
+    - "ZENSHI"
+    - "SUSHI"

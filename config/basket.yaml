@@ -1,17 +1,19 @@
-# CartCast YYC — default weekly basket
+# CartCast YYC default weekly basket.
 #
 # `product` must match a product name in StatCan table 18-10-0245-01 exactly.
-# Run `cartcast validate` to check names and get suggestions for typos.
-# `qty` is the number of the product's own unit per week for a FAMILY OF 4:
-#   "Ground beef, per kilogram" qty 1.0  -> 1 kg per week
-#   "Milk, 4 litres"            qty 2    -> two 4 L jugs per week
-# Household presets scale every qty by `scale`.
+# Run `cartcast validate` to check the names.
+# `qty` is the number of the product's own unit bought per week by a family of 4.
+# For example, "Ground beef, per kilogram" with qty 1.0 means 1 kg per week, and
+# "Milk, 4 litres" with qty 2 means two 4 L jugs per week.
+# Each household option multiplies every qty by its `scale`.
 
+# `size` is the number of people. It is used to adjust the Market Basket Measure
+# food benchmark, which is published for a family of four.
 households:
-  single: { label: "Single adult", scale: 0.35 }
-  couple: { label: "Couple", scale: 0.6 }
-  family4: { label: "Family of 4", scale: 1.0 }
-  family6: { label: "Family of 6", scale: 1.45 }
+  single: { label: "Single adult", scale: 0.35, size: 1 }
+  couple: { label: "Couple", scale: 0.6, size: 2 }
+  family4: { label: "Family of 4", scale: 1.0, size: 4 }
+  family6: { label: "Family of 6", scale: 1.45, size: 6 }
 
 default_household: family4
 
@@ -42,7 +44,7 @@ items:
   - { product: "Roasted or ground coffee, 340 grams", qty: 0.5,  aisle: "Drinks" }
   - { product: "Orange juice, 2 litres",              qty: 1,    aisle: "Drinks" }
 
-# Aisle used when a product is added from the dashboard and has no aisle yet.
+# Aisle assigned to a product added from the dashboard, matched by keyword.
 aisle_rules:
   "Meat & fish": ["beef", "pork", "chicken", "bacon", "wieners", "tuna", "salmon", "shrimp"]
   "Dairy & eggs": ["milk", "cream", "butter", "cheese", "yogurt", "eggs", "margarine"]

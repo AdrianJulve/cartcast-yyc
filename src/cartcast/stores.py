@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -18,26 +19,63 @@ def _coords(rec: dict[str, Any]) -> tuple[float | None, float | None]:
     return (float(lat), float(lon)) if lat and lon else (None, None)
 
 
+def _has_word(name: str, words: list[str]) -> bool:
+    """True if any keyword appears as a whole word (a trailing S is allowed)."""
+    return any(re.search(r"\b" + re.escape(w) + r"S?\b", name) for w in words)
+
+
 def classify(name: str, settings: dict[str, Any]) -> str | None:
     """'supermarket', 'specialty', or None if the trade name isn't a food retailer."""
     cfg = settings["stores"]
     upper = name.upper()
-    if any(word in upper for word in cfg.get("exclude_keywords", [])):
+    if _has_word(upper, cfg.get("exclude_keywords", [])):
         return None
-    if any(word in upper for word in cfg["supermarket_keywords"]):
+    if _has_word(upper, cfg["supermarket_keywords"]):
         return "supermarket"
-    if any(word in upper for word in cfg["specialty_keywords"]):
+    if _has_word(upper, cfg["specialty_keywords"]):
         return "specialty"
     return None
 
 
+def food_retailer_kind(rec: dict[str, Any], settings: dict[str, Any]) -> str | None:
+    """Classify a licence record, checking licence types as well as the name.
+
+    Returns 'supermarket', 'specialty', or None. Records without licence types
+    (such as older snapshots) are judged on the name alone.
+    """
+    cfg = settings["stores"]
+    name = (rec.get("tradename") or "").upper()
+    kind = classify(name, settings)
+    types = (rec.get("licencetypes") or "").upper()
+    if not kind or not types:
+        return kind
+    if kind == "supermarket":
+        block = cfg.get("supermarket_licence_types_exclude", cfg.get("licence_types_exclude", []))
+        allow = cfg.get("supermarket_licence_types_any", cfg.get("licence_types_any", []))
+        if any(t in types for t in block) or not any(t in types for t in allow):
+            return None
+        return kind
+    if any(t in types for t in cfg.get("licence_types_exclude", [])):
+        return None
+    if not any(t in types for t in cfg.get("licence_types_any", [])):
+        return None
+    retail = cfg.get("retail_licence", "RETAIL DEALER - PREMISES")
+    if retail not in types and not _has_word(name, cfg.get("food_service_only_keywords", [])):
+        return None
+    return kind
+
+
 def load_stores(json_path: Path | str, settings: dict[str, Any]) -> pd.DataFrame:
-    """Columns: name, address, community, lat, lon, kind. Deduplicated by name+address."""
+    """Columns: name, address, community, lat, lon, kind, licence, status, issued.
+
+    Deduplicated by name and address. ``issued`` is the year the licence was
+    first issued, when the record has it.
+    """
     records = json.loads(Path(json_path).read_text(encoding="utf-8"))
     rows = []
     for rec in records:
         name = (rec.get("tradename") or "").strip()
-        kind = classify(name, settings)
+        kind = food_retailer_kind(rec, settings)
         lat, lon = _coords(rec)
         if not kind or lat is None:
             continue
@@ -49,7 +87,11 @@ def load_stores(json_path: Path | str, settings: dict[str, Any]) -> pd.DataFrame
                 "lat": lat,
                 "lon": lon,
                 "kind": kind,
+                "licence": (rec.get("licencetypes") or "").title(),
+                "status": rec.get("jobstatusdesc") or "",
+                "issued": (rec.get("first_iss_dt") or "")[:4],
             }
         )
-    df = pd.DataFrame(rows, columns=["name", "address", "community", "lat", "lon", "kind"])
+    cols = ["name", "address", "community", "lat", "lon", "kind", "licence", "status", "issued"]
+    df = pd.DataFrame(rows, columns=cols)
     return df.drop_duplicates(subset=["name", "address"]).reset_index(drop=True)

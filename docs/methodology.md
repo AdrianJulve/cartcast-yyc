@@ -2,62 +2,94 @@
 
 ## Basket cost
 
-```
-weekly_cost(month) = Σ  price(product, month) × qty(product) × household_scale
-```
-
-- `price` is the Alberta average retail price from StatCan 18-10-0245-01 for that product's own unit: per kg, per package, or per unit.
-- `qty` is the number of those units per week for a family of four (`config/basket.yaml`).
-- `household_scale` adjusts for household size (single 0.35, couple 0.6, family of 4 1.0, family of 6 1.45). These are planning assumptions, not survey results. Say so if asked.
-- A suppressed price carries the previous month's value forward.
-- The monthly figure in the KPI is `weekly × 52 / 12`.
-
-## "What moved" (12-month change)
-
-`price(latest) / price(latest − 12 months) − 1` per item.
-
-**Caveat (from StatCan):** average prices are good for comparing price *levels* in a
-month. They are not a pure measure of price change, because product mix, package
-size and retailer coverage shift over time. CartCast therefore:
-
-1. labels these numbers as **"change in average price"**, never "inflation";
-2. uses the **CPI** (18-10-0004-01, *Food purchased from stores*) for the inflation KPI.
-
-Say this out loud in the presentation. It shows the audience you understand the data.
-
-## Smart swaps
-
-For a swap `from → to` with quantity ratio `r` (`config/swaps.yaml`):
+The weekly cost of the basket in a given month is:
 
 ```
-weekly_saving = qty_from × price_from − (qty_from × r) × price_to
+weekly_cost = sum over items of (price x qty x household_scale)
 ```
 
-A swap is only suggested when `weekly_saving > 0` for the current month, and only
-the best swap per basket item is shown. Ratios convert pack sizes, e.g. 1 kg of
-fresh salmon ≈ 4.7 × 213 g cans (r = 4.7). Swaps assume nutritional and culinary
-equivalence is "close enough". That's a judgement call, documented in the config.
+- `price` is the Alberta average retail price from StatCan Table 18-10-0245-01, in the product's own unit (per kilogram, per package or per item).
+- `qty` is the number of those units bought per week by a family of four, set in `config/basket.yaml`.
+- `household_scale` adjusts quantities for household size: 0.35 for a single adult, 0.6 for a couple, 1.0 for a family of four and 1.45 for a family of six. These are planning assumptions, not survey results.
+- When a price is suppressed for a month, the previous month's price is used.
+- The monthly figure shown on the dashboard is the weekly cost multiplied by 52 and divided by 12.
 
-## Outlook band
+## Change in average price
 
-Starting from the latest weekly cost `C`, for month `m = 1…3`:
+For each item, the dashboard shows the latest price divided by the price 12 months
+earlier, minus 1.
+
+Statistics Canada notes that average prices are useful for comparing price levels
+within a month, but are not a pure measure of price change, because the mix of
+products, package sizes and retailers changes over time. For that reason the
+dashboard:
+
+1. labels these figures "change in average price" and never calls them inflation, and
+2. uses the CPI (Table 18-10-0004-01, Food purchased from stores) for the inflation figure.
+
+## Substitutions
+
+For a substitution from product A to product B with a quantity ratio `r`, set in
+`config/swaps.yaml`:
 
 ```
-low  = C × (1 + 0.04)^(m/12)
-high = C × (1 + 0.06)^(m/12)
+weekly_saving = qty_A x price_A - (qty_A x r) x price_B
 ```
 
-The 4–6% range is Canada's Food Price Report 2026 forecast for overall food prices.
-It's a scenario band, not a model prediction for this specific basket.
+A substitution is suggested only when the saving is positive in the latest month.
+Only the largest saving for each basket item is shown. The ratio converts between
+package sizes; for example, 1 kg of fresh salmon is about 4.7 cans of 213 g, so
+`r = 4.7`. Each pair in the config is assumed to be a reasonable replacement in
+everyday cooking. This is a judgement, and the pairs can be edited.
+
+## Outlook range
+
+Starting from the latest weekly cost `C`, the low and high projections for month
+`m` (1 to 3) are:
+
+```
+low  = C x 1.04 ^ (m / 12)
+high = C x 1.06 ^ (m / 12)
+```
+
+The 4 and 6 percent rates are the range forecast for overall food prices in
+Canada's Food Price Report 2026. The range is a scenario, not a forecast for this
+specific basket.
+
+## Calgary food benchmark
+
+The benchmark is the food component of the Market Basket Measure (MBM) for Calgary,
+from StatCan Table 11-10-0066-01. It is the yearly cost of a nutritious diet for a
+family of two adults and two children. The weekly benchmark for a household of `n`
+people is:
+
+```
+weekly_benchmark = annual_food_threshold / 52 x sqrt(n) / 2
+```
+
+This uses the square-root equivalence scale that Statistics Canada applies to MBM
+thresholds for other family sizes. The dashboard shows the basket cost as a
+percentage of the benchmark.
+
+Two cautions apply. The MBM year usually lags the price data by one or two years,
+and the MBM food basket is a nutrition standard, while the CartCast basket is a
+list of common purchases. The comparison shows scale, not whether a basket is
+nutritionally adequate.
 
 ## Store classification
 
-Keyword matching on business-licence trade names. See `docs/data-sources.md` for its
-limitations.
+Stores are classified by matching keywords in business licence trade names. The
+limitations are described in `docs/data-sources.md`.
 
-## Known limitations
+## Store distances
 
-- Prices are province-wide (Alberta), not Calgary- or store-specific.
-- Average prices exclude sales, loyalty discounts and store-brand differences.
-- The basket is an illustrative "typical" basket, not a nutrition-validated food basket.
-- The store list depends on licence data quality and keyword rules.
+Distances on the map are straight-line distances between coordinates. Walking
+times assume 4.8 km/h. Real walking routes are longer, so both figures are lower
+bounds. The 1 km and 2 km rings show common short walking distances.
+
+## Limitations
+
+- Item prices are averages for Alberta, because StatCan does not publish them for Calgary or for individual stores. The inflation figure, food benchmark and store list are specific to Calgary.
+- Average prices do not reflect sales, loyalty discounts or differences between store brands and national brands.
+- The default basket is illustrative. It has not been checked against a nutritional standard such as a nutritious food basket.
+- The store list depends on the quality of the licence data and on the keyword rules.

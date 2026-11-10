@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   test:
-    name: Lint & test (Python ${{ matrix.python }})
+    name: Lint and test (Python ${{ matrix.python }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -36,12 +36,17 @@ jobs:
       - name: Test
         run: python -m pytest
       - name: Validate basket against sample data
-        run: python -m cartcast validate --sample
+        run: python -m cartcast validate --sample --strict
       - name: Build sample dashboard
         run: python -m cartcast build --sample
+      - name: Build from the real-data snapshot
+        if: hashFiles('data/snapshot/manifest.json') != ''
+        run: |
+          python -m cartcast validate
+          python -m cartcast build --out site-real
       - name: Upload dashboard preview
         if: matrix.python == '3.12'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dashboard-preview
           path: site/
