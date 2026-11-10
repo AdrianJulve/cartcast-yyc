@@ -62,7 +62,7 @@ then writes the rows the dashboard needs into `data/snapshot/`:
 | `manifest.json` | Download time, row counts and latest periods for each file |
 
 The snapshot is committed so that anyone can rebuild the dashboard from the same
-real data. The monthly workflow refreshes it.
+real data. The refresh workflow checks for new data every week.
 
 ## Sample dataset (`data/sample/`)
 

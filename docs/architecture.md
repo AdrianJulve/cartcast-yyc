@@ -7,7 +7,7 @@ reliable internet connection.
 
 ```mermaid
 sequenceDiagram
-  participant GA as GitHub Actions (monthly)
+  participant GA as GitHub Actions (weekly, and on push)
   participant SC as StatCan
   participant YYC as data.calgary.ca
   participant P as cartcast build

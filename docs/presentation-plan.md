@@ -44,8 +44,10 @@ Adjust names and segment lengths for the size of the team.
 
 ## Demo preparation
 
+The live dashboard is at <https://adrianjulve.github.io/cartcast-yyc/>.
+
 - [ ] Run `python -m cartcast fetch` and `python -m cartcast build` the night before so the demo uses the latest real data. Commit the updated `data/snapshot/`.
-- [ ] Copy a sample build of `site/index.html` to a USB drive as a fallback that works offline.
+- [ ] Save a copy of the live page (or `site/index.html` from a local build) to a USB drive as a fallback that works offline.
 - [ ] Set the browser zoom to 110 to 125 percent for the projector and close other tabs.
 - [ ] Rehearse the sequence: change to Couple, add "Avocado, unit", apply the top substitution, filter the map.
 - [ ] Put screenshots of each demo step in hidden slides in case the laptop or projector fails.
@@ -56,5 +58,5 @@ Adjust names and segment lengths for the size of the team.
 - Why Alberta prices and not Calgary prices? StatCan publishes average prices by province only. The inflation figure uses the Calgary CMA CPI, and the food benchmark uses the Calgary Market Basket Measure.
 - What is the food benchmark? The food cost in the Market Basket Measure, Canada's official poverty line, for Calgary. It is the cost of a nutritious diet, adjusted for household size.
 - Can average prices be used to show change over time? StatCan advises against it, so the inflation figure on the dashboard comes from the CPI.
-- How is the data kept current? A GitHub Actions workflow downloads the data and redeploys the site every month.
+- How is the data kept current? A GitHub Actions workflow checks for new data every week, and redeploys the site when anything changes.
 - Is any personal data collected? No. There are no accounts or tracking, and the basket is stored only in the link.

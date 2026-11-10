@@ -14,7 +14,8 @@ Notable changes to this project are recorded here. The format follows
 ### Changed
 - The grocery inflation figure now uses the Calgary CMA CPI, with Alberta as a fallback.
 - `cartcast build` reads the snapshot by default. Use `--sample` for the synthetic data.
-- The monthly workflow commits the refreshed snapshot before deploying.
+- The refresh workflow runs weekly and on every push to `main`, commits the refreshed snapshot, and deploys the live site.
+- Removed the sample data banner. Sample builds are only used for tests and are marked in the footer.
 - Rewrote documentation, interface text, CLI output and code comments in plain language. Removed emojis and decorative punctuation.
 
 ## [0.1.0] - 2026-11-09
