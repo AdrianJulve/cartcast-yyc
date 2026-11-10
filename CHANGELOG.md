@@ -23,6 +23,7 @@ Notable changes to this project are recorded here. The format follows
 - Product picker on the Basket page with search, aisle tabs and multi-select. Tick any number of products, then add them together with one button, with Undo.
 
 ### Fixed
+- Dropdown options were unreadable in dark mode on some systems.
 - Supermarkets with a fuel licence on the same record were left out, including the Seton and Signal Hill Superstores and Silverado Sobeys.
 - Costco was left out because it holds a wholesaler licence rather than a retail one.
 - Independent supermarkets with only a food service licence were left out.
@@ -35,6 +36,7 @@ Notable changes to this project are recorded here. The format follows
 - Butchers and bakeries that hold only a no-seating food licence are now included.
 
 ### Changed
+- The Basket button in the header now toggles. On the Basket page it is highlighted, and selecting it again returns to the previous page.
 - The dashboard now uses the full width and height of the screen. The 1680 px width limit is gone, and on the overview the charts and map grow to fill tall screens.
 - Shortened the README. Commands, configuration, deployment and the project layout moved to `docs/development.md`.
 - A push that changes the store rules or data code now downloads fresh data before deploying.
