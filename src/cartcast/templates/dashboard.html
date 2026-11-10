@@ -75,13 +75,16 @@
   .chip{white-space:nowrap;background:var(--surface);border:1px solid var(--ring);border-radius:10px;padding:8px 12px;font-size:13px;
         display:flex;gap:8px;align-items:center;box-shadow:0 1px 2px rgba(0,0,0,.03)}
   .chip .lbl{color:var(--muted)}
-  .chip select{border:0;background:transparent;font-weight:600;cursor:pointer;padding-right:2px}
+  .chip select{border:0;background:var(--surface);color:var(--ink);font-weight:600;cursor:pointer;padding-right:2px}
+  /* Native option lists do not inherit the page theme on every system, so set them explicitly. */
+  select option{background:var(--surface-2);color:var(--ink)}
   .chip select:focus{outline:none}
   .btn{white-space:nowrap;border-radius:10px;padding:9px 14px;font-size:13px;font-weight:600;border:1px solid var(--ring);background:var(--surface);display:inline-flex;gap:8px;align-items:center}
   .btn:hover{background:var(--surface-2)}
   .btn.primary{background:var(--btn);color:#fff;border-color:var(--btn)}
   .btn.primary:hover{background:var(--btn-hover)}
   .btn:disabled{opacity:.45;cursor:not-allowed}
+  #basketToggle[aria-pressed="true"]{background:var(--brand-bg);border-color:var(--brand-line);color:var(--brand)}
   .btn.small{padding:5px 10px;font-size:12px;border-radius:8px}
   .btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
   /* filter bar */
@@ -316,7 +319,7 @@
       </div>
       <div class="filters">
         <label class="chip"><span class="lbl">Household</span><select id="household" aria-label="Household size"></select></label>
-        <button class="btn" data-goto="basket"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg><span id="itemCount"></span></button>
+        <button class="btn" id="basketToggle" data-goto="basket" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg><span id="itemCount"></span></button>
         <button class="btn theme-btn" id="themeToggle" aria-pressed="false" title="Switch between light and dark mode"><svg viewBox="0 0 24 24" id="themeIcon"></svg><span id="themeLabel">Dark mode</span></button>
         <button class="btn" id="share" title="Copy a link to this basket and these filters"><svg viewBox="0 0 24 24"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>Share</button>
         <button class="btn primary" data-goto="basket" data-focus-add><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add item</button>
@@ -1298,9 +1301,12 @@ function setTheme(t,save){
 }
 
 // Pages
+let prevPage='overview';
 function showPage(p,focusAdd){
   if(!PAGES.includes(p))p='overview';
+  if(p!==state.page)prevPage=state.page||'overview';
   state.page=p;
+  const bt=$('#basketToggle');if(bt){const on=p==='basket';bt.setAttribute('aria-pressed',String(on));bt.title=on?'Back to '+(prevPage==='basket'?'overview':prevPage):'Open your basket';}
   $$('[data-section]').forEach(s=>s.hidden=s.dataset.section!==p);
   $$('.navi').forEach(b=>b.setAttribute('aria-current',b.dataset.page===p?'page':'false'));
   const titles={overview:'Your grocery outlook',basket:'Your basket',stores:'Grocery stores',data:'Data and methods'};
@@ -1338,6 +1344,8 @@ function init(){
   $$('#range button').forEach(b=>b.onclick=()=>{state.range=+b.dataset.r;$$('#range button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));renderLine(effectiveItems())});
   $$('.navi').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
   $$('[data-goto]').forEach(b=>b.onclick=()=>showPage(b.dataset.goto,b.hasAttribute('data-focus-add')));
+  // The basket button in the header toggles: on the Basket page it returns to the previous page.
+  $('#basketToggle').onclick=()=>showPage(state.page==='basket'?(prevPage!=='basket'?prevPage:'overview'):'basket');
   $('#addBtn').onclick=addSelected;$('#pickerClear').onclick=()=>{pick.sel.clear();renderPicker()};
   $('#addInput').addEventListener('input',e=>{pick.q=e.target.value;renderPicker()});
   // Enter adds the ticked products; with nothing ticked it ticks the first match.
