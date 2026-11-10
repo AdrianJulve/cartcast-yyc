@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-11-10T17:59:38Z",
+  "fetched_at": "2026-11-10T18:27:06Z",
   "files": {
     "prices_alberta.csv": {
       "rows": 6600,
@@ -23,8 +23,8 @@
       ]
     },
     "stores_calgary.json": {
-      "records": 387,
-      "downloaded": 582
+      "records": 393,
+      "downloaded": 595
     }
   },
   "sources": {

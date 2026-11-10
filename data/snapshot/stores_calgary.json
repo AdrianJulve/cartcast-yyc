@@ -208,22 +208,6 @@
   }
  },
  {
-  "getbusid": "12418794",
-  "tradename": "STAPLES THE OFFICE SUPERSTORE #273",
-  "address": "#1000 250 EAST HILLS SQ SE",
-  "comdistnm": "BELVEDERE",
-  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Invoiced",
-  "first_iss_dt": "2020-12-07T07:19:48.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -113.9112978,
-    51.0418596
-   ]
-  }
- },
- {
   "getbusid": "124198",
   "tradename": "REAL CANADIAN SUPERSTORE #1576",
   "address": "3575 20 AV NE",
@@ -288,6 +272,22 @@
   }
  },
  {
+  "getbusid": "12471371",
+  "tradename": "COSTCO WHOLESALE",
+  "address": "11588 SARCEE TR NW",
+  "comdistnm": "SHERWOOD",
+  "licencetypes": "TOBACCO RETAILER,\nFUEL SALES/STORAGE,\nMOTOR VEHICLE REPAIR AND SERVICE (1),\nWHOLESALER,\nFOOD SERVICE - PREMISES (SEATING),\nCONTRACTOR (NO PROVINCIAL LICENCE REQUIRED)",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2006-03-24T15:29:02.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1553248,
+    51.1547621
+   ]
+  }
+ },
+ {
   "getbusid": "12483079",
   "tradename": "A & W (MARKET MALL)",
   "address": "#J5 3625 SHAGANAPPI TR NW",
@@ -348,6 +348,22 @@
    "coordinates": [
     -114.2127955,
     51.058447
+   ]
+  }
+ },
+ {
+  "getbusid": "12521365",
+  "tradename": "TOPS SUPERMARKET",
+  "address": "#183 1623 CENTRE ST NW",
+  "comdistnm": "CRESCENT HEIGHTS",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2007-07-24T15:22:49.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0639493,
+    51.0664839
    ]
   }
  },
@@ -864,22 +880,6 @@
   }
  },
  {
-  "getbusid": "13731864",
-  "tradename": "PAWNSHOP SUPERSTORE",
-  "address": "3520 17 AV SE",
-  "comdistnm": "ALBERT PARK/RADISSON HEIGHTS",
-  "licencetypes": "MOTOR VEHICLE DEALER - PREMISES,\nPAWNBROKER (GRANDFATHERED),\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2013-11-21T11:02:30.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -113.9836097,
-    51.038213
-   ]
-  }
- },
- {
   "getbusid": "13737002",
   "tradename": "SAFEWAY #258",
   "address": "524 ELBOW DR SW",
@@ -1216,6 +1216,22 @@
   }
  },
  {
+  "getbusid": "13742036",
+  "tradename": "SOBEYS WEST #60-8686",
+  "address": "3440 56 AV SE",
+  "comdistnm": "FOOTHILLS",
+  "licencetypes": "FOOD SERVICE - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "first_iss_dt": "2014-01-21T05:33:21.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9838012,
+    51.0027594
+   ]
+  }
+ },
+ {
   "getbusid": "13744545",
   "tradename": "SAFEWAY #212",
   "address": "813 11 AV SW",
@@ -1440,6 +1456,22 @@
   }
  },
  {
+  "getbusid": "13945472",
+  "tradename": "FRESHCO POKE",
+  "address": "#297 402 COLLEGIATE BV NW",
+  "comdistnm": "UNIVERSITY HEIGHTS",
+  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING)",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2015-05-13T12:31:24.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1317287,
+    51.0782159
+   ]
+  }
+ },
+ {
   "getbusid": "13955265",
   "tradename": "SAVE-ON-FOODS (HERITAGE)",
   "address": "8855 MACLEOD TR SW",
@@ -1504,18 +1536,18 @@
   }
  },
  {
-  "getbusid": "14083802",
-  "tradename": "CHATTERS SALON AND BEAUTY SUPERSTORE",
-  "address": "11618 SARCEE TR NW",
-  "comdistnm": "SHERWOOD",
-  "licencetypes": "PERSONAL SERVICE,\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2016-05-02T10:10:34.000Z",
+  "getbusid": "14043350",
+  "tradename": "REAL CANADIAN SUPERSTORE (THE)",
+  "address": "19655 SETON WY SE",
+  "comdistnm": "SETON",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nFUEL SALES/STORAGE,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Renewal Invoiced",
+  "first_iss_dt": "2015-12-15T08:06:11.000Z",
   "point": {
    "type": "Point",
    "coordinates": [
-    -114.161663,
-    51.1565386
+    -113.9603748,
+    50.8747667
    ]
   }
  },
@@ -1580,6 +1612,22 @@
    "coordinates": [
     -113.9620305,
     51.0862133
+   ]
+  }
+ },
+ {
+  "getbusid": "14231039",
+  "tradename": "COSTCO WHOLESALE #1217",
+  "address": "75 EAST HILLS BV SE",
+  "comdistnm": "BELVEDERE",
+  "licencetypes": "CONTRACTOR (NO PROVINCIAL LICENCE REQUIRED),\nFOOD SERVICE - PREMISES (SEATING),\nFUEL SALES/STORAGE,\nMOTOR VEHICLE REPAIR AND SERVICE (1),\nPHOTOGRAPHER,\nWHOLESALER",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2016-08-10T15:27:49.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.917582,
+    51.0436073
    ]
   }
  },
@@ -2032,22 +2080,6 @@
   }
  },
  {
-  "getbusid": "15238017",
-  "tradename": "MADHATTER'S SUPERSTORE (THE)",
-  "address": "#1152 3800 MEMORIAL DR NE",
-  "comdistnm": "MARLBOROUGH",
-  "licencetypes": "RETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Pending Renewal",
-  "first_iss_dt": "2019-02-01T10:30:26.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -113.9782699,
-    51.0547006
-   ]
-  }
- },
- {
   "getbusid": "15269814",
   "tradename": "SUNTERRA MARKET & CAFE",
   "address": "2536 KENSINGTON RD NW",
@@ -2156,6 +2188,22 @@
    "coordinates": [
     -113.9559317,
     51.09861
+   ]
+  }
+ },
+ {
+  "getbusid": "15561228",
+  "tradename": "CALGARY CO-OP",
+  "address": "200 BARLOW SQ SE",
+  "comdistnm": "SOUTH FOOTHILLS",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nFUEL SALES/STORAGE,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2019-07-04T15:46:25.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9804618,
+    50.972784
    ]
   }
  },
@@ -2944,6 +2992,22 @@
   }
  },
  {
+  "getbusid": "16115958",
+  "tradename": "MERY SUPERMARKET",
+  "address": "#4 2111 CENTRE ST NW",
+  "comdistnm": "TUXEDO PARK",
+  "licencetypes": "FOOD SERVICE - PREMISES",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2022-02-08T12:18:45.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0630991,
+    51.07121
+   ]
+  }
+ },
+ {
   "getbusid": "16121998",
   "tradename": "SAMBA BRAZILIAN MARKET",
   "address": "#112 1289 HIGHFIELD CR SE",
@@ -3312,18 +3376,18 @@
   }
  },
  {
-  "getbusid": "16243289",
-  "tradename": "FLEX NAILS & BEAUTY SUPERSTORE",
-  "address": "#101 160 96 AV NE",
-  "comdistnm": "HARVEST HILLS",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nWHOLESALER",
-  "jobstatusdesc": "Pending Renewal",
-  "first_iss_dt": "2023-01-05T15:05:35.000Z",
+  "getbusid": "16248619",
+  "tradename": "REAL CANADIAN PIZZA",
+  "address": "#244 55 WESTWINDS CR NE",
+  "comdistnm": "WESTWINDS",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING)",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2022-11-24T13:01:20.000Z",
   "point": {
    "type": "Point",
    "coordinates": [
-    -114.066872,
-    51.1421343
+    -113.9700886,
+    51.107167
    ]
   }
  },
@@ -3408,22 +3472,6 @@
   }
  },
  {
-  "getbusid": "16284234",
-  "tradename": "PICKLEBALL SUPERSTORE",
-  "address": "536 42 AV SE",
-  "comdistnm": "MANCHESTER INDUSTRIAL",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nWAREHOUSING",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2023-05-29T11:46:11.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0515175,
-    51.0160645
-   ]
-  }
- },
- {
   "getbusid": "16289456",
   "tradename": "AIRWAYS FOODS",
   "address": "#115 1935 32 AV NE",
@@ -3468,6 +3516,22 @@
    "coordinates": [
     -113.9601319,
     51.0970437
+   ]
+  }
+ },
+ {
+  "getbusid": "16322521",
+  "tradename": "A & P ASIAN SUPERMARKET",
+  "address": "#405 8120 BEDDINGTON BV NW",
+  "comdistnm": "BEDDINGTON HEIGHTS",
+  "licencetypes": "FOOD SERVICE - PREMISES",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2023-04-25T16:17:11.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0749204,
+    51.1269184
    ]
   }
  },
@@ -3568,6 +3632,22 @@
   }
  },
  {
+  "getbusid": "16371569",
+  "tradename": "LAKEVIEW IGA",
+  "address": "#1 6449 CROWCHILD TR SW",
+  "comdistnm": "LAKEVIEW",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2023-09-28T08:56:20.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1194885,
+    50.9961202
+   ]
+  }
+ },
+ {
   "getbusid": "16376840",
   "tradename": "M M FOOD MARKET",
   "address": "#15 728 NORTHMOUNT DR NW",
@@ -3596,6 +3676,22 @@
    "coordinates": [
     -114.1694615,
     51.1795018
+   ]
+  }
+ },
+ {
+  "getbusid": "16383531",
+  "tradename": "SILVERADO SOBEYS",
+  "address": "#704 19369 SHERIFF KING ST SW",
+  "comdistnm": "SILVERADO",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nFUEL SALES/STORAGE,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2023-09-06T05:34:45.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0732742,
+    50.879489
    ]
   }
  },
@@ -3724,22 +3820,6 @@
    "coordinates": [
     -114.1662555,
     51.1706441
-   ]
-  }
- },
- {
-  "getbusid": "16436560",
-  "tradename": "FLEX NAILS & BEAUTY SUPERSTORE",
-  "address": "#17 9250 MACLEOD TR SE",
-  "comdistnm": "ACADIA",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nWHOLESALER",
-  "jobstatusdesc": "Pending Renewal",
-  "first_iss_dt": "2024-02-02T15:10:14.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0697504,
-    50.9702889
    ]
   }
  },
@@ -3884,6 +3964,22 @@
    "coordinates": [
     -113.9637428,
     50.9981718
+   ]
+  }
+ },
+ {
+  "getbusid": "16485278",
+  "tradename": "KHEDRI BROS/PARSA SUPERMARKET& BAKERY",
+  "address": "8906 MACLEOD TR SE",
+  "comdistnm": "ACADIA",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING)",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2024-05-21T15:35:04.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0699737,
+    50.973647
    ]
   }
  },
@@ -4128,6 +4224,22 @@
   }
  },
  {
+  "getbusid": "16554636",
+  "tradename": "AMARANTH WHOLE FOODS MARKET",
+  "address": "#14 6143 4 ST SE",
+  "comdistnm": "MANCHESTER INDUSTRIAL",
+  "licencetypes": "FOOD SERVICE - PREMISES",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2025-08-27T12:09:42.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0543313,
+    50.996737
+   ]
+  }
+ },
+ {
   "getbusid": "16554800",
   "tradename": "CALGARY HALAL MEAT",
   "address": "#126 20 SADDLESTONE DR NE",
@@ -4247,6 +4359,22 @@
   "licencetypes": "TOBACCO RETAILER,\nRETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES (SEATING)",
   "jobstatusdesc": "Renewal Licensed",
   "first_iss_dt": "2025-02-05T08:18:20.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9853701,
+    51.0615573
+   ]
+  }
+ },
+ {
+  "getbusid": "16570251",
+  "tradename": "T&T EXPRESS",
+  "address": "#800 999 36 ST NE",
+  "comdistnm": "FRANKLIN",
+  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING)",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2025-02-04T09:57:45.000Z",
   "point": {
    "type": "Point",
    "coordinates": [
@@ -4640,6 +4768,22 @@
   }
  },
  {
+  "getbusid": "16670465",
+  "tradename": "FRESHCO FRONTIER 9623",
+  "address": "1910 KENSINGTON RD NW",
+  "comdistnm": "WEST HILLHURST",
+  "licencetypes": "FOOD SERVICE - PREMISES",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2025-09-19T12:33:41.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1032466,
+    51.0527269
+   ]
+  }
+ },
+ {
   "getbusid": "16670689",
   "tradename": "SUNSTATE HALAL MEAT",
   "address": "#3 4709 14 ST NE",
@@ -4716,22 +4860,6 @@
    "coordinates": [
     -114.1404055,
     51.1738288
-   ]
-  }
- },
- {
-  "getbusid": "16681496",
-  "tradename": "AFC ZENSHI AT SOBEYS 4057",
-  "address": "#125 8888 COUNTRY HILLS BV NW",
-  "comdistnm": "ROYAL VISTA",
-  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2025-10-01T08:03:21.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.2129643,
-    51.1514204
    ]
   }
  },
@@ -4848,6 +4976,22 @@
   }
  },
  {
+  "getbusid": "16702789",
+  "tradename": "SOBEYS WEST DISTRICT 4066",
+  "address": "740 85 ST SW",
+  "comdistnm": "WEST SPRINGS",
+  "licencetypes": "FOOD SERVICE - PREMISES",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2025-12-16T15:05:14.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.2101513,
+    51.0651974
+   ]
+  }
+ },
+ {
   "getbusid": "16709305",
   "tradename": "INS MARKET 8239",
   "address": "#109Z 4825 MOUNT ROYAL GA SW",
@@ -4892,22 +5036,6 @@
    "coordinates": [
     -113.9695759,
     51.0301616
-   ]
-  }
- },
- {
-  "getbusid": "16723694",
-  "tradename": "PAWNSHOP SUPERSTORE",
-  "address": "#125 6404 BOWNESS RD NW",
-  "comdistnm": "BOWNESS",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nPAWNBROKER",
-  "jobstatusdesc": "Licensed",
-  "first_iss_dt": "2026-02-04T08:04:02.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.1799436,
-    51.0860163
    ]
   }
  },
@@ -5084,6 +5212,22 @@
    "coordinates": [
     -113.9341913,
     51.1509216
+   ]
+  }
+ },
+ {
+  "getbusid": "16761116",
+  "tradename": "INTERNATIONAL FRESH FOODS SUPERMARKET",
+  "address": "#36 240 MIDPARK WY SE",
+  "comdistnm": "MIDNAPORE",
+  "licencetypes": "FOOD SERVICE - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "first_iss_dt": "2026-09-03T15:22:17.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0626322,
+    50.9140532
    ]
   }
  },
@@ -5440,6 +5584,38 @@
   }
  },
  {
+  "getbusid": "185298",
+  "tradename": "COSTCO WHOLESALE #251",
+  "address": "99 HERITAGE GA SE",
+  "comdistnm": "EAST FAIRVIEW INDUSTRIAL",
+  "licencetypes": "TOBACCO RETAILER,\nFUEL SALES/STORAGE,\nMOTOR VEHICLE REPAIR AND SERVICE (1),\nWHOLESALER,\nFOOD SERVICE - PREMISES (NO SEATING),\nCONTRACTOR (NO PROVINCIAL LICENCE REQUIRED)",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2003-04-26T05:37:25.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0463751,
+    50.9896247
+   ]
+  }
+ },
+ {
+  "getbusid": "194282",
+  "tradename": "COSTCO WHOLESALE",
+  "address": "2853 32 ST NE",
+  "comdistnm": "SUNRIDGE",
+  "licencetypes": "CONTRACTOR (NO PROVINCIAL LICENCE REQUIRED),\nFOOD SERVICE - PREMISES (SEATING),\nMOTOR VEHICLE REPAIR AND SERVICE (2-PROV N/R),\nTOBACCO RETAILER,\nVAPE RETAILER,\nWHOLESALER",
+  "jobstatusdesc": "Pending Renewal",
+  "first_iss_dt": "2001-06-01T00:00:00.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9906709,
+    51.0793
+   ]
+  }
+ },
+ {
   "getbusid": "199075",
   "tradename": "REAL CANADIAN WHOLESALE CLUB #6709",
   "address": "222 58 AV SE",
@@ -5516,22 +5692,6 @@
    "coordinates": [
     -114.1612555,
     51.1364851
-   ]
-  }
- },
- {
-  "getbusid": "252346",
-  "tradename": "CARPET SUPERMARKET",
-  "address": "#104 10720 25 ST NE",
-  "comdistnm": "CALGARY INTERNATIONAL AIRPORT",
-  "licencetypes": "RETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2013-02-22T09:52:41.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -113.9972287,
-    51.1511882
    ]
   }
  },
@@ -5632,22 +5792,6 @@
   }
  },
  {
-  "getbusid": "317321",
-  "tradename": "STAPLES THE OFFICE SUPERSTORE #48",
-  "address": "1215 9 AV SW",
-  "comdistnm": "DOWNTOWN WEST END",
-  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Pending Renewal",
-  "first_iss_dt": "2001-06-01T00:00:00.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0905787,
-    51.0450494
-   ]
-  }
- },
- {
   "getbusid": "3335",
   "tradename": "MORNING SUN HEALTH FOODS",
   "address": "#F11 3625 SHAGANAPPI TR NW",
@@ -5724,22 +5868,6 @@
    "coordinates": [
     -114.0813152,
     51.0376352
-   ]
-  }
- },
- {
-  "getbusid": "380436",
-  "tradename": "STAPLES THE OFFICE SUPERSTORE #62",
-  "address": "#3 321 61 AV SW",
-  "comdistnm": "MANCHESTER INDUSTRIAL",
-  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Invoiced",
-  "first_iss_dt": "2001-06-01T00:00:00.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0682531,
-    50.9971652
    ]
   }
  },
@@ -6032,18 +6160,18 @@
   }
  },
  {
-  "getbusid": "70391",
-  "tradename": "PARADISE BAY HOTTUB & BILLIARD SUPERSTORE",
-  "address": "7180 12 ST SE",
-  "comdistnm": "EAST FAIRVIEW INDUSTRIAL",
-  "licencetypes": "RETAIL DEALER - PREMISES",
+  "getbusid": "677237",
+  "tradename": "REAL CANADIAN SUPERSTORE #1577",
+  "address": "5858 SIGNAL HILL CE SW",
+  "comdistnm": "SIGNAL HILL",
+  "licencetypes": "PHOTOGRAPHER,\nTOBACCO RETAILER,\nRETAIL DEALER - PREMISES,\nFUEL SALES/STORAGE,\nFOOD SERVICE - PREMISES,\nVAPE RETAILER",
   "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2015-10-06T05:32:52.000Z",
+  "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
    "coordinates": [
-    -114.0364222,
-    50.9906198
+    -114.1743709,
+    51.0195471
    ]
   }
  },
@@ -6060,22 +6188,6 @@
    "coordinates": [
     -114.1720788,
     51.0173848
-   ]
-  }
- },
- {
-  "getbusid": "728592",
-  "tradename": "STAPLES THE OFFICE SUPERSTORE #110",
-  "address": "5662 SIGNAL HILL CE SW",
-  "comdistnm": "SIGNAL HILL",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2001-06-01T00:00:00.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.170649,
-    51.0202108
    ]
   }
  },
@@ -6140,22 +6252,6 @@
    "coordinates": [
     -114.0676404,
     50.9100156
-   ]
-  }
- },
- {
-  "getbusid": "797399",
-  "tradename": "STAPLES THE OFFICE SUPERSTORE #132",
-  "address": "#140 350R SHAWVILLE BV SE",
-  "comdistnm": "SHAWNESSY",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2001-06-01T00:00:00.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0599465,
-    50.8987118
    ]
   }
  },
