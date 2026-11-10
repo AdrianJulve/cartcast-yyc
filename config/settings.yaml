@@ -56,12 +56,15 @@ dashboard:
   title: "CartCast YYC"
   tagline: "Weekly grocery costs for Calgary households."
   # Base map tiles for the store map. The viewer's browser loads them directly.
-  # If they cannot load (for example offline), the map shows a plain grid.
+  # OpenStreetMap's standard tiles are free and need no API key. The usage policy
+  # (https://operations.osmfoundation.org/policies/tiles/) requires HTTPS, visible
+  # attribution and normal browser caching, and forbids bulk downloading.
+  # If tiles cannot load (for example offline), the map shows a plain grid.
   map:
-    tiles: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-    subdomains: "abcd"
-    max_zoom: 18
-    attribution: "Map data from OpenStreetMap contributors, map tiles from CARTO"
+    tiles: "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+    subdomains: ""
+    max_zoom: 19
+    attribution: "\u00a9 OpenStreetMap contributors"
     attribution_url: "https://www.openstreetmap.org/copyright"
 
 stores:
@@ -100,8 +103,26 @@ stores:
     - "HALAL"
     - "ASIAN FOOD"
     - "DELI"
+  # Keywords match whole words (a trailing S is allowed), so "DELI" does not
+  # match "DELIGHT" or "DELIVERY". Names with any of these words are left out.
   exclude_keywords:
-    - "FLEA MARKET"
+    - "FLEA"
     - "MARKETING"
-    - "PET FOOD"
-    - "SUPERMARKET OF FLOORING"
+    - "FLOORING"
+    - "PET"
+    - "FLORIST"
+    - "FLOWER"
+    - "MUSIC"
+    - "SCHOOL"
+    - "METAL"
+    - "CANNABIS"
+    - "SMOKE"
+    - "VAPE"
+    - "TOBACCO"
+    - "LIQUOR"
+    - "AUTO"
+    - "FURNITURE"
+    - "CLOTHING"
+    - "JEWELLERY"
+    - "PHONE"
+    - "EQUIPMENT"
