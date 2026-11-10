@@ -48,6 +48,7 @@ sequenceDiagram
 - Python includes 36 months of prices for all of the roughly 110 products. The browser recalculates the basket, substitutions and charts whenever the user changes something.
 - The household size, basket items, applied substitutions, current page and filters are stored in the URL after `#b=`, so a view can be shared as a link or a QR code.
 - The data is embedded in a `<script type="application/json">` element. Any `</` in the data is escaped so it cannot close the element early.
+- Light and dark themes are two sets of CSS variables on the root element (`data-theme`). A small script in `<head>` applies the saved or system theme before the page paints, so there is no flash. SVG charts read their colours from the same variables when they draw, and redraw when the theme changes. In dark mode the map tiles are inverted and dimmed with a CSS filter.
 - Controls are standard `<select>` and `<button>` elements with `aria-pressed` states and visible keyboard focus. Every value is shown as text, so no information depends on colour alone.
 
 ## Visual design
@@ -55,4 +56,4 @@ sequenceDiagram
 Colours, spacing and chart styles follow `design/mockup.html`: a dark green brand
 colour (`#0f5c4a`) with an orange accent, shades of blue for magnitude, blue and
 red for decreases and increases, thin marks, bars with 4 px rounded ends, light
-gridlines, and the Inter typeface.
+gridlines, and the Inter typeface. The dark theme uses lighter steps of the same hues, checked for WCAG AA text contrast against the dark surfaces.
