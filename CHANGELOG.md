@@ -19,7 +19,14 @@ Notable changes to this project are recorded here. The format follows
 - Clear basket and Restore default basket buttons, each with Undo, and empty-basket states across the dashboard.
 - Store licence type, status and first-issued year in the store data.
 
+### Fixed
+- Most supermarkets were missing from the map. The store query only accepted the "Licensed" and "Pending Renewal" statuses, but about two-thirds of active licences are "Renewal Licensed". All active statuses are now included.
+- Walmart stores were missing because the licence data spells the name "WAL-MART".
+- Chain gas bars, liquor stores, cannabis stores, car washes and home health stores are now excluded by licence type and name.
+- Butchers and bakeries that hold only a no-seating food licence are now included.
+
 ### Changed
+- A push that changes the store rules or data code now downloads fresh data before deploying.
 - Store keywords now match whole words, and more non-food businesses are excluded (florists, pet stores, cannabis shops, music schools and others).
 - Selecting a store again, selecting empty map, the filter chip or Esc now clears the community selection.
 - The README image is a screenshot of the live dashboard.

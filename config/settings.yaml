@@ -70,11 +70,39 @@ dashboard:
 stores:
   # There is no grocery licence type, so retailers are identified by licence
   # type and by keywords in the trade name.
+  #
+  # A record must hold at least one of these licence types. Retail licences are
+  # the main one; some butchers and bakeries hold only a no-seating food licence.
   licence_types_any:
     - "RETAIL DEALER - PREMISES"
+    - "FOOD SERVICE - PREMISES (NO SEATING)"
+  retail_licence: "RETAIL DEALER - PREMISES"
+  # Records with only the no-seating food licence (no retail licence) must also
+  # have one of these words in the name, so take-out restaurants are left out.
+  food_service_only_keywords:
+    - "BUTCHER"
+    - "MEAT"
+    - "SAUSAGE"
+    - "SEAFOOD"
+    - "FISH"
+    - "BAKERY"
+    - "PRODUCE"
+    - "GROCERY"
+    - "GROCERIES"
+  # Separate licences for a chain's liquor store, cannabis store or gas bar.
+  licence_types_exclude:
+    - "LIQUOR STORE"
+    - "CANNABIS STORE"
+    - "FUEL SALES/STORAGE"
+  # Every status of an active licence. "Renewal Licensed" alone covers about
+  # two-thirds of the dataset. "Close in Progress" is left out.
   status_any:
     - "Licensed"
+    - "Renewal Licensed"
+    - "Renewal Invoiced"
+    - "Renewal Notification Sent"
     - "Pending Renewal"
+    - "Move in Progress"
   supermarket_keywords:
     - "SUPERSTORE"
     - "SAFEWAY"
@@ -83,7 +111,10 @@ stores:
     - "NO FRILLS"
     - "FRESHCO"
     - "SAVE-ON-FOODS"
-    - "WALMART SUPERCENTRE"
+    - "WALMART"
+    - "WAL-MART"
+    - "REAL CANADIAN"
+    - "WHOLE FOODS"
     - "COSTCO"
     - "T & T"
     - "T&T"
@@ -126,3 +157,11 @@ stores:
     - "JEWELLERY"
     - "PHONE"
     - "EQUIPMENT"
+    - "GAS"
+    - "GAS BAR"
+    - "CAR WASH"
+    - "WINE"
+    - "SPIRITS"
+    - "BEER"
+    - "HOME HEALTH"
+    - "PORTRAIT"

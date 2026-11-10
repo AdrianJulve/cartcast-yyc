@@ -22,7 +22,7 @@ from typing import Any
 
 import pandas as pd
 
-from .stores import classify
+from .stores import food_retailer_kind
 
 PRICES_FILE = "prices_alberta.csv"
 CPI_FILE = "cpi_calgary_alberta.csv"
@@ -102,7 +102,7 @@ def write_stores(raw_json: Path, out_json: Path, settings: dict[str, Any]) -> di
     kept = [
         {k: r[k] for k in STORE_FIELDS if k in r}
         for r in records
-        if classify(r.get("tradename") or "", settings) and r.get("point")
+        if food_retailer_kind(r, settings) and r.get("point")
     ]
     out_json.write_text(json.dumps(kept, indent=1), encoding="utf-8")
     return {"records": len(kept), "downloaded": len(records)}
