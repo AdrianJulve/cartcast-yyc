@@ -12,6 +12,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 CONFIG_DIR = REPO_ROOT / "config"
 DATA_DIR = REPO_ROOT / "data"
 RAW_DIR = DATA_DIR / "raw"
+SNAPSHOT_DIR = DATA_DIR / "snapshot"
 SAMPLE_DIR = DATA_DIR / "sample"
 PROCESSED_DIR = DATA_DIR / "processed"
 SITE_DIR = REPO_ROOT / "site"

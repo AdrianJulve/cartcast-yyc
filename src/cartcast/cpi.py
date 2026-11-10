@@ -15,7 +15,7 @@ def _product_column(columns: Iterable[str]) -> str:
     for col in columns:
         if col.startswith("Products"):
             return col
-    raise ValueError("No 'Products…' column found in CPI file")
+    raise ValueError("No column starting with 'Products' found in the CPI file")
 
 
 def load_cpi(

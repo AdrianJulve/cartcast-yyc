@@ -1,49 +1,59 @@
 # Architecture
 
-CartCast is deliberately simple: a Python pipeline produces **one self-contained
-HTML file** with the data embedded. No server, database or API keys. It can be
-hosted free on GitHub Pages, emailed, or opened from a USB stick during the
-presentation.
+The Python pipeline produces a single HTML file with the data embedded in it. The
+site needs no server, database or API keys. It can be hosted on GitHub Pages or
+opened directly from a local copy. The only external requests are base map tiles
+for the store map; without a connection the map shows a plain grid and every other
+part of the dashboard still works.
 
 ```mermaid
 sequenceDiagram
-  participant GA as GitHub Actions (monthly)
+  participant GA as GitHub Actions (weekly, and on push)
   participant SC as StatCan
   participant YYC as data.calgary.ca
   participant P as cartcast build
   participant GP as GitHub Pages
-  GA->>SC: download 18100245-eng.zip, 18100004-eng.zip
-  GA->>YYC: SoQL query vdjc-pybd (paged)
-  GA->>P: validate basket names
-  P->>P: load → filter Alberta → wide table → ffill
-  P->>P: basket cost · CPI yoy · swaps · stores · outlook
-  P->>GA: site/index.html + data/processed/*.json
+  GA->>SC: download 18100245, 18100004 and 11100066 zip files
+  GA->>YYC: query vdjc-pybd (paged)
+  GA->>GA: write data/snapshot/ and commit it to main
+  GA->>P: validate basket product names
+  P->>P: load, filter to Alberta, reshape, fill gaps
+  P->>P: basket cost, CPI change, substitutions, stores, outlook
+  P->>GA: site/index.html and data/processed/*.json
   GA->>GP: deploy
 ```
 
 ## Modules
 
-| Module | Responsibility |
+| Module | Purpose |
 |---|---|
-| `config.py` | Reads `config/*.yaml` into typed objects (`BasketItem`, `Swap`, `Config`) |
-| `sources.py` | HTTP with retries. StatCan zip extraction and Socrata paging, standard library only |
-| `prices.py` | Loads 18-10-0245-01, filters geography, reshapes, computes yoy, fuzzy name suggestions |
-| `cpi.py` | Streams 18-10-0004-01 in chunks, filters, computes 12-month change |
-| `stores.py` | Classifies licence records into supermarket / specialty, dedupes |
-| `basket.py` | Basket cost, aisle shares, swap savings, outlook band, validation |
-| `build.py` | Assembles the JSON payload and injects it into the HTML template |
-| `cli.py` | `fetch`, `validate`, `build`, `serve` |
+| `config.py` | Reads `config/*.yaml` into `BasketItem`, `Swap` and `Config` objects |
+| `sources.py` | Downloads files with retries: StatCan zip extraction and Socrata paging. Uses only the standard library |
+| `prices.py` | Loads Table 18-10-0245-01, filters by geography, reshapes, calculates 12-month change, suggests names |
+| `cpi.py` | Reads Table 18-10-0004-01 in chunks, filters it and calculates 12-month change |
+| `mbm.py` | Loads the Calgary Market Basket Measure food threshold and calculates the weekly benchmark |
+| `snapshot.py` | Writes the compact real-data extracts in `data/snapshot/` and the manifest |
+| `stores.py` | Classifies licence records as supermarket or specialty and removes duplicates |
+| `basket.py` | Basket cost, aisle shares, substitution savings, outlook range and name validation |
+| `build.py` | Builds the data payload and inserts it into the HTML template |
+| `cli.py` | The `fetch`, `snapshot`, `validate`, `build` and `serve` commands |
 
-## The dashboard (`templates/dashboard.html`)
+## Dashboard (`templates/dashboard.html`)
 
-- Vanilla JS and inline SVG, with no external libraries or network calls, so it works offline.
-- Python precomputes 36 months of prices for all ~110 products. The browser recomputes the basket, swaps and charts instantly when the user edits anything.
-- State (household, items, applied swaps) lives in the URL hash (`#b=…`), so a basket can be shared or turned into a QR code.
-- The data is embedded as `<script type="application/json">`, with `</` escaped so data can't break out of the tag.
-- It's accessible: real `<select>`/`<button>` controls, `aria-pressed` toggles, keyboard focus styles, tooltips on hover, and every value labelled as text (never colour alone).
+- Written in plain JavaScript with inline SVG charts and no external libraries.
+- The store map draws OpenStreetMap standard tiles (free, no API key) in Web Mercator, with its own zoom and drag handling. A CSS filter softens the tile colours to match the dashboard. The tile address and attribution are set in `config/settings.yaml` under `dashboard.map`.
+- Map selection is separate from the filters. A store or a spot can be selected; the map zooms to show 1 km and 2 km rings and a line to the nearest supermarket, and a details card lists nearby stores. Distances are straight-line (haversine), and walking time assumes 4.8 km/h. Selecting the same store again, the close button or Esc clears the selection.
+- Four pages share one state: Overview, Basket, Stores and Data. The sidebar switches between them.
+- Cross-filtering: one filter state (month, aisle, product, community, store type) drives every visual. Selecting the same element again, the chip in the filter bar, or Esc clears a filter. Store relevance to an aisle comes from trade-name keywords: supermarkets and general grocers match every aisle; butchers, produce stores and bakeries match their own.
+- Python includes 36 months of prices for all of the roughly 110 products. The browser recalculates the basket, substitutions and charts whenever the user changes something.
+- The household size, basket items, applied substitutions, current page and filters are stored in the URL after `#b=`, so a view can be shared as a link or a QR code.
+- The data is embedded in a `<script type="application/json">` element. Any `</` in the data is escaped so it cannot close the element early.
+- Light and dark themes are two sets of CSS variables on the root element (`data-theme`). A small script in `<head>` applies the saved or system theme before the page paints, so there is no flash. SVG charts read their colours from the same variables when they draw, and redraw when the theme changes. In dark mode the map tiles are inverted and dimmed with a CSS filter.
+- Controls are standard `<select>` and `<button>` elements with `aria-pressed` states and visible keyboard focus. Every value is shown as text, so no information depends on colour alone.
 
-## Design system
+## Visual design
 
-Colours, spacing and chart conventions match `design/mockup.html`: a brand green
-`#0f5c4a` with an orange accent, a single-hue blue for magnitude, blue/red for
-up/down, thin marks, 4 px rounded bar ends, recessive gridlines, and Inter type.
+Colours, spacing and chart styles follow `design/mockup.html`: a dark green brand
+colour (`#0f5c4a`) with an orange accent, shades of blue for magnitude, blue and
+red for decreases and increases, thin marks, bars with 4 px rounded ends, light
+gridlines, and the Inter typeface. The dark theme uses lighter steps of the same hues, checked for WCAG AA text contrast against the dark surfaces.

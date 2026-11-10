@@ -6,7 +6,7 @@ body:
     id: problem
     attributes:
       label: Who is it for, and what problem does it solve?
-      placeholder: "As a family on a tight budget, I want … so that …"
+      placeholder: "As a family on a tight budget, I want ... so that ..."
     validations:
       required: true
   - type: textarea

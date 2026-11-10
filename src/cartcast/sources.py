@@ -56,11 +56,24 @@ def download_statcan_table(url: str, table_id: str, dest_dir: Path) -> Path:
 def build_store_query(settings: dict[str, Any]) -> str:
     """SoQL ``$where`` clause for grocery-like retail licences."""
     cfg = settings["stores"]
-    types = " OR ".join(f"licencetypes like '%{t}%'" for t in cfg["licence_types_any"])
+
+    def any_of(field: str, values: list[str]) -> str:
+        return "(" + " OR ".join(f"{field} like '%{v}%'" for v in values) + ")"
+
     status = ", ".join(f"'{s}'" for s in cfg["status_any"])
     words = cfg["supermarket_keywords"] + cfg["specialty_keywords"]
-    names = " OR ".join(f"upper(tradename) like '%{w}%'" for w in words)
-    return f"({types}) AND jobstatusdesc in ({status}) AND ({names})"
+    general = (
+        any_of("licencetypes", cfg["licence_types_any"])
+        + " AND "
+        + any_of("upper(tradename)", words)
+    )
+    super_types = cfg.get("supermarket_licence_types_any", cfg["licence_types_any"])
+    supers = (
+        any_of("licencetypes", super_types)
+        + " AND "
+        + any_of("upper(tradename)", cfg["supermarket_keywords"])
+    )
+    return f"jobstatusdesc in ({status}) AND (({general}) OR ({supers}))"
 
 
 def download_calgary_stores(settings: dict[str, Any], dest: Path, page_size: int = 5000) -> Path:
