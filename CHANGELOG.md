@@ -39,7 +39,8 @@ Notable changes to this project are recorded here. The format follows
 - A push that changes the store rules or data code now downloads fresh data before deploying.
 - Store keywords now match whole words, and more non-food businesses are excluded (florists, pet stores, cannabis shops, music schools and others).
 - Selecting a store again, selecting empty map, the filter chip or Esc now clears the community selection.
-- The README image is a screenshot of the live dashboard.
+- The README image is a screenshot of the live dashboard in light mode.
+- The sparkline in the basket card sits beside the label, and moves below the text on narrow screens so it no longer covers it.
 - The grocery inflation figure now uses the Calgary CMA CPI, with Alberta as a fallback.
 - `cartcast build` reads the snapshot by default. Use `--sample` for the synthetic data.
 - The refresh workflow runs weekly and on every push to `main`, commits the refreshed snapshot, and deploys the live site.

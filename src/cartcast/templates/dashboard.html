@@ -105,7 +105,9 @@
   .kpi.hero .k,.kpi.hero .d{color:rgba(255,255,255,.85)}
   .kpi.hero .v small{color:rgba(255,255,255,.72)}
   .kpi.hero .pill{background:rgba(255,255,255,.18);color:#fff}
-  .kpi.hero .spark{position:absolute;right:16px;bottom:14px}
+  .kpi.hero{container-type:inline-size}
+  .kpi.hero .spark{position:absolute;right:18px;top:18px}
+  @container (max-width:350px){.kpi.hero .spark{position:static;display:block;width:120px;height:43px;margin-top:10px}}
   .row{display:grid;gap:16px;min-height:0}
   .row.a{grid-template-columns:1.65fr 1fr}
   .row.b{grid-template-columns:1fr 1.05fr 1fr}
