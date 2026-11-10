@@ -40,6 +40,8 @@ household use. CartCast presents the same data as a single page.
 - Food access check: selecting any spot on the map shows how many food retailers are within 1 km and 2 km and how far the nearest supermarket is, with walking time.
 - Community summary: filtering to a community outlines it on the map and shows its store counts and its rank among communities.
 - One-click Clear basket and Restore default basket, each with Undo.
+- Product picker: search or browse by aisle, tick several products and add them in one step.
+- Light and dark mode, saved in the browser and defaulting to the system setting.
 - Cross-filtering: selecting a month, aisle, product, community or store type filters every related chart, card and table. A filter bar shows what is active, and Esc clears it.
 - Four pages: Overview, Basket (a sortable, editable table), Stores (a full-size map and list) and Data (sources, freshness and methods).
 - Grocery inflation for the Calgary CMA from the Consumer Price Index, with Alberta as a fallback.
