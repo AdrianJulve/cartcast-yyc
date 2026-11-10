@@ -32,7 +32,7 @@ This is the payload embedded in the site.
 | `cpi.food_yoy` | Latest 12-month change for Food purchased from stores in the headline geography |
 | `cpi.headline_geo` | Geography used for the inflation figure (Calgary CMA, or Alberta as a fallback) |
 | `mbm` | `{year, annual_family4, geo, base, series}` for the Calgary food benchmark, or `null` if unavailable |
-| `stores` | List of `{name, address, community, lat, lon, kind}` |
+| `stores` | List of `{name, address, community, lat, lon, kind, licence, status, issued}`. `issued` is the year the licence was first issued |
 | `summary` | Same contents as `summary.json` |
 
 ## Configuration files

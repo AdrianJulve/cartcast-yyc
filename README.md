@@ -36,6 +36,10 @@ household use. CartCast presents the same data as a single page.
 - Substitution suggestions with the weekly saving for each. Selecting one applies it to the basket.
 - Share of the basket cost by aisle.
 - Map of licensed food retailers on an OpenStreetMap base map, with zoom, panning and a searchable list.
+- Store details: selecting a store shows its type, licence, what it likely sells, stores within 1 km and 2 km, the nearest supermarket, the nearest stores and a directions link, with distance rings on the map.
+- Food access check: selecting any spot on the map shows how many food retailers are within 1 km and 2 km and how far the nearest supermarket is, with walking time.
+- Community summary: filtering to a community outlines it on the map and shows its store counts and its rank among communities.
+- One-click Clear basket and Restore default basket, each with Undo.
 - Cross-filtering: selecting a month, aisle, product, community or store type filters every related chart, card and table. A filter bar shows what is active, and Esc clears it.
 - Four pages: Overview, Basket (a sortable, editable table), Stores (a full-size map and list) and Data (sources, freshness and methods).
 - Grocery inflation for the Calgary CMA from the Consumer Price Index, with Alberta as a fallback.

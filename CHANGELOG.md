@@ -15,6 +15,10 @@ Notable changes to this project are recorded here. The format follows
 - Cross-filtering across every visual by month, aisle, product, community and store type, with a filter bar.
 - Basket, Stores and Data pages in the sidebar.
 
+- Store details card, food access check for any spot on the map, and community summaries, with distance rings and a line to the nearest supermarket.
+- Clear basket and Restore default basket buttons, each with Undo, and empty-basket states across the dashboard.
+- Store licence type, status and first-issued year in the store data.
+
 ### Changed
 - Store keywords now match whole words, and more non-food businesses are excluded (florists, pet stores, cannabis shops, music schools and others).
 - Selecting a store again, selecting empty map, the filter chip or Esc now clears the community selection.

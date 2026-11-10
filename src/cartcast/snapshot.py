@@ -37,6 +37,7 @@ STORE_FIELDS = [
     "comdistnm",
     "licencetypes",
     "jobstatusdesc",
+    "first_iss_dt",
     "point",
 ]
 

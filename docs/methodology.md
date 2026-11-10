@@ -81,6 +81,12 @@ nutritionally adequate.
 Stores are classified by matching keywords in business licence trade names. The
 limitations are described in `docs/data-sources.md`.
 
+## Store distances
+
+Distances on the map are straight-line distances between coordinates. Walking
+times assume 4.8 km/h. Real walking routes are longer, so both figures are lower
+bounds. The 1 km and 2 km rings show common short walking distances.
+
 ## Limitations
 
 - Item prices are averages for Alberta, because StatCan does not publish them for Calgary or for individual stores. The inflation figure, food benchmark and store list are specific to Calgary.
