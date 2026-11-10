@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CartCast YYC: Calgary grocery outlook</title>
-<meta name="description" content="Price your weekly grocery basket with Statistics Canada's Alberta average retail prices, see what moved, and find cheaper swaps.">
+<meta name="description" content="Price your weekly grocery basket with Statistics Canada's Alberta average retail prices, see what changed, find cheaper substitutes and nearby grocery stores in Calgary.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%230f5c4a'/%3E%3Cpath d='M5 7h1.6l1.6 7.2a1 1 0 0 0 1 .8h5.7a1 1 0 0 0 1-.8L17.5 9.5H7' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
   :root{
     --page:#f4f3ee; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781;
     --grid:#e1e0d9; --axis:#c3c2b7; --ring:rgba(11,11,11,0.08); --wash:#efeee8;
-    --brand:#0f5c4a; --brand-2:#17806a; --accent:#eb6834;
+    --brand:#0f5c4a; --brand-2:#17806a; --brand-bg:#e3f1ec; --accent:#eb6834;
     --up:#d03b3b; --down:#2a78d6; --good:#006300; --good-bg:#e6f4e6; --up-bg:#fbe9e8;
     --s1:#2a78d6; --band:#cde2fb;
     --seq1:#1c5cab; --seq2:#2a78d6; --seq3:#5598e7; --seq4:#86b6ef;
@@ -22,14 +22,15 @@
   button,select,input{font:inherit;color:inherit}
   button{cursor:pointer}
   :focus-visible{outline:2px solid var(--s1);outline-offset:2px;border-radius:6px}
+  [hidden]{display:none!important}
   .app{display:grid;grid-template-columns:76px 1fr;min-height:100vh;background:linear-gradient(90deg,var(--brand) 76px,transparent 76px)}
-  .rail{background:var(--brand);display:flex;flex-direction:column;align-items:center;padding:22px 0;gap:14px;position:sticky;top:0;height:100vh}
+  .rail{background:var(--brand);display:flex;flex-direction:column;align-items:center;padding:22px 0;gap:10px;position:sticky;top:0;height:100vh}
   .logo{width:42px;height:42px;border-radius:12px;background:#fff;display:grid;place-items:center;margin-bottom:18px}
-  .navi{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;opacity:.6;background:none;border:0}
-  .navi:hover{opacity:.9;background:rgba(255,255,255,.08)}
-  .navi.on{background:rgba(255,255,255,.14);opacity:1}
+  .navi{width:56px;padding:8px 0 6px;border-radius:12px;display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.65;background:none;border:0;color:#fff;font-size:10.5px;font-weight:500}
+  .navi:hover{opacity:.95;background:rgba(255,255,255,.08)}
+  .navi[aria-current="page"]{background:rgba(255,255,255,.16);opacity:1}
   .navi svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-  .main{padding:26px 32px 22px;display:flex;flex-direction:column;gap:18px;min-width:0;max-width:1680px}
+  .main{padding:26px 32px 22px;display:flex;flex-direction:column;gap:16px;min-width:0;max-width:1680px}
   header{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
   .eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-2)}
   h1{font-family:"Inter Display",var(--font);font-size:30px;font-weight:700;letter-spacing:-.02em;margin-top:4px}
@@ -45,7 +46,18 @@
   .btn:hover{background:#fff}
   .btn.primary{background:var(--brand);color:#fff;border-color:var(--brand)}
   .btn.primary:hover{background:var(--brand-2)}
+  .btn.small{padding:5px 10px;font-size:12px;border-radius:8px}
   .btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+  /* filter bar */
+  .filterbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--brand-bg);border:1px solid #cfe5dc;border-radius:12px;padding:8px 10px;font-size:12.5px}
+  .filterbar .fl{color:var(--brand);font-weight:600;margin-right:2px}
+  .fchip{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #cfe5dc;border-radius:999px;padding:3px 4px 3px 10px;font-weight:500}
+  .fchip span{color:var(--muted)}
+  .fchip button{border:0;background:var(--wash);width:20px;height:20px;border-radius:50%;font-size:12px;line-height:1;color:var(--ink2)}
+  .fchip button:hover{background:var(--up-bg);color:var(--up)}
+  .filterbar .clear{margin-left:auto;border:0;background:none;color:var(--brand);font-weight:600;text-decoration:underline;font-size:12.5px}
+  .hint{font-size:12px;color:var(--muted)}
+  .hint a{color:var(--brand)}
   .kpis{display:grid;grid-template-columns:1.25fr 1fr 1fr 1fr;gap:16px}
   .card{background:var(--surface);border-radius:16px;border:1px solid var(--ring);box-shadow:0 1px 3px rgba(20,20,10,.04)}
   .kpi{padding:18px 20px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;min-height:132px}
@@ -55,6 +67,8 @@
   .kpi .v{font-family:"Inter Display",var(--font);font-size:34px;font-weight:700;letter-spacing:-.02em;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .kpi .v small{font-size:16px;font-weight:500;color:var(--muted);margin-left:4px}
   .kpi .d{font-size:12.5px;color:var(--ink2)}
+  .kpi button.v{background:none;border:0;text-align:left;cursor:pointer}
+  .kpi button.v:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
   .pill{display:inline-flex;align-items:center;gap:4px;font-weight:600;font-size:12px;padding:2px 8px;border-radius:999px;white-space:nowrap}
   .pill.up{background:var(--up-bg);color:#a82828}
   .pill.dn{background:var(--good-bg);color:var(--good)}
@@ -78,17 +92,28 @@
   svg text{font-family:var(--font)}
   .tick{font-size:11px;fill:var(--muted);font-variant-numeric:tabular-nums}
   .chart{width:100%;display:block}
+  .hit{cursor:pointer;outline:none}
+  .hit:focus-visible{outline:2px solid var(--s1)}
   .swap{display:grid;grid-template-columns:1fr 18px 1fr auto;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--grid)}
   .swap:first-child{border-top:0}
-  .item{display:flex;flex-direction:column;min-width:0}
+  .swap.dim{opacity:.4}
+  .item{display:flex;flex-direction:column;min-width:0;background:none;border:0;text-align:left;padding:0}
+  button.item{cursor:pointer}
+  button.item:hover b{text-decoration:underline}
   .item b{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .item span{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .item.sel b{color:var(--brand)}
   .arrow{color:var(--muted);font-size:12px;text-align:center}
   .save{font-size:13px;font-weight:700;color:var(--good);background:var(--good-bg);padding:5px 10px;border-radius:8px;font-variant-numeric:tabular-nums;white-space:nowrap;border:1px solid transparent}
   .save[aria-pressed="true"]{background:var(--good);color:#fff}
   .empty{font-size:13px;color:var(--muted);padding:18px 0}
-  .hbar{display:grid;grid-template-columns:108px 1fr 54px;align-items:center;gap:10px;font-size:13px;padding:8px 0}
+  .hbar{display:grid;grid-template-columns:108px 1fr 54px;align-items:center;gap:10px;font-size:13px;padding:7px 6px;margin:0 -6px;border-radius:8px;
+        background:none;border:0;width:calc(100% + 12px);text-align:left;cursor:pointer;transition:opacity .2s}
+  .hbar:hover{background:var(--wash)}
+  .hbar.dim{opacity:.35}
+  .hbar.sel{background:var(--brand-bg)}
   .hbar .t{color:var(--ink2)}
+  .hbar.sel .t{color:var(--brand);font-weight:600}
   .hbar .track{height:12px;background:#f0efec;border-radius:4px;position:relative}
   .hbar .fill{position:absolute;left:0;top:0;bottom:0;border-radius:0 4px 4px 0;transition:width .35s ease}
   .hbar .n{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
@@ -98,147 +123,237 @@
   .benchmark .bm-bar{height:8px;background:#f0efec;border-radius:4px;margin:8px 0;position:relative;overflow:hidden}
   .benchmark .bm-bar div{position:absolute;left:0;top:0;bottom:0;background:var(--brand-2);border-radius:0 4px 4px 0;transition:width .35s ease}
   .benchmark p{line-height:1.45}
-  .mapwrap{position:relative;border-radius:12px;overflow:hidden;background:#eef3ef}
-  .storelist{max-height:210px;overflow:auto;font-size:12.5px}
-  .storelist div{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-top:1px solid var(--grid)}
-  .storelist div:first-child{border-top:0}
-  .storelist span{color:var(--muted);white-space:nowrap}
-  .storebadge{font-size:11.5px;color:var(--ink2);display:flex;gap:12px;margin-top:8px;align-items:center;flex-wrap:wrap}
-  .storebadge select{border:1px solid var(--ring);border-radius:7px;background:#fff;padding:2px 6px;font-size:11.5px;max-width:170px}
+  /* tile map */
+  .tilemap{position:relative;overflow:hidden;border-radius:12px;background:#eef1ee;touch-action:none;user-select:none;cursor:grab}
+  .tilemap.dragging{cursor:grabbing}
+  .tilemap .tiles{position:absolute;inset:0}
+  .tilemap .tiles img{position:absolute;width:256px;height:256px;max-width:none;pointer-events:none}
+  .tilemap.offline{background-color:#eef3ef;background-image:linear-gradient(#e2ebe4 1px,transparent 1px),linear-gradient(90deg,#e2ebe4 1px,transparent 1px);background-size:24px 24px}
+  .tilemap.offline .tiles{display:none}
+  .tilemap svg{position:absolute;inset:0;width:100%;height:100%}
+  .tilemap .mk{cursor:pointer}
+  .tilemap .zoom{position:absolute;top:8px;right:8px;display:flex;flex-direction:column;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.18);z-index:2}
+  .tilemap .zoom button{width:28px;height:28px;border:0;background:#fff;font-size:16px;line-height:1;color:var(--ink2)}
+  .tilemap .zoom button+button{border-top:1px solid var(--grid)}
+  .tilemap .zoom button:hover{background:var(--wash)}
+  .tilemap .attr{position:absolute;right:0;bottom:0;background:rgba(255,255,255,.85);font-size:10px;padding:1px 6px;color:var(--ink2);border-top-left-radius:6px;z-index:2}
+  .tilemap .attr a{color:inherit}
+  .tilemap .offmsg{position:absolute;left:8px;bottom:6px;font-size:10.5px;color:var(--muted);display:none;z-index:2}
+  .tilemap.offline .offmsg{display:block}
+  .storebadge{font-size:11.5px;color:var(--ink2);display:flex;gap:6px;margin-top:8px;align-items:center;flex-wrap:wrap}
+  .kindbtn{border:1px solid transparent;background:none;border-radius:999px;padding:2px 8px;font-size:11.5px;color:var(--ink2)}
+  .kindbtn:hover{background:var(--wash)}
+  .kindbtn[aria-pressed="true"]{background:var(--brand-bg);border-color:#cfe5dc;color:var(--brand);font-weight:600}
+  .storebadge select,.toolbar select,.toolbar input{border:1px solid var(--ring);border-radius:7px;background:#fff;padding:3px 6px;font-size:12px;max-width:190px}
+  .storelist{overflow:auto;font-size:12.5px}
+  .storelist button{display:flex;justify-content:space-between;gap:8px;padding:7px 6px;border:0;border-top:1px solid var(--grid);background:none;width:100%;text-align:left;border-radius:6px}
+  .storelist button:hover{background:var(--wash)}
+  .storelist button.sel{background:var(--brand-bg)}
+  .storelist button span{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .storelist button .kd{width:8px;height:8px;border-radius:50%;flex:none;margin-top:5px}
+  /* pages */
+  .stores-page{display:grid;grid-template-columns:1fr 360px;gap:16px;height:calc(100vh - 190px);min-height:520px}
+  .stores-page .panel{min-height:0;height:100%}
+  .stores-page .storelist{flex:1;min-height:0}
+  .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+  .toolbar input{flex:1;min-width:140px;padding:6px 10px;border-radius:8px}
+  table.tbl{width:100%;border-collapse:collapse;font-size:13px}
+  .tbl th{text-align:left;font-weight:600;color:var(--ink2);font-size:12px;padding:8px 10px;border-bottom:1px solid var(--grid);white-space:nowrap}
+  .tbl th button{border:0;background:none;font-weight:600;color:inherit;display:inline-flex;gap:4px;align-items:center}
+  .tbl th.num,.tbl td.num{text-align:right;font-variant-numeric:tabular-nums}
+  .tbl td{padding:8px 10px;border-bottom:1px solid var(--grid);vertical-align:middle}
+  .tbl tbody tr{cursor:pointer}
+  .tbl tbody tr:hover{background:var(--wash)}
+  .tbl tbody tr.sel{background:var(--brand-bg)}
+  .tbl tbody tr.dim{opacity:.45}
+  .tbl tfoot td{font-weight:700;border-bottom:0}
+  .tbl .nm b{display:block;font-weight:600}
+  .tbl .nm span{font-size:11.5px;color:var(--muted)}
+  .tbl a{color:var(--brand)}
+  .addrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .addrow input{flex:1;min-width:220px;border:1px solid var(--ring);border-radius:10px;padding:9px 12px;font-size:13px;background:#fff}
+  .step{display:inline-flex;align-items:center;border:1px solid var(--ring);border-radius:8px;overflow:hidden}
+  .step button{border:0;background:#fff;width:28px;height:28px}
+  .step input{width:50px;border:0;text-align:center;font-variant-numeric:tabular-nums;background:#fff;height:28px}
+  .rm{border:0;background:none;color:var(--muted);width:28px;height:28px;border-radius:7px}
+  .rm:hover{background:var(--up-bg);color:var(--up)}
+  .prose{font-size:13.5px;line-height:1.6;color:var(--ink2)}
+  .prose p+p{margin-top:8px}
+  .prose b{color:var(--ink)}
+  .data-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+  .notes li{margin-left:18px;font-size:13px;color:var(--ink2);line-height:1.6}
   footer{display:flex;justify-content:space-between;gap:16px;font-size:11.5px;color:var(--muted);flex-wrap:wrap}
   footer a{color:var(--ink2)}
   .dot{width:7px;height:7px;border-radius:50%;background:#0ca30c;display:inline-block;margin-right:6px}
-  /* tooltip */
   #tip{position:fixed;pointer-events:none;background:#0b0b0b;color:#fff;border-radius:10px;padding:9px 12px;font-size:12px;line-height:1.45;
-       box-shadow:0 6px 20px rgba(0,0,0,.18);opacity:0;transition:opacity .12s;z-index:50;max-width:260px}
+       box-shadow:0 6px 20px rgba(0,0,0,.18);opacity:0;transition:opacity .12s;z-index:50;max-width:280px}
   #tip b{font-size:14px}
   #tip .m{color:#c3c2b7}
-  /* drawer */
-  .scrim{position:fixed;inset:0;background:rgba(11,11,11,.28);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
-  .scrim.open{opacity:1;pointer-events:auto}
-  .drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100vw);background:var(--surface);z-index:41;transform:translateX(100%);
-          transition:transform .25s ease;display:flex;flex-direction:column;box-shadow:-10px 0 30px rgba(0,0,0,.12)}
-  .drawer.open{transform:none}
-  .drawer header{padding:20px 22px 12px;align-items:center;flex-wrap:nowrap}
-  .drawer h3{font-size:18px}
-  .drawer .body{overflow:auto;padding:0 22px 18px;flex:1}
-  .addrow{display:flex;gap:8px;padding:0 22px 14px}
-  .addrow input{flex:1;border:1px solid var(--ring);border-radius:10px;padding:9px 12px;font-size:13px;background:#fff}
-  .bi{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--grid);font-size:13px}
-  .bi .nm{min-width:0}
-  .bi .nm b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .bi .nm span{font-size:11.5px;color:var(--muted)}
-  .step{display:flex;align-items:center;border:1px solid var(--ring);border-radius:8px;overflow:hidden}
-  .step button{border:0;background:#fff;width:28px;height:28px}
-  .step input{width:46px;border:0;text-align:center;font-variant-numeric:tabular-nums;background:#fff;height:28px}
-  .rm{border:0;background:none;color:var(--muted);width:28px;height:28px;border-radius:7px}
-  .rm:hover{background:var(--up-bg);color:var(--up)}
+  #tip .h{color:#9fd8c3;font-size:11px}
   .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#0b0b0b;color:#fff;padding:10px 16px;border-radius:10px;
-         font-size:13px;opacity:0;transition:all .2s;z-index:60}
+         font-size:13px;opacity:0;transition:all .2s;z-index:60;pointer-events:none}
   .toast.show{opacity:1;transform:translateX(-50%)}
   .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-  @media (max-width:1200px){.kpis{grid-template-columns:1fr 1fr}.row.a,.row.b{grid-template-columns:1fr}}
-  @media (max-width:700px){.app{grid-template-columns:1fr}.rail{display:none}.main{padding:18px 14px}.kpis{grid-template-columns:1fr}h1{font-size:24px}}
+  @media (max-width:1200px){.kpis{grid-template-columns:1fr 1fr}.row.a,.row.b,.stores-page,.data-grid{grid-template-columns:1fr}
+    .stores-page{height:auto}.stores-page #bigMap{height:60vh;flex:none}.stores-page .storelist{max-height:50vh}}
+  @media (max-width:700px){.app{grid-template-columns:1fr;background:none}.rail{flex-direction:row;height:auto;position:sticky;top:0;z-index:30;padding:6px;justify-content:center}.logo{display:none}.main{padding:18px 14px}.kpis{grid-template-columns:1fr}h1{font-size:24px}}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <div class="app">
-  <nav class="rail" aria-label="Sections">
+  <nav class="rail" aria-label="Pages">
     <div class="logo" aria-hidden="true">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f5c4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2.3 10.5a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.1L21 8H6.3"/><circle cx="9.5" cy="20" r="1.3" fill="#0f5c4a"/><circle cx="17" cy="20" r="1.3" fill="#0f5c4a"/><path d="M11 11.5l2 -2 2 1.5 2.5-3" stroke="#eb6834"/></svg>
     </div>
-    <button class="navi on" title="Overview" aria-label="Overview" data-scroll="top"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/></svg></button>
-    <button class="navi" title="Edit basket" aria-label="Edit basket" data-open-basket><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg></button>
-    <button class="navi" title="Stores" aria-label="Stores" data-scroll="stores"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></button>
-    <button class="navi" title="Data sources" aria-label="Data sources" data-scroll="sources"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></button>
+    <button class="navi" data-page="overview"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/></svg>Overview</button>
+    <button class="navi" data-page="basket"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Basket</button>
+    <button class="navi" data-page="stores"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Stores</button>
+    <button class="navi" data-page="data"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>Data</button>
   </nav>
 
   <main class="main" id="top">
-
     <header>
       <div>
-        <div class="eyebrow" id="eyebrow">CartCast YYC</div>
-        <h1>Your grocery outlook <span id="monthLabel"></span></h1>
+        <div class="eyebrow">CartCast YYC</div>
+        <h1 id="pageTitle">Your grocery outlook <span id="monthLabel"></span></h1>
         <div class="sub" id="tagline"></div>
       </div>
       <div class="filters">
         <label class="chip"><span class="lbl">Household</span><select id="household" aria-label="Household size"></select></label>
-        <button class="btn" data-open-basket><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg><span id="itemCount"></span></button>
-        <button class="btn" id="share" title="Copy a link to this basket"><svg viewBox="0 0 24 24"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>Share</button>
-        <button class="btn primary" data-open-basket data-focus-add><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add item</button>
+        <button class="btn" data-goto="basket"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg><span id="itemCount"></span></button>
+        <button class="btn" id="share" title="Copy a link to this basket and these filters"><svg viewBox="0 0 24 24"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>Share</button>
+        <button class="btn primary" data-goto="basket" data-focus-add><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add item</button>
       </div>
     </header>
 
-    <section class="kpis" aria-label="Key figures">
-      <div class="card kpi hero">
-        <div class="k">Your weekly basket this month</div>
-        <div class="v" id="kCost"></div>
-        <div class="d" id="kCostD"></div>
-        <svg class="spark" id="spark" width="150" height="54" viewBox="0 0 150 54" aria-hidden="true"></svg>
-      </div>
-      <div class="card kpi">
-        <div class="k"><span class="ico" style="background:var(--up-bg)"><svg viewBox="0 0 24 24" stroke="#d03b3b"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span><span id="kInfL"></span></div>
-        <div class="v" id="kInf"></div>
-        <div class="d" id="kInfD"></div>
-      </div>
-      <div class="card kpi">
-        <div class="k"><span class="ico" style="background:#fdeee6"><svg viewBox="0 0 24 24" stroke="#eb6834"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></span>Biggest jump in your basket</div>
-        <div class="v" id="kJump"></div>
-        <div class="d" id="kJumpD"></div>
-      </div>
-      <div class="card kpi">
-        <div class="k"><span class="ico" style="background:var(--good-bg)"><svg viewBox="0 0 24 24" stroke="#006300"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg></span><span id="kSaveL">Possible savings from substitutions</span></div>
-        <div class="v" id="kSave"></div>
-        <div class="d" id="kSaveD"></div>
-      </div>
-    </section>
+    <div class="filterbar" id="filterbar" role="region" aria-label="Active filters" hidden></div>
 
-    <section class="row a">
-      <div class="card panel">
-        <div class="ph">
-          <div><h2>Basket cost over time</h2><p id="lineSub"></p></div>
-          <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
-            <div class="legend">
-              <span><i class="sw" style="background:var(--s1)"></i>Actual</span>
-              <span><i class="sw" style="background:var(--band);border:1.5px dashed var(--s1)"></i>Outlook range</span>
-            </div>
-            <div class="seg" role="group" aria-label="Time range" id="range">
-              <button data-r="6">6M</button><button data-r="12">1Y</button><button data-r="24" aria-pressed="true">2Y</button>
-            </div>
+    <!-- Overview -->
+    <section data-section="overview">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <section class="kpis" aria-label="Key figures">
+          <div class="card kpi hero">
+            <div class="k" id="kCostL">Your weekly basket this month</div>
+            <div class="v" id="kCost"></div>
+            <div class="d" id="kCostD"></div>
+            <svg class="spark" id="spark" width="150" height="54" viewBox="0 0 150 54" aria-hidden="true"></svg>
           </div>
-        </div>
-        <svg id="line" class="chart" height="276" role="img" aria-label="Line chart of weekly basket cost by month"></svg>
-      </div>
-      <div class="card panel">
-        <div class="ph">
-          <div><h2>Price changes over the past year</h2><p>12-month change in average price for items in your basket</p></div>
-          <div class="legend"><span><i class="sw" style="background:var(--up)"></i>Up</span><span><i class="sw" style="background:var(--down)"></i>Down</span></div>
-        </div>
-        <svg id="movers" class="chart" height="276" role="img" aria-label="Bar chart of 12-month price change by item"></svg>
+          <div class="card kpi">
+            <div class="k"><span class="ico" style="background:var(--up-bg)"><svg viewBox="0 0 24 24" stroke="#d03b3b"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span><span id="kInfL"></span></div>
+            <div class="v" id="kInf"></div>
+            <div class="d" id="kInfD"></div>
+          </div>
+          <div class="card kpi">
+            <div class="k"><span class="ico" style="background:#fdeee6"><svg viewBox="0 0 24 24" stroke="#eb6834"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></span><span id="kJumpL">Biggest jump in your basket</span></div>
+            <button class="v" id="kJump" title="Filter the dashboard to this product"></button>
+            <div class="d" id="kJumpD"></div>
+          </div>
+          <div class="card kpi">
+            <div class="k"><span class="ico" style="background:var(--good-bg)"><svg viewBox="0 0 24 24" stroke="#006300"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg></span><span id="kSaveL">Possible savings from substitutions</span></div>
+            <div class="v" id="kSave"></div>
+            <div class="d" id="kSaveD"></div>
+          </div>
+        </section>
+
+        <section class="row a">
+          <div class="card panel">
+            <div class="ph">
+              <div><h2 id="lineTitle">Basket cost over time</h2><p id="lineSub"></p></div>
+              <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
+                <div class="legend">
+                  <span><i class="sw" style="background:var(--s1)"></i>Actual</span>
+                  <span><i class="sw" style="background:var(--band);border:1.5px dashed var(--s1)"></i>Outlook range</span>
+                </div>
+                <div class="seg" role="group" aria-label="Time range" id="range">
+                  <button data-r="6">6M</button><button data-r="12">1Y</button><button data-r="24" aria-pressed="true">2Y</button>
+                </div>
+              </div>
+            </div>
+            <svg id="line" class="chart" height="276" role="img" aria-label="Line chart of weekly basket cost by month. Select a month to filter the dashboard."></svg>
+          </div>
+          <div class="card panel">
+            <div class="ph">
+              <div><h2>Price changes over the past year</h2><p id="moversSub">12-month change in average price. Select an item to filter.</p></div>
+              <div class="legend"><span><i class="sw" style="background:var(--up)"></i>Up</span><span><i class="sw" style="background:var(--down)"></i>Down</span></div>
+            </div>
+            <svg id="movers" class="chart" height="276" role="img" aria-label="Bar chart of 12-month price change by item"></svg>
+          </div>
+        </section>
+
+        <section class="row b">
+          <div class="card panel">
+            <div class="ph"><div><h2>Substitutions</h2><p>Lower-cost alternatives. Select a saving to apply it.</p></div>
+              <div class="seg" role="group" aria-label="Substitution category" id="swapTabs"></div></div>
+            <div id="swaps"></div>
+          </div>
+          <div class="card panel">
+            <div class="ph"><div><h2>Basket cost by aisle</h2><p id="aisleSub">Share of this week's basket cost. Select an aisle to filter.</p></div></div>
+            <div id="aisles" style="margin-top:2px"></div>
+            <div class="benchmark" id="benchmark" hidden></div>
+          </div>
+          <div class="card panel">
+            <div class="ph"><div><h2>Grocery stores</h2><p id="storeSub"></p></div>
+              <button class="btn small" data-goto="stores">Open map</button></div>
+            <div class="tilemap" id="miniMap" style="height:230px" aria-label="Map of grocery retailers"></div>
+            <div class="storebadge" id="miniBadge"></div>
+          </div>
+        </section>
       </div>
     </section>
 
-    <section class="row b">
+    <!-- Basket -->
+    <section data-section="basket" hidden>
       <div class="card panel">
-        <div class="ph"><div><h2>Substitutions</h2><p>Lower-cost alternatives. Select a saving to apply it.</p></div>
-          <div class="seg" role="group" aria-label="Substitution category" id="swapTabs"></div></div>
-        <div id="swaps"></div>
+        <div class="ph">
+          <div><h2>Your weekly basket</h2><p id="basketSub"></p></div>
+          <button class="btn small" id="resetBasket">Reset to the default basket</button>
+        </div>
+        <div class="addrow" style="margin-bottom:12px">
+          <input id="addInput" list="productList" placeholder="Add a product, for example Avocado, unit" aria-label="Product to add">
+          <datalist id="productList"></datalist>
+          <button class="btn primary" id="addBtn">Add</button>
+        </div>
+        <div style="overflow:auto">
+          <table class="tbl" id="basketTable"></table>
+        </div>
+        <p class="hint" style="margin-top:10px">Select a row to filter the overview by that product. Prices are for the month shown in the title.</p>
       </div>
-      <div class="card panel">
-        <div class="ph"><div><h2>Basket cost by aisle</h2><p>Share of this week's basket cost</p></div></div>
-        <div id="aisles" style="margin-top:4px"></div>
-        <div class="benchmark" id="benchmark" hidden></div>
+    </section>
+
+    <!-- Stores -->
+    <section data-section="stores" hidden>
+      <div class="stores-page">
+        <div class="card panel">
+          <div class="ph"><div><h2>Licensed food retailers in Calgary</h2><p id="bigStoreSub"></p></div></div>
+          <div class="tilemap" id="bigMap" style="flex:1;min-height:0" aria-label="Map of grocery retailers"></div>
+          <div class="storebadge" id="bigBadge"></div>
+        </div>
+        <div class="card panel">
+          <div class="toolbar">
+            <input id="storeSearch" type="search" placeholder="Search by name or address" aria-label="Search stores">
+            <select id="community" aria-label="Filter by community"></select>
+          </div>
+          <div class="storelist" id="storelist"></div>
+        </div>
       </div>
-      <div class="card panel" id="stores">
-        <div class="ph"><div><h2>Grocery stores</h2><p id="storeSub">Licensed food retailers in Calgary</p></div>
-          <div class="seg" role="group" aria-label="Store view" id="storeView"><button data-v="map" aria-pressed="true">Map</button><button data-v="list">List</button></div></div>
-        <div class="mapwrap" id="mapwrap"><svg id="map" class="chart" height="200" role="img" aria-label="Map of grocery retailers"></svg></div>
-        <div class="storelist" id="storelist" hidden></div>
-        <div class="storebadge">
-          <span><i class="sw" style="background:#0f5c4a;border-radius:50%"></i>Supermarket</span>
-          <span><i class="sw" style="background:#eb6834;border-radius:50%"></i>Specialty or independent</span>
-          <label style="margin-left:auto"><span class="sr">Community</span><select id="community" aria-label="Filter by community"></select></label>
+    </section>
+
+    <!-- Data -->
+    <section data-section="data" hidden>
+      <div class="data-grid">
+        <div class="card panel">
+          <div class="ph"><div><h2>Data sources</h2><p id="dataSub"></p></div></div>
+          <div style="overflow:auto"><table class="tbl" id="sourcesTable"></table></div>
+          <p class="hint" style="margin-top:10px" id="downloads"></p>
+        </div>
+        <div class="card panel">
+          <div class="ph"><div><h2>How the figures are calculated</h2></div></div>
+          <div class="prose" id="methods"></div>
+          <div id="notesBox" style="margin-top:14px" hidden>
+            <div class="ph" style="margin-bottom:6px"><div><h2>Notes from the latest build</h2></div></div>
+            <ul class="notes" id="notes"></ul>
+          </div>
         </div>
       </div>
     </section>
@@ -247,20 +362,8 @@
   </main>
 </div>
 
-<div class="scrim" id="scrim"></div>
-<aside class="drawer" id="drawer" aria-label="Edit basket" aria-hidden="true">
-  <header><div><h3>Your weekly basket</h3><div class="sub" id="drawerSub"></div></div>
-    <button class="btn" id="closeDrawer" aria-label="Close">Done</button></header>
-  <div class="addrow">
-    <input id="addInput" list="productList" placeholder="Add a product, e.g. Avocado, unit" aria-label="Product to add">
-    <datalist id="productList"></datalist>
-    <button class="btn primary" id="addBtn">Add</button>
-  </div>
-  <div class="addrow" style="padding-top:0"><button class="btn" id="resetBasket">Reset to the default basket</button></div>
-  <div class="body" id="basketList"></div>
-</aside>
 <div id="tip" role="tooltip"></div>
-<div class="toast" id="toast" role="status"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script id="cartcast-data" type="application/json">/*__CARTCAST_DATA__*/null</script>
 <script>
@@ -272,15 +375,16 @@ if(!D){document.body.innerHTML='<p style="padding:40px;font-family:sans-serif">N
 // Helpers
 const NS='http://www.w3.org/2000/svg';
 const $=s=>document.querySelector(s);
+const $$=s=>Array.from(document.querySelectorAll(s));
 function el(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
 function h(tag,attrs,html){const e=document.createElement(tag);if(attrs)for(const k in attrs)e.setAttribute(k,attrs[k]);if(html!=null)e.innerHTML=html;return e}
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const money=v=>v==null?'n/a':'$'+v.toLocaleString('en-CA',{minimumFractionDigits:2,maximumFractionDigits:2});
-const pct=(v,d=1)=>v==null?'n/a':(v>0?'+':'')+v.toFixed(d)+'%';
+const money=v=>v==null||isNaN(v)?'n/a':'$'+v.toLocaleString('en-CA',{minimumFractionDigits:2,maximumFractionDigits:2});
+const pct=(v,d=1)=>v==null||isNaN(v)?'n/a':(v>0?'+':'')+v.toFixed(d)+'%';
 const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const mLabel=(ym,long)=>{const[y,m]=ym.split('-').map(Number);return long?['January','February','March','April','May','June','July','August','September','October','November','December'][m-1]+' '+y:MONTHS[m-1]};
+const LONG=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const mLabel=(ym,long)=>{const[y,m]=ym.split('-').map(Number);return long?LONG[m-1]+' '+y:MONTHS[m-1]};
 const addMonths=(ym,k)=>{let[y,m]=ym.split('-').map(Number);m+=k;while(m>12){m-=12;y++}while(m<1){m+=12;y--}return y+'-'+String(m).padStart(2,'0')};
-// "Ground beef, per kilogram" -> {name:"Ground beef", unit:"per kilogram"}
 function split(p){const i=p.indexOf(', ');if(i<0){const m=p.match(/^(.*?)\s*\((.*)\)$/);return m?{name:m[1],unit:m[2]}:{name:p,unit:''}}return{name:p.slice(0,i),unit:p.slice(i+2)}}
 const unitShort=u=>u.replace('per kilogram','/ kg').replace('kilograms','kg').replace('kilogram','kg').replace('millilitres','mL').replace('litres','L').replace('litre','L').replace('grams','g').replace('unit','each');
 const perUnit=u=>u.startsWith('/')?u:(u?'for '+u:'');
@@ -289,12 +393,22 @@ function showTip(html,ev){tip.innerHTML=html;tip.style.opacity=1;moveTip(ev)}
 function moveTip(ev){const r=tip.getBoundingClientRect();let x=ev.clientX+14,y=ev.clientY-r.height-12;if(x+r.width>innerWidth-8)x=ev.clientX-r.width-14;if(y<8)y=ev.clientY+16;tip.style.left=x+'px';tip.style.top=y+'px'}
 function hideTip(){tip.style.opacity=0}
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),2200)}
+function niceStep(raw){const p=Math.pow(10,Math.floor(Math.log10(raw)));const f=raw/p;return(f<1.5?1:f<3?2:f<7?5:10)*p}
+// Make an SVG element act like a button for mouse and keyboard.
+function clickable(node,label,fn){node.setAttribute('class',(node.getAttribute('class')||'')+' hit');node.setAttribute('tabindex','0');node.setAttribute('role','button');node.setAttribute('aria-label',label);
+  node.addEventListener('click',fn);node.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fn(e)}})}
 
 // State
-const N=D.months.length, LAST=N-1;
+const N=D.months.length, LAST=N-1, FIRST_HIST=N-D.history_months;
 const products=D.products, names=Object.keys(products).sort();
-const state={household:D.default_household,items:D.basket.map(i=>({product:i.product,qty:i.qty,aisle:i.aisle})),applied:[],range:24,swapGroup:'All',community:'All',view:'map'};
-
+const PAGES=['overview','basket','stores','data'];
+const state={
+  household:D.default_household,
+  items:D.basket.map(i=>({product:i.product,qty:i.qty,aisle:i.aisle})),
+  applied:[], range:24, swapGroup:'All', page:'overview',
+  f:{month:null,aisle:null,product:null,community:null,kind:null},
+  storeQuery:'', sort:{key:'cost',dir:-1}
+};
 function readHash(){
   try{
     if(!location.hash.startsWith('#b='))return;
@@ -302,54 +416,89 @@ function readHash(){
     if(s.h&&D.households[s.h])state.household=s.h;
     if(Array.isArray(s.i))state.items=s.i.filter(x=>products[x[0]]).map(x=>({product:x[0],qty:+x[1]||1,aisle:products[x[0]].aisle}));
     if(Array.isArray(s.a))state.applied=s.a;
+    if(PAGES.includes(s.p))state.page=s.p;
+    if(s.f&&typeof s.f==='object')for(const k in state.f)if(s.f[k]!=null)state.f[k]=s.f[k];
+    if(state.f.month!=null&&!D.months.includes(state.f.month))state.f.month=null;
   }catch(e){/* ignore malformed links */}
 }
 function writeHash(){
   try{
-    const s={h:state.household,i:state.items.map(x=>[x.product,+x.qty.toFixed(3)]),a:state.applied};
+    const s={h:state.household,i:state.items.map(x=>[x.product,+x.qty.toFixed(3)]),a:state.applied,p:state.page,f:state.f};
     history.replaceState(null,'','#b='+btoa(unescape(encodeURIComponent(JSON.stringify(s)))));
   }catch(e){}
 }
 const scale=()=>+D.households[state.household].scale;
-const price=(p,i)=>{const s=products[p]&&products[p].series;if(!s)return null;for(let k=i;k>=0;k--)if(s[k]!=null)return s[k];return null};
+const price=(p,i)=>{const s=products[p]&&products[p].series;if(!s)return null;for(let k=Math.min(i,s.length-1);k>=0;k--)if(s[k]!=null)return s[k];return null};
 const swapKey=s=>s.from+'|'+s.to;
+const IDX=()=>state.f.month?D.months.indexOf(state.f.month):LAST;
+const aisleOf=p=>{const it=state.items.find(i=>i.product===p);return it?it.aisle:(products[p]?products[p].aisle:'Pantry')};
 
-/** Items after household scaling and applied swaps. */
+/** Basket items after household scaling and applied substitutions. */
 function effectiveItems(){
-  const out=[];
-  for(const it of state.items){
+  return state.items.map(it=>{
     const q=it.qty*scale();
     const sw=D.swaps.find(s=>s.from===it.product&&state.applied.includes(swapKey(s))&&products[s.to]);
-    if(sw)out.push({product:sw.to,qty:q*sw.ratio,aisle:it.aisle,swappedFrom:it.product});
-    else out.push({product:it.product,qty:q,aisle:it.aisle});
-  }
-  return out;
+    return sw?{product:sw.to,qty:q*sw.ratio,aisle:it.aisle,base:it.product,swapped:true}:{product:it.product,qty:q,aisle:it.aisle,base:it.product};
+  });
+}
+/** Items that pass the aisle and product filters. */
+function filtered(items,ignore){
+  const f=state.f;
+  return items.filter(it=>(ignore==='aisle'||!f.aisle||it.aisle===f.aisle)&&(ignore==='product'||!f.product||it.base===f.product||it.product===f.product));
 }
 function costAt(items,i){let t=0,any=false;for(const it of items){const p=price(it.product,i);if(p!=null){t+=p*it.qty;any=true}}return any?t:null}
-function yoy(p){const a=price(p,LAST),b=price(p,LAST-12);return a!=null&&b?(a/b-1)*100:null}
-function availableSwaps(){
-  const out=[];
+function yoyAt(p,i){if(i-12<0)return null;const a=price(p,i),b=price(p,i-12);return a!=null&&b?(a/b-1)*100:null}
+function swapsAt(i){
+  const best={};
   for(const it of state.items){
     for(const s of D.swaps){
       if(s.from!==it.product||!products[s.to])continue;
-      const pf=price(s.from,LAST),pt=price(s.to,LAST);if(pf==null||pt==null)continue;
-      const q=it.qty*scale();const saving=q*pf-q*s.ratio*pt;
-      if(saving>0.01)out.push({...s,pf,pt,saving,applied:state.applied.includes(swapKey(s))});
+      const pf=price(s.from,i),pt=price(s.to,i);if(pf==null||pt==null)continue;
+      const q=it.qty*scale(),saving=q*pf-q*s.ratio*pt;
+      if(saving>0.01){const o={...s,pf,pt,saving,aisle:it.aisle,applied:state.applied.includes(swapKey(s))};
+        if(!best[s.from]||o.saving>best[s.from].saving)best[s.from]=o}
     }
   }
-  // Keep only the largest saving for each basket item.
-  const best={};for(const s of out)if(!best[s.from]||s.saving>best[s.from].saving)best[s.from]=s;
   return Object.values(best).sort((a,b)=>b.saving-a.saving);
 }
 
-// Static header & footer
+// Filters
+function setFilter(key,value){
+  state.f[key]=state.f[key]===value?null:value; // selecting the same thing again clears it
+  if(key==='product'&&state.f.product&&state.f.aisle&&aisleOf(state.f.product)!==state.f.aisle)state.f.aisle=null;
+  update();
+}
+function clearFilter(key){state.f[key]=null;update()}
+function clearAll(){for(const k in state.f)state.f[k]=null;update()}
+const anyFilter=()=>Object.values(state.f).some(v=>v!=null);
+const FILTER_LABELS={month:'Month',aisle:'Aisle',product:'Product',community:'Community',kind:'Store type'};
+function filterValue(k,v){if(k==='month')return mLabel(v,true);if(k==='product')return split(v).name;if(k==='kind')return v==='supermarket'?'Supermarkets':'Specialty or independent';return v}
+function renderFilterBar(){
+  const bar=$('#filterbar');
+  if(!anyFilter()){bar.hidden=true;bar.innerHTML='';return}
+  bar.hidden=false;bar.innerHTML='<span class="fl">Filtered by</span>';
+  for(const k of Object.keys(state.f)){
+    const v=state.f[k];if(v==null)continue;
+    const c=h('span',{class:'fchip'},`<span>${FILTER_LABELS[k]}:</span> ${esc(filterValue(k,v))}`);
+    const x=h('button',{'aria-label':'Remove '+FILTER_LABELS[k].toLowerCase()+' filter',title:'Remove this filter'},'✕');x.onclick=()=>clearFilter(k);
+    c.appendChild(x);bar.appendChild(c);
+  }
+  const all=h('button',{class:'clear'},'Clear all');all.onclick=clearAll;bar.appendChild(all);
+  const hnt=h('span',{class:'hint'},'Press Esc to clear');bar.insertBefore(hnt,all);
+}
+function scopeLabel(){
+  const f=state.f;
+  if(f.product)return split(f.product).name;
+  if(f.aisle)return f.aisle;
+  return null;
+}
+
+// Static header and footer
 function initStatic(){
   const m=D.meta;
-  document.title=m.title+': '+mLabel(m.latest_month,true)+' grocery outlook';
-  $('#monthLabel').textContent='for '+mLabel(m.latest_month,true);
   $('#tagline').textContent=m.tagline+' Prices are monthly averages for '+m.price_geo+' from Statistics Canada.';
   const sel=$('#household');
-  for(const[k,v]of Object.entries(D.households)){const o=h('option',{value:k},esc(v.label));sel.appendChild(o)}
+  for(const[k,v]of Object.entries(D.households))sel.appendChild(h('option',{value:k},esc(v.label)));
   const dl=$('#productList');for(const n of names)dl.appendChild(h('option',{value:n}));
   const f=$('#sources');
   const links=m.sources.map(s=>s.page?`<a href="${esc(s.page)}" target="_blank" rel="noopener">${esc(s.name)}</a>`:esc(s.name)).join('; ');
@@ -358,64 +507,82 @@ function initStatic(){
 }
 
 // KPIs
-function renderKpis(items){
-  const now=costAt(items,LAST),prev=costAt(items,LAST-1);
+function renderKpis(all){
+  const i=IDX(),vis=filtered(all),scope=scopeLabel(),monthName=mLabel(D.months[i],true);
+  const now=costAt(vis,i),prev=costAt(vis,i-1);
+  $('#kCostL').textContent=(scope?scope+' in your basket':'Your weekly basket')+(state.f.month?', '+monthName:' this month');
   $('#kCost').innerHTML=money(now)+'<small>/ week</small>';
-  const d=now-prev;
-  $('#kCostD').innerHTML=`<span class="pill">${d>=0?'▲':'▼'} ${money(Math.abs(d))}</span>&nbsp; from ${mLabel(D.months[LAST-1],true).split(' ')[0]}. About ${money(now*52/12).replace(/\.\d\d$/,'')} a month.`;
-  // sparkline: last 12 months
+  const d=now!=null&&prev!=null?now-prev:null;
+  $('#kCostD').innerHTML=d==null?'':`<span class="pill">${d>=0?'▲':'▼'} ${money(Math.abs(d))}</span>&nbsp; from ${LONG[(+D.months[Math.max(0,i-1)].slice(5))-1]}. About ${money(now*52/12).replace(/\.\d\d$/,'')} a month.`;
   const sp=$('#spark');sp.innerHTML='';
-  const vals=[];for(let i=LAST-11;i<=LAST;i++)vals.push(costAt(items,i));
-  const mn=Math.min(...vals),mx=Math.max(...vals);
-  const pts=vals.map((v,i)=>[2+i*(144/11),48-(mx===mn?0.5:(v-mn)/(mx-mn))*38]);
-  el('path',{d:'M'+pts.map(p=>p.join(',')).join(' L'),fill:'none',stroke:'rgba(255,255,255,.85)','stroke-width':2,'stroke-linecap':'round','stroke-linejoin':'round'},sp);
-  el('circle',{cx:pts[11][0],cy:pts[11][1],r:4,fill:'#fff'},sp);
+  const vals=[];for(let k=Math.max(0,i-11);k<=i;k++)vals.push(costAt(vis,k));
+  if(vals.length>1&&vals.every(v=>v!=null)){
+    const mn=Math.min(...vals),mx=Math.max(...vals),n=vals.length;
+    const pts=vals.map((v,k)=>[2+k*(144/(n-1)),48-(mx===mn?0.5:(v-mn)/(mx-mn))*38]);
+    el('path',{d:'M'+pts.map(p=>p.join(',')).join(' L'),fill:'none',stroke:'rgba(255,255,255,.85)','stroke-width':2,'stroke-linecap':'round','stroke-linejoin':'round'},sp);
+    el('circle',{cx:pts[n-1][0],cy:pts[n-1][1],r:4,fill:'#fff'},sp);
+  }
 
-  const c=D.cpi;
-  $('#kInfL').textContent=c.headline_geo.split(',')[0]+' grocery inflation';
-  $('#kInf').innerHTML=c.food_yoy==null?'n/a':c.food_yoy.toFixed(1)+'%<small>12-mo</small>';
-  $('#kInfD').textContent=`CPI, food purchased from stores${c.food_month?', '+mLabel(c.food_month)+' '+c.food_month.slice(0,4):''}.${c.all_items_yoy!=null?' All items: '+c.all_items_yoy.toFixed(1)+'%.':''}`;
+  // Inflation: CPI for the selected month when one is selected.
+  const c=D.cpi,geo=c.headline_geo,place=geo.split(',')[0];
+  const ser=c.series[geo+' | Food purchased from stores'],all_=c.series[geo+' | All-items'];
+  let fy=c.food_yoy,fm=c.food_month,ay=c.all_items_yoy;
+  if(state.f.month&&ser){const k=ser.months.indexOf(state.f.month);fy=k>=0?ser.yoy[k]:null;fm=state.f.month;
+    if(all_){const j=all_.months.indexOf(state.f.month);ay=j>=0?all_.yoy[j]:null}}
+  $('#kInfL').textContent=place+' grocery inflation';
+  $('#kInf').innerHTML=fy==null?'n/a':fy.toFixed(1)+'%<small>12-mo</small>';
+  $('#kInfD').textContent=`CPI, food purchased from stores${fm?', '+mLabel(fm)+' '+fm.slice(0,4):''}.${ay!=null?' All items: '+ay.toFixed(1)+'%.':''}`;
 
-  const movers=state.items.map(i=>({p:i.product,v:yoy(i.product)})).filter(x=>x.v!=null).sort((a,b)=>b.v-a.v);
+  // Biggest increase among the filtered items.
+  const movers=vis.map(it=>({p:it.product,v:yoyAt(it.product,i)})).filter(x=>x.v!=null).sort((a,b)=>b.v-a.v);
+  const kj=$('#kJump');
+  $('#kJumpL').textContent=state.f.product?'12-month price change':'Biggest jump in '+(scope?scope.toLowerCase():'your basket');
   if(movers.length){
     const top=movers[0],sp2=split(top.p);
-    const kj=$('#kJump');kj.textContent=sp2.name;kj.title=top.p;kj.style.fontSize=sp2.name.length<=13?'':sp2.name.length<=18?'28px':'23px';
-    $('#kJumpD').innerHTML=`<span class="pill ${top.v>=0?'up':'dn'}">${top.v>=0?'▲':'▼'} ${Math.abs(top.v).toFixed(1)}%</span>&nbsp; over 12 months. Now <span style="white-space:nowrap">${money(price(top.p,LAST))} ${esc(perUnit(unitShort(sp2.unit)))}</span>.`;
-  }else{$('#kJump').textContent='n/a';$('#kJumpD').textContent=''}
+    kj.textContent=sp2.name;kj.title=state.f.product===top.p?'Clear the product filter':'Filter the dashboard to '+sp2.name;kj.onclick=()=>setFilter('product',top.p);
+    kj.style.fontSize=sp2.name.length<=13?'':sp2.name.length<=18?'28px':'23px';
+    $('#kJumpD').innerHTML=`<span class="pill ${top.v>=0?'up':'dn'}">${top.v>=0?'▲':'▼'} ${Math.abs(top.v).toFixed(1)}%</span>&nbsp; over 12 months. Now <span style="white-space:nowrap">${money(price(top.p,i))} ${esc(perUnit(unitShort(sp2.unit)))}</span>.`;
+  }else{kj.textContent='n/a';kj.onclick=null;$('#kJumpD').textContent=''}
 
-  const sw=availableSwaps();
-  const appliedSave=sw.filter(s=>s.applied).reduce((a,s)=>a+s.saving,0);
-  const openSave=sw.filter(s=>!s.applied).reduce((a,s)=>a+s.saving,0);
-  const base=costAt(state.items.map(i=>({product:i.product,qty:i.qty*scale()})),LAST);
+  // Savings from substitutions within the filter.
+  const base=costAt(filtered(state.items.map(it=>({product:it.product,qty:it.qty*scale(),aisle:it.aisle,base:it.product}))),i);
+  const sw=swapsAt(i).filter(s=>(!state.f.aisle||s.aisle===state.f.aisle)&&(!state.f.product||s.from===state.f.product||s.to===state.f.product));
+  const appliedSave=sw.filter(s=>s.applied).reduce((a,s)=>a+s.saving,0),openSave=sw.filter(s=>!s.applied).reduce((a,s)=>a+s.saving,0);
   if(appliedSave>0){
     $('#kSaveL').textContent='Saving from applied substitutions';
     $('#kSave').innerHTML=money(appliedSave)+'<small>/ week</small>';
-    $('#kSaveD').innerHTML=`<span class="pill dn">▼ ${(appliedSave/base*100).toFixed(0)}%</span>&nbsp; off your basket.${openSave>0?' '+money(openSave)+' more available.':''}`;
+    $('#kSaveD').innerHTML=`<span class="pill dn">▼ ${(appliedSave/base*100).toFixed(0)}%</span>&nbsp; off ${scope?'these items':'your basket'}.${openSave>0?' '+money(openSave)+' more available.':''}`;
   }else{
     $('#kSaveL').textContent='Possible savings from substitutions';
     $('#kSave').innerHTML=money(openSave)+'<small>/ week</small>';
-    $('#kSaveD').innerHTML=sw.length?`<span class="pill dn">▼ ${(openSave/base*100).toFixed(0)}%</span>&nbsp; off your basket with ${sw.length} substitution${sw.length>1?'s':''}.`:'No lower-cost alternatives for this basket this month.';
+    $('#kSaveD').innerHTML=sw.length?`<span class="pill dn">▼ ${(openSave/base*100).toFixed(0)}%</span>&nbsp; off ${scope?'these items':'your basket'} with ${sw.length} substitution${sw.length>1?'s':''}.`:'No lower-cost alternatives for '+(scope?'these items':'this basket')+' in '+mLabel(D.months[i],true)+'.';
   }
 }
 
 // Line chart
-function renderLine(items){
+function renderLine(all){
   const s=$('#line');s.innerHTML='';
   const W=Math.max(320,s.clientWidth||860),H=276,L=48,R=18,T=14,B=28;
   s.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const vis=filtered(all),scope=scopeLabel();
   const hist=Math.min(state.range,D.history_months),start=LAST-hist+1;
   const idx=[];for(let i=start;i<=LAST;i++)idx.push(i);
-  const vals=idx.map(i=>costAt(items,i));
-  const o=D.outlook,last=vals[vals.length-1];
+  const vals=idx.map(i=>costAt(vis,i));
+  $('#lineTitle').textContent=scope?'Weekly cost of '+scope.toLowerCase()+' over time':'Basket cost over time';
+  const o=D.outlook;
+  $('#lineSub').textContent=`${D.meta.price_geo} average retail prices, with a ${o.months}-month outlook at ${Math.round(o.annual_low*100)} to ${Math.round(o.annual_high*100)} percent a year. Select a month to filter.`;
+  if(vals.some(v=>v==null)){el('text',{x:W/2,y:H/2,'text-anchor':'middle',class:'tick'},s).textContent='No prices for this selection';return}
+  const last=vals[vals.length-1];
   const band=[];for(let m=1;m<=o.months;m++)band.push([last*Math.pow(1+o.annual_low,m/12),last*Math.pow(1+o.annual_high,m/12)]);
   const n=idx.length+band.length;
-  const all=vals.concat(band.flat());
-  let mn=Math.min(...all),mx=Math.max(...all);const pad=(mx-mn)*0.12||5;mn-=pad;mx+=pad;
-  const step=niceStep((mx-mn)/5);mn=Math.floor(mn/step)*step;mx=Math.ceil(mx/step)*step;
-  const x=i=>L+i*(W-L-R)/(n-1),y=v=>T+(mx-v)*(H-T-B)/(mx-mn);
+  const allv=vals.concat(band.flat());
+  let mn=Math.min(...allv),mx=Math.max(...allv);const pad=(mx-mn)*0.12||Math.max(1,mx*0.05);mn-=pad;mx+=pad;
+  const step=niceStep((mx-mn)/5);mn=Math.max(0,Math.floor(mn/step)*step);mx=Math.ceil(mx/step)*step;
+  const x=k=>L+k*(W-L-R)/(n-1),y=v=>T+(mx-v)*(H-T-B)/(mx-mn);
+  const dec=step<1?2:0;
   for(let g=mn;g<=mx+1e-9;g+=step){
     el('line',{x1:L,x2:W-R,y1:y(g),y2:y(g),stroke:'#e1e0d9'},s);
-    el('text',{x:L-8,y:y(g)+4,'text-anchor':'end',class:'tick'},s).textContent='$'+Math.round(g);
+    el('text',{x:L-8,y:y(g)+4,'text-anchor':'end',class:'tick'},s).textContent='$'+g.toFixed(dec);
   }
   el('line',{x1:L,x2:W-R,y1:H-B,y2:H-B,stroke:'#c3c2b7'},s);
   const every=n>20?3:n>10?2:1;
@@ -435,73 +602,95 @@ function renderLine(items){
   el('path',{d,fill:'none',stroke:'#2a78d6','stroke-width':2,'stroke-linejoin':'round','stroke-linecap':'round'},s);
   el('line',{x1:x(li),x2:x(li),y1:T,y2:H-B,stroke:'#c3c2b7','stroke-dasharray':'2 3'},s);
   el('text',{x:x(li)+6,y:T+10,class:'tick'},s).textContent='Outlook';
-  el('circle',{cx:x(li),cy:y(last),r:5,fill:'#2a78d6',stroke:'#fcfcfb','stroke-width':2},s);
-  $('#lineSub').textContent=`${D.meta.price_geo} average retail prices, with a ${o.months}-month outlook at ${Math.round(o.annual_low*100)} to ${Math.round(o.annual_high*100)} percent a year`;
-  // hover layer
-  const cross=el('line',{x1:0,x2:0,y1:T,y2:H-B,stroke:'#898781','stroke-width':1,opacity:0},s);
-  const dot=el('circle',{r:5,fill:'#2a78d6',stroke:'#fff','stroke-width':2,opacity:0},s);
-  const hit=el('rect',{x:L,y:T,width:W-L-R,height:H-T-B,fill:'transparent'},s);
-  hit.addEventListener('mousemove',ev=>{
-    const r=s.getBoundingClientRect(),px=(ev.clientX-r.left)*W/r.width;
-    const k=Math.max(0,Math.min(n-1,Math.round((px-L)/((W-L-R)/(n-1)))));
-    const ym=addMonths(D.months[start],k);
-    let html,v;
-    if(k<=li){v=vals[k];const pv=k>0?vals[k-1]:costAt(items,idx[0]-1);const ch=pv?(v/pv-1)*100:null;
-      html=`<span class="m">${mLabel(ym,true)}</span><br><b>${money(v)}</b> per week${ch!=null?`<br>${pct(ch)} from the previous month`:''}`;}
-    else{const b=band[k-li-1];v=(b[0]+b[1])/2;html=`<span class="m">${mLabel(ym,true)} (outlook)</span><br><b>${money(b[0])} to ${money(b[1])}</b> per week`;}
-    cross.setAttribute('x1',x(k));cross.setAttribute('x2',x(k));cross.setAttribute('opacity',1);
-    dot.setAttribute('cx',x(k));dot.setAttribute('cy',y(v));dot.setAttribute('opacity',1);
-    showTip(html,ev);
-  });
-  hit.addEventListener('mouseleave',()=>{cross.setAttribute('opacity',0);dot.setAttribute('opacity',0);hideTip()});
+  // Selected month marker
+  const selK=state.f.month?idx.indexOf(D.months.indexOf(state.f.month)):-1;
+  if(selK>=0){
+    const hl=el('rect',{x:x(selK)-10,y:T,width:20,height:H-T-B,fill:'#e3f1ec'});s.insertBefore(hl,s.firstChild);
+    el('line',{x1:x(selK),x2:x(selK),y1:T,y2:H-B,stroke:'#0f5c4a','stroke-width':1.5},s);
+    el('circle',{cx:x(selK),cy:y(vals[selK]),r:6,fill:'#0f5c4a',stroke:'#fff','stroke-width':2},s);
+  }else{
+    el('circle',{cx:x(li),cy:y(last),r:5,fill:'#2a78d6',stroke:'#fcfcfb','stroke-width':2},s);
+  }
+  // Hover and click layer: one column per month
+  const cross=el('line',{x1:0,x2:0,y1:T,y2:H-B,stroke:'#898781','stroke-width':1,opacity:0,'pointer-events':'none'},s);
+  const dot=el('circle',{r:5,fill:'#2a78d6',stroke:'#fff','stroke-width':2,opacity:0,'pointer-events':'none'},s);
+  const colW=(W-L-R)/(n-1);
+  for(let k=0;k<n;k++){
+    const ym=addMonths(D.months[start],k),isActual=k<=li;
+    const r=el('rect',{x:x(k)-colW/2,y:T,width:colW,height:H-T-B,fill:'transparent'},s);
+    const v=isActual?vals[k]:(band[k-li-1][0]+band[k-li-1][1])/2;
+    r.addEventListener('mousemove',ev=>{
+      let html;
+      if(isActual){const pv=k>0?vals[k-1]:costAt(vis,idx[0]-1);const ch=pv?(vals[k]/pv-1)*100:null;
+        html=`<span class="m">${mLabel(ym,true)}</span><br><b>${money(vals[k])}</b> per week${ch!=null?`<br>${pct(ch)} from the previous month`:''}<br><span class="h">${state.f.month===ym?'Select to clear the month filter':'Select to filter to this month'}</span>`;}
+      else{const b=band[k-li-1];html=`<span class="m">${mLabel(ym,true)} (outlook)</span><br><b>${money(b[0])} to ${money(b[1])}</b> per week`;}
+      cross.setAttribute('x1',x(k));cross.setAttribute('x2',x(k));cross.setAttribute('opacity',1);
+      dot.setAttribute('cx',x(k));dot.setAttribute('cy',y(v));dot.setAttribute('opacity',1);
+      showTip(html,ev);
+    });
+    r.addEventListener('mouseleave',()=>{cross.setAttribute('opacity',0);dot.setAttribute('opacity',0);hideTip()});
+    if(isActual)clickable(r,`${mLabel(ym,true)}: ${money(vals[k])} per week`,()=>{hideTip();setFilter('month',ym)});
+    else r.style.cursor='default';
+  }
 }
-function niceStep(raw){const p=Math.pow(10,Math.floor(Math.log10(raw)));const f=raw/p;return(f<1.5?1:f<3?2:f<7?5:10)*p}
 
-// Movers
-function renderMovers(){
+// Price changes
+function renderMovers(all){
   const s=$('#movers');s.innerHTML='';
-  const W=Math.max(300,s.clientWidth||470);
-  let data=state.items.map(i=>({p:i.product,v:yoy(i.product)})).filter(d=>d.v!=null).sort((a,b)=>b.v-a.v);
-  if(data.length>10){data=data.slice(0,6).concat(data.slice(-4))} // six largest increases and four largest decreases
+  const W=Math.max(300,s.clientWidth||470),i=IDX();
+  let data=filtered(all,'product').map(it=>({p:it.product,base:it.base,v:yoyAt(it.product,i)})).filter(d=>d.v!=null).sort((a,b)=>b.v-a.v);
+  if(data.length>10){
+    const keep=data.slice(0,6).concat(data.slice(-4));
+    const selItem=data.find(d=>d.base===state.f.product||d.p===state.f.product);
+    if(selItem&&!keep.includes(selItem)){keep.splice(5,1,selItem);keep.sort((a,b)=>b.v-a.v)}
+    data=keep;
+  }
+  $('#moversSub').textContent=`12-month change in average price to ${mLabel(D.months[i],true)}${state.f.aisle?', '+state.f.aisle.toLowerCase():''}. Select an item to filter.`;
   const rowH=Math.min(26.5,268/Math.max(1,data.length)),H=Math.max(60,data.length*rowH+12);
   s.setAttribute('viewBox',`0 0 ${W} ${H}`);s.setAttribute('height',H);
   const L=Math.min(150,W*0.34),R=52,T=6;
   const mx=Math.max(5,...data.map(d=>d.v)),mn=Math.min(-5,...data.map(d=>d.v));
   const x=v=>L+(v-mn)*(W-L-R)/(mx-mn),z=x(0);
-  data.forEach((d,i)=>{
-    const cy=T+i*rowH+rowH/2,nm=split(d.p).name;
-    el('text',{x:L-10,y:cy+4,'text-anchor':'end','font-size':12.5,fill:'#52514e'},s).textContent=nm.length>22?nm.slice(0,21)+'…':nm;
+  data.forEach((d,k)=>{
+    const sel=state.f.product&&(d.base===state.f.product||d.p===state.f.product),dim=state.f.product&&!sel;
+    const cy=T+k*rowH+rowH/2,nm=split(d.p).name;
+    const g=el('g',{opacity:dim?.3:1},s);
+    if(sel)el('rect',{x:0,y:cy-rowH/2+1,width:W,height:rowH-2,rx:6,fill:'#e3f1ec'},g);
+    el('text',{x:L-10,y:cy+4,'text-anchor':'end','font-size':12.5,fill:sel?'#0f5c4a':'#52514e','font-weight':sel?600:400},g).textContent=nm.length>22?nm.slice(0,21)+'…':nm;
     const w=Math.max(2,Math.abs(x(d.v)-z)),r=Math.min(4,w),hh=12,yy=cy-hh/2;
     const p=d.v>=0?`M${z},${yy} h${w-r} a${r},${r} 0 0 1 ${r},${r} v${hh-2*r} a${r},${r} 0 0 1 -${r},${r} h-${w-r} Z`
                   :`M${z},${yy} h-${w-r} a${r},${r} 0 0 0 -${r},${r} v${hh-2*r} a${r},${r} 0 0 0 ${r},${r} h${w-r} Z`;
-    el('path',{d:p,fill:d.v>=0?'#d03b3b':'#2a78d6'},s);
-    // Negative values are labelled just right of the zero line so they never collide with item names.
-    const lx=d.v>=0?z+w+6:z+6;
-    el('text',{x:lx,y:cy+4,'text-anchor':'start','font-size':11.5,'font-weight':600,fill:'#0b0b0b'},s).textContent=pct(d.v);
+    el('path',{d:p,fill:d.v>=0?'#d03b3b':'#2a78d6'},g);
+    el('text',{x:d.v>=0?z+w+6:z+6,y:cy+4,'text-anchor':'start','font-size':11.5,'font-weight':600,fill:'#0b0b0b'},g).textContent=pct(d.v);
     const hit=el('rect',{x:0,y:cy-rowH/2,width:W,height:rowH,fill:'transparent'},s);
-    hit.addEventListener('mousemove',ev=>{const u=perUnit(unitShort(split(d.p).unit));showTip(`<span class="m">${esc(d.p)}</span><br>Now: <b>${money(price(d.p,LAST))}</b> ${esc(u)}<br>A year ago: ${money(price(d.p,LAST-12))}<br>Change: ${pct(d.v)}`,ev)});
+    hit.addEventListener('mousemove',ev=>{const u=perUnit(unitShort(split(d.p).unit));showTip(`<span class="m">${esc(d.p)}</span><br>${mLabel(D.months[i],true)}: <b>${money(price(d.p,i))}</b> ${esc(u)}<br>A year earlier: ${money(price(d.p,i-12))}<br>Change: ${pct(d.v)}<br><span class="h">${sel?'Select to clear the product filter':'Select to filter to this product'}</span>`,ev)});
     hit.addEventListener('mouseleave',hideTip);
+    clickable(hit,`${nm}: ${pct(d.v)}`,()=>{hideTip();setFilter('product',d.base)});
   });
   el('line',{x1:z,x2:z,y1:0,y2:T+data.length*rowH,stroke:'#898781'},s);
-  if(!data.length)el('text',{x:W/2,y:30,'text-anchor':'middle',class:'tick'},s).textContent='Add items to see price changes';
+  if(!data.length)el('text',{x:W/2,y:30,'text-anchor':'middle',class:'tick'},s).textContent='No price changes for this selection';
 }
 
 // Substitutions
 function renderSwaps(){
-  const all=availableSwaps();
-  const groups=['All',...new Set(all.map(s=>s.group))];
+  const i=IDX(),all=swapsAt(i);
+  const inScope=all.filter(s=>(!state.f.aisle||s.aisle===state.f.aisle));
+  const groups=['All',...new Set(inScope.map(s=>s.group))];
   if(!groups.includes(state.swapGroup))state.swapGroup='All';
   const tabs=$('#swapTabs');tabs.innerHTML='';
   groups.slice(0,4).forEach(g=>{const b=h('button',{'aria-pressed':String(g===state.swapGroup)},esc(g));b.onclick=()=>{state.swapGroup=g;renderSwaps()};tabs.appendChild(b)});
   const list=$('#swaps');list.innerHTML='';
-  const shown=all.filter(s=>state.swapGroup==='All'||s.group===state.swapGroup).slice(0,4);
-  if(!shown.length){list.appendChild(h('div',{class:'empty'},'No lower-cost alternatives for these items this month.'));return}
+  let shown=inScope.filter(s=>state.swapGroup==='All'||s.group===state.swapGroup);
+  if(state.f.product){const sel=shown.filter(s=>s.from===state.f.product||s.to===state.f.product);shown=sel.concat(shown.filter(s=>!sel.includes(s)))}
+  shown=shown.slice(0,4);
+  if(!shown.length){list.appendChild(h('div',{class:'empty'},'No lower-cost alternatives for '+(scopeLabel()?scopeLabel().toLowerCase():'these items')+' in '+mLabel(D.months[i],true)+'.'));return}
   for(const s of shown){
-    const a=split(s.from),b=split(s.to);
-    const row=h('div',{class:'swap'});
-    row.innerHTML=`<div class="item"><b title="${esc(s.from)}">${esc(a.name)}</b><span>${money(s.pf)} ${esc(perUnit(unitShort(a.unit)))}</span></div>
-      <div class="arrow">to</div>
-      <div class="item"><b title="${esc(s.to)}">${esc(b.name)}</b><span>${money(s.pt)} ${esc(perUnit(unitShort(b.unit)))}</span></div>`;
+    const a=split(s.from),b=split(s.to),sel=state.f.product&&(s.from===state.f.product||s.to===state.f.product);
+    const row=h('div',{class:'swap'+(state.f.product&&!sel?' dim':'')});
+    const from=h('button',{class:'item'+(state.f.product===s.from?' sel':''),title:'Filter the dashboard to '+a.name},`<b>${esc(a.name)}</b><span>${money(s.pf)} ${esc(perUnit(unitShort(a.unit)))}</span>`);
+    from.onclick=()=>setFilter('product',s.from);
+    const to=h('div',{class:'item'},`<b title="${esc(s.to)}">${esc(b.name)}</b><span>${money(s.pt)} ${esc(perUnit(unitShort(b.unit)))}</span>`);
+    row.appendChild(from);row.appendChild(h('div',{class:'arrow'},'to'));row.appendChild(to);
     const btn=h('button',{class:'save','aria-pressed':String(s.applied),title:s.applied?'Remove this substitution':'Apply this substitution to your basket'},(s.applied?'Applied ':'Save ')+money(s.saving)+'/wk');
     btn.onclick=()=>{const k=swapKey(s);state.applied=s.applied?state.applied.filter(x=>x!==k):state.applied.concat(k);toast(s.applied?'Substitution removed':'Substitution applied. Saving '+money(s.saving)+' a week.');update()};
     row.appendChild(btn);list.appendChild(row);
@@ -509,98 +698,223 @@ function renderSwaps(){
 }
 
 // Aisles
-function renderAisles(items){
-  const tot={};let sum=0;
-  for(const it of items){const p=price(it.product,LAST);if(p==null)continue;const c=p*it.qty;tot[it.aisle]=(tot[it.aisle]||0)+c;sum+=c}
+function renderAisles(all){
+  const i=IDX(),tot={};let sum=0;
+  for(const it of all){const p=price(it.product,i);if(p==null)continue;const c=p*it.qty;tot[it.aisle]=(tot[it.aisle]||0)+c;sum+=c}
   const rows=Object.entries(tot).sort((a,b)=>b[1]-a[1]);const top=rows.length?rows[0][1]:1;
   const fills=['var(--seq1)','var(--seq2)','var(--seq2)','var(--seq3)','var(--seq3)','var(--seq4)','var(--seq4)'];
-  $('#aisles').innerHTML=rows.map(([a,c],i)=>`<div class="hbar" title="${esc(a)}: ${money(c)} / week"><span class="t">${esc(a)}</span><div class="track"><div class="fill" style="width:${(c/top*100).toFixed(1)}%;background:${fills[Math.min(i,fills.length-1)]}"></div></div><span class="n">${Math.round(c/sum*100)}%</span></div>`).join('')
-    ||'<div class="empty">Your basket is empty.</div>';
+  const selAisle=state.f.aisle||(state.f.product?aisleOf(state.f.product):null);
+  $('#aisleSub').textContent=`Share of the basket cost in ${mLabel(D.months[i],true)}. Select an aisle to filter.`;
+  const box=$('#aisles');box.innerHTML='';
+  rows.forEach(([a,c],k)=>{
+    const b=h('button',{class:'hbar'+(selAisle===a?' sel':selAisle?' dim':''),'aria-pressed':String(state.f.aisle===a),title:(state.f.aisle===a?'Clear the aisle filter. ':'Filter to '+a+'. ')+money(c)+' a week'},
+      `<span class="t">${esc(a)}</span><div class="track"><div class="fill" style="width:${(c/top*100).toFixed(1)}%;background:${fills[Math.min(k,fills.length-1)]}"></div></div><span class="n">${Math.round(c/sum*100)}%</span>`);
+    b.onclick=()=>setFilter('aisle',a);box.appendChild(b);
+  });
+  if(!rows.length)box.innerHTML='<div class="empty">Your basket is empty.</div>';
 }
 
 // Calgary food benchmark (Market Basket Measure)
-function renderBenchmark(items){
+function renderBenchmark(all){
   const box=$('#benchmark'),m=D.mbm;
   if(!m){box.hidden=true;return}
   box.hidden=false;
-  const hh=D.households[state.household],size=+(hh.size||4);
+  const i=IDX(),hh=D.households[state.household],size=+(hh.size||4);
   // MBM uses the square-root equivalence scale: family-of-4 threshold x sqrt(size) / 2.
   const weekly=m.annual_family4/52*Math.sqrt(size)/2;
-  const cost=costAt(items,LAST),share=cost/weekly*100;
-  const place=m.geo.split(',')[0];
+  const cost=costAt(all,i),share=cost/weekly*100,place=m.geo.split(',')[0];
   box.innerHTML=`<div class="bm-row"><span>${esc(place)} food benchmark for this household</span><b>${money(weekly)} / week</b></div>
     <div class="bm-bar" role="img" aria-label="Basket is ${Math.round(share)} percent of the benchmark"><div style="width:${Math.min(100,share).toFixed(1)}%"></div></div>
-    <p>Your basket costs ${Math.round(share)}% of the benchmark. The benchmark is the food cost in the Market Basket Measure, Canada's official poverty line, for ${esc(place)} in ${m.year} (${esc(m.base)}), adjusted for household size.</p>`;
+    <p>Your full basket costs ${Math.round(share)}% of the benchmark${state.f.month?' in '+mLabel(D.months[i],true):''}. The benchmark is the food cost in the Market Basket Measure, Canada's official poverty line, for ${esc(place)} in ${m.year} (${esc(m.base)}), adjusted for household size.</p>`;
 }
 
-// Stores
-function initStores(){
-  const sel=$('#community');
-  const comms=[...new Set(D.stores.map(s=>s.community))].sort();
-  sel.appendChild(h('option',{value:'All'},'All communities'));
-  comms.forEach(c=>sel.appendChild(h('option',{value:c},esc(c))));
-  sel.onchange=()=>{state.community=sel.value;renderStores()};
-  document.querySelectorAll('#storeView button').forEach(b=>b.onclick=()=>{state.view=b.dataset.v;document.querySelectorAll('#storeView button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));renderStores()});
+// Stores: which aisles a store is likely to stock, from its trade name.
+const SPECIALIST={'Meat & fish':/BUTCHER|MEAT|SAUSAGE|FISH|SEAFOOD/i,'Fruit & veg':/PRODUCE|FRUIT|VEGETABLE|FARM/i,'Bakery':/BAKERY|BAKE|BREAD|PATISSERIE/i};
+function storeAisles(s){
+  if(s.kind==='supermarket')return null; // sells every aisle
+  const hits=Object.keys(SPECIALIST).filter(a=>SPECIALIST[a].test(s.name));
+  return hits.length?hits:null; // general grocers sell every aisle too
+}
+function storeRelevant(s){
+  const a=state.f.aisle||(state.f.product?aisleOf(state.f.product):null);
+  if(!a)return true;
+  const sa=storeAisles(s);return !sa||sa.includes(a);
+}
+function storeMatch(s){
+  return (!state.f.community||s.community===state.f.community)&&(!state.f.kind||s.kind===state.f.kind)&&storeRelevant(s);
+}
+function storeSearch(s){const q=state.storeQuery.trim().toLowerCase();return !q||(s.name+' '+s.address+' '+s.community).toLowerCase().includes(q)}
+
+// Tile map: CARTO light basemap with OpenStreetMap data, drawn without libraries.
+class TileMap{
+  constructor(node,opts){
+    this.node=node;this.opts=opts||{};this.z=11;this.cx=0;this.cy=0;this.points=[];this.cache=new Map();this.fitted=false;
+    node.classList.add('tilemap');
+    node.innerHTML='<div class="tiles"></div><svg></svg><div class="zoom"><button aria-label="Zoom in">+</button><button aria-label="Zoom out">&minus;</button></div><div class="attr"></div><div class="offmsg">Base map unavailable offline</div>';
+    this.tiles=node.querySelector('.tiles');this.svg=node.querySelector('svg');
+    const cfg=D.meta.map||{};this.cfg=cfg;
+    node.querySelector('.attr').innerHTML=cfg.attribution?`<a href="${esc(cfg.attribution_url||'#')}" target="_blank" rel="noopener">${esc(cfg.attribution)}</a>`:'';
+    if(!cfg.tiles)node.classList.add('offline');
+    const [zin,zout]=node.querySelectorAll('.zoom button');
+    zin.onclick=e=>{e.stopPropagation();this.zoomBy(1)};zout.onclick=e=>{e.stopPropagation();this.zoomBy(-1)};
+    // Drag to pan; a click without movement selects or clears.
+    let start=null;
+    node.addEventListener('pointerdown',e=>{if(e.target.closest('.zoom,.attr'))return;start={x:e.clientX,y:e.clientY,cx:this.cx,cy:this.cy,moved:false,target:e.target};node.setPointerCapture(e.pointerId)});
+    node.addEventListener('pointermove',e=>{if(!start)return;const dx=e.clientX-start.x,dy=e.clientY-start.y;
+      if(!start.moved&&Math.hypot(dx,dy)>4){start.moved=true;node.classList.add('dragging');hideTip()}
+      if(start.moved){this.cx=start.cx-dx;this.cy=start.cy-dy;this.render()}});
+    node.addEventListener('pointerup',e=>{if(!start)return;const s=start;start=null;node.classList.remove('dragging');
+      if(s.moved)return;
+      const pt=this.hitTest(e);
+      if(pt&&this.opts.onPoint)this.opts.onPoint(pt);else if(!pt&&this.opts.onBackground)this.opts.onBackground();});
+    node.addEventListener('pointercancel',()=>{start=null;node.classList.remove('dragging')});
+    node.addEventListener('dblclick',e=>{const r=node.getBoundingClientRect();this.zoomBy(1,e.clientX-r.left,e.clientY-r.top)});
+    if(this.opts.wheel)node.addEventListener('wheel',e=>{e.preventDefault();const r=node.getBoundingClientRect();this.zoomBy(e.deltaY<0?1:-1,e.clientX-r.left,e.clientY-r.top)},{passive:false});
+    node.addEventListener('mousemove',e=>{if(start&&start.moved)return;const pt=this.hitTest(e);node.style.cursor=pt?'pointer':'';
+      if(pt&&this.opts.tip)showTip(this.opts.tip(pt),e);else hideTip()});
+    node.addEventListener('mouseleave',hideTip);
+  }
+  static px(lat,lon,z){const s=256*Math.pow(2,z),r=lat*Math.PI/180;return[(lon+180)/360*s,(1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*s]}
+  size(){return[this.node.clientWidth||400,this.node.clientHeight||230]}
+  fit(points){
+    const pts=points&&points.length?points:this.points;if(!pts.length)return;
+    const[W,H]=this.size(),pad=24,maxZ=Math.min(16,+(this.cfg.max_zoom||18));
+    let z=maxZ;
+    for(;z>=9;z--){const xs=pts.map(p=>TileMap.px(p.lat,p.lon,z));const w=Math.max(...xs.map(a=>a[0]))-Math.min(...xs.map(a=>a[0])),hh=Math.max(...xs.map(a=>a[1]))-Math.min(...xs.map(a=>a[1]));if(w<=W-2*pad&&hh<=H-2*pad)break}
+    this.z=Math.max(9,z);
+    const xs=pts.map(p=>TileMap.px(p.lat,p.lon,this.z));
+    this.cx=(Math.max(...xs.map(a=>a[0]))+Math.min(...xs.map(a=>a[0])))/2;this.cy=(Math.max(...xs.map(a=>a[1]))+Math.min(...xs.map(a=>a[1])))/2;
+    this.fitted=true;this.render();
+  }
+  zoomBy(d,ax,ay){
+    const nz=Math.max(9,Math.min(+(this.cfg.max_zoom||18),this.z+d));if(nz===this.z)return;
+    const[W,H]=this.size();ax=ax==null?W/2:ax;ay=ay==null?H/2:ay;
+    const f=Math.pow(2,nz-this.z),wx=this.cx-W/2+ax,wy=this.cy-H/2+ay;
+    this.cx=wx*f-ax+W/2;this.cy=wy*f-ay+H/2;this.z=nz;this.render();
+  }
+  setPoints(points){this.points=points;if(!this.fitted)this.fit();else this.render()}
+  hitTest(e){
+    const r=this.node.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;let best=null,bd=1e9;
+    for(const p of this.screen||[]){const d=Math.hypot(p.sx-mx,p.sy-my);if(d<=p.r+5&&d<bd){bd=d;best=p.src}}
+    return best;
+  }
+  render(){
+    const[W,H]=this.size(),z=this.z,ox=this.cx-W/2,oy=this.cy-H/2,n=Math.pow(2,z);
+    // tiles
+    if(this.cfg.tiles&&!this.node.classList.contains('offline')){
+      const want=new Set(),r=(window.devicePixelRatio||1)>1?'@2x':'',sub=this.cfg.subdomains||'abc';
+      for(let tx=Math.floor(ox/256);tx<=Math.floor((ox+W)/256);tx++)for(let ty=Math.floor(oy/256);ty<=Math.floor((oy+H)/256);ty++){
+        if(ty<0||ty>=n)continue;const wx=((tx%n)+n)%n,key=z+'/'+wx+'/'+ty;want.add(key);
+        let img=this.cache.get(key);
+        if(!img){img=new Image();img.alt='';img.decoding='async';
+          img.onerror=()=>{this.errors=(this.errors||0)+1;if(this.errors>=3&&!this.loaded)this.node.classList.add('offline')};
+          img.onload=()=>{this.loaded=true};
+          img.src=this.cfg.tiles.replace('{s}',sub[Math.abs(wx+ty)%sub.length]).replace('{z}',z).replace('{x}',wx).replace('{y}',ty).replace('{r}',r);
+          this.cache.set(key,img);}
+        img.style.left=(tx*256-ox)+'px';img.style.top=(ty*256-oy)+'px';
+        if(img.parentNode!==this.tiles)this.tiles.appendChild(img);
+      }
+      for(const[key,img]of this.cache)if(!want.has(key)&&img.parentNode)img.remove();
+      if(this.cache.size>400)for(const key of this.cache.keys()){if(!want.has(key))this.cache.delete(key);if(this.cache.size<200)break}
+    }
+    // markers: dimmed ones first, so matching stores sit on top
+    const svg=this.svg;svg.innerHTML='';svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+    this.screen=[];
+    const ordered=this.points.slice().sort((a,b)=>(a.on-b.on)||((a.r||5)-(b.r||5)));
+    for(const p of ordered){
+      const[px,py]=TileMap.px(p.lat,p.lon,z),sx=px-ox,sy=py-oy;
+      if(sx<-10||sy<-10||sx>W+10||sy>H+10)continue;
+      el('circle',{cx:sx,cy:sy,r:p.r,fill:p.fill,stroke:p.stroke||'#fff','stroke-width':p.sw||1.5,opacity:p.on?1:.22,class:'mk'},svg);
+      if(p.on)this.screen.push({sx,sy,r:p.r,src:p.src});
+    }
+  }
+}
+let miniMap=null,bigMap=null;
+function storePoints(){
+  return D.stores.map(s=>{
+    const on=storeMatch(s)&&storeSearch(s),sel=state.f.community&&s.community===state.f.community&&on;
+    return{lat:s.lat,lon:s.lon,src:s,on,r:s.kind==='supermarket'?6:4.5,fill:s.kind==='supermarket'?'#0f5c4a':'#eb6834',stroke:sel?'#0b0b0b':'#fff',sw:sel?2:1.5};
+  });
+}
+const storeTip=s=>`<b>${esc(s.name)}</b><br><span class="m">${esc(s.address)}, ${esc(s.community)}</span><br>${s.kind==='supermarket'?'Supermarket':'Specialty or independent'}<br><span class="h">${state.f.community===s.community?'Select to clear the community filter':'Select to filter to '+esc(s.community)}</span>`;
+function badge(box){
+  box.innerHTML='';
+  [['supermarket','#0f5c4a','Supermarkets'],['specialty','#eb6834','Specialty or independent']].forEach(([k,c,l])=>{
+    const b=h('button',{class:'kindbtn','aria-pressed':String(state.f.kind===k),title:state.f.kind===k?'Show all store types':'Show only '+l.toLowerCase()},`<i class="sw" style="background:${c};border-radius:50%"></i>${l}`);
+    b.onclick=()=>setFilter('kind',k);box.appendChild(b);
+  });
+  const sp=h('span',{class:'hint',style:'margin-left:auto'},'Drag to move. Select empty map to clear.');box.appendChild(sp);
 }
 function renderStores(){
-  const st=D.stores,sel=state.community==='All'?st:st.filter(s=>s.community===state.community);
-  const nSup=sel.filter(s=>s.kind==='supermarket').length;
-  $('#storeSub').textContent=`${sel.length} licensed food retailer${sel.length===1?'':'s'}, including ${nSup} supermarket${nSup===1?'':'s'}, in `+(state.community==='All'?'Calgary':state.community);
-  const isMap=state.view==='map';
-  $('#mapwrap').hidden=!isMap;$('#storelist').hidden=isMap;
-  if(!isMap){
-    $('#storelist').innerHTML=sel.slice().sort((a,b)=>a.kind.localeCompare(b.kind)||a.name.localeCompare(b.name))
-      .map(s=>`<div><b>${esc(s.name)}</b><span>${esc(s.address)}, ${esc(s.community)}</span></div>`).join('')||'<div class="empty">No stores.</div>';
-    return;
-  }
-  const svg=$('#map');svg.innerHTML='';
-  const W=Math.max(280,svg.clientWidth||440),H=200;svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
-  if(!st.length){el('text',{x:W/2,y:H/2,'text-anchor':'middle',class:'tick'},svg).textContent='No store data';return}
-  // Simple projection fitted to all stores, so the map does not move when filtering.
-  const lats=st.map(s=>s.lat),lons=st.map(s=>s.lon);
-  const la0=Math.min(...lats),la1=Math.max(...lats),lo0=Math.min(...lons),lo1=Math.max(...lons);
-  const k=Math.cos((la0+la1)/2*Math.PI/180),pad=14;
-  const sx=(W-2*pad)/((lo1-lo0)*k||1),sy=(H-2*pad)/((la1-la0)||1),sc=Math.min(sx,sy);
-  const ox=(W-(lo1-lo0)*k*sc)/2,oy=(H-(la1-la0)*sc)/2;
-  const X=lo=>ox+(lo-lo0)*k*sc,Y=la=>H-oy-(la-la0)*sc;
-  // Calgary quadrant lines: Centre Street (about -114.0626) and Centre Avenue (about 51.048).
-  const cx=X(-114.0626),cy=Y(51.048);
-  for(let g=0;g<W;g+=24)el('line',{x1:g,x2:g,y1:0,y2:H,stroke:'#e2ebe4'},svg);
-  for(let g=0;g<H;g+=24)el('line',{x1:0,x2:W,y1:g,y2:g,stroke:'#e2ebe4'},svg);
-  if(cx>0&&cx<W)el('line',{x1:cx,x2:cx,y1:0,y2:H,stroke:'#f2c98a','stroke-width':3,opacity:.8},svg);
-  if(cy>0&&cy<H)el('line',{x1:0,x2:W,y1:cy,y2:cy,stroke:'#f2c98a','stroke-width':3,opacity:.8},svg);
-  [['NW',8,16,'start'],['NE',W-8,16,'end'],['SW',8,H-8,'start'],['SE',W-8,H-8,'end']].forEach(q=>el('text',{x:q[1],y:q[2],'text-anchor':q[3],'font-size':11,'font-weight':700,fill:'#9bb3a4'},svg).textContent=q[0]);
-  const ordered=st.slice().sort((a,b)=>(a.kind==='supermarket')-(b.kind==='supermarket'));
-  for(const s of ordered){
-    const on=state.community==='All'||s.community===state.community;
-    const c=el('circle',{cx:X(s.lon),cy:Y(s.lat),r:s.kind==='supermarket'?6:4.5,fill:s.kind==='supermarket'?'#0f5c4a':'#eb6834',stroke:'#fff','stroke-width':1.5,opacity:on?1:.18},svg);
-    c.addEventListener('mousemove',ev=>showTip(`<b>${esc(s.name)}</b><br><span class="m">${esc(s.address)}, ${esc(s.community)}</span><br>${s.kind==='supermarket'?'Supermarket':'Specialty or independent'}`,ev));
-    c.addEventListener('mouseleave',hideTip);
-    c.addEventListener('click',()=>{$('#community').value=s.community;state.community=s.community;renderStores()});
+  const st=D.stores,match=st.filter(storeMatch),nSup=match.filter(s=>s.kind==='supermarket').length;
+  const where=state.f.community||'Calgary';
+  const rel=(state.f.aisle||state.f.product)?' that sell '+((state.f.product?split(state.f.product).name:state.f.aisle).toLowerCase()):'';
+  const txt=`${match.length} licensed food retailer${match.length===1?'':'s'}${rel}, including ${nSup} supermarket${nSup===1?'':'s'}, in ${where}`;
+  $('#storeSub').textContent=txt;$('#bigStoreSub').textContent=txt+'. Select a store to filter by its community.';
+  badge($('#miniBadge'));
+  if(miniMap){miniMap.setPoints(storePoints());
+    if(state.f.community&&lastMini!==state.f.community){focusCommunity(miniMap);lastMini=state.f.community}
+    if(!state.f.community&&lastMini){miniMap.fit(D.stores);lastMini=null}}
+  if(state.page==='stores')renderStorePage();
+}
+function focusCommunity(map){const pts=D.stores.filter(s=>s.community===state.f.community);if(pts.length)map.fit(pts.length>1?pts:[pts[0],{lat:pts[0].lat+.004,lon:pts[0].lon+.006},{lat:pts[0].lat-.004,lon:pts[0].lon-.006}])}
+let lastFocus=null,lastMini=null;
+function onPoint(s){const same=state.f.community===s.community;setFilter('community',s.community);
+  if(same){if(miniMap)miniMap.fit(D.stores);if(bigMap)bigMap.fit(D.stores)}}
+function onBackground(){if(state.f.community){clearFilter('community');if(miniMap)miniMap.fit(D.stores);if(bigMap)bigMap.fit(D.stores)}}
+function renderStorePage(){
+  badge($('#bigBadge'));
+  if(!bigMap){bigMap=new TileMap($('#bigMap'),{wheel:true,onPoint,onBackground,tip:storeTip});}
+  bigMap.setPoints(storePoints());
+  if(state.f.community&&lastFocus!==state.f.community){focusCommunity(bigMap);lastFocus=state.f.community}
+  if(!state.f.community&&lastFocus){bigMap.fit(D.stores);lastFocus=null}
+  const sel=$('#community');sel.value=state.f.community||'All';
+  const list=$('#storelist');list.innerHTML='';
+  const rows=D.stores.filter(s=>storeMatch(s)&&storeSearch(s)).sort((a,b)=>a.kind.localeCompare(b.kind)||a.name.localeCompare(b.name));
+  if(!rows.length){list.innerHTML='<div class="empty">No stores match these filters.</div>';return}
+  for(const s of rows.slice(0,400)){
+    const b=h('button',{class:state.f.community===s.community?'sel':''},`<i class="kd" style="background:${s.kind==='supermarket'?'#0f5c4a':'#eb6834'}"></i><div style="flex:1;min-width:0"><b>${esc(s.name)}</b><br><span>${esc(s.address)}, ${esc(s.community)}</span></div>`);
+    b.onclick=()=>{bigMap.z=Math.max(bigMap.z,15);const[px,py]=TileMap.px(s.lat,s.lon,bigMap.z);bigMap.cx=px;bigMap.cy=py;
+      lastFocus=s.community;if(state.f.community!==s.community)setFilter('community',s.community);else bigMap.render()};
+    list.appendChild(b);
   }
 }
 
-// Basket drawer
-function openDrawer(focusAdd){$('#drawer').classList.add('open');$('#scrim').classList.add('open');$('#drawer').setAttribute('aria-hidden','false');renderBasket();setTimeout(()=>(focusAdd?$('#addInput'):$('#closeDrawer')).focus(),50)}
-function closeDrawer(){$('#drawer').classList.remove('open');$('#scrim').classList.remove('open');$('#drawer').setAttribute('aria-hidden','true')}
-function renderBasket(){
-  const list=$('#basketList');list.innerHTML='';
-  const hh=D.households[state.household];
-  $('#drawerSub').textContent=hh.scale===1?'Quantities are per week for a family of 4.':`Quantities are per week for a family of 4, multiplied by ${hh.scale} for this household size.`;
-  state.items.forEach((it,i)=>{
-    const sp=split(it.product),p=price(it.product,LAST);
-    const row=h('div',{class:'bi'});
-    row.innerHTML=`<div class="nm"><b title="${esc(it.product)}">${esc(sp.name)}</b><span>${esc(sp.unit)}, ${money(p)}, ${esc(it.aisle)}</span></div>
-      <div class="step"><button aria-label="Less">−</button><input aria-label="Quantity" inputmode="decimal" value="${+it.qty.toFixed(2)}"><button aria-label="More">+</button></div>
-      <button class="rm" aria-label="Remove ${esc(sp.name)}">✕</button>`;
-    const[minus,plus]=row.querySelectorAll('.step button'),inp=row.querySelector('input');
-    const stepBy=/per kilogram/.test(it.product)?0.25:0.5;
-    minus.onclick=()=>{it.qty=Math.max(stepBy,+(it.qty-stepBy).toFixed(2));inp.value=it.qty;update(false)};
-    plus.onclick=()=>{it.qty=+(it.qty+stepBy).toFixed(2);inp.value=it.qty;update(false)};
-    inp.onchange=()=>{const v=parseFloat(inp.value);if(v>0){it.qty=v;update(false)}else inp.value=it.qty};
-    row.querySelector('.rm').onclick=()=>{state.items.splice(i,1);state.applied=state.applied.filter(k=>!k.startsWith(it.product+'|'));update(false);renderBasket()};
-    list.appendChild(row);
-  });
+// Basket page
+function renderBasketPage(){
+  const i=IDX(),hh=D.households[state.household],all=effectiveItems(),total=costAt(all,i)||0;
+  $('#basketSub').textContent=`${state.items.length} items. Quantities are per week for a family of 4${hh.scale===1?'':', multiplied by '+hh.scale+' for this household size'}. Prices for ${mLabel(D.months[i],true)}.`;
+  const rows=state.items.map((it,k)=>{const e=all[k],p=price(e.product,i);return{k,it,e,p,cost:p==null?null:p*e.qty,yoy:yoyAt(e.product,i),name:split(e.product).name}});
+  const s=state.sort,val=r=>({name:r.name,aisle:r.it.aisle,qty:r.it.qty,price:r.p,cost:r.cost,share:r.cost,yoy:r.yoy})[s.key];
+  rows.sort((a,b)=>{const va=val(a),vb=val(b);if(typeof va==='string')return s.dir*va.localeCompare(vb);return s.dir*((va??-1e9)-(vb??-1e9))});
+  const cols=[['name','Item',''],['aisle','Aisle',''],['qty','Quantity','num'],['price','Price','num'],['cost','Weekly cost','num'],['share','Share','num'],['yoy','12-month change','num']];
+  const t=$('#basketTable');
+  t.innerHTML='<thead><tr>'+cols.map(([k,l,c])=>`<th class="${c}"><button data-k="${k}">${l}${s.key===k?(s.dir>0?' ▲':' ▼'):''}</button></th>`).join('')+'<th></th></tr></thead>';
+  t.querySelectorAll('th button').forEach(b=>b.onclick=()=>{const k=b.dataset.k;state.sort=k===s.key?{key:k,dir:-s.dir}:{key:k,dir:k==='name'||k==='aisle'?1:-1};renderBasketPage()});
+  const tb=h('tbody');
+  for(const r of rows){
+    const sel=state.f.product===r.it.product,dim=(state.f.product&&!sel)||(state.f.aisle&&r.it.aisle!==state.f.aisle);
+    const tr=h('tr',{class:sel?'sel':dim?'dim':''});
+    const sp=split(r.e.product);
+    tr.innerHTML=`<td class="nm"><b>${esc(sp.name)}</b><span>${esc(sp.unit)}${r.e.swapped?' (substituted for '+esc(split(r.it.product).name)+')':''}</span></td>
+      <td>${esc(r.it.aisle)}</td>
+      <td class="num"><span class="step"><button aria-label="Less">−</button><input aria-label="Quantity" inputmode="decimal" value="${+r.it.qty.toFixed(2)}"><button aria-label="More">+</button></span></td>
+      <td class="num">${money(r.p)}</td><td class="num">${money(r.cost)}</td><td class="num">${r.cost==null?'n/a':Math.round(r.cost/total*100)+'%'}</td>
+      <td class="num" style="color:${r.yoy>0?'#a82828':r.yoy<0?'#1c5cab':'inherit'}">${pct(r.yoy)}</td>
+      <td><button class="rm" aria-label="Remove ${esc(sp.name)}" title="Remove">✕</button></td>`;
+    const[minus,plus]=tr.querySelectorAll('.step button'),inp=tr.querySelector('input');
+    const stepBy=/per kilogram/.test(r.it.product)?0.25:0.5;
+    minus.onclick=e=>{e.stopPropagation();r.it.qty=Math.max(stepBy,+(r.it.qty-stepBy).toFixed(2));update()};
+    plus.onclick=e=>{e.stopPropagation();r.it.qty=+(r.it.qty+stepBy).toFixed(2);update()};
+    inp.onclick=e=>e.stopPropagation();
+    inp.onchange=()=>{const v=parseFloat(inp.value);if(v>0){r.it.qty=v;update()}else inp.value=r.it.qty};
+    tr.querySelector('.rm').onclick=e=>{e.stopPropagation();state.items.splice(r.k,1);state.applied=state.applied.filter(x=>!x.startsWith(r.it.product+'|'));if(state.f.product===r.it.product)state.f.product=null;update();toast('Removed '+split(r.it.product).name)};
+    tr.onclick=()=>setFilter('product',r.it.product);
+    tr.title=sel?'Clear the product filter':'Filter the dashboard to '+sp.name;
+    tb.appendChild(tr);
+  }
+  t.appendChild(tb);
+  t.appendChild(h('tfoot',null,`<tr><td>Total</td><td></td><td></td><td></td><td class="num">${money(total)}</td><td class="num">100%</td><td></td><td></td></tr>`));
 }
 function addProduct(){
   const v=$('#addInput').value.trim();
@@ -608,30 +922,84 @@ function addProduct(){
   if(!v||!match){toast('No matching product. Choose one from the list.');return}
   if(state.items.some(i=>i.product===match)){toast('Already in your basket');return}
   state.items.push({product:match,qty:1,aisle:products[match].aisle});
-  $('#addInput').value='';update(false);renderBasket();toast('Added '+split(match).name);
+  $('#addInput').value='';update();toast('Added '+split(match).name);
 }
 
-// Event handlers and startup
+// Data page
+const USED_FOR={prices:'Item prices, basket cost, price changes, substitutions, aisle shares',cpi:'Grocery inflation figure',mbm:'Calgary food benchmark',stores:'Store map and list',outlook:'Outlook range on the cost chart'};
+const SNAP_FILE={prices:'prices_alberta.csv',cpi:'cpi_calgary_alberta.csv',mbm:'mbm_calgary.csv',stores:'stores_calgary.json'};
+function renderDataPage(){
+  const m=D.meta,snap=m.snapshot||{};
+  $('#dataSub').textContent=m.is_sample?'This build uses the synthetic sample data.':`Real data downloaded ${m.fetched_at?m.fetched_at.slice(0,10):'(date unknown)'}. The site checks for new data every week.`;
+  const t=$('#sourcesTable');
+  t.innerHTML='<thead><tr><th>Source</th><th>Used for</th><th>Latest period</th><th class="num">Records</th></tr></thead>';
+  const tb=h('tbody');
+  for(const s of m.sources){
+    const f=snap[SNAP_FILE[s.key]]||{};
+    const latest=f.latest_month?mLabel(f.latest_month,true):f.latest_year||(s.key==='outlook'?'2026 forecast':'');
+    const rec=f.records!=null?f.records:f.rows!=null?f.rows:'';
+    tb.appendChild(h('tr',{style:'cursor:default'},`<td><a href="${esc(s.page||'#')}" target="_blank" rel="noopener">${esc(s.name)}</a>${s.licence?'<br><span class="hint">'+esc(s.licence)+'</span>':''}</td><td>${esc(USED_FOR[s.key]||'')}</td><td>${esc(latest)}</td><td class="num">${rec===''?'':Number(rec).toLocaleString('en-CA')}</td>`));
+  }
+  t.appendChild(tb);
+  $('#downloads').innerHTML=`Processed data: <a href="data/dashboard.json">dashboard.json</a> and <a href="data/summary.json">summary.json</a> (available on the published site).`;
+  const geo=D.cpi.headline_geo,mb=D.mbm;
+  $('#methods').innerHTML=`<p><b>Basket cost.</b> Each item's ${esc(m.price_geo)} average retail price multiplied by the weekly quantity, scaled for household size. Statistics Canada does not publish these prices for individual cities.</p>
+    <p><b>Price changes.</b> The average price in the selected month compared with 12 months earlier. Statistics Canada advises that average prices show price levels and are not a pure inflation measure.</p>
+    <p><b>Grocery inflation.</b> The Consumer Price Index for food purchased from stores, ${esc(geo)}, 12-month change.</p>
+    ${mb?`<p><b>Food benchmark.</b> The food component of the Market Basket Measure for ${esc(mb.geo)}, ${mb.year} (${esc(mb.base)}): ${money(mb.annual_family4)} a year for a family of four. Other household sizes use the square-root scale (multiplied by the square root of household size, divided by 2).</p>`:''}
+    <p><b>Outlook.</b> The latest weekly cost projected at ${Math.round(D.outlook.annual_low*100)} to ${Math.round(D.outlook.annual_high*100)} percent a year, the range forecast in Canada's Food Price Report 2026.</p>
+    <p><b>Stores.</b> City of Calgary business licences for retail premises, classified by keywords in the trade name. Supermarkets and general grocers are assumed to sell every aisle; butchers, produce stores and bakeries only their own.</p>`;
+  const notes=m.data_notes||[];
+  $('#notesBox').hidden=!notes.length;
+  $('#notes').innerHTML=notes.map(n=>`<li>${esc(n)}</li>`).join('');
+}
+
+// Pages
+function showPage(p,focusAdd){
+  if(!PAGES.includes(p))p='overview';
+  state.page=p;
+  $$('[data-section]').forEach(s=>s.hidden=s.dataset.section!==p);
+  $$('.navi').forEach(b=>b.setAttribute('aria-current',b.dataset.page===p?'page':'false'));
+  const titles={overview:'Your grocery outlook',basket:'Your basket',stores:'Grocery stores',data:'Data and methods'};
+  $('#pageTitle').firstChild.textContent=titles[p]+' ';
+  update();
+  // A map created while its page was hidden has no size yet; fit it now that it is visible.
+  if(p==='overview'&&miniMap)requestAnimationFrame(()=>{if(state.f.community)focusCommunity(miniMap);else miniMap.fit(D.stores)});
+  if(focusAdd)setTimeout(()=>$('#addInput').focus(),30);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// Update everything
 function update(){
-  const items=effectiveItems();
+  const all=effectiveItems(),i=IDX();
   $('#itemCount').textContent=`Basket (${state.items.length} items)`;
   $('#household').value=state.household;
-  renderKpis(items);renderLine(items);renderMovers();renderSwaps();renderAisles(items);renderBenchmark(items);
+  $('#monthLabel').textContent='for '+mLabel(D.months[i],true);
+  document.title=D.meta.title+': '+mLabel(D.months[i],true)+' grocery outlook';
+  renderFilterBar();
+  if(state.page==='overview'){renderKpis(all);renderLine(all);renderMovers(all);renderSwaps();renderAisles(all);renderBenchmark(all);renderStores()}
+  else if(state.page==='basket')renderBasketPage();
+  else if(state.page==='stores')renderStores();
+  else if(state.page==='data')renderDataPage();
   writeHash();
 }
 function init(){
-  readHash();initStatic();initStores();
-  $('#household').onchange=e=>{state.household=e.target.value;update();if($('#drawer').classList.contains('open'))renderBasket()};
-  document.querySelectorAll('#range button').forEach(b=>b.onclick=()=>{state.range=+b.dataset.r;document.querySelectorAll('#range button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));renderLine(effectiveItems())});
-  document.querySelectorAll('[data-open-basket]').forEach(b=>b.onclick=()=>openDrawer(b.hasAttribute('data-focus-add')));
-  document.querySelectorAll('[data-scroll]').forEach(b=>b.onclick=()=>document.getElementById(b.dataset.scroll).scrollIntoView({behavior:'smooth'}));
-  $('#closeDrawer').onclick=closeDrawer;$('#scrim').onclick=closeDrawer;
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
+  readHash();initStatic();
+  const sel=$('#community');sel.appendChild(h('option',{value:'All'},'All communities'));
+  [...new Set(D.stores.map(s=>s.community))].sort().forEach(c=>sel.appendChild(h('option',{value:c},esc(c))));
+  sel.onchange=()=>{lastFocus=null;state.f.community=sel.value==='All'?null:sel.value;update()};
+  $('#storeSearch').addEventListener('input',e=>{state.storeQuery=e.target.value;renderStorePage()});
+  miniMap=new TileMap($('#miniMap'),{onPoint,onBackground,tip:storeTip});
+  $('#household').onchange=e=>{state.household=e.target.value;update()};
+  $$('#range button').forEach(b=>b.onclick=()=>{state.range=+b.dataset.r;$$('#range button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));renderLine(effectiveItems())});
+  $$('.navi').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+  $$('[data-goto]').forEach(b=>b.onclick=()=>showPage(b.dataset.goto,b.hasAttribute('data-focus-add')));
   $('#addBtn').onclick=addProduct;$('#addInput').addEventListener('keydown',e=>{if(e.key==='Enter')addProduct()});
-  $('#resetBasket').onclick=()=>{state.items=D.basket.map(i=>({...i}));state.applied=[];update();renderBasket();toast('Basket reset to the default.')};
-  $('#share').onclick=async()=>{writeHash();try{await navigator.clipboard.writeText(location.href);toast('Link copied. Anyone with the link will see this basket.')}catch(e){toast('Copy the page address to share this basket.')}};
-  update();renderStores();
-  let t;new ResizeObserver(()=>{clearTimeout(t);t=setTimeout(()=>{const it=effectiveItems();renderLine(it);renderMovers();renderStores()},80)}).observe(document.querySelector('.main'));
+  $('#resetBasket').onclick=()=>{state.items=D.basket.map(i=>({...i}));state.applied=[];state.f.product=null;update();toast('Basket reset to the default.')};
+  $('#share').onclick=async()=>{writeHash();try{await navigator.clipboard.writeText(location.href);toast('Link copied. It opens this page with the same basket and filters.')}catch(e){toast('Copy the page address to share this view.')}};
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&anyFilter()&&!['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName)){clearAll();if(miniMap)miniMap.fit(D.stores);if(bigMap)bigMap.fit(D.stores);toast('Filters cleared')}});
+  showPage(state.page);
+  let t;new ResizeObserver(()=>{clearTimeout(t);t=setTimeout(()=>{if(state.page==='overview'){const it=effectiveItems();renderLine(it);renderMovers(it);if(miniMap)miniMap.render()}else if(state.page==='stores'&&bigMap)bigMap.render()},80)}).observe(document.querySelector('.main'));
 }
 init();
 })();

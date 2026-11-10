@@ -10,6 +10,7 @@ permit with attribution. The full raw downloads are not committed.
 | Consumer Price Index, monthly, not seasonally adjusted, Table 18-10-0004-01 | Statistics Canada | [Statistics Canada Open Licence](https://www.statcan.gc.ca/en/reference/licence) |
 | Market Basket Measure thresholds, Table 11-10-0066-01 | Statistics Canada | [Statistics Canada Open Licence](https://www.statcan.gc.ca/en/reference/licence) |
 | Calgary Business Licences (`vdjc-pybd`) | The City of Calgary | [Open Government Licence, City of Calgary](https://data.calgary.ca/d/Open-Data-Terms/u45n-7awa) |
+| Base map tiles (display only, not stored) | OpenStreetMap contributors; tiles by CARTO | [ODbL](https://www.openstreetmap.org/copyright); [CARTO basemap terms](https://carto.com/basemaps) |
 | Canada's Food Price Report 2026 (outlook range only) | Dalhousie University and partner universities | Cited, not redistributed |
 
 All sources are credited in the dashboard footer.

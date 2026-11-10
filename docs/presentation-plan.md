@@ -26,7 +26,7 @@ Adjust names and segment lengths for the size of the team.
 | 0:00 to 0:45 | Presenter 1 | Scenario and opening | State the scenario and audience. Ask how many people have noticed their grocery bill going up this year. |
 | 0:45 to 2:15 | Presenter 1 | The problem | Food Price Report 2026: food prices forecast to rise 4 to 6 percent in 2026; a family of four spending about $17,572 a year; prices up 27 percent in five years; Alberta above the national average. Record demand at the Calgary Food Bank, including from working households. |
 | 2:15 to 3:30 | Presenter 2 | The solution and the data | What CartCast does, in one sentence. The five data sources, and which ones are Calgary-specific. The pipeline diagram from the README. Why average prices and the CPI are used for different things. |
-| 3:30 to 7:00 | Presenters 3 and 2 | Live demo | Change the household to Couple. Add items suggested by the audience. Read out the largest price changes. Apply a substitution and point to the savings figure. Show the basket against the Calgary food benchmark. Filter the store map by community. Copy the share link. |
+| 3:30 to 7:00 | Presenters 3 and 2 | Live demo | Change the household to Couple. Add items suggested by the audience. Read out the largest price changes. Apply a substitution and point to the savings figure. Show the basket against the Calgary food benchmark. Then show cross-filtering: select Meat & fish in the aisle chart, then a month in the cost chart, and point out that every card and chart follows. Open the Stores page and select a community. Press Esc to clear. Copy the share link. |
 | 7:00 to 8:30 | Presenter 4 | Impact and next steps | Who would use it (households and agency caseworkers). Pilot measures: weekly users, substitutions applied, estimated savings per household. Costs: free hosting and about two hours of maintenance a month. |
 | 8:30 to 9:15 | Presenter 4 | The request | Seed funding, one partner agency, and feedback on the default basket. |
 | 9:15 to 10:00 | All | Closing and questions | Restate what the tool does and who it is for. |
@@ -49,7 +49,7 @@ The live dashboard is at <https://adrianjulve.github.io/cartcast-yyc/>.
 - [ ] Run `python -m cartcast fetch` and `python -m cartcast build` the night before so the demo uses the latest real data. Commit the updated `data/snapshot/`.
 - [ ] Save a copy of the live page (or `site/index.html` from a local build) to a USB drive as a fallback that works offline.
 - [ ] Set the browser zoom to 110 to 125 percent for the projector and close other tabs.
-- [ ] Rehearse the sequence: change to Couple, add "Avocado, unit", apply the top substitution, filter the map.
+- [ ] Rehearse the sequence: change to Couple, add "Avocado, unit" on the Basket page, apply the top substitution, select an aisle and a month, open the Stores page, press Esc.
 - [ ] Put screenshots of each demo step in hidden slides in case the laptop or projector fails.
 - [ ] Have one person operate the laptop while another narrates.
 

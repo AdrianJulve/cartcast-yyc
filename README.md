@@ -14,10 +14,7 @@ using City of Calgary Open Data.
 
 Live dashboard: <https://adrianjulve.github.io/cartcast-yyc/>
 
-![CartCast YYC dashboard](docs/img/dashboard-sample.png)
-
-The screenshot was taken from a build of the synthetic test data. The live
-dashboard uses real data.
+![CartCast YYC dashboard](docs/img/dashboard.png)
 
 ## Background
 
@@ -38,7 +35,9 @@ household use. CartCast presents the same data as a single page.
 - Twelve-month change in average price for each item in the basket.
 - Substitution suggestions with the weekly saving for each. Selecting one applies it to the basket.
 - Share of the basket cost by aisle.
-- Map and list of licensed food retailers, filterable by community.
+- Map of licensed food retailers on an OpenStreetMap base map, with zoom, panning and a searchable list.
+- Cross-filtering: selecting a month, aisle, product, community or store type filters every related chart, card and table. A filter bar shows what is active, and Esc clears it.
+- Four pages: Overview, Basket (a sortable, editable table), Stores (a full-size map and list) and Data (sources, freshness and methods).
 - Grocery inflation for the Calgary CMA from the Consumer Price Index, with Alberta as a fallback.
 - A Calgary food benchmark: the Market Basket Measure food cost for Calgary, adjusted for household size, compared with the basket.
 - Shareable links. The basket, household size and applied substitutions are stored in the URL.
@@ -127,8 +126,9 @@ flowchart LR
   S --> G[GitHub Pages]
 ```
 
-The build step produces one HTML file with the data embedded in it. It has no
-server or external dependencies. Details are in
+The build step produces one HTML file with the data embedded in it. It needs no
+server. The only external requests are the base map tiles, and the map falls back
+to a plain grid if they cannot load. Details are in
 [docs/architecture.md](docs/architecture.md).
 
 ## Project structure
