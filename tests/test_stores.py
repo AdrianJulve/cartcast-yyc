@@ -10,6 +10,27 @@ def test_classify(cfg):
     assert classify("Bob's Auto", s) is None
 
 
+def test_classify_matches_whole_words_and_excludes_non_grocers(cfg):
+    s = cfg.settings
+    # Real names from the City of Calgary licence data that are not grocers.
+    for name in [
+        "Delight Music School",
+        "Calgary Florists - Calgary Flowers Delivery",
+        "Calgary Metal Market",
+        "All The Smoke Premium Cannabis Market",
+        "Bon A-Pet-Treat! Pet Store & Bakery",
+        "Deling Innovations Ca",
+        "Flower Market (The)",
+    ]:
+        assert classify(name, s) is None, name
+    # Real grocers that must still be included.
+    assert classify("Afghan Bakery And Butcher Store", s) == "specialty"
+    assert classify("Bulk Barn Foods", s) == "specialty"
+    assert classify("Al-Noor Halal Meat And Grocery Store", s) == "specialty"
+    assert classify("Calgary Co-op Markets", s) == "supermarket"
+    assert classify("T & T Supermarket", s) == "supermarket"
+
+
 def test_load_stores_filters_and_dedupes(stores_json, cfg):
     df = load_stores(stores_json, cfg.settings)
     assert sorted(df["name"]) == ["Corner Halal Grocery", "Safeway #12"]

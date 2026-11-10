@@ -127,7 +127,7 @@
   .tilemap{position:relative;overflow:hidden;border-radius:12px;background:#eef1ee;touch-action:none;user-select:none;cursor:grab}
   .tilemap.dragging{cursor:grabbing}
   .tilemap .tiles{position:absolute;inset:0}
-  .tilemap .tiles img{position:absolute;width:256px;height:256px;max-width:none;pointer-events:none}
+  .tilemap .tiles img{position:absolute;width:256px;height:256px;max-width:none;pointer-events:none;filter:grayscale(.55) saturate(.8) contrast(.92) brightness(1.04)}
   .tilemap.offline{background-color:#eef3ef;background-image:linear-gradient(#e2ebe4 1px,transparent 1px),linear-gradient(90deg,#e2ebe4 1px,transparent 1px);background-size:24px 24px}
   .tilemap.offline .tiles{display:none}
   .tilemap svg{position:absolute;inset:0;width:100%;height:100%}
@@ -729,7 +729,7 @@ function renderBenchmark(all){
 }
 
 // Stores: which aisles a store is likely to stock, from its trade name.
-const SPECIALIST={'Meat & fish':/BUTCHER|MEAT|SAUSAGE|FISH|SEAFOOD/i,'Fruit & veg':/PRODUCE|FRUIT|VEGETABLE|FARM/i,'Bakery':/BAKERY|BAKE|BREAD|PATISSERIE/i};
+const SPECIALIST={'Meat & fish':/\b(BUTCHERS?|MEATS?|SAUSAGES?|FISH|SEAFOODS?)\b/i,'Fruit & veg':/\b(PRODUCE|FRUITS?|VEGETABLES?|FARMS?)\b/i,'Bakery':/\b(BAKERY|BAKERIES|BAKE|BREADS?|PATISSERIE)\b/i};
 function storeAisles(s){
   if(s.kind==='supermarket')return null; // sells every aisle
   const hits=Object.keys(SPECIALIST).filter(a=>SPECIALIST[a].test(s.name));
@@ -802,14 +802,14 @@ class TileMap{
     const[W,H]=this.size(),z=this.z,ox=this.cx-W/2,oy=this.cy-H/2,n=Math.pow(2,z);
     // tiles
     if(this.cfg.tiles&&!this.node.classList.contains('offline')){
-      const want=new Set(),r=(window.devicePixelRatio||1)>1?'@2x':'',sub=this.cfg.subdomains||'abc';
+      const want=new Set(),r=(window.devicePixelRatio||1)>1?'@2x':'',sub=this.cfg.subdomains||'';
       for(let tx=Math.floor(ox/256);tx<=Math.floor((ox+W)/256);tx++)for(let ty=Math.floor(oy/256);ty<=Math.floor((oy+H)/256);ty++){
         if(ty<0||ty>=n)continue;const wx=((tx%n)+n)%n,key=z+'/'+wx+'/'+ty;want.add(key);
         let img=this.cache.get(key);
         if(!img){img=new Image();img.alt='';img.decoding='async';
           img.onerror=()=>{this.errors=(this.errors||0)+1;if(this.errors>=3&&!this.loaded)this.node.classList.add('offline')};
           img.onload=()=>{this.loaded=true};
-          img.src=this.cfg.tiles.replace('{s}',sub[Math.abs(wx+ty)%sub.length]).replace('{z}',z).replace('{x}',wx).replace('{y}',ty).replace('{r}',r);
+          img.src=this.cfg.tiles.replace('{s}',sub?sub[Math.abs(wx+ty)%sub.length]:'').replace('{z}',z).replace('{x}',wx).replace('{y}',ty).replace('{r}',r);
           this.cache.set(key,img);}
         img.style.left=(tx*256-ox)+'px';img.style.top=(ty*256-oy)+'px';
         if(img.parentNode!==this.tiles)this.tiles.appendChild(img);

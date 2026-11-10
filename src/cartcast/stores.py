@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -18,15 +19,20 @@ def _coords(rec: dict[str, Any]) -> tuple[float | None, float | None]:
     return (float(lat), float(lon)) if lat and lon else (None, None)
 
 
+def _has_word(name: str, words: list[str]) -> bool:
+    """True if any keyword appears as a whole word (a trailing S is allowed)."""
+    return any(re.search(r"\b" + re.escape(w) + r"S?\b", name) for w in words)
+
+
 def classify(name: str, settings: dict[str, Any]) -> str | None:
     """'supermarket', 'specialty', or None if the trade name isn't a food retailer."""
     cfg = settings["stores"]
     upper = name.upper()
-    if any(word in upper for word in cfg.get("exclude_keywords", [])):
+    if _has_word(upper, cfg.get("exclude_keywords", [])):
         return None
-    if any(word in upper for word in cfg["supermarket_keywords"]):
+    if _has_word(upper, cfg["supermarket_keywords"]):
         return "supermarket"
-    if any(word in upper for word in cfg["specialty_keywords"]):
+    if _has_word(upper, cfg["specialty_keywords"]):
         return "specialty"
     return None
 
