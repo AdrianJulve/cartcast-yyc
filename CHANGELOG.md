@@ -11,7 +11,13 @@ Notable changes to this project are recorded here. The format follows
 - Real-data snapshot in `data/snapshot/`, written by `cartcast fetch` and committed so the dashboard builds from real data by default.
 - `cartcast snapshot` command.
 
+- Base map for the store map (OpenStreetMap data, CARTO tiles) with zoom and drag.
+- Cross-filtering across every visual by month, aisle, product, community and store type, with a filter bar.
+- Basket, Stores and Data pages in the sidebar.
+
 ### Changed
+- Selecting a store again, selecting empty map, the filter chip or Esc now clears the community selection.
+- The README image is a screenshot of the live dashboard.
 - The grocery inflation figure now uses the Calgary CMA CPI, with Alberta as a fallback.
 - `cartcast build` reads the snapshot by default. Use `--sample` for the synthetic data.
 - The refresh workflow runs weekly and on every push to `main`, commits the refreshed snapshot, and deploys the live site.

@@ -55,6 +55,14 @@ dashboard:
   outlook_annual_high: 0.06
   title: "CartCast YYC"
   tagline: "Weekly grocery costs for Calgary households."
+  # Base map tiles for the store map. The viewer's browser loads them directly.
+  # If they cannot load (for example offline), the map shows a plain grid.
+  map:
+    tiles: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+    subdomains: "abcd"
+    max_zoom: 18
+    attribution: "Map data from OpenStreetMap contributors, map tiles from CARTO"
+    attribution_url: "https://www.openstreetmap.org/copyright"
 
 stores:
   # There is no grocery licence type, so retailers are identified by licence

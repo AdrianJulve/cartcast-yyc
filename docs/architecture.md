@@ -2,8 +2,9 @@
 
 The Python pipeline produces a single HTML file with the data embedded in it. The
 site needs no server, database or API keys. It can be hosted on GitHub Pages or
-opened directly from a local copy, which is useful when presenting without a
-reliable internet connection.
+opened directly from a local copy. The only external requests are base map tiles
+for the store map; without a connection the map shows a plain grid and every other
+part of the dashboard still works.
 
 ```mermaid
 sequenceDiagram
@@ -39,9 +40,12 @@ sequenceDiagram
 
 ## Dashboard (`templates/dashboard.html`)
 
-- Written in plain JavaScript with inline SVG charts. It loads no external libraries and makes no network requests, so it works offline.
+- Written in plain JavaScript with inline SVG charts and no external libraries.
+- The store map draws CARTO basemap tiles (OpenStreetMap data) in Web Mercator, with its own zoom and drag handling. The tile address and attribution are set in `config/settings.yaml` under `dashboard.map`.
+- Four pages share one state: Overview, Basket, Stores and Data. The sidebar switches between them.
+- Cross-filtering: one filter state (month, aisle, product, community, store type) drives every visual. Selecting the same element again, the chip in the filter bar, or Esc clears a filter. Store relevance to an aisle comes from trade-name keywords: supermarkets and general grocers match every aisle; butchers, produce stores and bakeries match their own.
 - Python includes 36 months of prices for all of the roughly 110 products. The browser recalculates the basket, substitutions and charts whenever the user changes something.
-- The household size, basket items and applied substitutions are stored in the URL after `#b=`, so a basket can be shared as a link or a QR code.
+- The household size, basket items, applied substitutions, current page and filters are stored in the URL after `#b=`, so a view can be shared as a link or a QR code.
 - The data is embedded in a `<script type="application/json">` element. Any `</` in the data is escaped so it cannot close the element early.
 - Controls are standard `<select>` and `<button>` elements with `aria-pressed` states and visible keyboard focus. Every value is shown as text, so no information depends on colour alone.
 
