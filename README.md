@@ -12,10 +12,12 @@ using City of Calgary Open Data.
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-![CartCast YYC dashboard built from the sample dataset](docs/img/dashboard-sample.png)
+Live dashboard: <https://adrianjulve.github.io/cartcast-yyc/>
 
-This screenshot was built from the synthetic sample dataset. Run `cartcast fetch`
-and `cartcast build` to see the dashboard with real data.
+![CartCast YYC dashboard](docs/img/dashboard-sample.png)
+
+The screenshot was taken from a build of the synthetic test data. The live
+dashboard uses real data.
 
 ## Background
 
@@ -42,7 +44,7 @@ household use. CartCast presents the same data as a single page.
 - Shareable links. The basket, household size and applied substitutions are stored in the URL.
 - A committed snapshot of the real data in `data/snapshot/`, so the dashboard can be rebuilt without downloading anything.
 - A synthetic sample dataset for tests and offline development.
-- A monthly GitHub Actions job that downloads new data and redeploys the site to GitHub Pages.
+- A live site on GitHub Pages. A GitHub Actions job checks for new data every week, commits it, and redeploys.
 
 ## Getting started
 
@@ -166,9 +168,11 @@ cartcast-yyc/
 
 1. Push the repository to GitHub.
 2. In the repository settings, open Pages and set the source to GitHub Actions.
-3. Run the "Refresh data and deploy dashboard" workflow from the Actions tab. It downloads the real data, commits the updated snapshot and deploys the site. Select `skip_fetch` to deploy the snapshot already in the repository.
+3. Run the "Refresh data and deploy dashboard" workflow from the Actions tab, or push a commit to `main`. The first run downloads the real data, commits `data/snapshot/` and publishes the site.
 
-The workflow then runs automatically on the 22nd of each month.
+After that, the workflow runs every Monday to pick up new data, and every push to
+`main` redeploys the site. The dashboard footer shows when the data was last
+downloaded.
 
 ## Presentation
 
