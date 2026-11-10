@@ -2,27 +2,72 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+import difflib
+from dataclasses import dataclass, replace
 
 import pandas as pd
 
 from .config import BasketItem, Swap
 from .prices import suggest
 
+# Names at least this similar are treated as the same product (for example a
+# small wording change by StatCan). Anything less similar is left out.
+AUTO_MATCH_CUTOFF = 0.88
+MIN_BASKET_ITEMS = 5
+
 
 @dataclass(frozen=True)
 class ValidationIssue:
     product: str
     suggestions: list[str]
+    resolved: str | None = None
 
     def __str__(self) -> str:
+        if self.resolved:
+            return f"'{self.product}' not found; using the closest StatCan name '{self.resolved}'"
         hint = f". Closest matches: {', '.join(self.suggestions)}" if self.suggestions else ""
-        return f"Unknown product '{self.product}'{hint}"
+        return f"Unknown product '{self.product}' will be left out{hint}"
 
 
 def validate_products(names: list[str], available: list[str]) -> list[ValidationIssue]:
+    """One issue per name that is not an exact match, with any automatic match."""
     known = set(available)
-    return [ValidationIssue(n, suggest(n, available)) for n in names if n not in known]
+    issues = []
+    for name in names:
+        if name in known:
+            continue
+        close = difflib.get_close_matches(name, available, n=1, cutoff=AUTO_MATCH_CUTOFF)
+        issues.append(ValidationIssue(name, suggest(name, available), close[0] if close else None))
+    return issues
+
+
+def resolve_config(
+    items: list[BasketItem], swaps: list[Swap], available: list[str]
+) -> tuple[list[BasketItem], list[Swap], list[ValidationIssue]]:
+    """Map basket and swap names onto the products in the data.
+
+    Close matches are substituted, unknown names are dropped, and every change is
+    returned as an issue so it can be reported.
+    """
+    names = sorted(
+        {i.product for i in items} | {s.source for s in swaps} | {s.target for s in swaps}
+    )
+    issues = validate_products(names, available)
+    mapping = {n: n for n in names if n in set(available)}
+    mapping.update({i.product: i.resolved for i in issues if i.resolved})
+
+    resolved_items = [replace(i, product=mapping[i.product]) for i in items if i.product in mapping]
+    resolved_swaps = [
+        replace(s, source=mapping[s.source], target=mapping[s.target])
+        for s in swaps
+        if s.source in mapping and s.target in mapping
+    ]
+    if len(resolved_items) < MIN_BASKET_ITEMS:
+        raise ValueError(
+            f"Only {len(resolved_items)} basket products match the data:\n  "
+            + "\n  ".join(map(str, issues))
+        )
+    return resolved_items, resolved_swaps, issues
 
 
 def basket_cost(wide: pd.DataFrame, items: list[BasketItem], scale: float = 1.0) -> pd.Series:

@@ -51,4 +51,39 @@ def test_validate_products_suggests():
         ["Eggs, 1 dozn", "Milk, 4 litres"], ["Eggs, 1 dozen", "Milk, 4 litres"]
     )
     assert len(issues) == 1
+    assert issues[0].resolved == "Eggs, 1 dozen"
     assert "Eggs, 1 dozen" in str(issues[0])
+
+
+def test_resolve_config_matches_close_names_and_drops_unknown():
+    from cartcast.basket import resolve_config
+    from cartcast.config import BasketItem as BI
+
+    available = [
+        "Eggs, 1 dozen",
+        "Milk, 4 litres",
+        "Bread, 675 grams",
+        "Apples, per kilogram",
+        "Bananas, per kilogram",
+        "Carrots, 1.36 kilograms",
+        "Butter, 454 grams",
+    ]
+    items = [BI(n, 1.0, "Pantry") for n in available[:5]]
+    items.append(BI("Butter, 454 gram", 1.0, "Dairy & eggs"))  # close: StatCan wording change
+    items.append(BI("Saffron, 1 gram", 1.0, "Pantry"))  # not in the data
+    swaps = [Swap("Butter, 454 gram", "Eggs, 1 dozen"), Swap("Saffron, 1 gram", "Eggs, 1 dozen")]
+
+    out_items, out_swaps, issues = resolve_config(items, swaps, available)
+    names = [i.product for i in out_items]
+    assert "Butter, 454 grams" in names and "Saffron, 1 gram" not in names
+    assert [(s.source, s.target) for s in out_swaps] == [("Butter, 454 grams", "Eggs, 1 dozen")]
+    resolved = {i.product: i.resolved for i in issues}
+    assert resolved == {"Butter, 454 gram": "Butter, 454 grams", "Saffron, 1 gram": None}
+
+
+def test_resolve_config_fails_when_too_few_items_match():
+    from cartcast.basket import resolve_config
+    from cartcast.config import BasketItem as BI
+
+    with pytest.raises(ValueError, match="Only 1 basket products"):
+        resolve_config([BI("Milk, 4 litres", 1, "x"), BI("Nope", 1, "x")], [], ["Milk, 4 litres"])
