@@ -38,7 +38,11 @@ def classify(name: str, settings: dict[str, Any]) -> str | None:
 
 
 def load_stores(json_path: Path | str, settings: dict[str, Any]) -> pd.DataFrame:
-    """Columns: name, address, community, lat, lon, kind. Deduplicated by name+address."""
+    """Columns: name, address, community, lat, lon, kind, licence, status, issued.
+
+    Deduplicated by name and address. ``issued`` is the year the licence was
+    first issued, when the record has it.
+    """
     records = json.loads(Path(json_path).read_text(encoding="utf-8"))
     rows = []
     for rec in records:
@@ -55,7 +59,11 @@ def load_stores(json_path: Path | str, settings: dict[str, Any]) -> pd.DataFrame
                 "lat": lat,
                 "lon": lon,
                 "kind": kind,
+                "licence": (rec.get("licencetypes") or "").title(),
+                "status": rec.get("jobstatusdesc") or "",
+                "issued": (rec.get("first_iss_dt") or "")[:4],
             }
         )
-    df = pd.DataFrame(rows, columns=["name", "address", "community", "lat", "lon", "kind"])
+    cols = ["name", "address", "community", "lat", "lon", "kind", "licence", "status", "issued"]
+    df = pd.DataFrame(rows, columns=cols)
     return df.drop_duplicates(subset=["name", "address"]).reset_index(drop=True)

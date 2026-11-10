@@ -193,6 +193,32 @@
   .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#0b0b0b;color:#fff;padding:10px 16px;border-radius:10px;
          font-size:13px;opacity:0;transition:all .2s;z-index:60;pointer-events:none}
   .toast.show{opacity:1;transform:translateX(-50%)}
+  .toast.act{pointer-events:auto;display:flex;gap:14px;align-items:center}
+  .toast button{border:0;background:none;color:#9fd8c3;font-weight:700;text-decoration:underline;padding:0}
+  .emptybar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:#fff6e5;border:1px solid #f3d9a4;border-radius:12px;padding:10px 14px;font-size:13px;color:#6b4a00}
+  .emptybar span{margin-right:auto}
+  .infobox{margin-top:10px;border:1px solid var(--grid);border-radius:12px;padding:12px 14px;background:#fff;font-size:12.5px;color:var(--ink2);position:relative;line-height:1.45}
+  .infobox h3{font-size:14.5px;color:var(--ink);padding-right:28px;line-height:1.3}
+  .infobox .x{position:absolute;top:8px;right:8px;border:0;background:var(--wash);width:24px;height:24px;border-radius:50%;font-size:12px;color:var(--ink2)}
+  .infobox .x:hover{background:var(--up-bg);color:var(--up)}
+  .infobox .meta{color:var(--muted);font-size:12px;margin-top:3px}
+  .infobox .tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11px;font-weight:600;margin-right:4px;vertical-align:1px}
+  .infobox .tag.supermarket{background:var(--brand-bg);color:var(--brand)}
+  .infobox .tag.specialty{background:#fdeee6;color:#a54418}
+  .infobox .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+  .infobox .stat{background:var(--page);border-radius:8px;padding:6px 8px}
+  .infobox .stat b{display:block;font-size:16px;color:var(--ink);font-variant-numeric:tabular-nums}
+  .infobox .stat span{font-size:11px;color:var(--muted);line-height:1.3;display:block}
+  .infobox .near{margin-top:8px}
+  .infobox .nl{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+  .infobox .near button{display:flex;gap:8px;align-items:center;width:100%;border:0;background:none;padding:4px 4px;border-radius:6px;text-align:left;font-size:12.5px}
+  .infobox .near button:hover{background:var(--wash)}
+  .infobox .nn{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+  .infobox .nd{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .infobox .kd{width:8px;height:8px;border-radius:50%;flex:none}
+  .infobox .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .infobox a.btn{text-decoration:none}
+  .storelist .dist{color:var(--ink2);font-variant-numeric:tabular-nums;font-size:12px;white-space:nowrap;margin-left:6px}
   .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
   @media (max-width:1200px){.kpis{grid-template-columns:1fr 1fr}.row.a,.row.b,.stores-page,.data-grid{grid-template-columns:1fr}
     .stores-page{height:auto}.stores-page #bigMap{height:60vh;flex:none}.stores-page .storelist{max-height:50vh}}
@@ -232,6 +258,11 @@
     <!-- Overview -->
     <section data-section="overview">
       <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="emptybar" id="emptyBar" hidden>
+          <span><b>Your basket is empty.</b> Add items, or start again from the default basket.</span>
+          <button class="btn small primary" data-goto="basket" data-focus-add>Add items</button>
+          <button class="btn small" data-restore>Restore default basket</button>
+        </div>
         <section class="kpis" aria-label="Key figures">
           <div class="card kpi hero">
             <div class="k" id="kCostL">Your weekly basket this month</div>
@@ -297,6 +328,7 @@
               <button class="btn small" data-goto="stores">Open map</button></div>
             <div class="tilemap" id="miniMap" style="height:230px" aria-label="Map of grocery retailers"></div>
             <div class="storebadge" id="miniBadge"></div>
+            <div class="infobox" id="miniInfo" hidden></div>
           </div>
         </section>
       </div>
@@ -307,7 +339,10 @@
       <div class="card panel">
         <div class="ph">
           <div><h2>Your weekly basket</h2><p id="basketSub"></p></div>
-          <button class="btn small" id="resetBasket">Reset to the default basket</button>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn small" id="clearBasket" title="Remove every item from the basket"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>Clear basket</button>
+            <button class="btn small" data-restore title="Replace the basket with the default 25 items"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Restore default basket</button>
+          </div>
         </div>
         <div class="addrow" style="margin-bottom:12px">
           <input id="addInput" list="productList" placeholder="Add a product, for example Avocado, unit" aria-label="Product to add">
@@ -330,10 +365,12 @@
           <div class="storebadge" id="bigBadge"></div>
         </div>
         <div class="card panel">
+          <div class="infobox" id="bigInfo" hidden style="margin:0 0 12px"></div>
           <div class="toolbar">
             <input id="storeSearch" type="search" placeholder="Search by name or address" aria-label="Search stores">
             <select id="community" aria-label="Filter by community"></select>
           </div>
+          <div class="hint" id="listTitle" style="margin-bottom:4px"></div>
           <div class="storelist" id="storelist"></div>
         </div>
       </div>
@@ -392,7 +429,9 @@ const tip=$('#tip');
 function showTip(html,ev){tip.innerHTML=html;tip.style.opacity=1;moveTip(ev)}
 function moveTip(ev){const r=tip.getBoundingClientRect();let x=ev.clientX+14,y=ev.clientY-r.height-12;if(x+r.width>innerWidth-8)x=ev.clientX-r.width-14;if(y<8)y=ev.clientY+16;tip.style.left=x+'px';tip.style.top=y+'px'}
 function hideTip(){tip.style.opacity=0}
-function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),2200)}
+function toast(msg,label,fn){const t=$('#toast');t.innerHTML=esc(msg);t.classList.toggle('act',!!label);
+  if(label){const b=h('button',null,esc(label));b.onclick=()=>{t.classList.remove('show');fn()};t.appendChild(b)}
+  t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),label?6000:2200)}
 function niceStep(raw){const p=Math.pow(10,Math.floor(Math.log10(raw)));const f=raw/p;return(f<1.5?1:f<3?2:f<7?5:10)*p}
 // Make an SVG element act like a button for mouse and keyboard.
 function clickable(node,label,fn){node.setAttribute('class',(node.getAttribute('class')||'')+' hit');node.setAttribute('tabindex','0');node.setAttribute('role','button');node.setAttribute('aria-label',label);
@@ -407,7 +446,7 @@ const state={
   items:D.basket.map(i=>({product:i.product,qty:i.qty,aisle:i.aisle})),
   applied:[], range:24, swapGroup:'All', page:'overview',
   f:{month:null,aisle:null,product:null,community:null,kind:null},
-  storeQuery:'', sort:{key:'cost',dir:-1}
+  storeQuery:'', sort:{key:'cost',dir:-1}, sel:null
 };
 function readHash(){
   try{
@@ -418,12 +457,13 @@ function readHash(){
     if(Array.isArray(s.a))state.applied=s.a;
     if(PAGES.includes(s.p))state.page=s.p;
     if(s.f&&typeof s.f==='object')for(const k in state.f)if(s.f[k]!=null)state.f[k]=s.f[k];
+    if(s.s&&(s.s.type==='store'&&D.stores[s.s.id]||s.s.type==='point'&&isFinite(s.s.lat)))state.sel=s.s;
     if(state.f.month!=null&&!D.months.includes(state.f.month))state.f.month=null;
   }catch(e){/* ignore malformed links */}
 }
 function writeHash(){
   try{
-    const s={h:state.household,i:state.items.map(x=>[x.product,+x.qty.toFixed(3)]),a:state.applied,p:state.page,f:state.f};
+    const s={h:state.household,i:state.items.map(x=>[x.product,+x.qty.toFixed(3)]),a:state.applied,p:state.page,f:state.f,s:state.sel};
     history.replaceState(null,'','#b='+btoa(unescape(encodeURIComponent(JSON.stringify(s)))));
   }catch(e){}
 }
@@ -507,7 +547,25 @@ function initStatic(){
 }
 
 // KPIs
+function renderInflation(){
+  const c=D.cpi,geo=c.headline_geo,place=geo.split(',')[0];
+  const ser=c.series[geo+' | Food purchased from stores'],all_=c.series[geo+' | All-items'];
+  let fy=c.food_yoy,fm=c.food_month,ay=c.all_items_yoy;
+  if(state.f.month&&ser){const k=ser.months.indexOf(state.f.month);fy=k>=0?ser.yoy[k]:null;fm=state.f.month;
+    if(all_){const j=all_.months.indexOf(state.f.month);ay=j>=0?all_.yoy[j]:null}}
+  $('#kInfL').textContent=place+' grocery inflation';
+  $('#kInf').innerHTML=fy==null?'n/a':fy.toFixed(1)+'%<small>12-mo</small>';
+  $('#kInfD').textContent=`CPI, food purchased from stores${fm?', '+mLabel(fm)+' '+fm.slice(0,4):''}.${ay!=null?' All items: '+ay.toFixed(1)+'%.':''}`;
+
+}
 function renderKpis(all){
+  renderInflation();
+  if(!state.items.length){
+    $('#kCostL').textContent='Your weekly basket';$('#kCost').innerHTML='$0.00<small>/ week</small>';$('#kCostD').textContent='Your basket is empty.';$('#spark').innerHTML='';
+    $('#kJumpL').textContent='Biggest jump in your basket';$('#kJump').textContent='n/a';$('#kJump').onclick=null;$('#kJumpD').textContent='Add items to see price changes.';
+    $('#kSaveL').textContent='Possible savings from substitutions';$('#kSave').innerHTML='$0.00<small>/ week</small>';$('#kSaveD').textContent='Add items to see lower-cost alternatives.';
+    return;
+  }
   const i=IDX(),vis=filtered(all),scope=scopeLabel(),monthName=mLabel(D.months[i],true);
   const now=costAt(vis,i),prev=costAt(vis,i-1);
   $('#kCostL').textContent=(scope?scope+' in your basket':'Your weekly basket')+(state.f.month?', '+monthName:' this month');
@@ -522,16 +580,6 @@ function renderKpis(all){
     el('path',{d:'M'+pts.map(p=>p.join(',')).join(' L'),fill:'none',stroke:'rgba(255,255,255,.85)','stroke-width':2,'stroke-linecap':'round','stroke-linejoin':'round'},sp);
     el('circle',{cx:pts[n-1][0],cy:pts[n-1][1],r:4,fill:'#fff'},sp);
   }
-
-  // Inflation: CPI for the selected month when one is selected.
-  const c=D.cpi,geo=c.headline_geo,place=geo.split(',')[0];
-  const ser=c.series[geo+' | Food purchased from stores'],all_=c.series[geo+' | All-items'];
-  let fy=c.food_yoy,fm=c.food_month,ay=c.all_items_yoy;
-  if(state.f.month&&ser){const k=ser.months.indexOf(state.f.month);fy=k>=0?ser.yoy[k]:null;fm=state.f.month;
-    if(all_){const j=all_.months.indexOf(state.f.month);ay=j>=0?all_.yoy[j]:null}}
-  $('#kInfL').textContent=place+' grocery inflation';
-  $('#kInf').innerHTML=fy==null?'n/a':fy.toFixed(1)+'%<small>12-mo</small>';
-  $('#kInfD').textContent=`CPI, food purchased from stores${fm?', '+mLabel(fm)+' '+fm.slice(0,4):''}.${ay!=null?' All items: '+ay.toFixed(1)+'%.':''}`;
 
   // Biggest increase among the filtered items.
   const movers=vis.map(it=>({p:it.product,v:yoyAt(it.product,i)})).filter(x=>x.v!=null).sort((a,b)=>b.v-a.v);
@@ -571,7 +619,7 @@ function renderLine(all){
   $('#lineTitle').textContent=scope?'Weekly cost of '+scope.toLowerCase()+' over time':'Basket cost over time';
   const o=D.outlook;
   $('#lineSub').textContent=`${D.meta.price_geo} average retail prices, with a ${o.months}-month outlook at ${Math.round(o.annual_low*100)} to ${Math.round(o.annual_high*100)} percent a year. Select a month to filter.`;
-  if(vals.some(v=>v==null)){el('text',{x:W/2,y:H/2,'text-anchor':'middle',class:'tick'},s).textContent='No prices for this selection';return}
+  if(!vis.length||vals.some(v=>v==null)){el('text',{x:W/2,y:H/2,'text-anchor':'middle',class:'tick'},s).textContent=state.items.length?'No prices for this selection':'Your basket is empty. Add items on the Basket page.';return}
   const last=vals[vals.length-1];
   const band=[];for(let m=1;m<=o.months;m++)band.push([last*Math.pow(1+o.annual_low,m/12),last*Math.pow(1+o.annual_high,m/12)]);
   const n=idx.length+band.length;
@@ -667,8 +715,8 @@ function renderMovers(all){
     hit.addEventListener('mouseleave',hideTip);
     clickable(hit,`${nm}: ${pct(d.v)}`,()=>{hideTip();setFilter('product',d.base)});
   });
-  el('line',{x1:z,x2:z,y1:0,y2:T+data.length*rowH,stroke:'#898781'},s);
-  if(!data.length)el('text',{x:W/2,y:30,'text-anchor':'middle',class:'tick'},s).textContent='No price changes for this selection';
+  if(data.length)el('line',{x1:z,x2:z,y1:0,y2:T+data.length*rowH,stroke:'#898781'},s);
+  else el('text',{x:W/2,y:30,'text-anchor':'middle',class:'tick'},s).textContent=state.items.length?'No price changes for this selection':'Your basket is empty';
 }
 
 // Substitutions
@@ -722,10 +770,10 @@ function renderBenchmark(all){
   const i=IDX(),hh=D.households[state.household],size=+(hh.size||4);
   // MBM uses the square-root equivalence scale: family-of-4 threshold x sqrt(size) / 2.
   const weekly=m.annual_family4/52*Math.sqrt(size)/2;
-  const cost=costAt(all,i),share=cost/weekly*100,place=m.geo.split(',')[0];
+  const cost=costAt(all,i)||0,share=cost/weekly*100,place=m.geo.split(',')[0];
   box.innerHTML=`<div class="bm-row"><span>${esc(place)} food benchmark for this household</span><b>${money(weekly)} / week</b></div>
     <div class="bm-bar" role="img" aria-label="Basket is ${Math.round(share)} percent of the benchmark"><div style="width:${Math.min(100,share).toFixed(1)}%"></div></div>
-    <p>Your full basket costs ${Math.round(share)}% of the benchmark${state.f.month?' in '+mLabel(D.months[i],true):''}. The benchmark is the food cost in the Market Basket Measure, Canada's official poverty line, for ${esc(place)} in ${m.year} (${esc(m.base)}), adjusted for household size.</p>`;
+    <p>${!state.items.length?'Add items to compare your basket with the benchmark. ':''}Your full basket costs ${Math.round(share)}% of the benchmark${state.f.month?' in '+mLabel(D.months[i],true):''}. The benchmark is the food cost in the Market Basket Measure, Canada's official poverty line, for ${esc(place)} in ${m.year} (${esc(m.base)}), adjusted for household size.</p>`;
 }
 
 // Stores: which aisles a store is likely to stock, from its trade name.
@@ -766,7 +814,7 @@ class TileMap{
     node.addEventListener('pointerup',e=>{if(!start)return;const s=start;start=null;node.classList.remove('dragging');
       if(s.moved)return;
       const pt=this.hitTest(e);
-      if(pt&&this.opts.onPoint)this.opts.onPoint(pt);else if(!pt&&this.opts.onBackground)this.opts.onBackground();});
+      if(pt&&this.opts.onPoint)this.opts.onPoint(pt);else if(!pt&&this.opts.onBackground)this.opts.onBackground(this.toLatLon(e));});
     node.addEventListener('pointercancel',()=>{start=null;node.classList.remove('dragging')});
     node.addEventListener('dblclick',e=>{const r=node.getBoundingClientRect();this.zoomBy(1,e.clientX-r.left,e.clientY-r.top)});
     if(this.opts.wheel)node.addEventListener('wheel',e=>{e.preventDefault();const r=node.getBoundingClientRect();this.zoomBy(e.deltaY<0?1:-1,e.clientX-r.left,e.clientY-r.top)},{passive:false});
@@ -776,6 +824,17 @@ class TileMap{
   }
   static px(lat,lon,z){const s=256*Math.pow(2,z),r=lat*Math.PI/180;return[(lon+180)/360*s,(1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*s]}
   size(){return[this.node.clientWidth||400,this.node.clientHeight||230]}
+  toLatLon(e){
+    const r=this.node.getBoundingClientRect(),[W,H]=this.size(),s=256*Math.pow(2,this.z);
+    const wx=this.cx-W/2+(e.clientX-r.left),wy=this.cy-H/2+(e.clientY-r.top);
+    return{lat:Math.atan(Math.sinh(Math.PI*(1-2*wy/s)))*180/Math.PI,lon:wx/s*360-180};
+  }
+  // Centre on a point at the largest zoom that shows a circle of the given radius (metres).
+  focus(c,radius){
+    if(!c)return;const[W,H]=this.size(),room=Math.min(W,H)-36,maxZ=Math.min(17,+(this.cfg.max_zoom||18));
+    let z=maxZ;for(;z>9;z--){const mpp=156543.03392*Math.cos(c.lat*Math.PI/180)/Math.pow(2,z);if(2*radius/mpp<=room)break}
+    this.z=z;const[px,py]=TileMap.px(c.lat,c.lon,z);this.cx=px;this.cy=py;this.fitted=true;this.render();
+  }
   fit(points){
     const pts=points&&points.length?points:this.points;if(!pts.length)return;
     const[W,H]=this.size(),pad=24,maxZ=Math.min(16,+(this.cfg.max_zoom||18));
@@ -820,6 +879,9 @@ class TileMap{
     // markers: dimmed ones first, so matching stores sit on top
     const svg=this.svg;svg.innerHTML='';svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
     this.screen=[];
+    const P=(lat,lon)=>{const q=TileMap.px(lat,lon,z);return[q[0]-ox,q[1]-oy]};
+    const mpp=lat=>156543.03392*Math.cos(lat*Math.PI/180)/Math.pow(2,z);
+    if(this.opts.overlay)this.opts.overlay(svg,P,mpp,'under');
     const ordered=this.points.slice().sort((a,b)=>(a.on-b.on)||((a.r||5)-(b.r||5)));
     for(const p of ordered){
       const[px,py]=TileMap.px(p.lat,p.lon,z),sx=px-ox,sy=py-oy;
@@ -827,55 +889,191 @@ class TileMap{
       el('circle',{cx:sx,cy:sy,r:p.r,fill:p.fill,stroke:p.stroke||'#fff','stroke-width':p.sw||1.5,opacity:p.on?1:.22,class:'mk'},svg);
       if(p.on)this.screen.push({sx,sy,r:p.r,src:p.src});
     }
+    if(this.opts.overlay)this.opts.overlay(svg,P,mpp,'over');
   }
 }
 let miniMap=null,bigMap=null;
+D.stores.forEach((s,i)=>{s.id=i});
+
+// Distances and nearby stores
+function km(a,b){const r=Math.PI/180,dl=(b.lat-a.lat)*r,dn=(b.lon-a.lon)*r,x=Math.sin(dl/2)**2+Math.cos(a.lat*r)*Math.cos(b.lat*r)*Math.sin(dn/2)**2;return 12742*Math.asin(Math.sqrt(x))}
+const fmtKm=d=>d<1?Math.max(10,Math.round(d*100)*10)+' m':d.toFixed(1)+' km';
+const walkMin=d=>Math.max(1,Math.round(d/4.8*60)); // 4.8 km/h walking pace
+const ordinal=n=>n+(n%100>=11&&n%100<=13?'th':({1:'st',2:'nd',3:'rd'}[n%10]||'th'));
+function nearby(c,opts){const o=opts||{};return D.stores.filter(s=>s!==o.exclude&&(!o.kind||s.kind===o.kind)).map(s=>({s,d:km(c,s)})).sort((a,b)=>a.d-b.d).slice(0,o.n||5)}
+const within=(c,r,exclude)=>D.stores.filter(s=>s!==exclude&&km(c,s)<=r).length;
+const nearestSupermarket=(c,exclude)=>nearby(c,{n:1,exclude,kind:'supermarket'})[0]||null;
+const selStore=()=>state.sel&&state.sel.type==='store'?D.stores[state.sel.id]||null:null;
+function selCenter(){const st=selStore();if(st)return{lat:st.lat,lon:st.lon};return state.sel&&state.sel.type==='point'?{lat:state.sel.lat,lon:state.sel.lon}:null}
+
+// Selection: a store, or any spot on the map
+function selectStore(s,toggle){
+  if(toggle&&state.sel&&state.sel.type==='store'&&state.sel.id===s.id){clearSel();return}
+  state.sel={type:'store',id:s.id};hideTip();update();
+}
+function selectPoint(ll){state.sel={type:'point',lat:+ll.lat.toFixed(5),lon:+ll.lon.toFixed(5)};hideTip();update()}
+function clearSel(){state.sel=null;update()}
+function onPoint(s){selectStore(s,true)}
+function onBackground(ll){selectPoint(ll)}
+
 function storePoints(){
+  const st=selStore(),c=selCenter(),ns=c?nearestSupermarket(c,st):null;
   return D.stores.map(s=>{
-    const on=storeMatch(s)&&storeSearch(s),sel=state.f.community&&s.community===state.f.community&&on;
-    return{lat:s.lat,lon:s.lon,src:s,on,r:s.kind==='supermarket'?6:4.5,fill:s.kind==='supermarket'?'#0f5c4a':'#eb6834',stroke:sel?'#0b0b0b':'#fff',sw:sel?2:1.5};
+    const isSel=st===s,isTarget=ns&&ns.s===s;
+    const on=isSel||isTarget||(storeMatch(s)&&storeSearch(s));
+    const base=s.kind==='supermarket'?6:4.5;
+    return{lat:s.lat,lon:s.lon,src:s,on,r:isSel?base+3:base,fill:s.kind==='supermarket'?'#0f5c4a':'#eb6834',
+      stroke:isSel?'#0b0b0b':isTarget?'#0b0b0b':'#fff',sw:isSel?3:isTarget?2:1.5};
   });
 }
-const storeTip=s=>`<b>${esc(s.name)}</b><br><span class="m">${esc(s.address)}, ${esc(s.community)}</span><br>${s.kind==='supermarket'?'Supermarket':'Specialty or independent'}<br><span class="h">${state.f.community===s.community?'Select to clear the community filter':'Select to filter to '+esc(s.community)}</span>`;
-function badge(box){
+const storeTip=s=>`<b>${esc(s.name)}</b><br><span class="m">${esc(s.address)}, ${esc(s.community)}</span><br>${s.kind==='supermarket'?'Supermarket':'Specialty or independent'}<br><span class="h">${selStore()===s?'Select to close the details':'Select for details and nearby stores'}</span>`;
+
+// Map drawing beneath and above the store dots
+function convexHull(pts){
+  const p=pts.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]);if(p.length<3)return p;
+  const cross=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);
+  const lo=[],up=[];
+  for(const q of p){while(lo.length>=2&&cross(lo[lo.length-2],lo[lo.length-1],q)<=0)lo.pop();lo.push(q)}
+  for(const q of p.slice().reverse()){while(up.length>=2&&cross(up[up.length-2],up[up.length-1],q)<=0)up.pop();up.push(q)}
+  return lo.slice(0,-1).concat(up.slice(0,-1));
+}
+function mapOverlay(svg,P,mpp,layer){
+  const c=selCenter();
+  if(layer==='under'){
+    if(c){
+      const[x,y]=P(c.lat,c.lon);
+      [2,1].forEach(r=>{const rad=r*1000/mpp(c.lat);
+        el('circle',{cx:x,cy:y,r:rad,fill:r===1?'rgba(23,128,106,.12)':'rgba(23,128,106,.06)',stroke:'#17806a','stroke-width':1.3,'stroke-dasharray':r===2?'5 4':'none','pointer-events':'none'},svg);
+        const t=el('text',{x:x,y:y-rad-5,'text-anchor':'middle','font-size':10.5,'font-weight':700,fill:'#0f5c4a','pointer-events':'none',stroke:'#fff','stroke-width':3,'paint-order':'stroke'},svg);t.textContent=r+' km';});
+      const ns=nearestSupermarket(c,selStore());
+      if(ns){const[x2,y2]=P(ns.s.lat,ns.s.lon);el('line',{x1:x,y1:y,x2,y2,stroke:'#0b0b0b','stroke-width':1.6,'stroke-dasharray':'4 4','pointer-events':'none'},svg)}
+    }else if(state.f.community){
+      const pts=D.stores.filter(s=>s.community===state.f.community).map(s=>P(s.lat,s.lon));
+      if(pts.length>=3){const hull=convexHull(pts);el('polygon',{points:hull.map(q=>q.join(',')).join(' '),fill:'rgba(15,92,74,.10)',stroke:'#0f5c4a','stroke-width':1.5,'stroke-dasharray':'5 4','stroke-linejoin':'round','pointer-events':'none'},svg)}
+      else if(pts.length){const cx=pts.reduce((a,q)=>a+q[0],0)/pts.length,cy=pts.reduce((a,q)=>a+q[1],0)/pts.length;
+        el('circle',{cx,cy,r:28,fill:'rgba(15,92,74,.10)',stroke:'#0f5c4a','stroke-width':1.5,'stroke-dasharray':'5 4','pointer-events':'none'},svg)}
+    }
+  }else if(state.sel&&state.sel.type==='point'){
+    const[x,y]=P(state.sel.lat,state.sel.lon);
+    el('path',{d:`M${x},${y} l-8,-14 a9.5,9.5 0 1 1 16,0 z`,fill:'#d03b3b',stroke:'#fff','stroke-width':2,'pointer-events':'none'},svg);
+    el('circle',{cx:x,cy:y-19,r:3.5,fill:'#fff','pointer-events':'none'},svg);
+  }
+}
+
+// Details panel for the selected store, spot or community
+function nearList(rows,title){
+  if(!rows.length)return'';
+  return `<div class="near"><div class="nl">${esc(title)}</div>${rows.map(r=>`<button data-act="store" data-id="${r.s.id}"><i class="kd" style="background:${r.s.kind==='supermarket'?'#0f5c4a':'#eb6834'}"></i><span class="nn">${esc(r.s.name)}</span><span class="nd">${r.d==null?esc(r.s.address):fmtKm(r.d)}</span></button>`).join('')}</div>`;
+}
+const gmaps=(dest,origin)=>`https://www.google.com/maps/dir/?api=1${origin?'&origin='+origin.lat+','+origin.lon:''}&destination=${dest.lat},${dest.lon}&travelmode=walking`;
+function infoHTML(compact){
+  const st=selStore(),c=selCenter(),geo=D.meta.price_geo;
+  const close='<button class="x" data-act="close" aria-label="Close details" title="Close (Esc)">✕</button>';
+  if(st){
+    const ns=nearestSupermarket(c,st),n1=within(c,1,st),n2=within(c,2,st);
+    const aisles=storeAisles(st),items=effectiveItems().filter(it=>!aisles||aisles.includes(it.aisle)),cost=costAt(items,IDX());
+    const sells=aisles?aisles.join(' and ').toLowerCase():st.kind==='supermarket'?'every aisle in your basket':'a general grocery range';
+    const lic=[st.licence,st.status,st.issued?'first issued '+st.issued:''].filter(Boolean).join(', ');
+    return `${close}<h3>${esc(st.name)}</h3>
+      <div class="meta"><span class="tag ${st.kind}">${st.kind==='supermarket'?'Supermarket':'Specialty or independent'}</span> ${esc(st.address)}, ${esc(st.community)}</div>
+      <div class="stats"><div class="stat"><b>${n1}</b><span>other stores within 1 km</span></div><div class="stat"><b>${n2}</b><span>within 2 km</span></div>
+        <div class="stat"><b>${ns?fmtKm(ns.d):'n/a'}</b><span>to the ${st.kind==='supermarket'?'next':'nearest'} supermarket</span></div></div>
+      <p><b>Likely sells</b> ${esc(sells)}${state.items.length?`: ${items.length} of your ${state.items.length} basket items, about ${money(cost)} a week at ${esc(geo)} average prices.`:'.'}</p>
+      ${!compact&&lic?`<p class="meta" style="margin-top:6px">Licence: ${esc(lic)}.</p>`:''}
+      ${nearList(nearby(c,{n:compact?3:5,exclude:st}),'Nearest stores')}
+      <div class="acts"><a class="btn small primary" href="${gmaps(c)}" target="_blank" rel="noopener">Directions</a>
+        <button class="btn small" data-act="community" data-c="${esc(st.community)}">${state.f.community===st.community?'Clear community filter':'Filter to '+esc(st.community)}</button>
+        ${compact?'<button class="btn small" data-act="open">Open on Stores page</button>':''}</div>`;
+  }
+  if(state.sel&&state.sel.type==='point'){
+    const ns=nearestSupermarket(c),n1=within(c,1),n2=within(c,2),near=nearby(c,{n:compact?3:5});
+    const area=near.length?near[0].s.community:'Calgary';
+    return `${close}<h3>Selected location</h3>
+      <div class="meta">Near ${esc(area)} (${c.lat.toFixed(4)}, ${c.lon.toFixed(4)})</div>
+      <div class="stats"><div class="stat"><b>${n1}</b><span>food retailers within 1 km</span></div><div class="stat"><b>${n2}</b><span>within 2 km</span></div>
+        <div class="stat"><b>${ns?fmtKm(ns.d):'n/a'}</b><span>to the nearest supermarket</span></div></div>
+      ${ns?`<p>The nearest supermarket is <b>${esc(ns.s.name)}</b>, ${fmtKm(ns.d)} away in a straight line, about a ${walkMin(ns.d)}-minute walk. Walking routes are usually longer.</p>`:''}
+      ${nearList(near,'Nearest stores')}
+      <div class="acts">${ns?`<a class="btn small primary" href="${gmaps(ns.s,c)}" target="_blank" rel="noopener">Walking directions to ${esc(ns.s.name)}</a>`:''}
+        ${compact?'<button class="btn small" data-act="open">Open on Stores page</button>':''}</div>`;
+  }
+  if(state.f.community){
+    const cm=state.f.community,list=D.stores.filter(s=>s.community===cm),sup=list.filter(s=>s.kind==='supermarket').length;
+    const counts={};D.stores.forEach(s=>{counts[s.community]=(counts[s.community]||0)+1});
+    const ranked=Object.entries(counts).sort((a,b)=>b[1]-a[1]),rank=ranked.findIndex(r=>r[0]===cm)+1;
+    const cen=list.length?{lat:list.reduce((a,s)=>a+s.lat,0)/list.length,lon:list.reduce((a,s)=>a+s.lon,0)/list.length}:null;
+    const ns=cen&&!sup?nearestSupermarket(cen):null;
+    return `<button class="x" data-act="clearcommunity" aria-label="Clear community filter" title="Clear (Esc)">✕</button><h3>${esc(cm)}</h3>
+      <div class="meta">Community</div>
+      <div class="stats"><div class="stat"><b>${list.length}</b><span>licensed food retailers</span></div><div class="stat"><b>${sup}</b><span>supermarket${sup===1?'':'s'}</span></div>
+        <div class="stat"><b>${rank?ordinal(rank):'n/a'}</b><span>of ${ranked.length} communities by number of retailers</span></div></div>
+      ${!sup&&ns?`<p>No supermarkets are licensed here. The nearest is <b>${esc(ns.s.name)}</b> in ${esc(ns.s.community)}, about ${fmtKm(ns.d)} from the middle of this community's stores.</p>`:''}
+      ${nearList(list.slice().sort((a,b)=>a.kind.localeCompare(b.kind)||a.name.localeCompare(b.name)).slice(0,compact?3:8).map(s=>({s,d:null})),'Stores in '+cm)}
+      <div class="acts">${compact?'<button class="btn small" data-act="open">Open on Stores page</button>':''}</div>`;
+  }
+  return '';
+}
+function renderInfo(box,compact){
+  const html=infoHTML(compact);
+  box.hidden=!html;box.innerHTML=html;
+  box.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{
+    const a=b.dataset.act;
+    if(a==='close')clearSel();
+    else if(a==='clearcommunity')clearFilter('community');
+    else if(a==='store')selectStore(D.stores[+b.dataset.id],false);
+    else if(a==='community')setFilter('community',b.dataset.c);
+    else if(a==='open')showPage('stores');
+  });
+}
+
+// Keep each map framed on the current selection
+function syncMap(map,force){
+  if(!map)return;
+  const key=state.sel?JSON.stringify(state.sel):'c:'+(state.f.community||'');
+  if(!force&&map.lastKey===key)return;
+  map.lastKey=key;
+  if(state.sel)map.focus(selCenter(),2300);
+  else if(state.f.community)focusCommunity(map);
+  else map.fit(D.stores);
+}
+function focusCommunity(map){const pts=D.stores.filter(s=>s.community===state.f.community);if(pts.length)map.fit(pts.length>1?pts:[pts[0],{lat:pts[0].lat+.004,lon:pts[0].lon+.006},{lat:pts[0].lat-.004,lon:pts[0].lon-.006}])}
+function badge(box,long){
   box.innerHTML='';
   [['supermarket','#0f5c4a','Supermarkets'],['specialty','#eb6834','Specialty or independent']].forEach(([k,c,l])=>{
     const b=h('button',{class:'kindbtn','aria-pressed':String(state.f.kind===k),title:state.f.kind===k?'Show all store types':'Show only '+l.toLowerCase()},`<i class="sw" style="background:${c};border-radius:50%"></i>${l}`);
     b.onclick=()=>setFilter('kind',k);box.appendChild(b);
   });
-  const sp=h('span',{class:'hint',style:'margin-left:auto'},'Drag to move. Select empty map to clear.');box.appendChild(sp);
+  box.appendChild(h('span',{class:'hint',style:'margin-left:auto'},long?'Select a store for details, or any spot to see what is within walking distance. Drag to move.':'Select a store or any spot for details.'));
 }
 function renderStores(){
   const st=D.stores,match=st.filter(storeMatch),nSup=match.filter(s=>s.kind==='supermarket').length;
   const where=state.f.community||'Calgary';
   const rel=(state.f.aisle||state.f.product)?' that sell '+((state.f.product?split(state.f.product).name:state.f.aisle).toLowerCase()):'';
   const txt=`${match.length} licensed food retailer${match.length===1?'':'s'}${rel}, including ${nSup} supermarket${nSup===1?'':'s'}, in ${where}`;
-  $('#storeSub').textContent=txt;$('#bigStoreSub').textContent=txt+'. Select a store to filter by its community.';
-  badge($('#miniBadge'));
-  if(miniMap){miniMap.setPoints(storePoints());
-    if(state.f.community&&lastMini!==state.f.community){focusCommunity(miniMap);lastMini=state.f.community}
-    if(!state.f.community&&lastMini){miniMap.fit(D.stores);lastMini=null}}
+  $('#storeSub').textContent=txt;$('#bigStoreSub').textContent=txt+'.';
+  if(state.page==='overview'){
+    badge($('#miniBadge'));
+    if(miniMap){miniMap.setPoints(storePoints());syncMap(miniMap)}
+    renderInfo($('#miniInfo'),true);
+  }
   if(state.page==='stores')renderStorePage();
 }
-function focusCommunity(map){const pts=D.stores.filter(s=>s.community===state.f.community);if(pts.length)map.fit(pts.length>1?pts:[pts[0],{lat:pts[0].lat+.004,lon:pts[0].lon+.006},{lat:pts[0].lat-.004,lon:pts[0].lon-.006}])}
-let lastFocus=null,lastMini=null;
-function onPoint(s){const same=state.f.community===s.community;setFilter('community',s.community);
-  if(same){if(miniMap)miniMap.fit(D.stores);if(bigMap)bigMap.fit(D.stores)}}
-function onBackground(){if(state.f.community){clearFilter('community');if(miniMap)miniMap.fit(D.stores);if(bigMap)bigMap.fit(D.stores)}}
 function renderStorePage(){
-  badge($('#bigBadge'));
-  if(!bigMap){bigMap=new TileMap($('#bigMap'),{wheel:true,onPoint,onBackground,tip:storeTip});}
-  bigMap.setPoints(storePoints());
-  if(state.f.community&&lastFocus!==state.f.community){focusCommunity(bigMap);lastFocus=state.f.community}
-  if(!state.f.community&&lastFocus){bigMap.fit(D.stores);lastFocus=null}
-  const sel=$('#community');sel.value=state.f.community||'All';
+  badge($('#bigBadge'),true);
+  if(!bigMap)bigMap=new TileMap($('#bigMap'),{wheel:true,onPoint,onBackground,tip:storeTip,overlay:mapOverlay});
+  bigMap.setPoints(storePoints());syncMap(bigMap);
+  renderInfo($('#bigInfo'),false);
+  $('#community').value=state.f.community||'All';
   const list=$('#storelist');list.innerHTML='';
-  const rows=D.stores.filter(s=>storeMatch(s)&&storeSearch(s)).sort((a,b)=>a.kind.localeCompare(b.kind)||a.name.localeCompare(b.name));
+  const c=selCenter(),cur=selStore();
+  let rows=D.stores.filter(s=>storeMatch(s)&&storeSearch(s)).map(s=>({s,d:c?km(c,s):null}));
+  rows.sort((a,b)=>c?a.d-b.d:(a.s.kind.localeCompare(b.s.kind)||a.s.name.localeCompare(b.s.name)));
+  $('#listTitle').textContent=c?'Sorted by distance from the selection':'All matching stores';
   if(!rows.length){list.innerHTML='<div class="empty">No stores match these filters.</div>';return}
-  for(const s of rows.slice(0,400)){
-    const b=h('button',{class:state.f.community===s.community?'sel':''},`<i class="kd" style="background:${s.kind==='supermarket'?'#0f5c4a':'#eb6834'}"></i><div style="flex:1;min-width:0"><b>${esc(s.name)}</b><br><span>${esc(s.address)}, ${esc(s.community)}</span></div>`);
-    b.onclick=()=>{bigMap.z=Math.max(bigMap.z,15);const[px,py]=TileMap.px(s.lat,s.lon,bigMap.z);bigMap.cx=px;bigMap.cy=py;
-      lastFocus=s.community;if(state.f.community!==s.community)setFilter('community',s.community);else bigMap.render()};
+  for(const r of rows.slice(0,400)){
+    const s=r.s;
+    const b=h('button',{class:cur===s?'sel':''},`<i class="kd" style="background:${s.kind==='supermarket'?'#0f5c4a':'#eb6834'}"></i><div style="flex:1;min-width:0"><b>${esc(s.name)}</b><br><span>${esc(s.address)}, ${esc(s.community)}</span></div>${cur===s?'<span class="dist">Selected</span>':r.d!=null?`<span class="dist">${fmtKm(r.d)}</span>`:''}`);
+    b.onclick=()=>selectStore(s,true);
     list.appendChild(b);
   }
 }
@@ -913,8 +1111,20 @@ function renderBasketPage(){
     tr.title=sel?'Clear the product filter':'Filter the dashboard to '+sp.name;
     tb.appendChild(tr);
   }
+  if(!rows.length){const tr=h('tr',{style:'cursor:default'},'<td colspan="8" class="empty" style="text-align:center;padding:28px">Your basket is empty. Add a product above, or <button class="btn small" data-restore>restore the default basket</button></td>');tb.appendChild(tr);tr.querySelector('[data-restore]').onclick=restoreBasket}
   t.appendChild(tb);
   t.appendChild(h('tfoot',null,`<tr><td>Total</td><td></td><td></td><td></td><td class="num">${money(total)}</td><td class="num">100%</td><td></td><td></td></tr>`));
+}
+function snapshotBasket(){return{items:state.items.map(i=>({...i})),applied:state.applied.slice(),product:state.f.product}}
+function undoTo(prev){return()=>{state.items=prev.items;state.applied=prev.applied;state.f.product=prev.product;update()}}
+function clearBasket(){
+  if(!state.items.length){toast('Your basket is already empty.');return}
+  const prev=snapshotBasket();state.items=[];state.applied=[];state.f.product=null;update();
+  toast('Basket cleared.','Undo',undoTo(prev));
+}
+function restoreBasket(){
+  const prev=snapshotBasket();state.items=D.basket.map(i=>({...i}));state.applied=[];state.f.product=null;update();
+  toast('Default basket restored.','Undo',undoTo(prev));
 }
 function addProduct(){
   const v=$('#addInput').value.trim();
@@ -964,7 +1174,7 @@ function showPage(p,focusAdd){
   $('#pageTitle').firstChild.textContent=titles[p]+' ';
   update();
   // A map created while its page was hidden has no size yet; fit it now that it is visible.
-  if(p==='overview'&&miniMap)requestAnimationFrame(()=>{if(state.f.community)focusCommunity(miniMap);else miniMap.fit(D.stores)});
+  if(p==='overview'&&miniMap)requestAnimationFrame(()=>syncMap(miniMap,true));
   if(focusAdd)setTimeout(()=>$('#addInput').focus(),30);
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -977,6 +1187,7 @@ function update(){
   $('#monthLabel').textContent='for '+mLabel(D.months[i],true);
   document.title=D.meta.title+': '+mLabel(D.months[i],true)+' grocery outlook';
   renderFilterBar();
+  $('#emptyBar').hidden=state.items.length>0;
   if(state.page==='overview'){renderKpis(all);renderLine(all);renderMovers(all);renderSwaps();renderAisles(all);renderBenchmark(all);renderStores()}
   else if(state.page==='basket')renderBasketPage();
   else if(state.page==='stores')renderStores();
@@ -987,17 +1198,21 @@ function init(){
   readHash();initStatic();
   const sel=$('#community');sel.appendChild(h('option',{value:'All'},'All communities'));
   [...new Set(D.stores.map(s=>s.community))].sort().forEach(c=>sel.appendChild(h('option',{value:c},esc(c))));
-  sel.onchange=()=>{lastFocus=null;state.f.community=sel.value==='All'?null:sel.value;update()};
+  sel.onchange=()=>{state.f.community=sel.value==='All'?null:sel.value;update()};
   $('#storeSearch').addEventListener('input',e=>{state.storeQuery=e.target.value;renderStorePage()});
-  miniMap=new TileMap($('#miniMap'),{onPoint,onBackground,tip:storeTip});
+  miniMap=new TileMap($('#miniMap'),{onPoint,onBackground,tip:storeTip,overlay:mapOverlay});
   $('#household').onchange=e=>{state.household=e.target.value;update()};
   $$('#range button').forEach(b=>b.onclick=()=>{state.range=+b.dataset.r;$$('#range button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));renderLine(effectiveItems())});
   $$('.navi').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
   $$('[data-goto]').forEach(b=>b.onclick=()=>showPage(b.dataset.goto,b.hasAttribute('data-focus-add')));
   $('#addBtn').onclick=addProduct;$('#addInput').addEventListener('keydown',e=>{if(e.key==='Enter')addProduct()});
-  $('#resetBasket').onclick=()=>{state.items=D.basket.map(i=>({...i}));state.applied=[];state.f.product=null;update();toast('Basket reset to the default.')};
+  $('#clearBasket').onclick=clearBasket;
+  $$('[data-restore]').forEach(b=>b.onclick=restoreBasket);
   $('#share').onclick=async()=>{writeHash();try{await navigator.clipboard.writeText(location.href);toast('Link copied. It opens this page with the same basket and filters.')}catch(e){toast('Copy the page address to share this view.')}};
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&anyFilter()&&!['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName)){clearAll();if(miniMap)miniMap.fit(D.stores);if(bigMap)bigMap.fit(D.stores);toast('Filters cleared')}});
+  // Esc closes the map selection first, then clears filters.
+  document.addEventListener('keydown',e=>{if(e.key!=='Escape'||['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName))return;
+    if(state.sel){clearSel();return}
+    if(anyFilter()){clearAll();toast('Filters cleared')}});
   showPage(state.page);
   let t;new ResizeObserver(()=>{clearTimeout(t);t=setTimeout(()=>{if(state.page==='overview'){const it=effectiveItems();renderLine(it);renderMovers(it);if(miniMap)miniMap.render()}else if(state.page==='stores'&&bigMap)bigMap.render()},80)}).observe(document.querySelector('.main'));
 }
