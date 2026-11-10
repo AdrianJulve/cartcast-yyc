@@ -1,0 +1,1712 @@
+[
+ {
+  "getbusid": "113704",
+  "tradename": "SUNTERRA MARKET (BANKERS HALL)",
+  "address": "#241 315 8 AV SW",
+  "comdistnm": "DOWNTOWN COMMERCIAL CORE",
+  "licencetypes": "ALCOHOL BEVERAGE SALES (RESTAURANT),\nFOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0690566,
+    51.0452367
+   ]
+  }
+ },
+ {
+  "getbusid": "12263331",
+  "tradename": "REAL CANADIAN SUPERSTORE (THE)",
+  "address": "100 COUNTRY VILLAGE RD NE",
+  "comdistnm": "COVENTRY HILLS",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nSCHOOL (PROV. NOT REQUIRED),\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0694262,
+    51.1620738
+   ]
+  }
+ },
+ {
+  "getbusid": "12407979",
+  "tradename": "WESTWINDS SUPERSTORE GAS BAR",
+  "address": "#300 3633 WESTWINDS DR NE",
+  "comdistnm": "WESTWINDS",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nFUEL SALES/STORAGE,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9668367,
+    51.1090525
+   ]
+  }
+ },
+ {
+  "getbusid": "124198",
+  "tradename": "REAL CANADIAN SUPERSTORE #1576",
+  "address": "3575 20 AV NE",
+  "comdistnm": "SUNRIDGE",
+  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nPHOTOGRAPHER,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9840452,
+    51.0690647
+   ]
+  }
+ },
+ {
+  "getbusid": "12474649",
+  "tradename": "CALGARY CO-OP GAS BAR #21",
+  "address": "#500 917 85 ST SW",
+  "comdistnm": "WEST SPRINGS",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nFUEL SALES/STORAGE,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.2115206,
+    51.0594248
+   ]
+  }
+ },
+ {
+  "getbusid": "12484853",
+  "tradename": "BON A-PET-TREAT! PET STORE & BAKERY",
+  "address": "#4 5111 BOWNESS RD NW",
+  "comdistnm": "MONTGOMERY",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1675156,
+    51.0750677
+   ]
+  }
+ },
+ {
+  "getbusid": "12529780",
+  "tradename": "GANDOUR HALAL MEATS",
+  "address": "#3 1619 37 ST SW",
+  "comdistnm": "ROSSCARROCK",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1417225,
+    51.0388672
+   ]
+  }
+ },
+ {
+  "getbusid": "12689535",
+  "tradename": "HONG KONG FOOD MARKET",
+  "address": "3215 17 AV SE",
+  "comdistnm": "SOUTHVIEW",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9887655,
+    51.0364729
+   ]
+  }
+ },
+ {
+  "getbusid": "12736013",
+  "tradename": "UNIMARKET",
+  "address": "2405 EDMONTON TR NE",
+  "comdistnm": "TUXEDO PARK",
+  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0566529,
+    51.0735634
+   ]
+  }
+ },
+ {
+  "getbusid": "12845913",
+  "tradename": "CALGARY CO-OP WINES & SPIRITS - DALHOUSIE",
+  "address": "5505 SHAGANAPPI TR NW",
+  "comdistnm": "DALHOUSIE",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nLIQUOR STORE,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1458769,
+    51.1019579
+   ]
+  }
+ },
+ {
+  "getbusid": "12845939",
+  "tradename": "CALGARY CO-OP WINES & SPIRITS - OAKRIDGE",
+  "address": "2570 SOUTHLAND DR SW",
+  "comdistnm": "OAKRIDGE",
+  "licencetypes": "LIQUOR STORE,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1204732,
+    50.9616487
+   ]
+  }
+ },
+ {
+  "getbusid": "13347786",
+  "tradename": "NORTH SEA FISH MARKET",
+  "address": "#300 10816 MACLEOD TR SE",
+  "comdistnm": "WILLOW PARK",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0692703,
+    50.9556704
+   ]
+  }
+ },
+ {
+  "getbusid": "13737002",
+  "tradename": "SAFEWAY #258",
+  "address": "524 ELBOW DR SW",
+  "comdistnm": "CLIFF BUNGALOW",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0726799,
+    51.0303131
+   ]
+  }
+ },
+ {
+  "getbusid": "13737127",
+  "tradename": "SAFEWAY #266",
+  "address": "410 10 ST NW",
+  "comdistnm": "SUNNYSIDE",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0851984,
+    51.0561758
+   ]
+  }
+ },
+ {
+  "getbusid": "13737416",
+  "tradename": "SAFEWAY #8809",
+  "address": "1104 37 ST SW",
+  "comdistnm": "ROSSCARROCK",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1401104,
+    51.0432598
+   ]
+  }
+ },
+ {
+  "getbusid": "13737499",
+  "tradename": "SAFEWAY #227",
+  "address": "#C1 3625 SHAGANAPPI TR NW",
+  "comdistnm": "VARSITY",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1564358,
+    51.0844034
+   ]
+  }
+ },
+ {
+  "getbusid": "13737762",
+  "tradename": "SAFEWAY #8844",
+  "address": "#105 5005 DALHOUSIE DR NW",
+  "comdistnm": "DALHOUSIE",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1621847,
+    51.1066335
+   ]
+  }
+ },
+ {
+  "getbusid": "13737911",
+  "tradename": "SAFEWAY #8912",
+  "address": "2425 34 AV SW",
+  "comdistnm": "GARRISON WOODS",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.116621,
+    51.0227564
+   ]
+  }
+ },
+ {
+  "getbusid": "13897517",
+  "tradename": "SOBEYS CRANSTON",
+  "address": "#3000 356 CRANSTON RD SE",
+  "comdistnm": "CRANSTON",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9768405,
+    50.8808796
+   ]
+  }
+ },
+ {
+  "getbusid": "13898655",
+  "tradename": "CALGARY FLORISTS - CALGARY FLOWERS DELIVERY",
+  "address": "#6 2104 KENSINGTON RD NW",
+  "comdistnm": "WEST HILLHURST",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nWHOLESALER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1084946,
+    51.0528538
+   ]
+  }
+ },
+ {
+  "getbusid": "14022149",
+  "tradename": "ALFORNO BAKERY & CAFE",
+  "address": "222 7 ST SW",
+  "comdistnm": "EAU CLAIRE",
+  "licencetypes": "ALCOHOL BEVERAGE SALES (RESTAURANT),\nFOOD SERVICE - PREMISES (SEATING),\nOUTDOOR PATIO,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0781685,
+    51.0514275
+   ]
+  }
+ },
+ {
+  "getbusid": "14810253",
+  "tradename": "LUCKY SUPERMARKET",
+  "address": "#A 4527 8 AV SE",
+  "comdistnm": "FOREST LAWN",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9682841,
+    51.0442938
+   ]
+  }
+ },
+ {
+  "getbusid": "15015845",
+  "tradename": "LOFT CANNABIS MARKET",
+  "address": "#328 2066 18 AV NE",
+  "comdistnm": "VISTA HEIGHTS",
+  "licencetypes": "CANNABIS STORE,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0116325,
+    51.0694572
+   ]
+  }
+ },
+ {
+  "getbusid": "15184930",
+  "tradename": "DELIGHT MUSIC SCHOOL",
+  "address": "#720 1110 PANATELLA BV NW",
+  "comdistnm": "PANORAMA HILLS",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nSCHOOL (PROV. NOT REQUIRED)",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0899129,
+    51.1669475
+   ]
+  }
+ },
+ {
+  "getbusid": "15238017",
+  "tradename": "MADHATTER'S SUPERSTORE (THE)",
+  "address": "#1152 3800 MEMORIAL DR NE",
+  "comdistnm": "MARLBOROUGH",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9782699,
+    51.0547006
+   ]
+  }
+ },
+ {
+  "getbusid": "15370",
+  "tradename": "ITALIAN SUPER MARKET",
+  "address": "265 20 AV NE",
+  "comdistnm": "TUXEDO PARK",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0565723,
+    51.0702862
+   ]
+  }
+ },
+ {
+  "getbusid": "15867740",
+  "tradename": "CULLIGAN WATER",
+  "address": "#2 1110 58 AV SE",
+  "comdistnm": "BURNS INDUSTRIAL",
+  "licencetypes": "DISTRIBUTION MANAGER,\nFOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0396045,
+    51.0025338
+   ]
+  }
+ },
+ {
+  "getbusid": "15925423",
+  "tradename": "COMMUNITY NATURAL FOODS",
+  "address": "850 CROWFOOT CR NW",
+  "comdistnm": "ARBOUR LAKE",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.2072343,
+    51.1266546
+   ]
+  }
+ },
+ {
+  "getbusid": "15938608",
+  "tradename": "SAVANNA GROCERY & HALAL MEAT STORE",
+  "address": "9052 46 ST NE",
+  "comdistnm": "SADDLE RIDGE",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nPHOTOGRAPHER,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9655046,
+    51.134677
+   ]
+  }
+ },
+ {
+  "getbusid": "15962673",
+  "tradename": "YAK AND YETI MINI MART AND GROCERY",
+  "address": "#121 7 WESTWINDS CR NE",
+  "comdistnm": "WESTWINDS",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9709902,
+    51.1061608
+   ]
+  }
+ },
+ {
+  "getbusid": "15965676",
+  "tradename": "CALGARY METAL MARKET",
+  "address": "225 41 AV NE",
+  "comdistnm": "GREENVIEW INDUSTRIAL PARK",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nWHOLESALER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0584592,
+    51.0897265
+   ]
+  }
+ },
+ {
+  "getbusid": "16122582",
+  "tradename": "ALL THE SMOKE PREMIUM CANNABIS MARKET",
+  "address": "#1 6219 CENTRE ST NW",
+  "comdistnm": "THORNCLIFFE",
+  "licencetypes": "CANNABIS STORE,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0635095,
+    51.1078347
+   ]
+  }
+ },
+ {
+  "getbusid": "16218984",
+  "tradename": "EUPHORIA VAPES CIGARS AND BONGS",
+  "address": "#2118 380 CANYON MEADOWS DR SE",
+  "comdistnm": "LAKE BONAVISTA",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0642149,
+    50.9312473
+   ]
+  }
+ },
+ {
+  "getbusid": "16226920",
+  "tradename": "SAFEWAY LIQUOR SOUTHCENTRE MALL",
+  "address": "11007 BONAVENTURE DR SE",
+  "comdistnm": "WILLOW PARK",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nLIQUOR STORE,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0617532,
+    50.953439
+   ]
+  }
+ },
+ {
+  "getbusid": "16229114",
+  "tradename": "SOBEYS 4984",
+  "address": "#100 200 HARTELL WY SE",
+  "comdistnm": "LEGACY",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0278624,
+    50.8629002
+   ]
+  }
+ },
+ {
+  "getbusid": "16243289",
+  "tradename": "FLEX NAILS & BEAUTY SUPERSTORE",
+  "address": "#101 160 96 AV NE",
+  "comdistnm": "HARVEST HILLS",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nWHOLESALER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.066872,
+    51.1421343
+   ]
+  }
+ },
+ {
+  "getbusid": "16273948",
+  "tradename": "JOHN AND IRISHS NO FRILLS",
+  "address": "135 CARRINGTON PZ NW",
+  "comdistnm": "CARRINGTON",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0938089,
+    51.183277
+   ]
+  }
+ },
+ {
+  "getbusid": "16330151",
+  "tradename": "G MARKETT",
+  "address": "2893 17 AV SE",
+  "comdistnm": "SOUTHVIEW",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9917674,
+    51.0374227
+   ]
+  }
+ },
+ {
+  "getbusid": "16338774",
+  "tradename": "NADER'S MARKET",
+  "address": "#210 2835 23 ST NE",
+  "comdistnm": "SOUTH AIRWAYS",
+  "licencetypes": "RETAIL DEALER - PREMISES (MAIL ORDER)",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0060479,
+    51.0780975
+   ]
+  }
+ },
+ {
+  "getbusid": "16387805",
+  "tradename": "LATINOS BAKERY",
+  "address": "613 MACLEOD TR SE",
+  "comdistnm": "DOWNTOWN COMMERCIAL CORE",
+  "licencetypes": "ALCOHOL BEVERAGE SALES (RESTAURANT),\nFOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0584075,
+    51.0469092
+   ]
+  }
+ },
+ {
+  "getbusid": "16436560",
+  "tradename": "FLEX NAILS & BEAUTY SUPERSTORE",
+  "address": "#17 9250 MACLEOD TR SE",
+  "comdistnm": "ACADIA",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nWHOLESALER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0697504,
+    50.9702889
+   ]
+  }
+ },
+ {
+  "getbusid": "16483802",
+  "tradename": "GYAN FOODS",
+  "address": "6210 48 ST SE",
+  "comdistnm": "FOOTHILLS",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9637428,
+    50.9981718
+   ]
+  }
+ },
+ {
+  "getbusid": "16522310",
+  "tradename": "TEHRAN GROCERY",
+  "address": "#104 2120 KENSINGTON RD NW",
+  "comdistnm": "WEST HILLHURST",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1091953,
+    51.0528643
+   ]
+  }
+ },
+ {
+  "getbusid": "16538746",
+  "tradename": "HAPPY FRESH MARKET",
+  "address": "#3 5720 SILVER SPRINGS BV NW",
+  "comdistnm": "SILVER SPRINGS",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1881691,
+    51.1048781
+   ]
+  }
+ },
+ {
+  "getbusid": "16548398",
+  "tradename": "DON TUCAN MARKET",
+  "address": "122 MAHOGANY PZ SE",
+  "comdistnm": "MAHOGANY",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.939993,
+    50.8971865
+   ]
+  }
+ },
+ {
+  "getbusid": "16570228",
+  "tradename": "T&T SUPERMARKET",
+  "address": "#1000 9650 HARVEST HILLS BV NE",
+  "comdistnm": "AURORA BUSINESS PARK",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0686338,
+    51.1403949
+   ]
+  }
+ },
+ {
+  "getbusid": "16570269",
+  "tradename": "T&T SUPERMARKET",
+  "address": "10 SAGE HILL PZ NW",
+  "comdistnm": "SAGE HILL",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1516277,
+    51.1698728
+   ]
+  }
+ },
+ {
+  "getbusid": "16574303",
+  "tradename": "MARKET MALL MEDICINE CENTRE PHARMACY",
+  "address": "#100 4935 40 AV NW",
+  "comdistnm": "VARSITY",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.157823,
+    51.0878195
+   ]
+  }
+ },
+ {
+  "getbusid": "16620957",
+  "tradename": "WOW BAKERY AT MACLEOD PLAZA",
+  "address": "#108 5809 MACLEOD TR SW",
+  "comdistnm": "WINDSOR PARK",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.07256,
+    51.0018282
+   ]
+  }
+ },
+ {
+  "getbusid": "16666992",
+  "tradename": "ALL NATIONS FOODS",
+  "address": "#3 3360 27 ST NE",
+  "comdistnm": "HORIZON",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9942349,
+    51.083038
+   ]
+  }
+ },
+ {
+  "getbusid": "16685083",
+  "tradename": "EBLA MARKET",
+  "address": "#210 2835 23 ST NE",
+  "comdistnm": "SOUTH AIRWAYS",
+  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0060479,
+    51.0780975
+   ]
+  }
+ },
+ {
+  "getbusid": "16687071",
+  "tradename": "SURA MARKET",
+  "address": "2215 CENTRE ST NW",
+  "comdistnm": "TUXEDO PARK",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0630672,
+    51.0718854
+   ]
+  }
+ },
+ {
+  "getbusid": "16688335",
+  "tradename": "TK GROCERIES",
+  "address": "9639 MACLEOD TR SW",
+  "comdistnm": "HAYSBORO",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0742078,
+    50.9686965
+   ]
+  }
+ },
+ {
+  "getbusid": "16709305",
+  "tradename": "INS MARKET 8239",
+  "address": "#109Z 4825 MOUNT ROYAL GA SW",
+  "comdistnm": "LINCOLN PARK",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES (NO SEATING)",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1327346,
+    51.0128117
+   ]
+  }
+ },
+ {
+  "getbusid": "16709412",
+  "tradename": "PET PLANET WEST MARKET",
+  "address": "#416 1851 SIROCCO DR SW",
+  "comdistnm": "SIGNAL HILL",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1673781,
+    51.0370111
+   ]
+  }
+ },
+ {
+  "getbusid": "16709719",
+  "tradename": "TRANSTAR AFTERMARKET SOLUTIONS",
+  "address": "7510A 5 ST SE",
+  "comdistnm": "FAIRVIEW INDUSTRIAL",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nWHOLESALER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0492459,
+    50.9865163
+   ]
+  }
+ },
+ {
+  "getbusid": "16718793",
+  "tradename": "DELING INNOVATIONS CA",
+  "address": "#900 903 8 AV SW",
+  "comdistnm": "DOWNTOWN COMMERCIAL CORE",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nWHOLESALER",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.081779,
+    51.0458001
+   ]
+  }
+ },
+ {
+  "getbusid": "16721540",
+  "tradename": "HONG KONG DELIGHTS BAKERY",
+  "address": "6710 4 ST NE",
+  "comdistnm": "HUNTINGTON HILLS",
+  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0563858,
+    51.112335
+   ]
+  }
+ },
+ {
+  "getbusid": "16722001",
+  "tradename": "MINI SUPERMARKET CONVENIENCE STORE",
+  "address": "4505 26 AV SE",
+  "comdistnm": "DOVER",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9695759,
+    51.0301616
+   ]
+  }
+ },
+ {
+  "getbusid": "16723694",
+  "tradename": "PAWNSHOP SUPERSTORE",
+  "address": "#125 6404 BOWNESS RD NW",
+  "comdistnm": "BOWNESS",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nPAWNBROKER",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1799436,
+    51.0860163
+   ]
+  }
+ },
+ {
+  "getbusid": "16728768",
+  "tradename": "KWIKMART GROCERIES VAPES AND MORE",
+  "address": "#1 2388 CRESTWOOD RD SE",
+  "comdistnm": "OGDEN",
+  "licencetypes": "TOBACCO RETAILER,\nRETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES,\nVAPE RETAILER",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0030827,
+    50.9914394
+   ]
+  }
+ },
+ {
+  "getbusid": "16734444",
+  "tradename": "CALGARY WHOLESALE MARKET",
+  "address": "#13 1305 33 ST NE",
+  "comdistnm": "FRANKLIN",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9868119,
+    51.0636459
+   ]
+  }
+ },
+ {
+  "getbusid": "16734709",
+  "tradename": "JT LIQUOR MARKET",
+  "address": "2037 26 AV SW",
+  "comdistnm": "SOUTH CALGARY",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nLIQUOR STORE",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1090944,
+    51.0302033
+   ]
+  }
+ },
+ {
+  "getbusid": "16736761",
+  "tradename": "BONDI PRODUCE CALGARY",
+  "address": "#110 1610 104 AV NE",
+  "comdistnm": "STONEY 2",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nWHOLESALER,\nFOOD SERVICE - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0191461,
+    51.1475713
+   ]
+  }
+ },
+ {
+  "getbusid": "16736803",
+  "tradename": "INS MARKET 8261",
+  "address": "237 12 AV SE",
+  "comdistnm": "BELTLINE",
+  "licencetypes": "TOBACCO RETAILER,\nRETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES,\nVAPE RETAILER",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0595288,
+    51.0411046
+   ]
+  }
+ },
+ {
+  "getbusid": "16739997",
+  "tradename": "MASHAWI MARKET GRILL",
+  "address": "#24 3745 MEMORIAL DR SE",
+  "comdistnm": "FOREST HEIGHTS",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES (SEATING)",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9789065,
+    51.0517934
+   ]
+  }
+ },
+ {
+  "getbusid": "16740144",
+  "tradename": "TAM MARKET",
+  "address": "#2 5008 WHITEHORN DR NE",
+  "comdistnm": "WHITEHORN",
+  "licencetypes": "TOBACCO RETAILER,\nRETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9620305,
+    51.0862133
+   ]
+  }
+ },
+ {
+  "getbusid": "16748915",
+  "tradename": "NO FRILLS",
+  "address": "550 64 AV NE",
+  "comdistnm": "HUNTINGTON HILLS",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0550423,
+    51.1111496
+   ]
+  }
+ },
+ {
+  "getbusid": "16754780",
+  "tradename": "FRESHCO OGDEN",
+  "address": "#10 7740 18 ST SE",
+  "comdistnm": "OGDEN",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0142748,
+    50.9845044
+   ]
+  }
+ },
+ {
+  "getbusid": "16756595",
+  "tradename": "AFGHAN BAKERY AND BUTCHER STORE",
+  "address": "#245 3545 32 AV NE",
+  "comdistnm": "SUNRIDGE",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES (NO SEATING)",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9839674,
+    51.0804283
+   ]
+  }
+ },
+ {
+  "getbusid": "16756603",
+  "tradename": "AFRICAN SIGNATURE MARKET",
+  "address": "#140 75 CORNER MEADOWS PA NE",
+  "comdistnm": "CORNERSTONE",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9341913,
+    51.1509216
+   ]
+  }
+ },
+ {
+  "getbusid": "16766461",
+  "tradename": "PARAMOUNT BUTCHER SHOP",
+  "address": "#1100 3800 MEMORIAL DR NE",
+  "comdistnm": "MARLBOROUGH",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9784233,
+    51.0536543
+   ]
+  }
+ },
+ {
+  "getbusid": "16766735",
+  "tradename": "FLOORING SUPERSTORES",
+  "address": "#4 8989 MACLEOD TR SW",
+  "comdistnm": "HAYSBORO",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nWHOLESALER",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0725784,
+    50.973674
+   ]
+  }
+ },
+ {
+  "getbusid": "16776668",
+  "tradename": "KIMS MARKET",
+  "address": "#100 400 5 AV SW",
+  "comdistnm": "DOWNTOWN COMMERCIAL CORE",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0706259,
+    51.0488892
+   ]
+  }
+ },
+ {
+  "getbusid": "16781205",
+  "tradename": "MAYFAIR FOODS",
+  "address": "4019D 17 AV SE",
+  "comdistnm": "FOREST LAWN",
+  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9762005,
+    51.0373936
+   ]
+  }
+ },
+ {
+  "getbusid": "16782641",
+  "tradename": "AL-NOOR HALAL MEAT AND GROCERY STORE",
+  "address": "#810 5075 FALCONRIDGE BV NE",
+  "comdistnm": "WESTWINDS",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9629331,
+    51.0974111
+   ]
+  }
+ },
+ {
+  "getbusid": "16786824",
+  "tradename": "FRESHCO WHITEHORN",
+  "address": "3550 32 AV NE",
+  "comdistnm": "HORIZON",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9831219,
+    51.0832003
+   ]
+  }
+ },
+ {
+  "getbusid": "16791667",
+  "tradename": "FREESTONE PRODUCE",
+  "address": "3065 29 ST NE",
+  "comdistnm": "SUNRIDGE",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nWHOLESALER",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9926685,
+    51.0798602
+   ]
+  }
+ },
+ {
+  "getbusid": "16793515",
+  "tradename": "CANADIAN HALAL MEAT GROCERY",
+  "address": "#125 20 COPPERPOND PS SE",
+  "comdistnm": "COPPERFIELD",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9339426,
+    50.9265747
+   ]
+  }
+ },
+ {
+  "getbusid": "16795965",
+  "tradename": "FRESHCO THORNCLIFFE",
+  "address": "5607 4 ST NW",
+  "comdistnm": "THORNCLIFFE",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0728431,
+    51.1017108
+   ]
+  }
+ },
+ {
+  "getbusid": "16797490",
+  "tradename": "FRESHCO NORTHGATE",
+  "address": "399 36 ST NE",
+  "comdistnm": "FRANKLIN",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9849418,
+    51.0542458
+   ]
+  }
+ },
+ {
+  "getbusid": "16800443",
+  "tradename": "WOW BAKERY AND CAFE WEST SPRINGS",
+  "address": "#135 922 85 ST SW",
+  "comdistnm": "WEST SPRINGS",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.2105421,
+    51.059134
+   ]
+  }
+ },
+ {
+  "getbusid": "16803660",
+  "tradename": "BULK BARN FOODS",
+  "address": "#845 19587 SETON CR SE",
+  "comdistnm": "SETON",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9621854,
+    50.878846
+   ]
+  }
+ },
+ {
+  "getbusid": "16804296",
+  "tradename": "NORTH SEA FISH MARKET",
+  "address": "7418 CROWFOOT RD NW",
+  "comdistnm": "ARBOUR LAKE",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1962928,
+    51.1266873
+   ]
+  }
+ },
+ {
+  "getbusid": "16804890",
+  "tradename": "FRESHCO NORTHGATE PHARMACY #4333",
+  "address": "399 36 ST NE",
+  "comdistnm": "FRANKLIN",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9849418,
+    51.0542458
+   ]
+  }
+ },
+ {
+  "getbusid": "16804924",
+  "tradename": "FRESHCO THORNCLIFFE PHARMACY #4331",
+  "address": "5607 4 ST NW",
+  "comdistnm": "THORNCLIFFE",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0728431,
+    51.1017108
+   ]
+  }
+ },
+ {
+  "getbusid": "16805996",
+  "tradename": "ACCRA GOLD AFRICAN FOODS MARKET",
+  "address": "#2120 76 WESTWINDS CR NE",
+  "comdistnm": "WESTWINDS",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9708836,
+    51.1077627
+   ]
+  }
+ },
+ {
+  "getbusid": "16811150",
+  "tradename": "INS MARKET 8256",
+  "address": "#250 500 CENTRE ST SE",
+  "comdistnm": "DOWNTOWN COMMERCIAL CORE",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0620345,
+    51.0479952
+   ]
+  }
+ },
+ {
+  "getbusid": "16818403",
+  "tradename": "MAYZ GLOBAL FOODS",
+  "address": "609 28 ST NE",
+  "comdistnm": "MERIDIAN",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nWAREHOUSING,\nWHOLESALER",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9939107,
+    51.0571592
+   ]
+  }
+ },
+ {
+  "getbusid": "16823007",
+  "tradename": "FRESHCO WHITEHORN CALGARY PHARMACY",
+  "address": "3550 32 AV NE",
+  "comdistnm": "HORIZON",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9831219,
+    51.0832003
+   ]
+  }
+ },
+ {
+  "getbusid": "16823981",
+  "tradename": "INS MARKET 8135",
+  "address": "#224 321 6 AV SW",
+  "comdistnm": "DOWNTOWN COMMERCIAL CORE",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0693943,
+    51.0473933
+   ]
+  }
+ },
+ {
+  "getbusid": "16830796",
+  "tradename": "WOW BAKERY MACLEOD PLAZA",
+  "address": "#108 5809 MACLEOD TR SW",
+  "comdistnm": "WINDSOR PARK",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.07256,
+    51.0018282
+   ]
+  }
+ },
+ {
+  "getbusid": "169011",
+  "tradename": "CALGARY CO-OP #14",
+  "address": "#100 250 SHAWVILLE BV SE",
+  "comdistnm": "SHAWNESSY",
+  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0637774,
+    50.9029179
+   ]
+  }
+ },
+ {
+  "getbusid": "171256",
+  "tradename": "KENSINGTON WINE MARKET",
+  "address": "1257 KENSINGTON RD NW",
+  "comdistnm": "HILLHURST",
+  "licencetypes": "LIQUOR STORE,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0916852,
+    51.0523991
+   ]
+  }
+ },
+ {
+  "getbusid": "199075",
+  "tradename": "REAL CANADIAN WHOLESALE CLUB #6709",
+  "address": "222 58 AV SE",
+  "comdistnm": "MANCHESTER INDUSTRIAL",
+  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.060827,
+    51.001991
+   ]
+  }
+ },
+ {
+  "getbusid": "226084",
+  "tradename": "KALAMATA GROCERY",
+  "address": "1421 11 ST SW",
+  "comdistnm": "BELTLINE",
+  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0893192,
+    51.0397207
+   ]
+  }
+ },
+ {
+  "getbusid": "243352",
+  "tradename": "REAL CANADIAN SUPERSTORE #1575",
+  "address": "5251 COUNTRY HILLS BV NW",
+  "comdistnm": "EDGEMONT",
+  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nPHOTOGRAPHER,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1612555,
+    51.1364851
+   ]
+  }
+ },
+ {
+  "getbusid": "317321",
+  "tradename": "STAPLES THE OFFICE SUPERSTORE #48",
+  "address": "1215 9 AV SW",
+  "comdistnm": "DOWNTOWN WEST END",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0905787,
+    51.0450494
+   ]
+  }
+ },
+ {
+  "getbusid": "3335",
+  "tradename": "MORNING SUN HEALTH FOODS",
+  "address": "#F11 3625 SHAGANAPPI TR NW",
+  "comdistnm": "VARSITY",
+  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1558715,
+    51.0859189
+   ]
+  }
+ },
+ {
+  "getbusid": "37077",
+  "tradename": "LANGS GROCERY",
+  "address": "833 17 AV SW",
+  "comdistnm": "LOWER MOUNT ROYAL",
+  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0813152,
+    51.0376352
+   ]
+  }
+ },
+ {
+  "getbusid": "44503",
+  "tradename": "CALGARY CO-OP #04",
+  "address": "#A 4122 BRENTWOOD RD NW",
+  "comdistnm": "BRENTWOOD",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nMARKET,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1307366,
+    51.0882057
+   ]
+  }
+ },
+ {
+  "getbusid": "44529",
+  "tradename": "CALGARY CO-OP #05",
+  "address": "#6 3330 17 AV SE",
+  "comdistnm": "ALBERT PARK/RADISSON HEIGHTS",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9880471,
+    51.0389234
+   ]
+  }
+ },
+ {
+  "getbusid": "44545",
+  "tradename": "CALGARY CO-OP #02",
+  "address": "520 16 AV NE",
+  "comdistnm": "WINSTON HEIGHTS/MOUNTVIEW",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0524631,
+    51.0674704
+   ]
+  }
+ },
+ {
+  "getbusid": "44560",
+  "tradename": "CALGARY CO-OP #03",
+  "address": "8818 MACLEOD TR SE",
+  "comdistnm": "ACADIA",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nMARKET,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0692622,
+    50.9745607
+   ]
+  }
+ },
+ {
+  "getbusid": "44594",
+  "tradename": "CALGARY CO-OP #06",
+  "address": "4940 RICHMOND RD SW",
+  "comdistnm": "GLENBROOK",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nMARKET,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1588587,
+    51.0190809
+   ]
+  }
+ },
+ {
+  "getbusid": "44602",
+  "tradename": "CALGARY CO-OP GAS BAR #06",
+  "address": "4930 RICHMOND RD SW",
+  "comdistnm": "GLENBROOK",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nFUEL SALES/STORAGE,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1574591,
+    51.0190026
+   ]
+  }
+ },
+ {
+  "getbusid": "44677",
+  "tradename": "CALGARY CO-OP #11",
+  "address": "#15 1221 CANYON MEADOWS DR SE",
+  "comdistnm": "DEER RIDGE",
+  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0287655,
+    50.9288913
+   ]
+  }
+ },
+ {
+  "getbusid": "44693",
+  "tradename": "CALGARY CO-OP #13",
+  "address": "35 CROWFOOT WY NW",
+  "comdistnm": "ARBOUR LAKE",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nMARKET,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.2009729,
+    51.1235451
+   ]
+  }
+ },
+ {
+  "getbusid": "44727",
+  "tradename": "CALGARY CO-OP #07",
+  "address": "#A 5505 SHAGANAPPI TR NW",
+  "comdistnm": "DALHOUSIE",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nMARKET,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1461747,
+    51.1027431
+   ]
+  }
+ },
+ {
+  "getbusid": "52910",
+  "tradename": "FLOWER MARKET (THE)",
+  "address": "#165 11500 STONEHILL DR NE",
+  "comdistnm": "STONEGATE LANDING",
+  "licencetypes": "RETAIL DEALER - PREMISES,\nWHOLESALER",
+  "jobstatusdesc": "Licensed",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0026071,
+    51.1601783
+   ]
+  }
+ },
+ {
+  "getbusid": "56341",
+  "tradename": "REAL CANADIAN SUPERSTORE #1574",
+  "address": "10505 SOUTHPORT RD SW",
+  "comdistnm": "SOUTHWOOD",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nPHOTOGRAPHER,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0743396,
+    50.9618789
+   ]
+  }
+ },
+ {
+  "getbusid": "655233",
+  "tradename": "FAMILY FOODS",
+  "address": "817 19 ST NE",
+  "comdistnm": "MAYLAND HEIGHTS",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0145154,
+    51.058571
+   ]
+  }
+ },
+ {
+  "getbusid": "785600",
+  "tradename": "REAL CANADIAN SUPERSTORE #1578",
+  "address": "#100 15915 MACLEOD TR SE",
+  "comdistnm": "SHAWNESSY",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nPHOTOGRAPHER,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0676404,
+    50.9100156
+   ]
+  }
+ },
+ {
+  "getbusid": "960856",
+  "tradename": "HANNIGAN'S PAINT AND DECOR",
+  "address": "1675 32 AV NE",
+  "comdistnm": "SOUTH AIRWAYS",
+  "licencetypes": "RETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0195702,
+    51.0809124
+   ]
+  }
+ }
+]

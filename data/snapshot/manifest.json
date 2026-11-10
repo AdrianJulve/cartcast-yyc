@@ -1,0 +1,37 @@
+{
+  "fetched_at": "2026-11-10T00:48:55Z",
+  "files": {
+    "prices_alberta.csv": {
+      "rows": 6600,
+      "first_month": "2021-10",
+      "latest_month": "2026-09",
+      "products": 110
+    },
+    "cpi_calgary_alberta.csv": {
+      "rows": 423,
+      "latest_month": "2026-09",
+      "geographies": [
+        "Alberta",
+        "Calgary, Alberta"
+      ]
+    },
+    "mbm_calgary.csv": {
+      "rows": 516,
+      "latest_year": "2025",
+      "geographies": [
+        "Calgary, Alberta"
+      ]
+    },
+    "stores_calgary.json": {
+      "records": 114,
+      "downloaded": 115
+    }
+  },
+  "sources": {
+    "prices": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810024501",
+    "cpi": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401",
+    "stores": "https://data.calgary.ca/d/vdjc-pybd",
+    "mbm": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110006601",
+    "outlook": "https://www.dal.ca/sites/agri-food/research/canada-s-food-price-report-2026.html"
+  }
+}
