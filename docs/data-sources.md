@@ -48,7 +48,7 @@ Known issues:
 
 - Report page: <https://www.dal.ca/sites/agri-food/research/canada-s-food-price-report-2026.html>
 - Used for: the outlook range only. The report forecasts a 4 to 6 percent increase in overall food prices in 2026, set in `dashboard.outlook_annual_low` and `dashboard.outlook_annual_high`.
-- Other figures from the report used in the presentation: an average family of four is expected to spend $17,571.79 on food in 2026, up to $994.63 more than in 2025. Food prices are 27 percent higher than five years ago, and Alberta is among the provinces forecast to rise above the national average.
+- Other figures from the report: an average family of four is expected to spend $17,571.79 on food in 2026, up to $994.63 more than in 2025. Food prices are 27 percent higher than five years ago, and Alberta is among the provinces forecast to rise above the national average.
 
 ## Snapshot (`data/snapshot/`)
 

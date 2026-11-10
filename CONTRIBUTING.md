@@ -1,7 +1,7 @@
 # Contributing
 
-This is a team course project. The process below keeps changes reviewable and
-keeps `main` in a working state.
+Contributions are welcome. The process below keeps changes reviewable and keeps
+`main` in a working state.
 
 ## Setup
 
@@ -19,12 +19,12 @@ python -m cartcast serve           # http://localhost:8000
 
 1. Open or pick an issue using one of the templates.
 2. Create a branch from `main` named `type/short-description`, for example
-   `feat/basket-presets`, `fix/map-labels` or `docs/demo-script`.
+   `feat/basket-presets`, `fix/map-labels` or `docs/store-rules`.
 3. Write commit messages in the [Conventional Commits](https://www.conventionalcommits.org/)
    format, for example `feat: add family of 6 preset` or `fix: handle suppressed prices`.
 4. Run `make check`, or `python -m pytest` and `ruff check .` if `make` is not installed.
    CI runs the same checks.
-5. Open a pull request using the template. A teammate reviews it before it is merged.
+5. Open a pull request using the template. The maintainer reviews it before it is merged.
 6. Squash and merge, then delete the branch.
 
 ## Where to make changes
@@ -36,7 +36,7 @@ python -m cartcast serve           # http://localhost:8000
 | Geography, sources, store keywords, outlook range | `config/settings.yaml` |
 | Data loading and calculations | `src/cartcast/*.py`, with tests in `tests/` |
 | Dashboard layout and behaviour | `src/cartcast/templates/dashboard.html` |
-| Presentation plan | `docs/presentation-plan.md` |
+| Documentation | `README.md`, `docs/` |
 
 After editing `basket.yaml` or `swaps.yaml`, run `python -m cartcast validate`
 (or add `--sample` to check against the sample data). It reports any product name
@@ -46,7 +46,7 @@ that does not match StatCan and suggests the closest match.
 
 - Python 3.10 or later, formatted and linted with ruff (`make format`).
 - New calculations need a test with a small fixture that can be checked by hand.
-- Sample data must not be presented as real. Keep the sample data banner.
+- Sample data must not be presented as real. Sample builds are marked in the dashboard footer.
 
 ## Data
 

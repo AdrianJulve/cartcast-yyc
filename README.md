@@ -71,7 +71,7 @@ python -m cartcast build
 python -m cartcast serve           # http://localhost:8000
 ```
 
-Commit `data/snapshot/` after a fetch so teammates and GitHub Actions can build
+Commit `data/snapshot/` after a fetch so other contributors and GitHub Actions can build
 from the same real data. Once a snapshot is committed, `cartcast build` works
 without downloading anything.
 
@@ -179,12 +179,6 @@ cartcast-yyc/
 After that, the workflow runs every Monday to pick up new data, and every push to
 `main` redeploys the site. The dashboard footer shows when the data was last
 downloaded.
-
-## Presentation
-
-This project is the live demonstration for a 10-minute DATA 398.1 presentation.
-The scenario, schedule, roles, demo steps and fallback plan are in
-[docs/presentation-plan.md](docs/presentation-plan.md).
 
 ## Contributing
 

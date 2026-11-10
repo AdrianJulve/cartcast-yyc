@@ -6,7 +6,7 @@
 - [ ] Feature
 - [ ] Fix
 - [ ] Data / config (basket, swaps, sources)
-- [ ] Docs / presentation
+- [ ] Docs
 - [ ] Design
 
 ## Checklist
