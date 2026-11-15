@@ -180,6 +180,8 @@
   .tilemap .zoom button{width:28px;height:28px;border:0;background:var(--surface-2);font-size:16px;line-height:1;color:var(--ink2)}
   .tilemap .zoom button+button{border-top:1px solid var(--grid)}
   .tilemap .zoom button:hover{background:var(--wash)}
+  .tilemap .zoom button:disabled{color:var(--axis);cursor:default;background:var(--surface-2)}
+  .tilemap .zoom svg{position:static;width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle}
   .tilemap .attr{position:absolute;right:0;bottom:0;background:color-mix(in srgb,var(--surface) 85%,transparent);font-size:10px;padding:1px 6px;color:var(--ink2);border-top-left-radius:6px;z-index:2}
   .tilemap .attr a{color:inherit}
   .tilemap .offmsg{position:absolute;left:8px;bottom:6px;font-size:10.5px;color:var(--muted);display:none;z-index:2}
@@ -912,26 +914,35 @@ class TileMap{
   constructor(node,opts){
     this.node=node;this.opts=opts||{};this.z=11;this.cx=0;this.cy=0;this.points=[];this.cache=new Map();this.fitted=false;
     node.classList.add('tilemap');
-    node.innerHTML='<div class="tiles"></div><svg></svg><div class="zoom"><button aria-label="Zoom in">+</button><button aria-label="Zoom out">&minus;</button></div><div class="attr"></div><div class="offmsg">Base map unavailable offline</div>';
-    this.tiles=node.querySelector('.tiles');this.svg=node.querySelector('svg');
+    node.innerHTML='<div class="tiles"></div><svg></svg><div class="zoom"><button aria-label="Zoom in" title="Zoom in">+</button><button aria-label="Zoom out" title="Zoom out">&minus;</button><button aria-label="Reset map view" title="Reset view"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/><circle cx="12" cy="12" r="2.5"/></svg></button></div><div class="attr"></div><div class="offmsg">Base map unavailable offline</div>';
+    this.tiles=node.querySelector('.tiles');this.svg=node.querySelector(':scope>svg');
     const cfg=D.meta.map||{};this.cfg=cfg;
     node.querySelector('.attr').innerHTML=cfg.attribution?`<a href="${esc(cfg.attribution_url||'#')}" target="_blank" rel="noopener">${esc(cfg.attribution)}</a>`:'';
     if(!cfg.tiles)node.classList.add('offline');
-    const [zin,zout]=node.querySelectorAll('.zoom button');
+    const [zin,zout,zhome]=node.querySelectorAll('.zoom button');this.btns={zin,zout};
     zin.onclick=e=>{e.stopPropagation();this.zoomBy(1)};zout.onclick=e=>{e.stopPropagation();this.zoomBy(-1)};
-    // Drag to pan; a click without movement selects or clears.
+    zhome.onclick=e=>{e.stopPropagation();this.reset()};
+    // Drag to pan with the main button only; a click without movement selects or clears.
     let start=null;
-    node.addEventListener('pointerdown',e=>{if(e.target.closest('.zoom,.attr'))return;start={x:e.clientX,y:e.clientY,cx:this.cx,cy:this.cy,moved:false,target:e.target};node.setPointerCapture(e.pointerId)});
-    node.addEventListener('pointermove',e=>{if(!start)return;const dx=e.clientX-start.x,dy=e.clientY-start.y;
+    node.addEventListener('pointerdown',e=>{if(e.button!==0||e.target.closest('.zoom,.attr'))return;
+      start=this.drag={x:e.clientX,y:e.clientY,lx:e.clientX,ly:e.clientY,cx:this.cx,cy:this.cy,moved:false};node.setPointerCapture(e.pointerId)});
+    node.addEventListener('pointermove',e=>{if(!start)return;start.lx=e.clientX;start.ly=e.clientY;const dx=e.clientX-start.x,dy=e.clientY-start.y;
       if(!start.moved&&Math.hypot(dx,dy)>4){start.moved=true;node.classList.add('dragging');hideTip()}
-      if(start.moved){this.cx=start.cx-dx;this.cy=start.cy-dy;this.render()}});
-    node.addEventListener('pointerup',e=>{if(!start)return;const s=start;start=null;node.classList.remove('dragging');
+      if(start.moved){this.cx=start.cx-dx;this.cy=start.cy-dy;this.clamp();this.render()}});
+    node.addEventListener('pointerup',e=>{if(!start)return;const s=start;start=this.drag=null;node.classList.remove('dragging');
       if(s.moved)return;
       const pt=this.hitTest(e);
       if(pt&&this.opts.onPoint)this.opts.onPoint(pt);else if(!pt&&this.opts.onBackground)this.opts.onBackground(this.toLatLon(e));});
-    node.addEventListener('pointercancel',()=>{start=null;node.classList.remove('dragging')});
+    node.addEventListener('pointercancel',()=>{start=this.drag=null;node.classList.remove('dragging')});
     node.addEventListener('dblclick',e=>{const r=node.getBoundingClientRect();this.zoomBy(1,e.clientX-r.left,e.clientY-r.top)});
-    if(this.opts.wheel)node.addEventListener('wheel',e=>{e.preventDefault();const r=node.getBoundingClientRect();this.zoomBy(e.deltaY<0?1:-1,e.clientX-r.left,e.clientY-r.top)},{passive:false});
+    // Wheel: add up scroll distance and zoom one level per notch, at most every 260 ms,
+    // so trackpads and fast wheels cannot jump several levels at once.
+    if(this.opts.wheel){let acc=0,lastZoom=0,lastEvt=0;
+      node.addEventListener('wheel',e=>{e.preventDefault();const now=performance.now();
+        if(now-lastEvt>250)acc=0;lastEvt=now;
+        acc+=e.deltaY*(e.deltaMode===1?40:e.deltaMode===2?400:1);acc=Math.max(-150,Math.min(150,acc));
+        if(Math.abs(acc)<90||now-lastZoom<260)return;
+        const r=node.getBoundingClientRect();this.zoomBy(acc<0?1:-1,e.clientX-r.left,e.clientY-r.top);acc=0;lastZoom=now},{passive:false})}
     node.addEventListener('mousemove',e=>{if(start&&start.moved)return;const pt=this.hitTest(e);node.style.cursor=pt?'pointer':'';
       if(pt&&this.opts.tip)showTip(this.opts.tip(pt),e);else hideTip()});
     node.addEventListener('mouseleave',hideTip);
@@ -959,13 +970,33 @@ class TileMap{
     this.cx=(Math.max(...xs.map(a=>a[0]))+Math.min(...xs.map(a=>a[0])))/2;this.cy=(Math.max(...xs.map(a=>a[1]))+Math.min(...xs.map(a=>a[1])))/2;
     this.fitted=true;this.render();
   }
+  // Zoom limits: out to the whole-city view, in to street level.
+  maxZ(){return Math.min(17,+(this.cfg.max_zoom||18))}
+  minZ(){return this.points.length?this.fitZ(this.points):10}
+  fitZ(pts){
+    const[W,H]=this.size(),pad=24;let z=16;
+    for(;z>9;z--){const xs=pts.map(p=>TileMap.px(p.lat,p.lon,z));if(Math.max(...xs.map(a=>a[0]))-Math.min(...xs.map(a=>a[0]))<=W-2*pad&&Math.max(...xs.map(a=>a[1]))-Math.min(...xs.map(a=>a[1]))<=H-2*pad)break}
+    return z;
+  }
   zoomBy(d,ax,ay){
-    const nz=Math.max(9,Math.min(+(this.cfg.max_zoom||18),this.z+d));if(nz===this.z)return;
+    const nz=Math.max(this.minZ(),Math.min(this.maxZ(),this.z+d));if(nz===this.z)return;
     const[W,H]=this.size();ax=ax==null?W/2:ax;ay=ay==null?H/2:ay;
     const f=Math.pow(2,nz-this.z),wx=this.cx-W/2+ax,wy=this.cy-H/2+ay;
-    this.cx=wx*f-ax+W/2;this.cy=wy*f-ay+H/2;this.z=nz;this.render();
+    this.cx=wx*f-ax+W/2;this.cy=wy*f-ay+H/2;this.z=nz;this.clamp();
+    // A drag in progress continues from here, at the new zoom.
+    if(this.drag){Object.assign(this.drag,{x:this.drag.lx,y:this.drag.ly,cx:this.cx,cy:this.cy})}
+    this.render();
   }
-  setPoints(points){this.points=points;if(!this.fitted)this.fit();else this.render()}
+  // Keep the centre of the view within the city, plus a margin.
+  clamp(){
+    if(!this.points.length)return;
+    if(!this.bounds){const la=this.points.map(p=>p.lat),lo=this.points.map(p=>p.lon);
+      this.bounds={n:Math.max(...la)+.03,s:Math.min(...la)-.03,w:Math.min(...lo)-.05,e:Math.max(...lo)+.05}}
+    const b=this.bounds,[x1,y1]=TileMap.px(b.n,b.w,this.z),[x2,y2]=TileMap.px(b.s,b.e,this.z);
+    this.cx=Math.min(Math.max(this.cx,x1),x2);this.cy=Math.min(Math.max(this.cy,y1),y2);
+  }
+  reset(){this.fit(this.points);if(this.opts.onReset)this.opts.onReset()}
+  setPoints(points){this.points=points;this.bounds=null;if(!this.fitted)this.fit();else this.render()}
   hitTest(e){
     const r=this.node.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;let best=null,bd=1e9;
     for(const p of this.screen||[]){const d=Math.hypot(p.sx-mx,p.sy-my);if(d<=p.r+5&&d<bd){bd=d;best=p.src}}
@@ -973,6 +1004,7 @@ class TileMap{
   }
   render(){
     const[W,H]=this.size(),z=this.z,ox=this.cx-W/2,oy=this.cy-H/2,n=Math.pow(2,z);
+    if(this.btns){this.btns.zin.disabled=z>=this.maxZ();this.btns.zout.disabled=z<=this.minZ()}
     // tiles
     if(this.cfg.tiles&&!this.node.classList.contains('offline')){
       const want=new Set(),r=(window.devicePixelRatio||1)>1?'@2x':'',sub=this.cfg.subdomains||'';
