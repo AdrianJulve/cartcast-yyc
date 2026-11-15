@@ -25,6 +25,7 @@ Notable changes to this project are recorded here. The format follows
 - Product picker on the Basket page with search, aisle tabs and multi-select. Tick any number of products, then add them together with one button, with Undo.
 
 ### Fixed
+- Shops in Market Mall such as the Apple Store, Uniqlo and Specsavers were listed as grocers because the mall's name contains "market". Place names are now ignored when matching, specialty stores must hold a food licence, and pharmacies, coffee shops, restaurants, newsstands and charities are left out.
 - Buttons in the store details card could run past the edge of the card when a name was long. The directions button now always reads "Directions", and long labels are shortened to fit.
 - Selecting a store on the overview stretched the bottom row and left the Substitutions and Basket cost by aisle cards mostly empty. On wide screens the store details now sit beside the map without changing the row height. On narrower screens the details are capped in height, and the other two cards spread their rows to fill the space.
 - Map zoom jumped several levels at once with trackpads and fast wheels, and zooming during a drag, or with the right mouse button held, moved the map to an unrelated place. Wheel zoom now moves one level at a time, only the left button pans, and a drag continues smoothly after a zoom.

@@ -157,9 +157,41 @@ stores:
     - "HALAL"
     - "ASIAN FOOD"
     - "DELI"
+  # Place names that contain a grocery keyword. They are removed from the trade
+  # name before matching, so a shop is not counted as a grocer only because it is
+  # in Market Mall ("Apple Store Market Mall", "Uniqlo CF Market Mall").
+  ignore_phrases:
+    - "MARKET MALL"
+    - "WEST MARKET SQUARE"
+    - "WEST MARKET"
+  # A specialty store must hold a food licence of some kind as well, unless its
+  # name says grocery. This drops retail-only shops such as art markets.
+  food_licence: "FOOD SERVICE"
+  food_licence_not_needed_keywords:
+    - "GROCERY"
+    - "GROCERIES"
+  # Charities that give food away are not retailers.
+  specialty_licence_types_exclude:
+    - "CHARITABLE ORGANIZATION"
   # Keywords match whole words (a trailing S is allowed), so "DELI" does not
   # match "DELIGHT" or "DELIVERY". Names with any of these words are left out.
   exclude_keywords:
+    - "PHARMACY"
+    - "COFFEE"
+    - "STARBUCKS"
+    - "RESTAURANT"
+    - "TAKEOUT"
+    - "STREET FOOD"
+    - "MARKET GRILL"
+    - "DESSERT MARKET"
+    - "MEAT SNACKS"
+    - "PROCESSORS"
+    - "INS MARKET"
+    - "I N S MARKET"
+    - "ART MARKET"
+    - "OPTICAL"
+    - "EYEWEAR"
+    - "POKE"
     - "FLEA"
     - "MARKETING"
     - "FLOORING"

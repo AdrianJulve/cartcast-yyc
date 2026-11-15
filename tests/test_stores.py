@@ -85,6 +85,26 @@ def test_food_retailer_kind_uses_licence_types(cfg):
         ("WAL-MART PORTRAIT STUDIO #3010", "PHOTOGRAPHER"): None,
         ("AFC ZENSHI AT SAFEWAY 8841", "FOOD SERVICE - PREMISES (NO SEATING)"): None,
         ("AFC ZENSHI AT SOBEYS 4057", retail): None,
+        # Shops in Market Mall are not grocers because of the mall's name.
+        ("APPLE STORE MARKET MALL", retail): None,
+        ("UNIQLO CF MARKET MALL", retail): None,
+        ("SPECSAVERS MARKET MALL", retail): None,
+        ("A & W (MARKET MALL)", "FOOD SERVICE - PREMISES (NO SEATING), " + retail): None,
+        ("MARKET MALL MEDICINE CENTRE PHARMACY", "FOOD SERVICE - PREMISES, " + retail): None,
+        ("STARBUCKS WEST MARKET #75003", "FOOD SERVICE - PREMISES (SEATING), " + retail): None,
+        # A real grocer inside the mall is still found by its own name.
+        ("MORNING SUN HEALTH FOODS", "FOOD SERVICE - PREMISES, " + retail): "specialty",
+        ("SAFEWAY #227", "FOOD SERVICE - PREMISES, " + retail): "supermarket",
+        # Specialty stores need a food licence unless the name says grocery.
+        ("RAINY CHIEF TRADING POST AND INDIGENOUS ART MARKET", retail + ", WHOLESALER"): None,
+        ("NADER'S MARKET", "RETAIL DEALER - PREMISES (MAIL ORDER)"): None,
+        ("SANJAH PUNJAB GROCERY STORE", retail): "specialty",
+        ("AFRICAN CHOICE MARKET", "FOOD SERVICE - PREMISES, " + retail): "specialty",
+        # Cafes, restaurants, pharmacies and newsstands.
+        ("SAVANNA MARKET COMMUNITYRX PHARMACY", "FOOD SERVICE - PREMISES, " + retail): None,
+        ("BALADNA RESTAURANT AND BAKERY", retail + ", FOOD SERVICE - PREMISES"): None,
+        ("INS MARKET 8135", "FOOD SERVICE - PREMISES, " + retail): None,
+        ("GOOD NEIGHBOUR COMMUNITY MARKET", "CHARITABLE ORGANIZATION, " + retail): None,
         # Supermarkets with a fuel licence on the same record.
         (
             "REAL CANADIAN SUPERSTORE (THE)",
