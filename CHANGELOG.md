@@ -7,6 +7,7 @@ Notable changes to this project are recorded here. The format follows
 ## [Unreleased]
 
 ### Added
+- Reset view button on both maps, below the zoom buttons.
 - Address search on the Stores page. Suggestions come from the City of Calgary parcel address list as you type, together with matching stores. Choosing an address places a pin and shows nearby stores and the nearest supermarket. Only real Calgary addresses can be pinned.
 - Calgary food benchmark from the Market Basket Measure (StatCan Table 11-10-0066-01), adjusted for household size.
 - Real-data snapshot in `data/snapshot/`, written by `cartcast fetch` and committed so the dashboard builds from real data by default.
@@ -24,6 +25,8 @@ Notable changes to this project are recorded here. The format follows
 - Product picker on the Basket page with search, aisle tabs and multi-select. Tick any number of products, then add them together with one button, with Undo.
 
 ### Fixed
+- Map zoom jumped several levels at once with trackpads and fast wheels, and zooming during a drag, or with the right mouse button held, moved the map to an unrelated place. Wheel zoom now moves one level at a time, only the left button pans, and a drag continues smoothly after a zoom.
+- The maps now stop at the whole-city view when zooming out and at street level when zooming in, and the view cannot be dragged away from Calgary.
 - The line chart and price change chart could be drawn at the wrong size after returning to the overview or when other content changed height. Each chart now redraws whenever its own box changes size.
 - Dropdown options were unreadable in dark mode on some systems.
 - Supermarkets with a fuel licence on the same record were left out, including the Seton and Signal Hill Superstores and Silverado Sobeys.
