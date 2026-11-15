@@ -1172,6 +1172,7 @@ function infoHTML(compact){
       ${ns?`<p>The nearest supermarket is <b>${esc(ns.s.name)}</b>, ${fmtKm(ns.d)} away in a straight line, about a ${walkMin(ns.d)}-minute walk. Walking routes are usually longer.</p>`:''}
       ${nearList(near,'Nearest stores')}
       <div class="acts">${ns?`<a class="btn small primary" href="${gmaps(ns.s,c)}" target="_blank" rel="noopener" title="Directions to ${esc(ns.s.name)}, the nearest supermarket">Directions</a>`:''}
+        ${near.length?`<button class="btn small" data-act="community" data-c="${esc(area)}">${state.f.community===area?'Clear community filter':'Filter to '+esc(area)}</button>`:''}
         ${compact?'<button class="btn small" data-act="open">Open on Stores page</button>':''}</div>`;
   }
   if(state.f.community){
