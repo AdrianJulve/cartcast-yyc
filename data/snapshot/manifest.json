@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-11-10T18:27:06Z",
+  "fetched_at": "2026-11-15T03:36:21Z",
   "files": {
     "prices_alberta.csv": {
       "rows": 6600,
@@ -23,14 +23,15 @@
       ]
     },
     "stores_calgary.json": {
-      "records": 393,
-      "downloaded": 595
+      "records": 394,
+      "downloaded": 593
     }
   },
   "sources": {
     "prices": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810024501",
     "cpi": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401",
     "stores": "https://data.calgary.ca/d/vdjc-pybd",
+    "addresses": "https://data.calgary.ca/d/9zvu-p8uz",
     "mbm": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110006601",
     "outlook": "https://www.dal.ca/sites/agri-food/research/canada-s-food-price-report-2026.html"
   }

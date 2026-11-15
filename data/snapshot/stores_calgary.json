@@ -48,28 +48,12 @@
   }
  },
  {
-  "getbusid": "12147781",
-  "tradename": "REAL CANADIAN SUPERSTORE (THE)",
-  "address": "#100 4700 130 AV SE",
-  "comdistnm": "EAST SHEPARD INDUSTRIAL",
-  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
-  "jobstatusdesc": "Renewal Invoiced",
-  "first_iss_dt": "2002-11-09T05:33:41.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -113.9671644,
-    50.9343004
-   ]
-  }
- },
- {
   "getbusid": "12148680",
   "tradename": "CHAHINE SUPER MARKET",
   "address": "#1 7196 TEMPLE DR NE",
   "comdistnm": "TEMPLE",
-  "licencetypes": "TOBACCO RETAILER,\nRETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2003-02-06T05:35:09.000Z",
   "point": {
    "type": "Point",
@@ -1440,6 +1424,22 @@
   }
  },
  {
+  "getbusid": "13929567",
+  "tradename": "STOCKLAND MARKET",
+  "address": "#302 4655 54 AV NE",
+  "comdistnm": "WESTWINDS",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2023-06-21T15:00:13.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.967787,
+    51.1014144
+   ]
+  }
+ },
+ {
   "getbusid": "13937362",
   "tradename": "T & T JEWELLER'S",
   "address": "#104 8120 BEDDINGTON BV NW",
@@ -2180,8 +2180,8 @@
   "tradename": "MEDGRACEL MEAT PRODUCTS",
   "address": "1095 FALCONRIDGE DR NE",
   "comdistnm": "FALCONRIDGE",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2021-02-05T11:01:45.000Z",
   "point": {
    "type": "Point",
@@ -2453,7 +2453,7 @@
   "address": "9052 46 ST NE",
   "comdistnm": "SADDLE RIDGE",
   "licencetypes": "FOOD SERVICE - PREMISES,\nPHOTOGRAPHER,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2020-12-24T08:02:31.000Z",
   "point": {
    "type": "Point",
@@ -2612,8 +2612,8 @@
   "tradename": "ONE STOP CONVENIENCE & GROCERY STORE",
   "address": "6306 BOWNESS RD NW",
   "comdistnm": "BOWNESS",
-  "licencetypes": "TOBACCO RETAILER,\nRETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES,\nVAPE RETAILER",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2021-02-03T10:23:54.000Z",
   "point": {
    "type": "Point",
@@ -2821,7 +2821,7 @@
   "address": "4133 4 ST NW",
   "comdistnm": "HIGHWOOD",
   "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
+  "jobstatusdesc": "Move in Progress",
   "first_iss_dt": "2021-08-18T15:50:16.000Z",
   "point": {
    "type": "Point",
@@ -2997,7 +2997,7 @@
   "address": "#4 2111 CENTRE ST NW",
   "comdistnm": "TUXEDO PARK",
   "licencetypes": "FOOD SERVICE - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2022-02-08T12:18:45.000Z",
   "point": {
    "type": "Point",
@@ -3029,7 +3029,7 @@
   "address": "5010 17 AV SE",
   "comdistnm": "FOREST LAWN",
   "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2023-02-07T15:37:35.000Z",
   "point": {
    "type": "Point",
@@ -3412,8 +3412,8 @@
   "tradename": "KABUL HALAL MEAT AND BAKERY",
   "address": "#112 4774 WESTWINDS DR NE",
   "comdistnm": "WESTWINDS",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES (NO SEATING)",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2023-02-03T14:31:21.000Z",
   "point": {
    "type": "Point",
@@ -3428,8 +3428,8 @@
   "tradename": "EDEN-GROCERY AND HALAL MEAT",
   "address": "#1 4801 26 AV NE",
   "comdistnm": "RUNDLE",
-  "licencetypes": "TOBACCO RETAILER,\nRETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES (SEATING),\nVAPE RETAILER",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2023-02-08T12:59:58.000Z",
   "point": {
    "type": "Point",
@@ -4148,8 +4148,8 @@
   "tradename": "CENTRE POINT GROCERY",
   "address": "101 14 AV SE",
   "comdistnm": "BELTLINE",
-  "licencetypes": "TOBACCO RETAILER,\nRETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES,\nVAPE RETAILER",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2025-02-07T14:23:42.000Z",
   "point": {
    "type": "Point",
@@ -4260,8 +4260,8 @@
   "tradename": "DAMASCUS BUTCHER",
   "address": "#125 6915 RUNDLEHORN DR NE",
   "comdistnm": "PINERIDGE",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2025-02-07T11:49:48.000Z",
   "point": {
    "type": "Point",
@@ -4276,8 +4276,8 @@
   "tradename": "ZHENG SUPERMARKET BEDDINGTON",
   "address": "#165 8220 CENTRE ST NE",
   "comdistnm": "BEDDINGTON HEIGHTS",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES (SEATING)",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2025-02-03T09:11:04.000Z",
   "point": {
    "type": "Point",
@@ -4356,8 +4356,8 @@
   "tradename": "T&T SUPERMARKET",
   "address": "#800 999 36 ST NE",
   "comdistnm": "FRANKLIN",
-  "licencetypes": "TOBACCO RETAILER,\nRETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES (SEATING)",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2025-02-05T08:18:20.000Z",
   "point": {
    "type": "Point",
@@ -4373,7 +4373,7 @@
   "address": "#800 999 36 ST NE",
   "comdistnm": "FRANKLIN",
   "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING)",
-  "jobstatusdesc": "Renewal Licensed",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2025-02-04T09:57:45.000Z",
   "point": {
    "type": "Point",
@@ -4784,6 +4784,22 @@
   }
  },
  {
+  "getbusid": "16670671",
+  "tradename": "RICK'S GROCERY",
+  "address": "#10 1603 62 AV SE",
+  "comdistnm": "OGDEN",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2025-09-25T14:52:15.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0201672,
+    50.9974475
+   ]
+  }
+ },
+ {
   "getbusid": "16670689",
   "tradename": "SUNSTATE HALAL MEAT",
   "address": "#3 4709 14 ST NE",
@@ -4796,22 +4812,6 @@
    "coordinates": [
     -114.0289607,
     51.0939185
-   ]
-  }
- },
- {
-  "getbusid": "16673543",
-  "tradename": "HARMAN NO FRILLS",
-  "address": "#200 4501 17 AV SE",
-  "comdistnm": "FOREST LAWN",
-  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Invoiced",
-  "first_iss_dt": "2025-11-12T08:41:40.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -113.9693886,
-    51.0366084
    ]
   }
  },
@@ -4901,7 +4901,7 @@
   "address": "#210 2835 23 ST NE",
   "comdistnm": "SOUTH AIRWAYS",
   "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2025-12-23T09:20:27.000Z",
   "point": {
    "type": "Point",
@@ -5308,6 +5308,22 @@
    "coordinates": [
     -113.9629331,
     51.0974111
+   ]
+  }
+ },
+ {
+  "getbusid": "16786048",
+  "tradename": "AFRO SUNRISE MARKET",
+  "address": "#180 198 NOLANRIDGE CR NW",
+  "comdistnm": "RESIDUAL WARD 2 - SUB AREA 2C",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Licensed",
+  "first_iss_dt": "2026-11-10T08:35:28.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.1706823,
+    51.1702247
    ]
   }
  },
