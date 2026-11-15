@@ -327,6 +327,9 @@
   .infobox .kd{width:8px;height:8px;border-radius:50%;flex:none}
   .infobox .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
   .infobox a.btn{text-decoration:none}
+  /* Long names never push a button, heading or row past the box. */
+  .infobox .acts .btn{max-width:100%;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block}
+  .infobox h3,.infobox .meta,.infobox p{overflow-wrap:anywhere}
   .storelist .dist{color:var(--ink2);font-variant-numeric:tabular-nums;font-size:12px;white-space:nowrap;margin-left:6px}
   .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
   @media (max-width:1200px){.kpis{grid-template-columns:1fr 1fr}.row.a,.row.b,.stores-page,.data-grid{grid-template-columns:1fr}
@@ -1154,7 +1157,7 @@ function infoHTML(compact){
       <p><b>Likely sells</b> ${esc(sells)}${state.items.length?`: ${items.length} of your ${state.items.length} basket items, about ${money(cost)} a week at ${esc(geo)} average prices.`:'.'}</p>
       ${!compact&&lic?`<p class="meta" style="margin-top:6px">Licence: ${esc(lic)}.</p>`:''}
       ${nearList(nearby(c,{n:compact?3:5,exclude:st}),'Nearest stores')}
-      <div class="acts"><a class="btn small primary" href="${gmaps(c)}" target="_blank" rel="noopener">Directions</a>
+      <div class="acts"><a class="btn small primary" href="${gmaps(c)}" target="_blank" rel="noopener" title="Directions to ${esc(st.name)}">Directions</a>
         <button class="btn small" data-act="community" data-c="${esc(st.community)}">${state.f.community===st.community?'Clear community filter':'Filter to '+esc(st.community)}</button>
         ${compact?'<button class="btn small" data-act="open">Open on Stores page</button>':''}</div>`;
   }
@@ -1168,7 +1171,7 @@ function infoHTML(compact){
         <div class="stat"><b>${ns?fmtKm(ns.d):'n/a'}</b><span>to the nearest supermarket</span></div></div>
       ${ns?`<p>The nearest supermarket is <b>${esc(ns.s.name)}</b>, ${fmtKm(ns.d)} away in a straight line, about a ${walkMin(ns.d)}-minute walk. Walking routes are usually longer.</p>`:''}
       ${nearList(near,'Nearest stores')}
-      <div class="acts">${ns?`<a class="btn small primary" href="${gmaps(ns.s,c)}" target="_blank" rel="noopener">Walking directions to ${esc(ns.s.name)}</a>`:''}
+      <div class="acts">${ns?`<a class="btn small primary" href="${gmaps(ns.s,c)}" target="_blank" rel="noopener" title="Directions to ${esc(ns.s.name)}, the nearest supermarket">Directions</a>`:''}
         ${compact?'<button class="btn small" data-act="open">Open on Stores page</button>':''}</div>`;
   }
   if(state.f.community){
