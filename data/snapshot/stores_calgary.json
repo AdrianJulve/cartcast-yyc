@@ -208,22 +208,6 @@
   }
  },
  {
-  "getbusid": "12427282",
-  "tradename": "BIG CHIEF MEAT SNACKS",
-  "address": "3900 52 AV NE",
-  "comdistnm": "WESTWINDS",
-  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING)",
-  "jobstatusdesc": "Renewal Invoiced",
-  "first_iss_dt": "2005-12-20T09:41:18.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -113.9775718,
-    51.1002227
-   ]
-  }
- },
- {
   "getbusid": "12457081",
   "tradename": "EASY DAY MARKET",
   "address": "#212 7171 80 AV NE",
@@ -268,22 +252,6 @@
    "coordinates": [
     -114.1553248,
     51.1547621
-   ]
-  }
- },
- {
-  "getbusid": "12483079",
-  "tradename": "A & W (MARKET MALL)",
-  "address": "#J5 3625 SHAGANAPPI TR NW",
-  "comdistnm": "VARSITY",
-  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2006-06-22T07:56:43.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.1538104,
-    51.0850387
    ]
   }
  },
@@ -512,22 +480,6 @@
   }
  },
  {
-  "getbusid": "12758462",
-  "tradename": "APPLE STORE MARKET MALL",
-  "address": "#R28 3625 SHAGANAPPI TR NW",
-  "comdistnm": "VARSITY",
-  "licencetypes": "RETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2014-03-20T07:34:48.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.1544647,
-    51.0831035
-   ]
-  }
- },
- {
   "getbusid": "12769915",
   "tradename": "BASHA INTERNATIONAL FOODS",
   "address": "2717 SUNRIDGE WY NE",
@@ -540,22 +492,6 @@
    "coordinates": [
     -113.9995502,
     51.0727196
-   ]
-  }
- },
- {
-  "getbusid": "12781100",
-  "tradename": "RYAN'S MEAT PROCESSORS",
-  "address": "#14 1916B 30 AV NE",
-  "comdistnm": "SOUTH AIRWAYS",
-  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING)",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2009-04-09T14:49:14.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0138149,
-    51.0800128
    ]
   }
  },
@@ -700,22 +636,6 @@
    "coordinates": [
     -114.0697395,
     50.9789637
-   ]
-  }
- },
- {
-  "getbusid": "12944880",
-  "tradename": "GOJO TAKEOUT & BAKERY",
-  "address": "4525 52 ST NE",
-  "comdistnm": "WHITEHORN",
-  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING)",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2010-06-07T11:54:43.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -113.958716,
-    51.0921441
    ]
   }
  },
@@ -1456,22 +1376,6 @@
   }
  },
  {
-  "getbusid": "13945472",
-  "tradename": "FRESHCO POKE",
-  "address": "#297 402 COLLEGIATE BV NW",
-  "comdistnm": "UNIVERSITY HEIGHTS",
-  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING)",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2015-05-13T12:31:24.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.1317287,
-    51.0782159
-   ]
-  }
- },
- {
   "getbusid": "13955265",
   "tradename": "SAVE-ON-FOODS (HERITAGE)",
   "address": "8855 MACLEOD TR SW",
@@ -1632,22 +1536,6 @@
   }
  },
  {
-  "getbusid": "14267314",
-  "tradename": "STARBUCKS WEST MARKET #75003",
-  "address": "#124 1851 SIROCCO DR SW",
-  "comdistnm": "SIGNAL HILL",
-  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nOUTDOOR PATIO,\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2016-08-08T12:16:20.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.168879,
-    51.037593
-   ]
-  }
- },
- {
   "getbusid": "14283444",
   "tradename": "SLAVIC DELI STORE",
   "address": "#30 17107 JAMES MCKEVITT RD SW",
@@ -1724,22 +1612,6 @@
    "coordinates": [
     -114.0586229,
     51.0203319
-   ]
-  }
- },
- {
-  "getbusid": "14389852",
-  "tradename": "DEVILLE COFFEE MARKET MALL",
-  "address": "#J13B 3625 SHAGANAPPI TR NW",
-  "comdistnm": "VARSITY",
-  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2016-12-13T15:16:09.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.1542745,
-    51.084819
    ]
   }
  },
@@ -1900,22 +1772,6 @@
    "coordinates": [
     -113.988764,
     51.0680319
-   ]
-  }
- },
- {
-  "getbusid": "14897292",
-  "tradename": "I N S MARKET",
-  "address": "#216 414 3 ST SW",
-  "comdistnm": "DOWNTOWN COMMERCIAL CORE",
-  "licencetypes": "TOBACCO RETAILER,\nRETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2018-04-23T14:11:50.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.069708,
-    51.0489412
    ]
   }
  },
@@ -2384,22 +2240,6 @@
   }
  },
  {
-  "getbusid": "15919004",
-  "tradename": "RAINY CHIEF TRADING POST AND INDIGENOUS ART MARKET",
-  "address": "#10 3419 12 ST NE",
-  "comdistnm": "MCCALL",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nWHOLESALER",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2020-08-28T15:07:46.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0308257,
-    51.08227
-   ]
-  }
- },
- {
   "getbusid": "15925423",
   "tradename": "COMMUNITY NATURAL FOODS",
   "address": "850 CROWFOOT CR NW",
@@ -2720,22 +2560,6 @@
   }
  },
  {
-  "getbusid": "16002990",
-  "tradename": "YCAP MARKET",
-  "address": "#110 1008 14 ST SE",
-  "comdistnm": "INGLEWOOD",
-  "licencetypes": "CHARITABLE ORGANIZATION,\nFOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2021-07-12T08:34:30.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0293402,
-    51.0380891
-   ]
-  }
- },
- {
   "getbusid": "16017691",
   "tradename": "BISMILLAH MEAT & GROCERY",
   "address": "#4110 4250 109 AV NE",
@@ -2748,22 +2572,6 @@
    "coordinates": [
     -113.9730823,
     51.1536208
-   ]
-  }
- },
- {
-  "getbusid": "16025702",
-  "tradename": "GOOD NEIGHBOUR COMMUNITY MARKET",
-  "address": "#B 110 3 AV SE",
-  "comdistnm": "CHINATOWN",
-  "licencetypes": "CHARITABLE ORGANIZATION,\nRETAIL DEALER - PREMISES,\nSECONDHAND DEALER",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2025-05-30T14:07:09.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0620579,
-    51.0505214
    ]
   }
  },
@@ -3184,22 +2992,6 @@
   }
  },
  {
-  "getbusid": "16182834",
-  "tradename": "SPECSAVERS MARKET MALL",
-  "address": "#D13 3625 SHAGANAPPI TR NW",
-  "comdistnm": "VARSITY",
-  "licencetypes": "RETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2022-09-28T12:26:12.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.1562763,
-    51.0854179
-   ]
-  }
- },
- {
   "getbusid": "16183527",
   "tradename": "TAJRISH MARKET",
   "address": "3141 5 AV NE",
@@ -3392,22 +3184,6 @@
   }
  },
  {
-  "getbusid": "16249492",
-  "tradename": "SAVANNA MARKET COMMUNITYRX PHARMACY",
-  "address": "#206 9036 46 ST NE",
-  "comdistnm": "SADDLE RIDGE",
-  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Invoiced",
-  "first_iss_dt": "2023-12-19T05:34:07.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -113.9652303,
-    51.1342105
-   ]
-  }
- },
- {
   "getbusid": "16256687",
   "tradename": "KABUL HALAL MEAT AND BAKERY",
   "address": "#112 4774 WESTWINDS DR NE",
@@ -3536,22 +3312,6 @@
   }
  },
  {
-  "getbusid": "16327827",
-  "tradename": "NICE MEAT KOREAN BBQ & STREET FOOD",
-  "address": "#26 1200 37 ST SW",
-  "comdistnm": "ROSSCARROCK",
-  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING)",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2023-06-23T10:38:12.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.1402693,
-    51.0417483
-   ]
-  }
- },
- {
   "getbusid": "16331522",
   "tradename": "ROYAL PUNJAB VEGETARIAN BAKERY",
   "address": "#105 78 SADDLEPEACE MR NE",
@@ -3564,22 +3324,6 @@
    "coordinates": [
     -113.9668916,
     51.1322423
-   ]
-  }
- },
- {
-  "getbusid": "16338774",
-  "tradename": "NADER'S MARKET",
-  "address": "#210 2835 23 ST NE",
-  "comdistnm": "SOUTH AIRWAYS",
-  "licencetypes": "RETAIL DEALER - PREMISES (MAIL ORDER)",
-  "jobstatusdesc": "Licensed",
-  "first_iss_dt": "2026-10-13T16:16:14.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0060479,
-    51.0780975
    ]
   }
  },
@@ -3840,22 +3584,6 @@
   }
  },
  {
-  "getbusid": "16444614",
-  "tradename": "UNIQLO CF MARKET MALL",
-  "address": "#F25 3625 SHAGANAPPI TR NW",
-  "comdistnm": "VARSITY",
-  "licencetypes": "RETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2024-03-19T16:15:34.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.1550851,
-    51.0855141
-   ]
-  }
- },
- {
   "getbusid": "16444663",
   "tradename": "MEGA SANJHA PUNJAB GROCERY STORE",
   "address": "#3150 235 RED EMBERS WY NE",
@@ -3952,22 +3680,6 @@
   }
  },
  {
-  "getbusid": "16483802",
-  "tradename": "GYAN FOODS",
-  "address": "6210 48 ST SE",
-  "comdistnm": "FOOTHILLS",
-  "licencetypes": "RETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Pending Renewal",
-  "first_iss_dt": "2026-01-20T07:34:16.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -113.9637428,
-    50.9981718
-   ]
-  }
- },
- {
   "getbusid": "16485278",
   "tradename": "KHEDRI BROS/PARSA SUPERMARKET& BAKERY",
   "address": "8906 MACLEOD TR SE",
@@ -4028,22 +3740,6 @@
    "coordinates": [
     -114.1091953,
     51.0528643
-   ]
-  }
- },
- {
-  "getbusid": "16522443",
-  "tradename": "ROCKY DESSERT MARKET",
-  "address": "#125 400 5 AV SW",
-  "comdistnm": "DOWNTOWN COMMERCIAL CORE",
-  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2024-08-19T11:57:37.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0706259,
-    51.0488892
    ]
   }
  },
@@ -4432,38 +4128,6 @@
   }
  },
  {
-  "getbusid": "16574303",
-  "tradename": "MARKET MALL MEDICINE CENTRE PHARMACY",
-  "address": "#100 4935 40 AV NW",
-  "comdistnm": "VARSITY",
-  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Pending Renewal",
-  "first_iss_dt": "2025-01-06T14:44:53.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.157823,
-    51.0878195
-   ]
-  }
- },
- {
-  "getbusid": "16586539",
-  "tradename": "BALADNA RESTAURANT AND BAKERY",
-  "address": "#115 6915 RUNDLEHORN DR NE",
-  "comdistnm": "PINERIDGE",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES (SEATING)",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2025-03-04T11:49:55.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -113.9415514,
-    51.080826
-   ]
-  }
- },
- {
   "getbusid": "16591901",
   "tradename": "PRAIRIE WEST SPECIALTY MEATS",
   "address": "#64 7930 BOWNESS RD NW",
@@ -4576,22 +4240,6 @@
   }
  },
  {
-  "getbusid": "16624702",
-  "tradename": "INS MARKET 8262",
-  "address": "#109 240 4 AV SW",
-  "comdistnm": "DOWNTOWN COMMERCIAL CORE",
-  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2025-11-14T12:58:29.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0670964,
-    51.0499674
-   ]
-  }
- },
- {
   "getbusid": "16626574",
   "tradename": "ROYAL OAK SOBEYS",
   "address": "8888 COUNTRY HILLS BV NW",
@@ -4668,22 +4316,6 @@
    "coordinates": [
     -113.9812292,
     51.0364522
-   ]
-  }
- },
- {
-  "getbusid": "16638777",
-  "tradename": "INS MARKET 8242",
-  "address": "#200 220 4 AV SE",
-  "comdistnm": "CHINATOWN",
-  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
-  "jobstatusdesc": "Renewal Licensed",
-  "first_iss_dt": "2025-06-17T13:17:54.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0590353,
-    51.049955
    ]
   }
  },
@@ -4992,22 +4624,6 @@
   }
  },
  {
-  "getbusid": "16709305",
-  "tradename": "INS MARKET 8239",
-  "address": "#109Z 4825 MOUNT ROYAL GA SW",
-  "comdistnm": "LINCOLN PARK",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES (NO SEATING)",
-  "jobstatusdesc": "Licensed",
-  "first_iss_dt": "2026-03-27T13:24:17.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.1327346,
-    51.0128117
-   ]
-  }
- },
- {
   "getbusid": "16721540",
   "tradename": "HONG KONG DELIGHTS BAKERY",
   "address": "6710 4 ST NE",
@@ -5084,38 +4700,6 @@
    "coordinates": [
     -114.0191461,
     51.1475713
-   ]
-  }
- },
- {
-  "getbusid": "16736803",
-  "tradename": "INS MARKET 8261",
-  "address": "237 12 AV SE",
-  "comdistnm": "BELTLINE",
-  "licencetypes": "TOBACCO RETAILER,\nRETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES,\nVAPE RETAILER",
-  "jobstatusdesc": "Licensed",
-  "first_iss_dt": "2026-03-10T13:51:06.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0595288,
-    51.0411046
-   ]
-  }
- },
- {
-  "getbusid": "16739997",
-  "tradename": "MASHAWI MARKET GRILL",
-  "address": "#24 3745 MEMORIAL DR SE",
-  "comdistnm": "FOREST HEIGHTS",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES (SEATING)",
-  "jobstatusdesc": "Licensed",
-  "first_iss_dt": "2026-05-12T12:46:37.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -113.9789065,
-    51.0517934
    ]
   }
  },
@@ -5456,38 +5040,6 @@
   }
  },
  {
-  "getbusid": "16804890",
-  "tradename": "FRESHCO NORTHGATE PHARMACY #4333",
-  "address": "399 36 ST NE",
-  "comdistnm": "FRANKLIN",
-  "licencetypes": "RETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Licensed",
-  "first_iss_dt": "2026-09-09T10:11:34.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -113.9849418,
-    51.0542458
-   ]
-  }
- },
- {
-  "getbusid": "16804924",
-  "tradename": "FRESHCO THORNCLIFFE PHARMACY #4331",
-  "address": "5607 4 ST NW",
-  "comdistnm": "THORNCLIFFE",
-  "licencetypes": "RETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Licensed",
-  "first_iss_dt": "2026-09-22T13:28:54.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0728431,
-    51.1017108
-   ]
-  }
- },
- {
   "getbusid": "16805996",
   "tradename": "ACCRA GOLD AFRICAN FOODS MARKET",
   "address": "#2120 76 WESTWINDS CR NE",
@@ -5504,22 +5056,6 @@
   }
  },
  {
-  "getbusid": "16811150",
-  "tradename": "INS MARKET 8256",
-  "address": "#250 500 CENTRE ST SE",
-  "comdistnm": "DOWNTOWN COMMERCIAL CORE",
-  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
-  "jobstatusdesc": "Licensed",
-  "first_iss_dt": "2026-08-31T10:58:35.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0620345,
-    51.0479952
-   ]
-  }
- },
- {
   "getbusid": "16818403",
   "tradename": "MAYZ GLOBAL FOODS",
   "address": "609 28 ST NE",
@@ -5532,38 +5068,6 @@
    "coordinates": [
     -113.9939107,
     51.0571592
-   ]
-  }
- },
- {
-  "getbusid": "16823007",
-  "tradename": "FRESHCO WHITEHORN CALGARY PHARMACY",
-  "address": "3550 32 AV NE",
-  "comdistnm": "HORIZON",
-  "licencetypes": "RETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Licensed",
-  "first_iss_dt": "2026-10-16T13:47:02.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -113.9831219,
-    51.0832003
-   ]
-  }
- },
- {
-  "getbusid": "16823981",
-  "tradename": "INS MARKET 8135",
-  "address": "#224 321 6 AV SW",
-  "comdistnm": "DOWNTOWN COMMERCIAL CORE",
-  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
-  "jobstatusdesc": "Licensed",
-  "first_iss_dt": "2026-10-09T10:42:27.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0693943,
-    51.0473933
    ]
   }
  },
