@@ -69,6 +69,25 @@
   .chartbox{position:relative;flex:1 1 0;min-height:276px}
   .chartbox>svg{position:absolute;inset:0;width:100%;height:100%}
   #miniMap{flex:1 1 0;min-height:230px}
+  /* Store details on the overview must not stretch the row. On a wide card they sit
+     beside the map and scroll inside the space the row already has; on a narrow
+     card they sit below the map with a capped height. */
+  .storecard{container-type:inline-size}
+  .ministore,.mapcol{flex:1;display:flex;flex-direction:column;min-height:0;min-width:0}
+  .infocol:has(.infobox[hidden]){display:none}
+  .infocol .infobox{max-height:230px;overflow:auto}
+  .ministore:has(.infobox:not([hidden])) #miniMap{min-height:170px}
+  @container (min-width:600px){
+    .ministore{flex-direction:row;gap:14px}
+    .mapcol{flex:1 1 0}
+    .infocol{flex:1 1 0;position:relative;min-width:0;min-height:0}
+    .infocol .infobox{position:absolute;inset:0;margin:0;max-height:none}
+  }
+  /* The other two cards share whatever height the row has. */
+  #swaps{flex:1 1 0;min-height:248px;display:flex;flex-direction:column;overflow:hidden}
+  #swaps .swap{flex:1 1 auto;max-height:86px}
+  #aisles{flex:1 1 auto;display:flex;flex-direction:column;justify-content:space-around}
+  #aisles .hbar{flex:0 1 auto}
   header{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
   .eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-2)}
   h1{font-family:"Inter Display",var(--font);font-size:30px;font-weight:700;letter-spacing:-.02em;margin-top:4px}
@@ -420,12 +439,16 @@
             <div id="aisles" style="margin-top:2px"></div>
             <div class="benchmark" id="benchmark" hidden></div>
           </div>
-          <div class="card panel">
+          <div class="card panel storecard">
             <div class="ph"><div><h2>Grocery stores</h2><p id="storeSub"></p></div>
               <button class="btn small" data-goto="stores">Open map</button></div>
-            <div class="tilemap" id="miniMap" aria-label="Map of grocery retailers"></div>
-            <div class="storebadge" id="miniBadge"></div>
-            <div class="infobox" id="miniInfo" hidden></div>
+            <div class="ministore">
+              <div class="mapcol">
+                <div class="tilemap" id="miniMap" aria-label="Map of grocery retailers"></div>
+                <div class="storebadge" id="miniBadge"></div>
+              </div>
+              <div class="infocol"><div class="infobox" id="miniInfo" hidden></div></div>
+            </div>
           </div>
         </section>
       </div>
@@ -844,7 +867,8 @@ function renderSwaps(){
   const list=$('#swaps');list.innerHTML='';
   let shown=inScope.filter(s=>state.swapGroup==='All'||s.group===state.swapGroup);
   if(state.f.product){const sel=shown.filter(s=>s.from===state.f.product||s.to===state.f.product);shown=sel.concat(shown.filter(s=>!sel.includes(s)))}
-  shown=shown.slice(0,4);
+  // Show as many rows as the card has room for, at least four.
+  shown=shown.slice(0,Math.max(4,Math.floor((list.clientHeight||248)/62)));
   if(!shown.length){list.appendChild(h('div',{class:'empty'},'No lower-cost alternatives for '+(scopeLabel()?scopeLabel().toLowerCase():'these items')+' in '+mLabel(D.months[i],true)+'.'));return}
   for(const s of shown){
     const a=split(s.from),b=split(s.to),sel=state.f.product&&(s.from===state.f.product||s.to===state.f.product);
@@ -1540,9 +1564,9 @@ function init(){
   showPage(state.page);
   // Redraw whenever a chart's box changes size: window resizes, and the moment a
   // page becomes visible again (a hidden box measures 0, so it always changes).
-  let t;const ro=new ResizeObserver(()=>{clearTimeout(t);t=setTimeout(()=>{if(state.page==='overview'){const it=effectiveItems();renderLine(it);renderMovers(it);if(miniMap)miniMap.render()}else if(state.page==='stores'&&bigMap)bigMap.render()},60)});
+  let t;const ro=new ResizeObserver(()=>{clearTimeout(t);t=setTimeout(()=>{if(state.page==='overview'){const it=effectiveItems();renderLine(it);renderMovers(it);renderSwaps();if(miniMap)miniMap.render()}else if(state.page==='stores'&&bigMap)bigMap.render()},60)});
   ro.observe(document.querySelector('.main'));
-  $$('.chartbox').forEach(b=>ro.observe(b));
+  $$('.chartbox').forEach(b=>ro.observe(b));ro.observe($('#swaps'));
   if(miniMap)ro.observe(miniMap.node);
 }
 init();
