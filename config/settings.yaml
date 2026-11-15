@@ -38,6 +38,15 @@ sources:
     url: "https://data.calgary.ca/resource/vdjc-pybd.json"
     page: "https://data.calgary.ca/d/vdjc-pybd"
     licence: "Open Government Licence, City of Calgary"
+  addresses:
+    # Queried live by the viewer's browser for the address search on the store
+    # map. It lists every parcel address in the city, so only real Calgary
+    # addresses can be found.
+    name: "City of Calgary Open Data, Parcel Address"
+    dataset_id: "9zvu-p8uz"
+    url: "https://data.calgary.ca/resource/9zvu-p8uz.json"
+    page: "https://data.calgary.ca/d/9zvu-p8uz"
+    licence: "Open Government Licence, City of Calgary"
   mbm:
     name: "Statistics Canada, Table 11-10-0066-01, Market Basket Measure (MBM) thresholds for the reference family"
     table_id: "11100066"

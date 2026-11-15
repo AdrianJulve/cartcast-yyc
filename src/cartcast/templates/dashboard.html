@@ -198,6 +198,15 @@
   .stores-page .storelist{flex:1;min-height:0}
   .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
   .toolbar input{flex:1;min-width:140px;padding:6px 10px;border-radius:8px}
+  .combo{position:relative;flex:1;min-width:180px}
+  .toolbar .combo input{width:100%;max-width:none}
+  .suggest{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:40;background:var(--surface-2);border:1px solid var(--axis);
+           border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.16);padding:4px;max-height:360px;overflow:auto}
+  .suggest .grp{font-size:11px;font-weight:650;color:var(--muted);padding:7px 9px 3px}
+  .suggest .opt{display:block;width:100%;border:0;background:none;text-align:left;padding:6px 9px;border-radius:7px;cursor:pointer;color:var(--ink);font-size:13px}
+  .suggest .opt small{display:block;font-size:11.5px;color:var(--muted)}
+  .suggest .opt[aria-selected="true"],.suggest .opt:hover{background:var(--brand-bg)}
+  .suggest .msg{font-size:12px;color:var(--muted);padding:7px 9px}
   table.tbl{width:100%;border-collapse:collapse;font-size:13px}
   .tbl th{text-align:left;font-weight:600;color:var(--ink2);font-size:12px;padding:8px 10px;border-bottom:1px solid var(--grid);white-space:nowrap}
   .tbl th button{border:0;background:none;font-weight:600;color:inherit;display:inline-flex;gap:4px;align-items:center}
@@ -458,7 +467,11 @@
         <div class="card panel">
           <div class="infobox" id="bigInfo" hidden style="margin:0 0 12px"></div>
           <div class="toolbar">
-            <input id="storeSearch" type="search" placeholder="Search by name or address" aria-label="Search stores">
+            <div class="combo">
+              <input id="storeSearch" type="search" placeholder="Search stores or any Calgary address" aria-label="Search stores or a Calgary address"
+                role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="searchSuggest" autocomplete="off">
+              <div class="suggest" id="searchSuggest" role="listbox" aria-label="Suggestions" hidden></div>
+            </div>
             <select id="community" aria-label="Filter by community"></select>
           </div>
           <div class="hint" id="listTitle" style="margin-bottom:4px"></div>
@@ -554,7 +567,7 @@ function readHash(){
     if(Array.isArray(s.a))state.applied=s.a;
     if(PAGES.includes(s.p))state.page=s.p;
     if(s.f&&typeof s.f==='object')for(const k in state.f)if(s.f[k]!=null)state.f[k]=s.f[k];
-    if(s.s&&(s.s.type==='store'&&D.stores[s.s.id]||s.s.type==='point'&&isFinite(s.s.lat)))state.sel=s.s;
+    if(s.s&&(s.s.type==='store'&&D.stores[s.s.id]||s.s.type==='point'&&isFinite(s.s.lat))){state.sel=s.s;if(s.s.label!=null&&typeof s.s.label!=='string')delete state.sel.label;}
     if(state.f.month!=null&&!D.months.includes(state.f.month))state.f.month=null;
   }catch(e){/* ignore malformed links */}
 }
@@ -887,7 +900,9 @@ function storeRelevant(s){
 function storeMatch(s){
   return (!state.f.community||s.community===state.f.community)&&(!state.f.kind||s.kind===state.f.kind)&&storeRelevant(s);
 }
-function storeSearch(s){const q=state.storeQuery.trim().toLowerCase();return !q||(s.name+' '+s.address+' '+s.community).toLowerCase().includes(q)}
+const storeText=s=>(s.name+' '+s.address+' '+s.community).toLowerCase();
+// Text that matches no store (usually an address being typed) leaves the list unfiltered.
+function storeSearch(s){const q=state.storeQuery.trim().toLowerCase();return !q||!D.stores.some(x=>storeText(x).includes(q))||storeText(s).includes(q)}
 
 // Tile map: CARTO light basemap with OpenStreetMap data, drawn without libraries.
 class TileMap{
@@ -1087,8 +1102,9 @@ function infoHTML(compact){
   if(state.sel&&state.sel.type==='point'){
     const ns=nearestSupermarket(c),n1=within(c,1),n2=within(c,2),near=nearby(c,{n:compact?3:5});
     const area=near.length?near[0].s.community:'Calgary';
-    return `${close}<h3>Selected location</h3>
-      <div class="meta">Near ${esc(area)} (${c.lat.toFixed(4)}, ${c.lon.toFixed(4)})</div>
+    const lab=typeof state.sel.label==='string'?state.sel.label:'';
+    return `${close}<h3>${lab?esc(lab):'Selected location'}</h3>
+      <div class="meta">${lab?'Calgary address, near':'Near'} ${esc(area)} (${c.lat.toFixed(4)}, ${c.lon.toFixed(4)})</div>
       <div class="stats"><div class="stat"><b>${n1}</b><span>food retailers within 1 km</span></div><div class="stat"><b>${n2}</b><span>within 2 km</span></div>
         <div class="stat"><b>${ns?fmtKm(ns.d):'n/a'}</b><span>to the nearest supermarket</span></div></div>
       ${ns?`<p>The nearest supermarket is <b>${esc(ns.s.name)}</b>, ${fmtKm(ns.d)} away in a straight line, about a ${walkMin(ns.d)}-minute walk. Walking routes are usually longer.</p>`:''}
@@ -1262,8 +1278,110 @@ function addSelected(){
   toast(chosen.length===1?'Added '+split(chosen[0]).name+'.':`Added ${chosen.length} items.`,'Undo',undoTo(prev));
 }
 
+// Search box on the Stores page: stores from the dashboard data, plus any real
+// Calgary address from the City's parcel address list, looked up live.
+const STREET_TYPES={AVENUE:'AV',AVE:'AV',STREET:'ST',DRIVE:'DR',ROAD:'RD',WAY:'WY',CRESCENT:'CR',CRES:'CR',PLACE:'PL',CLOSE:'CL',
+  CIRCLE:'CI',BOULEVARD:'BV',BLVD:'BV',GREEN:'GR',MANOR:'MR',COURT:'CO',CRT:'CO',RISE:'RI',PARK:'PA',TERRACE:'TC',GARDENS:'GD',
+  VIEW:'VW',HEIGHTS:'HT',GROVE:'GV',BAY:'BA',COMMON:'CM',COMMONS:'CM',MEWS:'ME',POINT:'PT',LANDING:'LD',HILL:'HL',LANE:'LN',
+  LINK:'LI',SQUARE:'SQ',GATE:'GA',COVE:'CV',TRAIL:'TR',ROW:'RO',PASSAGE:'PS',PARADE:'PR',PARKWAY:'PY',PLAZA:'PZ',WALK:'WK'};
+const QUADS=/^(NE|NW|SE|SW)$/;
+function normAddr(q){
+  let s=' '+q.toUpperCase().replace(/[.,]/g,' ')+' ';
+  s=s.replace(/ [A-Z]\d[A-Z] ?\d[A-Z]\d /g,' ').replace(/ (CALGARY|ALBERTA|AB|CANADA)(?= )/g,' ');
+  s=s.replace(/ (NORTH|SOUTH) ?(EAST|WEST)(?= )/g,(m,a,b)=>' '+a[0]+b[0]);
+  s=s.replace(/ ([NS]) ([EW]) *$/,' $1$2 ');
+  s=s.replace(/^ *(UNIT|SUITE|APT) +\S+ +/,' ').replace(/^ *# *\S+ +/,' ').replace(/^ *\S+ *- *(?=\d)/,' ');
+  s=s.replace(/(\d+)(ST|ND|RD|TH)(?= )/g,'$1');
+  const t=s.trim().split(/\s+/).filter(Boolean);
+  let i=t.length-1;if(i>0&&QUADS.test(t[i]))i--;
+  if(i>0&&STREET_TYPES[t[i]])t[i]=STREET_TYPES[t[i]];
+  return t.join(' ');
+}
+const soql=v=>v.replace(/'/g,"''");
+function addrWhere(n){
+  const t0=n.split(' ');
+  // "41 ST SW" is a numbered street, not house number 41.
+  const numbered=/^\d+$/.test(t0[0])&&t0.length>1&&Object.values(STREET_TYPES).includes(t0[1])&&(t0.length===2||(t0.length===3&&QUADS.test(t0[2])));
+  if(/^\d/.test(n)&&!numbered)return `starts_with(address,'${soql(n)}')`;
+  const t=n.split(' ');let quad='',type='';
+  if(t.length>1&&QUADS.test(t[t.length-1]))quad=t.pop();
+  if(t.length>1&&Object.values(STREET_TYPES).includes(t[t.length-1]))type=t.pop();
+  const name=t.join(' ');
+  return [/^\d+$/.test(name)?`street_name='${name}'`:`starts_with(street_name,'${soql(name)}')`,type&&`street_type='${type}'`,quad&&`street_quad='${quad}'`].filter(Boolean).join(' AND ');
+}
+const titleAddr=a=>a.split(' ').map(w=>QUADS.test(w)||/^\d/.test(w)?w:w[0]+w.slice(1).toLowerCase()).join(' ');
+const addrCache=new Map();let addrCtl=null;
+async function fetchAddr(n){
+  if(addrCache.has(n))return addrCache.get(n);
+  if(addrCtl)addrCtl.abort();addrCtl=new AbortController();const signal=addrCtl.signal;
+  const run=async w=>{
+    const u=`${D.meta.address_api}?$select=address,latitude,longitude&$where=${encodeURIComponent(w)}&$order=address&$limit=6`;
+    const r=await fetch(u,{signal});if(!r.ok)throw new Error('HTTP '+r.status);return r.json();
+  };
+  let rows=await run(addrWhere(n));
+  // A partly typed last word ("62 Cornerbrook Cre") can stop a match, so retry without it.
+  if(!rows.length&&n.split(' ').length>=3)rows=await run(addrWhere(n.split(' ').slice(0,-1).join(' ')));
+  rows=rows.filter(r=>r.address&&isFinite(+r.latitude)&&isFinite(+r.longitude));
+  addrCache.set(n,rows);return rows;
+}
+const sug={opts:[],active:-1,seq:0,timer:0};
+function storeHits(q){const s=q.trim().toLowerCase();return s.length<2?[]:D.stores.filter(st=>(st.name+' '+st.address).toLowerCase().includes(s)).slice(0,4)}
+function closeSuggest(){const b=$('#searchSuggest');b.hidden=true;b.innerHTML='';sug.opts=[];sug.active=-1;$('#storeSearch').setAttribute('aria-expanded','false');$('#storeSearch').removeAttribute('aria-activedescendant')}
+function drawSuggest(stores,addrs,msg){
+  const b=$('#searchSuggest');sug.opts=[...stores.map(s=>({kind:'store',s})),...addrs.map(a=>({kind:'addr',a}))];sug.active=-1;
+  if(!sug.opts.length&&!msg){closeSuggest();return}
+  let html='',k=0;
+  const opt=(title,sub)=>`<button type="button" class="opt" role="option" id="sg${k}" data-i="${k++}" aria-selected="false">${title}<small>${sub}</small></button>`;
+  if(stores.length)html+='<div class="grp">Stores</div>'+stores.map(s=>opt(esc(s.name),esc(s.address+', '+s.community))).join('');
+  if(addrs.length)html+='<div class="grp">Calgary addresses</div>'+addrs.map(a=>opt(esc(titleAddr(a.address)),'City of Calgary address')).join('');
+  if(msg)html+=`<div class="msg" role="status">${esc(msg)}</div>`;
+  b.innerHTML=html;b.hidden=false;$('#storeSearch').setAttribute('aria-expanded','true');
+  b.querySelectorAll('.opt').forEach(el=>{el.onmousedown=e=>e.preventDefault();el.onclick=()=>chooseSuggest(+el.dataset.i)});
+}
+function setActive(i){
+  const els=$$('#searchSuggest .opt');if(!els.length)return;
+  sug.active=(i+els.length)%els.length;
+  els.forEach((el,j)=>el.setAttribute('aria-selected',String(j===sug.active)));
+  els[sug.active].scrollIntoView({block:'nearest'});$('#storeSearch').setAttribute('aria-activedescendant','sg'+sug.active);
+}
+function onSearchInput(){
+  const q=$('#storeSearch').value,n=normAddr(q),stores=storeHits(q),seq=++sug.seq;clearTimeout(sug.timer);
+  const wantAddr=D.meta.address_api&&n.length>=3&&(/^\d/.test(n)||n.length>=4);
+  if(!q.trim()){closeSuggest();return}
+  drawSuggest(stores,[],wantAddr?'Searching Calgary addresses':(stores.length?'':'Type at least 3 characters, starting with the house number.'));
+  if(!wantAddr)return;
+  sug.timer=setTimeout(async()=>{
+    try{
+      const rows=await fetchAddr(n);if(seq!==sug.seq)return;
+      const hint=!rows.length?'No matching Calgary address. Check the spelling, or start with the house number.':(addrWhere(n).startsWith('starts_with(address')?'':'Add a house number to narrow the results.');
+      drawSuggest(stores,rows,hint);
+    }catch(e){if(e.name==='AbortError'||seq!==sug.seq)return;drawSuggest(stores,[],'Address search is not available right now.')}
+  },220);
+}
+function chooseSuggest(i){
+  const o=sug.opts[i];if(!o)return;const inp=$('#storeSearch');
+  state.storeQuery='';
+  if(o.kind==='store'){inp.value=o.s.name;closeSuggest();selectStore(o.s);return}
+  const label=titleAddr(o.a.address);inp.value=label;closeSuggest();
+  state.sel={type:'point',lat:+(+o.a.latitude).toFixed(5),lon:+(+o.a.longitude).toFixed(5),label};hideTip();update();
+}
+function onSearchKey(e){
+  const open=!$('#searchSuggest').hidden;
+  if(e.key==='ArrowDown'&&open){e.preventDefault();setActive(sug.active+1)}
+  else if(e.key==='ArrowUp'&&open){e.preventDefault();setActive(sug.active-1)}
+  else if(e.key==='Escape'&&open){e.preventDefault();e.stopPropagation();closeSuggest()}
+  else if(e.key==='Enter'){
+    e.preventDefault();
+    if(sug.active>=0){chooseSuggest(sug.active);return}
+    const addrFirst=/^\d/.test(normAddr($('#storeSearch').value));
+    const pickI=sug.opts.findIndex(o=>o.kind===(addrFirst?'addr':'store'));
+    if(pickI>=0)chooseSuggest(pickI);else if(sug.opts.length===1)chooseSuggest(0);
+    else if(!sug.opts.length&&$('#storeSearch').value.trim())drawSuggest([],[],'Choose an address from the suggestions. Only City of Calgary addresses can be pinned.');
+  }
+}
+
 // Data page
-const USED_FOR={prices:'Item prices, basket cost, price changes, substitutions, aisle shares',cpi:'Grocery inflation figure',mbm:'Calgary food benchmark',stores:'Store map and list',outlook:'Outlook range on the cost chart'};
+const USED_FOR={prices:'Item prices, basket cost, price changes, substitutions, aisle shares',cpi:'Grocery inflation figure',mbm:'Calgary food benchmark',stores:'Store map and list',addresses:'Address search on the store map',outlook:'Outlook range on the cost chart'};
 const SNAP_FILE={prices:'prices_alberta.csv',cpi:'cpi_calgary_alberta.csv',mbm:'mbm_calgary.csv',stores:'stores_calgary.json'};
 function renderDataPage(){
   const m=D.meta,snap=m.snapshot||{};
@@ -1273,7 +1391,7 @@ function renderDataPage(){
   const tb=h('tbody');
   for(const s of m.sources){
     const f=snap[SNAP_FILE[s.key]]||{};
-    const latest=f.latest_month?mLabel(f.latest_month,true):f.latest_year||(s.key==='outlook'?'2026 forecast':'');
+    const latest=f.latest_month?mLabel(f.latest_month,true):f.latest_year||(s.key==='outlook'?'2026 forecast':s.key==='addresses'?'Live lookup':'');
     const rec=f.records!=null?f.records:f.rows!=null?f.rows:'';
     tb.appendChild(h('tr',{style:'cursor:default'},`<td><a href="${esc(s.page||'#')}" target="_blank" rel="noopener">${esc(s.name)}</a>${s.licence?'<br><span class="hint">'+esc(s.licence)+'</span>':''}</td><td>${esc(USED_FOR[s.key]||'')}</td><td>${esc(latest)}</td><td class="num">${rec===''?'':Number(rec).toLocaleString('en-CA')}</td>`));
   }
@@ -1298,7 +1416,7 @@ function renderDataPage(){
     item('Outlook range',`latest cost × (1 + rate) ^ (months ÷ 12), rate ${Math.round(o.annual_low*100)} to ${Math.round(o.annual_high*100)}%`,
       `The next ${o.months} months, using the range forecast for overall food prices in Canada's Food Price Report 2026. It is a scenario for context, not a forecast for this basket.`),
     item('Stores and distances','straight-line distance; walking time at 4.8 km/h',
-      'Stores are City of Calgary business licences for active food retail premises, sorted into supermarkets and specialty grocers by licence type and trade name. Supermarkets and general grocers are assumed to sell every aisle; butchers, produce stores and bakeries only their own. Real walking routes are longer, so distances and times are lower bounds.'),
+      'Stores are City of Calgary business licences for active food retail premises, sorted into supermarkets and specialty grocers by licence type and trade name. Supermarkets and general grocers are assumed to sell every aisle; butchers, produce stores and bakeries only their own. Real walking routes are longer, so distances and times are lower bounds. Address search looks up the City of Calgary parcel address list directly from your browser, so only real Calgary addresses can be pinned.'),
   ].join('')+`<p class="more">Full details are in the <a href="https://github.com/AdrianJulve/cartcast-yyc/blob/main/docs/methodology.md" target="_blank" rel="noopener">methodology</a>.</p>`;
 }
 
@@ -1355,7 +1473,10 @@ function init(){
   const sel=$('#community');sel.appendChild(h('option',{value:'All'},'All communities'));
   [...new Set(D.stores.map(s=>s.community))].sort().forEach(c=>sel.appendChild(h('option',{value:c},esc(c))));
   sel.onchange=()=>{state.f.community=sel.value==='All'?null:sel.value;update()};
-  $('#storeSearch').addEventListener('input',e=>{state.storeQuery=e.target.value;renderStorePage()});
+  $('#storeSearch').addEventListener('input',e=>{state.storeQuery=e.target.value;renderStorePage();onSearchInput()});
+  $('#storeSearch').addEventListener('keydown',onSearchKey);
+  $('#storeSearch').addEventListener('focus',()=>{if($('#storeSearch').value.trim())onSearchInput()});
+  $('#storeSearch').addEventListener('blur',()=>setTimeout(closeSuggest,120));
   miniMap=new TileMap($('#miniMap'),{onPoint,onBackground,tip:storeTip,overlay:mapOverlay});
   $('#household').onchange=e=>{state.household=e.target.value;update()};
   $$('#range button').forEach(b=>b.onclick=()=>{state.range=+b.dataset.r;$$('#range button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));renderLine(effectiveItems())});

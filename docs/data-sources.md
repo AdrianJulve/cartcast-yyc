@@ -45,7 +45,17 @@ Known issues:
 - Supermarkets follow looser licence rules, because several hold a fuel licence on the same record as the store (the Seton Superstore, Silverado Sobeys), Costco holds a wholesaler licence instead of a retail one, and some independent supermarkets hold only a food service licence. Only a liquor or cannabis licence removes them. Their gas bars are separate records with "gas" in the name. Names with words such as "gas bar", "wine", "car wash" or "florist" are removed. Records with only a no-seating food licence are kept only if the name says butcher, meat, bakery, produce or grocery.
 - Limitation: there is no grocery licence category, so keyword matching will miss some stores and include a few that are not grocers. The keyword lists can be adjusted in the config.
 
-## 5. Canada's Food Price Report 2026
+## 5. Parcel Address (City of Calgary Open Data, `9zvu-p8uz`)
+
+- Dataset: https://data.calgary.ca/d/9zvu-p8uz
+- API: https://data.calgary.ca/resource/9zvu-p8uz.json
+- Licence: Open Government Licence, City of Calgary
+- Used for: the address search on the Stores page. It lists every parcel address in the city with coordinates, so only real Calgary addresses can be found and pinned.
+- How it is used: the viewer's browser queries the API as they type, at most six results per search. Nothing is downloaded at build time and no snapshot is kept. Typed text is sent to the City's open data service and nowhere else.
+- Matching: the search converts common spellings to the City's format before searching, for example "Crescent" to "CR", "41st" to "41" and "North East" to "NE", and ignores "Calgary", "AB" and postal codes. Addresses must start with the house number; a street name alone lists addresses on that street.
+- Caveats: parcel addresses do not include unit numbers, so an apartment search finds the building. If the service cannot be reached, the store search still works and the address search says it is unavailable.
+
+## 6. Canada's Food Price Report 2026
 
 - Report page: <https://www.dal.ca/sites/agri-food/research/canada-s-food-price-report-2026.html>
 - Used for: the outlook range only. The report forecasts a 4 to 6 percent increase in overall food prices in 2026, set in `dashboard.outlook_annual_low` and `dashboard.outlook_annual_high`.
