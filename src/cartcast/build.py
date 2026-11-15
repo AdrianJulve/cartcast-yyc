@@ -163,6 +163,7 @@ def build_payload(cfg: Config, inputs: Inputs) -> dict[str, Any]:
             "is_sample": inputs.is_sample,
             "data_notes": [str(i) for i in issues],
             "map": dash.get("map"),
+            "address_api": s["sources"].get("addresses", {}).get("url"),
             "snapshot": (
                 None if inputs.is_sample else read_manifest(inputs.prices.parent).get("files")
             ),

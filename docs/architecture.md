@@ -3,8 +3,10 @@
 The Python pipeline produces a single HTML file with the data embedded in it. The
 site needs no server, database or API keys. It can be hosted on GitHub Pages or
 opened directly from a local copy. The only external requests are base map tiles
-for the store map; without a connection the map shows a plain grid and every other
-part of the dashboard still works.
+for the store map and the address search, which queries the City of Calgary parcel
+address API from the browser. Without a connection the map shows a plain grid, the
+address search says it is unavailable, and every other part of the dashboard still
+works.
 
 ```mermaid
 sequenceDiagram

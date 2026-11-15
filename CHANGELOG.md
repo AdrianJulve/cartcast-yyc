@@ -7,6 +7,7 @@ Notable changes to this project are recorded here. The format follows
 ## [Unreleased]
 
 ### Added
+- Address search on the Stores page. Suggestions come from the City of Calgary parcel address list as you type, together with matching stores. Choosing an address places a pin and shows nearby stores and the nearest supermarket. Only real Calgary addresses can be pinned.
 - Calgary food benchmark from the Market Basket Measure (StatCan Table 11-10-0066-01), adjusted for household size.
 - Real-data snapshot in `data/snapshot/`, written by `cartcast fetch` and committed so the dashboard builds from real data by default.
 - `cartcast snapshot` command.

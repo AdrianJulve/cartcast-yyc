@@ -8,6 +8,7 @@ def test_sample_payload_shape(cfg):
     payload = build_payload(cfg, resolve_inputs(sample=True))
     assert payload["meta"]["is_sample"] is True
     assert payload["meta"]["latest_month"] == payload["months"][-1]
+    assert payload["meta"]["address_api"].startswith("https://data.calgary.ca/resource/")
     assert len(payload["months"]) == payload["history_months"] + 12
     for item in payload["basket"]:
         series = payload["products"][item["product"]]["series"]
