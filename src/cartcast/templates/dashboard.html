@@ -1144,7 +1144,14 @@ function nearList(rows,title){
   if(!rows.length)return'';
   return `<div class="near"><div class="nl">${esc(title)}</div>${rows.map(r=>`<button data-act="store" data-id="${r.s.id}"><i class="kd" style="background:${r.s.kind==='supermarket'?'var(--kind-super)':'var(--kind-spec)'}"></i><span class="nn">${esc(r.s.name)}</span><span class="nd">${r.d==null?esc(r.s.address):fmtKm(r.d)}</span></button>`).join('')}</div>`;
 }
-const gmaps=(dest,origin)=>`https://www.google.com/maps/dir/?api=1${origin?'&origin='+origin.lat+','+origin.lon:''}&destination=${dest.lat},${dest.lon}&travelmode=walking`;
+// Directions go to the store's name and street address, so Google opens the business
+// itself. Coordinates alone make Google pick whatever business is nearest that point.
+const mapsPlace=p=>{
+  if(p&&p.name&&p.address)return encodeURIComponent(p.name.replace(/\s*#\s*\d+/g,'').trim()+', '+p.address.replace(/^#\S+\s+/,'')+', Calgary, AB');
+  if(p&&typeof p.label==='string'&&p.label)return encodeURIComponent(p.label+', Calgary, AB');
+  return p.lat+','+p.lon;
+};
+const gmaps=(dest,origin)=>`https://www.google.com/maps/dir/?api=1${origin?'&origin='+mapsPlace(origin):''}&destination=${mapsPlace(dest)}&travelmode=walking`;
 function infoHTML(compact){
   const st=selStore(),c=selCenter(),geo=D.meta.price_geo;
   const fc=state.f.community;
@@ -1163,7 +1170,7 @@ function infoHTML(compact){
       <p><b>Likely sells</b> ${esc(sells)}${state.items.length?`: ${items.length} of your ${state.items.length} basket items, about ${money(cost)} a week at ${esc(geo)} average prices.`:'.'}</p>
       ${!compact&&lic?`<p class="meta" style="margin-top:6px">Licence: ${esc(lic)}.</p>`:''}
       ${nearList(nearby(c,{n:compact?3:5,exclude:st}),'Nearest stores')}
-      <div class="acts"><a class="btn small primary" href="${gmaps(c)}" target="_blank" rel="noopener" title="Directions to ${esc(st.name)}">Directions</a>
+      <div class="acts"><a class="btn small primary" href="${gmaps(st)}" target="_blank" rel="noopener" title="Directions to ${esc(st.name)}">Directions</a>
         <button class="btn small" data-act="community" data-c="${esc(st.community)}">${state.f.community===st.community?'Clear community filter':'Filter to '+esc(st.community)}</button>
         ${summaryBtn}${compact?'<button class="btn small" data-act="open">Open on Stores page</button>':''}</div>`;
   }
@@ -1177,7 +1184,7 @@ function infoHTML(compact){
         <div class="stat"><b>${ns?fmtKm(ns.d):'n/a'}</b><span>to the nearest supermarket</span></div></div>
       ${ns?`<p>The nearest supermarket is <b>${esc(ns.s.name)}</b>, ${fmtKm(ns.d)} away in a straight line, about a ${walkMin(ns.d)}-minute walk. Walking routes are usually longer.</p>`:''}
       ${nearList(near,'Nearest stores')}
-      <div class="acts">${ns?`<a class="btn small primary" href="${gmaps(ns.s,c)}" target="_blank" rel="noopener" title="Directions to ${esc(ns.s.name)}, the nearest supermarket">Directions</a>`:''}
+      <div class="acts">${ns?`<a class="btn small primary" href="${gmaps(ns.s,state.sel)}" target="_blank" rel="noopener" title="Directions to ${esc(ns.s.name)}, the nearest supermarket">Directions</a>`:''}
         ${near.length?`<button class="btn small" data-act="community" data-c="${esc(area)}">${state.f.community===area?'Clear community filter':'Filter to '+esc(area)}</button>`:''}
         ${summaryBtn}${compact?'<button class="btn small" data-act="open">Open on Stores page</button>':''}</div>`;
   }
