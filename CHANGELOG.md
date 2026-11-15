@@ -24,6 +24,7 @@ Notable changes to this project are recorded here. The format follows
 - Product picker on the Basket page with search, aisle tabs and multi-select. Tick any number of products, then add them together with one button, with Undo.
 
 ### Fixed
+- The line chart and price change chart could be drawn at the wrong size after returning to the overview or when other content changed height. Each chart now redraws whenever its own box changes size.
 - Dropdown options were unreadable in dark mode on some systems.
 - Supermarkets with a fuel licence on the same record were left out, including the Seton and Signal Hill Superstores and Silverado Sobeys.
 - Costco was left out because it holds a wholesaler licence rather than a retail one.
