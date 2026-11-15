@@ -30,6 +30,9 @@ def classify(name: str, settings: dict[str, Any]) -> str | None:
     upper = name.upper()
     if _has_word(upper, cfg.get("exclude_keywords", [])):
         return None
+    # Drop place names such as "MARKET MALL" so they cannot match a keyword.
+    for phrase in cfg.get("ignore_phrases", []):
+        upper = re.sub(r"\b" + re.escape(phrase.upper()) + r"\b", " ", upper)
     if _has_word(upper, cfg["supermarket_keywords"]):
         return "supermarket"
     if _has_word(upper, cfg["specialty_keywords"]):
@@ -55,9 +58,17 @@ def food_retailer_kind(rec: dict[str, Any], settings: dict[str, Any]) -> str | N
         if any(t in types for t in block) or not any(t in types for t in allow):
             return None
         return kind
-    if any(t in types for t in cfg.get("licence_types_exclude", [])):
+    block = cfg.get("licence_types_exclude", []) + cfg.get("specialty_licence_types_exclude", [])
+    if any(t in types for t in block):
         return None
     if not any(t in types for t in cfg.get("licence_types_any", [])):
+        return None
+    food = cfg.get("food_licence")
+    if (
+        food
+        and food not in types
+        and not _has_word(name, cfg.get("food_licence_not_needed_keywords", []))
+    ):
         return None
     retail = cfg.get("retail_licence", "RETAIL DEALER - PREMISES")
     if retail not in types and not _has_word(name, cfg.get("food_service_only_keywords", [])):
