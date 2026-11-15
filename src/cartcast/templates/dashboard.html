@@ -310,6 +310,9 @@
   .infobox h3{font-size:14.5px;color:var(--ink);padding-right:28px;line-height:1.3}
   .infobox .x{position:absolute;top:8px;right:8px;border:0;background:var(--wash);width:24px;height:24px;border-radius:50%;font-size:12px;color:var(--ink2)}
   .infobox .x:hover{background:var(--up-bg);color:var(--up)}
+  /* The community summary uses a labelled button, so it is not mistaken for the close button of a store card. */
+  .infobox .x.txt{width:auto;border-radius:12px;padding:0 10px;font-size:11.5px;font-weight:600}
+  .infobox h3.wide{padding-right:96px}
   .infobox .meta{color:var(--muted);font-size:12px;margin-top:3px}
   .infobox .tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11px;font-weight:600;margin-right:4px;vertical-align:1px}
   .infobox .tag.supermarket{background:var(--brand-bg);color:var(--brand)}
@@ -503,7 +506,7 @@
                 role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="searchSuggest" autocomplete="off">
               <div class="suggest" id="searchSuggest" role="listbox" aria-label="Suggestions" hidden></div>
             </div>
-            <select id="community" aria-label="Filter by community"></select>
+            <select id="community" aria-label="Filter by community" title="Choose a community to outline it on the map and see a summary of its stores"></select>
           </div>
           <div class="hint" id="listTitle" style="margin-bottom:4px"></div>
           <div class="storelist" id="storelist"></div>
@@ -665,7 +668,7 @@ function renderFilterBar(){
     c.appendChild(x);bar.appendChild(c);
   }
   const all=h('button',{class:'clear'},'Clear all');all.onclick=clearAll;bar.appendChild(all);
-  const hnt=h('span',{class:'hint'},'Press Esc to clear');bar.insertBefore(hnt,all);
+  const hnt=h('span',{class:'hint'},state.sel?'Esc closes the open details first, then clears filters':'Press Esc to clear');bar.insertBefore(hnt,all);
 }
 function scopeLabel(){
   const f=state.f;
@@ -1144,7 +1147,10 @@ function nearList(rows,title){
 const gmaps=(dest,origin)=>`https://www.google.com/maps/dir/?api=1${origin?'&origin='+origin.lat+','+origin.lon:''}&destination=${dest.lat},${dest.lon}&travelmode=walking`;
 function infoHTML(compact){
   const st=selStore(),c=selCenter(),geo=D.meta.price_geo;
-  const close='<button class="x" data-act="close" aria-label="Close details" title="Close (Esc)">✕</button>';
+  const fc=state.f.community;
+  const close=`<button class="x" data-act="close" aria-label="Close details" title="${fc?'Close and show the '+esc(fc)+' summary (Esc)':'Close (Esc)'}">✕</button>`;
+  // With a community filter on, closing a store or pin shows that community's summary.
+  const summaryBtn=fc?`<button class="btn small" data-act="close" title="Show retailer counts and the outline for ${esc(fc)}">${esc(fc)} summary</button>`:'';
   if(st){
     const ns=nearestSupermarket(c,st),n1=within(c,1,st),n2=within(c,2,st);
     const aisles=storeAisles(st),items=effectiveItems().filter(it=>!aisles||aisles.includes(it.aisle)),cost=costAt(items,IDX());
@@ -1159,7 +1165,7 @@ function infoHTML(compact){
       ${nearList(nearby(c,{n:compact?3:5,exclude:st}),'Nearest stores')}
       <div class="acts"><a class="btn small primary" href="${gmaps(c)}" target="_blank" rel="noopener" title="Directions to ${esc(st.name)}">Directions</a>
         <button class="btn small" data-act="community" data-c="${esc(st.community)}">${state.f.community===st.community?'Clear community filter':'Filter to '+esc(st.community)}</button>
-        ${compact?'<button class="btn small" data-act="open">Open on Stores page</button>':''}</div>`;
+        ${summaryBtn}${compact?'<button class="btn small" data-act="open">Open on Stores page</button>':''}</div>`;
   }
   if(state.sel&&state.sel.type==='point'){
     const ns=nearestSupermarket(c),n1=within(c,1),n2=within(c,2),near=nearby(c,{n:compact?3:5});
@@ -1173,7 +1179,7 @@ function infoHTML(compact){
       ${nearList(near,'Nearest stores')}
       <div class="acts">${ns?`<a class="btn small primary" href="${gmaps(ns.s,c)}" target="_blank" rel="noopener" title="Directions to ${esc(ns.s.name)}, the nearest supermarket">Directions</a>`:''}
         ${near.length?`<button class="btn small" data-act="community" data-c="${esc(area)}">${state.f.community===area?'Clear community filter':'Filter to '+esc(area)}</button>`:''}
-        ${compact?'<button class="btn small" data-act="open">Open on Stores page</button>':''}</div>`;
+        ${summaryBtn}${compact?'<button class="btn small" data-act="open">Open on Stores page</button>':''}</div>`;
   }
   if(state.f.community){
     const cm=state.f.community,list=D.stores.filter(s=>s.community===cm),sup=list.filter(s=>s.kind==='supermarket').length;
@@ -1181,8 +1187,8 @@ function infoHTML(compact){
     const ranked=Object.entries(counts).sort((a,b)=>b[1]-a[1]),rank=ranked.findIndex(r=>r[0]===cm)+1;
     const cen=list.length?{lat:list.reduce((a,s)=>a+s.lat,0)/list.length,lon:list.reduce((a,s)=>a+s.lon,0)/list.length}:null;
     const ns=cen&&!sup?nearestSupermarket(cen):null;
-    return `<button class="x" data-act="clearcommunity" aria-label="Clear community filter" title="Clear (Esc)">✕</button><h3>${esc(cm)}</h3>
-      <div class="meta">Community</div>
+    return `<button class="x txt" data-act="clearcommunity" title="Clear the community filter (Esc)">Clear filter</button><h3 class="wide">${esc(cm)}</h3>
+      <div class="meta">Community summary. The outline on the map joins its licensed food retailers.</div>
       <div class="stats"><div class="stat"><b>${list.length}</b><span>licensed food retailers</span></div><div class="stat"><b>${sup}</b><span>supermarket${sup===1?'':'s'}</span></div>
         <div class="stat"><b>${rank?ordinal(rank):'n/a'}</b><span>of ${ranked.length} communities by number of retailers</span></div></div>
       ${!sup&&ns?`<p>No supermarkets are licensed here. The nearest is <b>${esc(ns.s.name)}</b> in ${esc(ns.s.community)}, about ${fmtKm(ns.d)} from the middle of this community's stores.</p>`:''}
@@ -1563,7 +1569,7 @@ function init(){
   $('#share').onclick=async()=>{writeHash();try{await navigator.clipboard.writeText(location.href);toast('Link copied. It opens this page with the same basket and filters.')}catch(e){toast('Copy the page address to share this view.')}};
   // Esc closes the map selection first, then clears filters.
   document.addEventListener('keydown',e=>{if(e.key!=='Escape'||['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName))return;
-    if(state.sel){clearSel();return}
+    if(state.sel){clearSel();if(anyFilter())toast(state.f.community?'Showing the '+state.f.community+' summary. Press Esc again to clear filters.':'Details closed. Press Esc again to clear filters.');return}
     if(anyFilter()){clearAll();toast('Filters cleared')}});
   showPage(state.page);
   // Redraw whenever a chart's box changes size: window resizes, and the moment a

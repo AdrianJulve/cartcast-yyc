@@ -44,6 +44,7 @@ Notable changes to this project are recorded here. The format follows
 - Butchers and bakeries that hold only a no-seating food licence are now included.
 
 ### Changed
+- The community summary is easier to find and to tell apart from a store's details. With a community filter on, a store or pin card has a button that opens the summary, the summary card has a labelled Clear filter button in place of the close icon, and the Esc hints say that Esc closes open details first and clears filters second.
 - A pinned address or spot now has the same community filter button as a store, beside Directions.
 - Rewrote the method notes on the Data page, with a formula for each figure, and removed the build notes panel. Sources now span the full width.
 - The Basket button in the header now toggles. On the Basket page it is highlighted, and selecting it again returns to the previous page.
