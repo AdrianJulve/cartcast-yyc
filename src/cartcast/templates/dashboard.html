@@ -220,6 +220,7 @@
   .stores-page{display:grid;grid-template-columns:1fr 360px;gap:16px;height:calc(100vh - 190px);min-height:520px}
   .stores-page .panel{min-height:0;height:100%}
   .stores-page .storelist{flex:1;min-height:0}
+  .stores-page #bigMap{flex:1;min-height:0;scroll-margin-top:76px}
   .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
   .toolbar input{flex:1;min-width:140px;padding:6px 10px;border-radius:8px}
   .combo{position:relative;flex:1;min-width:180px}
@@ -336,8 +337,20 @@
   .storelist .dist{color:var(--ink2);font-variant-numeric:tabular-nums;font-size:12px;white-space:nowrap;margin-left:6px}
   .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
   @media (max-width:1200px){.kpis{grid-template-columns:1fr 1fr}.row.a,.row.b,.stores-page,.data-grid{grid-template-columns:1fr}
-    .stores-page{height:auto}.stores-page #bigMap{height:60vh;flex:none}.stores-page .storelist{max-height:50vh}}
-  @media (max-width:700px){.app{grid-template-columns:1fr;background:none}.rail{flex-direction:row;height:auto;position:sticky;top:0;z-index:30;padding:6px;justify-content:center}.logo{display:none}.main{padding:18px 14px}.kpis{grid-template-columns:1fr}h1{font-size:24px}}
+    .stores-page{height:auto;min-height:0}.stores-page .panel{height:auto}.stores-page #bigMap{height:60vh;min-height:300px;flex:none}.stores-page .storelist{max-height:50vh;flex:none}}
+  @media (max-width:700px){.app{grid-template-columns:1fr;background:none}.rail{flex-direction:row;height:auto;position:sticky;top:0;z-index:30;padding:6px;justify-content:center}.logo{display:none}.main{padding:18px 14px}.kpis{grid-template-columns:1fr}h1{font-size:24px}
+    .stores-page #bigMap{height:52vh}
+    .ph{flex-wrap:wrap}
+    .seg{flex-wrap:wrap;max-width:100%}
+    .picker-top .searchbox{flex:1 1 100%;min-width:0}
+    .picker-foot .btn{flex:1 1 auto;justify-content:center}
+    /* Basket table on a phone: item, quantity, weekly cost and remove. */
+    #basketTable th:nth-child(2),#basketTable td:nth-child(2),#basketTable th:nth-child(4),#basketTable td:nth-child(4),
+    #basketTable th:nth-child(6),#basketTable td:nth-child(6),#basketTable th:nth-child(7),#basketTable td:nth-child(7){display:none}
+    .tbl th,.tbl td{padding:8px 5px}
+    .tbl th{white-space:normal}
+    .step input{width:38px}
+    .infobox .stats{gap:6px}}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 <script>
@@ -495,7 +508,7 @@
       <div class="stores-page">
         <div class="card panel">
           <div class="ph"><div><h2>Licensed food retailers in Calgary</h2><p id="bigStoreSub"></p></div></div>
-          <div class="tilemap" id="bigMap" style="flex:1;min-height:0" aria-label="Map of grocery retailers"></div>
+          <div class="tilemap" id="bigMap" aria-label="Map of grocery retailers"></div>
           <div class="storebadge" id="bigBadge"></div>
         </div>
         <div class="card panel">
@@ -1086,9 +1099,17 @@ const selStore=()=>state.sel&&state.sel.type==='store'?D.stores[state.sel.id]||n
 function selCenter(){const st=selStore();if(st)return{lat:st.lat,lon:st.lon};return state.sel&&state.sel.type==='point'?{lat:state.sel.lat,lon:state.sel.lon}:null}
 
 // Selection: a store, or any spot on the map
+// On a phone the list sits below the map. After choosing from the list or the
+// search box, bring the map back into view so the selection can be seen.
+function revealMap(){
+  if(state.page!=='stores')return;
+  const m=$('#bigMap'),r=m.getBoundingClientRect(),vh=window.innerHeight;
+  const visible=Math.min(r.bottom,vh)-Math.max(r.top,0);
+  if(visible<r.height*.6)m.scrollIntoView({behavior:'smooth',block:'start'});
+}
 function selectStore(s,toggle){
   if(toggle&&state.sel&&state.sel.type==='store'&&state.sel.id===s.id){clearSel();return}
-  state.sel={type:'store',id:s.id};hideTip();update();
+  state.sel={type:'store',id:s.id};hideTip();update();revealMap();
 }
 function selectPoint(ll){state.sel={type:'point',lat:+ll.lat.toFixed(5),lon:+ll.lon.toFixed(5)};hideTip();update()}
 function clearSel(){state.sel=null;update()}
@@ -1439,7 +1460,7 @@ function chooseSuggest(i){
   state.storeQuery='';
   if(o.kind==='store'){inp.value=o.s.name;closeSuggest();selectStore(o.s);return}
   const label=titleAddr(o.a.address);inp.value=label;closeSuggest();
-  state.sel={type:'point',lat:+(+o.a.latitude).toFixed(5),lon:+(+o.a.longitude).toFixed(5),label};hideTip();update();
+  state.sel={type:'point',lat:+(+o.a.latitude).toFixed(5),lon:+(+o.a.longitude).toFixed(5),label};hideTip();update();revealMap();
 }
 function onSearchKey(e){
   const open=!$('#searchSuggest').hidden;
