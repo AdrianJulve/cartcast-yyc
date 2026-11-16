@@ -47,6 +47,7 @@ Notable changes to this project are recorded here. The format follows
 - Butchers and bakeries that hold only a no-seating food licence are now included.
 
 ### Changed
+- The overview now fits one screen on laptops as well as large monitors. Spacing, type and chart heights follow the height of the window, the header stays on one line, and selecting a store no longer makes the page taller. The Stores page always fills the window. Below about 700 px of window height the page scrolls instead of shrinking further.
 - On phones and tablets, hints that mention the keyboard or mouse now give the touch equivalent, for example tapping the close button in place of pressing Esc.
 - The community summary is easier to find and to tell apart from a store's details. With a community filter on, a store or pin card has a button that opens the summary, the summary card has a labelled Clear filter button in place of the close icon, and the Esc hints say that Esc closes open details first and clears filters second.
 - A pinned address or spot now has the same community filter button as a store, beside Directions.

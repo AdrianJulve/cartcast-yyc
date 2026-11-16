@@ -336,6 +336,56 @@
   .infobox h3,.infobox .meta,.infobox p{overflow-wrap:anywhere}
   .storelist .dist{color:var(--ink2);font-variant-numeric:tabular-nums;font-size:12px;white-space:nowrap;margin-left:6px}
   .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  /* Desktop layout: sizes follow the height of the window, so the overview fits
+     one screen on a laptop as well as on a large monitor. Each value has a floor;
+     below about 700 px of height the page scrolls instead of shrinking further. */
+  @media (min-width:1201px){
+    .main{padding:clamp(12px,2.4vh,26px) 32px clamp(10px,2vh,22px);gap:clamp(8px,1.5vh,16px)}
+    .ovw,.kpis,.row{gap:clamp(8px,1.5vh,16px)}
+    header{flex-wrap:nowrap}
+    header>div:first-child{min-width:0}
+    .filters{flex-wrap:nowrap;flex:none}
+    h1{font-size:clamp(22px,2.8vh,30px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .kpi{min-height:clamp(78px,12.2vh,132px);padding:clamp(8px,1.7vh,18px) 20px;gap:clamp(2px,.55vh,6px)}
+    .kpi .v{font-size:clamp(24px,3.15vh,34px)}
+    .ovw .panel{padding:clamp(10px,1.7vh,18px) 20px}
+    .ovw .ph{margin-bottom:clamp(4px,.9vh,10px)}
+    .chartbox{min-height:clamp(118px,20vh,276px)}
+    #miniMap{min-height:clamp(96px,15vh,230px)}
+    #swaps{min-height:clamp(92px,14vh,248px)}
+    .swap{padding:clamp(4px,.9vh,10px) 0}
+    .hbar{padding:clamp(1px,.35vh,7px) 6px}
+    .benchmark{padding-top:clamp(6px,1.3vh,14px)}
+    /* Store details on a narrow card share the card's height with the map and scroll
+       inside it, so selecting a store never makes the page taller. */
+    .ministore:has(.infobox:not([hidden])) .mapcol{flex:0 0 46%}
+    .ministore:has(.infobox:not([hidden])) #miniMap{min-height:80px}
+    .ministore:has(.infobox:not([hidden])) .storebadge .hint{display:none}
+    .ministore:has(.infobox:not([hidden])){gap:10px}
+    .infocol{flex:1 1 0;position:relative;min-width:0;min-height:0}
+    .infocol .infobox{position:absolute;inset:0;margin:0;max-height:none}
+    @container (max-width:599px){.ministore:has(.infobox:not([hidden])) #miniMap .zoom{display:none}}
+    /* The Stores page always fills the window; the list scrolls inside it. */
+    .main:has(section[data-section="stores"]:not([hidden])){height:max(100vh,600px)}
+    section[data-section="stores"]:not([hidden]){flex:1;min-height:0}
+    .stores-page{height:100%;min-height:0}
+  }
+  @media (min-width:1201px) and (max-width:1560px){.filters .xl{display:none}.filters .btn{padding:9px 11px}}
+  @media (min-width:1201px) and (max-height:1000px){
+    footer>*{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+    footer{flex-wrap:nowrap}
+  }
+  @media (min-width:1201px) and (max-height:900px){
+    .kpi.hero .spark{display:none}
+    .benchmark .bm-bar{margin:4px 0}
+    .storebadge{margin-top:4px;flex-wrap:nowrap;white-space:nowrap;overflow:hidden}
+    .kpi .d,.ovw .ph p,footer>*{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .ovw .ph>div:first-child,footer>*{min-width:0}
+    footer{flex-wrap:nowrap}
+    .benchmark p{display:none}
+  }
+  @media (min-width:1201px) and (max-height:760px){.chartbox{min-height:118px}.ovw .benchmark{display:none}}
   @media (max-width:1200px){.kpis{grid-template-columns:1fr 1fr}.row.a,.row.b,.stores-page,.data-grid{grid-template-columns:1fr}
     .stores-page{height:auto;min-height:0}.stores-page .panel{height:auto}.stores-page #bigMap{height:60vh;min-height:300px;flex:none}.stores-page .storelist{max-height:50vh;flex:none}}
   @media (max-width:700px){.app{grid-template-columns:1fr;background:none}.rail{flex-direction:row;height:auto;position:sticky;top:0;z-index:30;padding:6px;justify-content:center}.logo{display:none}.main{padding:18px 14px}.kpis{grid-template-columns:1fr}h1{font-size:24px}
@@ -382,8 +432,8 @@
       <div class="filters">
         <label class="chip"><span class="lbl">Household</span><select id="household" aria-label="Household size"></select></label>
         <button class="btn" id="basketToggle" data-goto="basket" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg><span id="itemCount"></span></button>
-        <button class="btn theme-btn" id="themeToggle" aria-pressed="false" title="Switch between light and dark mode"><svg viewBox="0 0 24 24" id="themeIcon"></svg><span id="themeLabel">Dark mode</span></button>
-        <button class="btn" id="share" title="Copy a link to this basket and these filters"><svg viewBox="0 0 24 24"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>Share</button>
+        <button class="btn theme-btn" id="themeToggle" aria-pressed="false" title="Switch between light and dark mode"><svg viewBox="0 0 24 24" id="themeIcon"></svg><span id="themeLabel" class="xl">Dark mode</span></button>
+        <button class="btn" id="share" title="Copy a link to this basket and these filters"><svg viewBox="0 0 24 24"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span class="xl">Share</span></button>
         <button class="btn primary" data-goto="basket" data-focus-add><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add item</button>
       </div>
     </header>
@@ -770,7 +820,7 @@ function renderKpis(all){
 // Line chart
 function renderLine(all){
   const s=$('#line');s.innerHTML='';
-  const box=s.parentNode,W=Math.max(320,box.clientWidth||860),H=Math.max(276,box.clientHeight||276),L=48,R=18,T=14,B=28;
+  const box=s.parentNode,W=Math.max(320,box.clientWidth||860),H=Math.max(110,box.clientHeight||276),L=48,R=18,T=14,B=28;
   s.setAttribute('viewBox',`0 0 ${W} ${H}`);
   const vis=filtered(all),scope=scopeLabel();
   const hist=Math.min(state.range,D.history_months),start=LAST-hist+1;
@@ -854,7 +904,7 @@ function renderMovers(all){
     data=keep;
   }
   $('#moversSub').textContent=`12-month change in average price to ${mLabel(D.months[i],true)}${state.f.aisle?', '+state.f.aisle.toLowerCase():''}. Select an item to filter.`;
-  const H=Math.max(276,box.clientHeight||276),rowH=Math.min(46,(H-12)/Math.max(1,data.length));
+  const H=Math.max(110,box.clientHeight||276),rowH=Math.min(46,(H-12)/Math.max(1,data.length));
   s.setAttribute('viewBox',`0 0 ${W} ${H}`);
   const L=Math.min(150,W*0.34),R=52,T=6;
   const mx=Math.max(5,...data.map(d=>d.v)),mn=Math.min(-5,...data.map(d=>d.v));
@@ -891,7 +941,7 @@ function renderSwaps(){
   let shown=inScope.filter(s=>state.swapGroup==='All'||s.group===state.swapGroup);
   if(state.f.product){const sel=shown.filter(s=>s.from===state.f.product||s.to===state.f.product);shown=sel.concat(shown.filter(s=>!sel.includes(s)))}
   // Show as many rows as the card has room for, at least four.
-  shown=shown.slice(0,Math.max(4,Math.floor((list.clientHeight||248)/62)));
+  shown=shown.slice(0,Math.max(2,Math.floor((list.clientHeight||248)/(window.innerHeight<900?50:62))));
   if(!shown.length){list.appendChild(h('div',{class:'empty'},'No lower-cost alternatives for '+(scopeLabel()?scopeLabel().toLowerCase():'these items')+' in '+mLabel(D.months[i],true)+'.'));return}
   for(const s of shown){
     const a=split(s.from),b=split(s.to),sel=state.f.product&&(s.from===state.f.product||s.to===state.f.product);
