@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-11-15T04:15:04Z",
+  "fetched_at": "2026-11-16T23:50:03Z",
   "files": {
     "prices_alberta.csv": {
       "rows": 6600,
@@ -8,8 +8,8 @@
       "products": 110
     },
     "cpi_calgary_alberta.csv": {
-      "rows": 423,
-      "latest_month": "2026-09",
+      "rows": 426,
+      "latest_month": "2026-10",
       "geographies": [
         "Alberta",
         "Calgary, Alberta"
@@ -23,8 +23,8 @@
       ]
     },
     "stores_calgary.json": {
-      "records": 363,
-      "downloaded": 593
+      "records": 362,
+      "downloaded": 592
     }
   },
   "sources": {

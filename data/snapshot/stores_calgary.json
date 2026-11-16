@@ -3588,8 +3588,8 @@
   "tradename": "MEGA SANJHA PUNJAB GROCERY STORE",
   "address": "#3150 235 RED EMBERS WY NE",
   "comdistnm": "REDSTONE",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2024-02-09T14:22:28.000Z",
   "point": {
    "type": "Point",
@@ -4444,22 +4444,6 @@
    "coordinates": [
     -114.0289607,
     51.0939185
-   ]
-  }
- },
- {
-  "getbusid": "16674525",
-  "tradename": "MORIELS OASIS MARKET",
-  "address": "#1113 19605 WALDEN BV SE",
-  "comdistnm": "WALDEN",
-  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Invoiced",
-  "first_iss_dt": "2025-11-13T14:06:34.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -114.0254267,
-    50.8761204
    ]
   }
  },
