@@ -562,6 +562,10 @@ const $=s=>document.querySelector(s);
 const $$=s=>Array.from(document.querySelectorAll(s));
 function el(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
 function h(tag,attrs,html){const e=document.createElement(tag);if(attrs)for(const k in attrs)e.setAttribute(k,attrs[k]);if(html!=null)e.innerHTML=html;return e}
+// Phones and tablets have no Esc key or mouse, so hints that mention the keyboard
+// are swapped for their touch equivalent. kb(desktopText, touchText) picks one.
+const TOUCH=window.matchMedia?matchMedia('(hover: none) and (pointer: coarse)'):{matches:false};
+const kb=(desk,touch)=>TOUCH.matches?touch:desk;
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=v=>v==null||isNaN(v)?'n/a':'$'+v.toLocaleString('en-CA',{minimumFractionDigits:2,maximumFractionDigits:2});
 const pct=(v,d=1)=>v==null||isNaN(v)?'n/a':(v>0?'+':'')+v.toFixed(d)+'%';
@@ -681,7 +685,7 @@ function renderFilterBar(){
     c.appendChild(x);bar.appendChild(c);
   }
   const all=h('button',{class:'clear'},'Clear all');all.onclick=clearAll;bar.appendChild(all);
-  const hnt=h('span',{class:'hint'},state.sel?'Esc closes the open details first, then clears filters':'Press Esc to clear');bar.insertBefore(hnt,all);
+  const hnt=h('span',{class:'hint'},state.sel?kb('Esc closes the open details first, then clears filters','Close the open details with ✕, then tap Clear all'):kb('Press Esc to clear','Tap ✕ on a filter to remove it'));bar.insertBefore(hnt,all);
 }
 function scopeLabel(){
   const f=state.f;
@@ -1176,7 +1180,7 @@ const gmaps=(dest,origin)=>`https://www.google.com/maps/dir/?api=1${origin?'&ori
 function infoHTML(compact){
   const st=selStore(),c=selCenter(),geo=D.meta.price_geo;
   const fc=state.f.community;
-  const close=`<button class="x" data-act="close" aria-label="Close details" title="${fc?'Close and show the '+esc(fc)+' summary (Esc)':'Close (Esc)'}">✕</button>`;
+  const close=`<button class="x" data-act="close" aria-label="Close details" title="${fc?'Close and show the '+esc(fc)+' summary':'Close'}${kb(' (Esc)','')}">✕</button>`;
   // With a community filter on, closing a store or pin shows that community's summary.
   const summaryBtn=fc?`<button class="btn small" data-act="close" title="Show retailer counts and the outline for ${esc(fc)}">${esc(fc)} summary</button>`:'';
   if(st){
@@ -1215,7 +1219,7 @@ function infoHTML(compact){
     const ranked=Object.entries(counts).sort((a,b)=>b[1]-a[1]),rank=ranked.findIndex(r=>r[0]===cm)+1;
     const cen=list.length?{lat:list.reduce((a,s)=>a+s.lat,0)/list.length,lon:list.reduce((a,s)=>a+s.lon,0)/list.length}:null;
     const ns=cen&&!sup?nearestSupermarket(cen):null;
-    return `<button class="x txt" data-act="clearcommunity" title="Clear the community filter (Esc)">Clear filter</button><h3 class="wide">${esc(cm)}</h3>
+    return `<button class="x txt" data-act="clearcommunity" title="Clear the community filter${kb(' (Esc)','')}">Clear filter</button><h3 class="wide">${esc(cm)}</h3>
       <div class="meta">Community summary. The outline on the map joins its licensed food retailers.</div>
       <div class="stats"><div class="stat"><b>${list.length}</b><span>licensed food retailers</span></div><div class="stat"><b>${sup}</b><span>supermarket${sup===1?'':'s'}</span></div>
         <div class="stat"><b>${rank?ordinal(rank):'n/a'}</b><span>of ${ranked.length} communities by number of retailers</span></div></div>
@@ -1255,7 +1259,7 @@ function badge(box,long){
     const b=h('button',{class:'kindbtn','aria-pressed':String(state.f.kind===k),title:state.f.kind===k?'Show all store types':'Show only '+l.toLowerCase()},`<i class="sw" style="background:${c};border-radius:50%"></i>${l}`);
     b.onclick=()=>setFilter('kind',k);box.appendChild(b);
   });
-  box.appendChild(h('span',{class:'hint',style:'margin-left:auto'},long?'Select a store for details, or any spot to see what is within walking distance. Drag to move.':'Select a store or any spot for details.'));
+  box.appendChild(h('span',{class:'hint',style:'margin-left:auto'},long?kb('Select a store for details, or any spot to see what is within walking distance. Drag to move, scroll to zoom.','Tap a store for details, or any spot to see what is within walking distance. Drag to move, and use + and − to zoom.'):kb('Select a store or any spot for details.','Tap a store or any spot for details.')));
 }
 function renderStores(){
   const st=D.stores,match=st.filter(storeMatch),nSup=match.filter(s=>s.kind==='supermarket').length;
@@ -1590,6 +1594,7 @@ function init(){
   $('#themeToggle').onclick=()=>setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');
   applyThemeUI();
   // Follow the system setting until the person picks a theme themselves.
+  if(TOUCH.addEventListener)TOUCH.addEventListener('change',()=>update());
   if(window.matchMedia)matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{let saved=null;try{saved=localStorage.getItem('cartcast-theme')}catch(_){}
     if(!saved)setTheme(e.matches?'dark':'light',false)});
   $('#clearBasket').onclick=clearBasket;
