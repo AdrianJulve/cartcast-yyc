@@ -399,7 +399,7 @@
     #basketTable th:nth-child(6),#basketTable td:nth-child(6),#basketTable th:nth-child(7),#basketTable td:nth-child(7){display:none}
     .tbl th,.tbl td{padding:8px 5px}
     .tbl th{white-space:normal}
-    .step input{width:38px}
+    .step input{width:46px}
     .infobox .stats{gap:6px}}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -697,7 +697,10 @@ function filtered(items,ignore){
   const f=state.f;
   return items.filter(it=>(ignore==='aisle'||!f.aisle||it.aisle===f.aisle)&&(ignore==='product'||!f.product||it.base===f.product||it.product===f.product));
 }
-function costAt(items,i){let t=0,any=false;for(const it of items){const p=price(it.product,i);if(p!=null){t+=p*it.qty;any=true}}return any?t:null}
+// Each item's cost is rounded to the cent before adding, like a receipt, so a
+// total always equals the sum of the rows shown.
+const cents=v=>Math.round(v*100)/100;
+function costAt(items,i){let t=0,any=false;for(const it of items){const p=price(it.product,i);if(p!=null){t+=cents(p*it.qty);any=true}}return any?cents(t):null}
 function yoyAt(p,i){if(i-12<0)return null;const a=price(p,i),b=price(p,i-12);return a!=null&&b?(a/b-1)*100:null}
 function swapsAt(i){
   const best={};
@@ -1348,9 +1351,9 @@ function renderStorePage(){
 function renderBasketPage(){
   renderPicker();
   const i=IDX(),hh=D.households[state.household],all=effectiveItems(),total=costAt(all,i)||0;
-  $('#basketSub').textContent=`${state.items.length} items. Quantities are per week for a family of 4${hh.scale===1?'':', multiplied by '+hh.scale+' for this household size'}. Prices for ${mLabel(D.months[i],true)}.`;
-  const rows=state.items.map((it,k)=>{const e=all[k],p=price(e.product,i);return{k,it,e,p,cost:p==null?null:p*e.qty,yoy:yoyAt(e.product,i),name:split(e.product).name}});
-  const s=state.sort,val=r=>({name:r.name,aisle:r.it.aisle,qty:r.it.qty,price:r.p,cost:r.cost,share:r.cost,yoy:r.yoy})[s.key];
+  $('#basketSub').textContent=`${state.items.length} items. Quantities are per week for this household (${hh.label.toLowerCase()})${hh.scale===1?'':', which is '+hh.scale+' of the amounts for a family of 4'}. Quantity × price = weekly cost. Prices for ${mLabel(D.months[i],true)}.`;
+  const rows=state.items.map((it,k)=>{const e=all[k],p=price(e.product,i);return{k,it,e,p,cost:p==null?null:cents(p*e.qty),yoy:yoyAt(e.product,i),name:split(e.product).name}});
+  const s=state.sort,val=r=>({name:r.name,aisle:r.it.aisle,qty:r.e.qty,price:r.p,cost:r.cost,share:r.cost,yoy:r.yoy})[s.key];
   rows.sort((a,b)=>{const va=val(a),vb=val(b);if(typeof va==='string')return s.dir*va.localeCompare(vb);return s.dir*((va??-1e9)-(vb??-1e9))});
   const cols=[['name','Item',''],['aisle','Aisle',''],['qty','Quantity','num'],['price','Price','num'],['cost','Weekly cost','num'],['share','Share','num'],['yoy','12-month change','num']];
   const t=$('#basketTable');
@@ -1363,16 +1366,21 @@ function renderBasketPage(){
     const sp=split(r.e.product);
     tr.innerHTML=`<td class="nm"><b>${esc(sp.name)}</b><span>${esc(sp.unit)}${r.e.swapped?' (substituted for '+esc(split(r.it.product).name)+')':''}</span></td>
       <td>${esc(r.it.aisle)}</td>
-      <td class="num"><span class="step"><button aria-label="Less">−</button><input aria-label="Quantity" inputmode="decimal" value="${+r.it.qty.toFixed(2)}"><button aria-label="More">+</button></span></td>
+      <td class="num"><span class="step"><button aria-label="Less">−</button><input aria-label="Quantity for this household" inputmode="decimal" value="${+r.e.qty.toFixed(3)}"><button aria-label="More">+</button></span></td>
       <td class="num">${money(r.p)}</td><td class="num">${money(r.cost)}</td><td class="num">${r.cost==null?'n/a':Math.round(r.cost/total*100)+'%'}</td>
       <td class="num" style="color:${r.yoy>0?'var(--up-ink)':r.yoy<0?'var(--down-ink)':'inherit'}">${pct(r.yoy)}</td>
       <td><button class="rm" aria-label="Remove ${esc(sp.name)}" title="Remove">✕</button></td>`;
     const[minus,plus]=tr.querySelectorAll('.step button'),inp=tr.querySelector('input');
     const stepBy=/per kilogram/.test(r.it.product)?0.25:0.5;
-    minus.onclick=e=>{e.stopPropagation();r.it.qty=Math.max(stepBy,+(r.it.qty-stepBy).toFixed(2));update()};
-    plus.onclick=e=>{e.stopPropagation();r.it.qty=+(r.it.qty+stepBy).toFixed(2);update()};
+    // The quantity shown is what this household buys. The basket stores family-of-4
+    // amounts, so an edit is converted back with the same factor (household size, and
+    // the package ratio when a substitution is applied).
+    const fac=r.it.qty>0?r.e.qty/r.it.qty:scale(),shown=+r.e.qty.toFixed(3);
+    const setShown=v=>{r.it.qty=+(v/fac).toFixed(4);update()};
+    minus.onclick=e=>{e.stopPropagation();setShown(Math.max(stepBy,+((Math.ceil(shown/stepBy-1e-9)-1)*stepBy).toFixed(2)))};
+    plus.onclick=e=>{e.stopPropagation();setShown(+((Math.floor(shown/stepBy+1e-9)+1)*stepBy).toFixed(2))};
     inp.onclick=e=>e.stopPropagation();
-    inp.onchange=()=>{const v=parseFloat(inp.value);if(v>0){r.it.qty=v;update()}else inp.value=r.it.qty};
+    inp.onchange=()=>{const v=parseFloat(inp.value);if(v>0)setShown(v);else inp.value=shown};
     tr.querySelector('.rm').onclick=e=>{e.stopPropagation();state.items.splice(r.k,1);state.applied=state.applied.filter(x=>!x.startsWith(r.it.product+'|'));if(state.f.product===r.it.product)state.f.product=null;update();toast('Removed '+split(r.it.product).name)};
     tr.onclick=()=>setFilter('product',r.it.product);
     tr.title=sel?'Clear the product filter':'Filter the dashboard to '+sp.name;
@@ -1553,7 +1561,7 @@ function renderDataPage(){
   const item=(title,formula,text)=>`<div class="method"><h3>${title}</h3>${formula?`<div class="formula">${formula}</div>`:''}<p>${text}</p></div>`;
   $('#methods').innerHTML=[
     item('Weekly basket cost','price × weekly quantity × household factor, summed over items',
-      `Prices are ${esc(m.price_geo)} monthly averages, because Statistics Canada does not publish them for individual cities. Quantities are set for a family of four, and the household factor scales them (${factors}). If a price is suppressed for a month, the previous month's price is used. The monthly figure is the weekly cost × 52 ÷ 12.`),
+      `Prices are ${esc(m.price_geo)} monthly averages, because Statistics Canada does not publish them for individual cities. Quantities are set for a family of four, and the household factor scales them (${factors}). If a price is suppressed for a month, the previous month's price is used. Each item's cost is rounded to the cent before adding, so the total equals the sum of the rows on the Basket page. The monthly figure is the weekly cost × 52 ÷ 12.`),
     item('Change in average price','price this month ÷ price 12 months earlier − 1',
       'Average prices describe price levels. Package sizes, brands and stores change over time, so Statistics Canada advises against reading them as inflation. They are labelled as changes in average price, never as inflation.'),
     item('Grocery inflation','CPI, food purchased from stores: 12-month change',

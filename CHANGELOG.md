@@ -25,6 +25,8 @@ Notable changes to this project are recorded here. The format follows
 - Product picker on the Basket page with search, aisle tabs and multi-select. Tick any number of products, then add them together with one button, with Undo.
 
 ### Fixed
+- On the Basket page, quantity times price did not equal the weekly cost for any household other than a family of four, because the table showed family-of-four quantities. It now shows and edits the quantity the selected household buys.
+- A total could differ from the sum of its rows by a cent. Each item's cost is now rounded to the cent before adding, on every page.
 - On phones and narrow windows the Stores map collapsed to nothing, so it was missing once a store was selected. It now keeps a fixed share of the screen, and choosing a store from the list or the search box scrolls the map back into view.
 - On phones the Basket page ran past the edge of the screen. The aisle tabs and buttons now wrap, and the table shows the item, quantity, weekly cost and remove button.
 - Directions opened whichever business Google found nearest a store's coordinates, which could be a neighbouring shop. They now use the store's name and street address.
