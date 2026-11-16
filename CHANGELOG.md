@@ -25,6 +25,8 @@ Notable changes to this project are recorded here. The format follows
 - Product picker on the Basket page with search, aisle tabs and multi-select. Tick any number of products, then add them together with one button, with Undo.
 
 ### Fixed
+- On phones and narrow windows the Stores map collapsed to nothing, so it was missing once a store was selected. It now keeps a fixed share of the screen, and choosing a store from the list or the search box scrolls the map back into view.
+- On phones the Basket page ran past the edge of the screen. The aisle tabs and buttons now wrap, and the table shows the item, quantity, weekly cost and remove button.
 - Directions opened whichever business Google found nearest a store's coordinates, which could be a neighbouring shop. They now use the store's name and street address.
 - Shops in Market Mall such as the Apple Store, Uniqlo and Specsavers were listed as grocers because the mall's name contains "market". Place names are now ignored when matching, specialty stores must hold a food licence, and pharmacies, coffee shops, restaurants, newsstands and charities are left out.
 - Buttons in the store details card could run past the edge of the card when a name was long. The directions button now always reads "Directions", and long labels are shortened to fit.
