@@ -274,7 +274,12 @@
   .addrow input{flex:1;min-width:220px;border:1px solid var(--ring);border-radius:10px;padding:9px 12px;font-size:13px;background:#fff}
   .step{display:inline-flex;align-items:center;border:1px solid var(--ring);border-radius:8px;overflow:hidden}
   .step button{border:0;background:var(--surface-2);width:28px;height:28px}
-  .step input{width:50px;border:0;text-align:center;font-variant-numeric:tabular-nums;background:var(--surface-2);height:28px}
+  .step input{width:54px;border:0;text-align:center;font-variant-numeric:tabular-nums;background:var(--surface-2);height:28px;color:var(--ink)}
+  .step:focus-within{border-color:var(--brand-2);box-shadow:0 0 0 3px var(--brand-bg)}
+  .step input:focus{outline:0}
+  .step input.bad{color:var(--up-ink)}
+  /* Touch screens: larger buttons, and 16 px text so phones do not zoom in on the field. */
+  @media (pointer:coarse){.step button{width:38px;height:38px;font-size:17px}.step input{height:38px;font-size:16px;width:58px}}
   .rm{border:0;background:none;color:var(--muted);width:28px;height:28px;border-radius:7px}
   .rm:hover{background:var(--up-bg);color:var(--up)}
   .prose{font-size:13.5px;line-height:1.6;color:var(--ink2)}
@@ -399,7 +404,7 @@
     #basketTable th:nth-child(6),#basketTable td:nth-child(6),#basketTable th:nth-child(7),#basketTable td:nth-child(7){display:none}
     .tbl th,.tbl td{padding:8px 5px}
     .tbl th{white-space:normal}
-    .step input{width:46px}
+    .step input{width:52px}
     .infobox .stats{gap:6px}}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -549,7 +554,7 @@
         <div style="overflow:auto">
           <table class="tbl" id="basketTable"></table>
         </div>
-        <p class="hint" style="margin-top:10px">Select a row to filter the overview by that product. Prices are for the month shown in the title.</p>
+        <p class="hint" style="margin-top:10px">Use + and −, or type a quantity: the costs and total update as you type. Select a row to filter the overview by that product. Prices are for the month shown in the title.</p>
       </div>
     </section>
 
@@ -1348,6 +1353,7 @@ function renderStorePage(){
 }
 
 // Basket page
+let qtyRows=new WeakMap();
 function renderBasketPage(){
   renderPicker();
   const i=IDX(),hh=D.households[state.household],all=effectiveItems(),total=costAt(all,i)||0;
@@ -1357,6 +1363,19 @@ function renderBasketPage(){
   rows.sort((a,b)=>{const va=val(a),vb=val(b);if(typeof va==='string')return s.dir*va.localeCompare(vb);return s.dir*((va??-1e9)-(vb??-1e9))});
   const cols=[['name','Item',''],['aisle','Aisle',''],['qty','Quantity','num'],['price','Price','num'],['cost','Weekly cost','num'],['share','Share','num'],['yoy','12-month change','num']];
   const t=$('#basketTable');
+  // A quantity edit updates the numbers in place. The rows are not rebuilt or
+  // re-sorted, so the field being typed in, and the button under a finger, stay put.
+  if(state.softQty&&t.tBodies[0]&&rows.every(r=>qtyRows.has(r.it))){
+    for(const r of rows){
+      const tr=qtyRows.get(r.it),inp=tr.querySelector('input');
+      if(document.activeElement!==inp||state.softQty==='commit')inp.value=+r.e.qty.toFixed(3);
+      inp.classList.remove('bad');
+      tr.children[4].textContent=money(r.cost);tr.children[5].textContent=r.cost==null?'n/a':Math.round(r.cost/total*100)+'%';
+    }
+    const ft=t.tFoot&&t.tFoot.rows[0];if(ft)ft.cells[4].textContent=money(total);
+    return;
+  }
+  qtyRows=new WeakMap();
   t.innerHTML='<thead><tr>'+cols.map(([k,l,c])=>`<th class="${c}"><button data-k="${k}">${l}${s.key===k?(s.dir>0?' ▲':' ▼'):''}</button></th>`).join('')+'<th></th></tr></thead>';
   t.querySelectorAll('th button').forEach(b=>b.onclick=()=>{const k=b.dataset.k;state.sort=k===s.key?{key:k,dir:-s.dir}:{key:k,dir:k==='name'||k==='aisle'?1:-1};renderBasketPage()});
   const tb=h('tbody');
@@ -1366,7 +1385,7 @@ function renderBasketPage(){
     const sp=split(r.e.product);
     tr.innerHTML=`<td class="nm"><b>${esc(sp.name)}</b><span>${esc(sp.unit)}${r.e.swapped?' (substituted for '+esc(split(r.it.product).name)+')':''}</span></td>
       <td>${esc(r.it.aisle)}</td>
-      <td class="num"><span class="step"><button aria-label="Less">−</button><input aria-label="Quantity for this household" inputmode="decimal" value="${+r.e.qty.toFixed(3)}"><button aria-label="More">+</button></span></td>
+      <td class="num"><span class="step"><button aria-label="Less">−</button><input aria-label="Quantity of ${esc(sp.name)} for this household" inputmode="decimal" enterkeyhint="done" autocomplete="off" value="${+r.e.qty.toFixed(3)}"><button aria-label="More">+</button></span></td>
       <td class="num">${money(r.p)}</td><td class="num">${money(r.cost)}</td><td class="num">${r.cost==null?'n/a':Math.round(r.cost/total*100)+'%'}</td>
       <td class="num" style="color:${r.yoy>0?'var(--up-ink)':r.yoy<0?'var(--down-ink)':'inherit'}">${pct(r.yoy)}</td>
       <td><button class="rm" aria-label="Remove ${esc(sp.name)}" title="Remove">✕</button></td>`;
@@ -1375,12 +1394,28 @@ function renderBasketPage(){
     // The quantity shown is what this household buys. The basket stores family-of-4
     // amounts, so an edit is converted back with the same factor (household size, and
     // the package ratio when a substitution is applied).
-    const fac=r.it.qty>0?r.e.qty/r.it.qty:scale(),shown=+r.e.qty.toFixed(3);
-    const setShown=v=>{r.it.qty=+(v/fac).toFixed(4);update()};
-    minus.onclick=e=>{e.stopPropagation();setShown(Math.max(stepBy,+((Math.ceil(shown/stepBy-1e-9)-1)*stepBy).toFixed(2)))};
-    plus.onclick=e=>{e.stopPropagation();setShown(+((Math.floor(shown/stepBy+1e-9)+1)*stepBy).toFixed(2))};
+    qtyRows.set(r.it,tr);
+    const live=()=>{const e=effectiveItems()[state.items.indexOf(r.it)];return e?e.qty:r.e.qty};
+    const shown=()=>+live().toFixed(3);
+    const setShown=(v,mode)=>{const fac=r.it.qty>0?live()/r.it.qty:scale();r.it.qty=+(v/fac).toFixed(4);state.softQty=mode||'commit';update();state.softQty=null};
+    const down=()=>setShown(Math.max(stepBy,+((Math.ceil(shown()/stepBy-1e-9)-1)*stepBy).toFixed(2)));
+    const up=()=>setShown(+((Math.floor(shown()/stepBy+1e-9)+1)*stepBy).toFixed(2));
+    const parse=()=>{const v=parseFloat(inp.value.replace(',','.'));return v>0&&v<1000?v:null};
+    minus.onclick=e=>{e.stopPropagation();down()};
+    plus.onclick=e=>{e.stopPropagation();up()};
     inp.onclick=e=>e.stopPropagation();
-    inp.onchange=()=>{const v=parseFloat(inp.value);if(v>0)setShown(v);else inp.value=shown};
+    inp.onfocus=()=>{before=shown();inp.select()};
+    let before=shown();
+    // Costs and the total follow each keystroke. Enter, Tab or tapping away keeps the
+    // value; Esc puts the old one back. Arrow keys step like the + and − buttons.
+    inp.oninput=()=>{const v=parse();inp.classList.toggle('bad',v==null&&inp.value.trim()!=='');if(v!=null)setShown(v,'typing')};
+    inp.onblur=()=>{const v=parse();if(v==null){inp.value=shown();inp.classList.remove('bad')}else setShown(v)};
+    inp.onkeydown=e=>{
+      if(e.key==='Enter'){e.preventDefault();inp.blur()}
+      else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();inp.value=before;setShown(before);inp.blur()}
+      else if(e.key==='ArrowUp'){e.preventDefault();up();inp.select()}
+      else if(e.key==='ArrowDown'){e.preventDefault();down();inp.select()}
+    };
     tr.querySelector('.rm').onclick=e=>{e.stopPropagation();state.items.splice(r.k,1);state.applied=state.applied.filter(x=>!x.startsWith(r.it.product+'|'));if(state.f.product===r.it.product)state.f.product=null;update();toast('Removed '+split(r.it.product).name)};
     tr.onclick=()=>setFilter('product',r.it.product);
     tr.title=sel?'Clear the product filter':'Filter the dashboard to '+sp.name;
