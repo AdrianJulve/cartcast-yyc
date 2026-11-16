@@ -7,6 +7,7 @@ Notable changes to this project are recorded here. The format follows
 ## [Unreleased]
 
 ### Added
+- Unit selector for every basket item. Enter an item by package, weight (g, kg or lb) or volume (mL or L), or eggs singly, and the amount is converted to the unit Statistics Canada prices. The chosen units are kept in shared links.
 - Reset view button on both maps, below the zoom buttons.
 - Address search on the Stores page. Suggestions come from the City of Calgary parcel address list as you type, together with matching stores. Choosing an address places a pin and shows nearby stores and the nearest supermarket. Only real Calgary addresses can be pinned.
 - Calgary food benchmark from the Market Basket Measure (StatCan Table 11-10-0066-01), adjusted for household size.

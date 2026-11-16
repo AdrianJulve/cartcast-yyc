@@ -275,11 +275,16 @@
   .step{display:inline-flex;align-items:center;border:1px solid var(--ring);border-radius:8px;overflow:hidden}
   .step button{border:0;background:var(--surface-2);width:28px;height:28px}
   .step input{width:54px;border:0;text-align:center;font-variant-numeric:tabular-nums;background:var(--surface-2);height:28px;color:var(--ink)}
+  .qtycell{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+  .unit{font-size:12.5px;color:var(--ink2);min-width:58px;text-align:left}
+  select.unit{border:1px solid var(--ring);border-radius:8px;background:var(--surface-2);color:var(--ink);height:30px;padding:0 4px;cursor:pointer}
+  .eq{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+  .eq:empty{display:none}
   .step:focus-within{border-color:var(--brand-2);box-shadow:0 0 0 3px var(--brand-bg)}
   .step input:focus{outline:0}
   .step input.bad{color:var(--up-ink)}
   /* Touch screens: larger buttons, and 16 px text so phones do not zoom in on the field. */
-  @media (pointer:coarse){.step button{width:38px;height:38px;font-size:17px}.step input{height:38px;font-size:16px;width:58px}}
+  @media (pointer:coarse){select.unit{height:38px;font-size:16px}.step button{width:38px;height:38px;font-size:17px}.step input{height:38px;font-size:16px;width:58px}}
   .rm{border:0;background:none;color:var(--muted);width:28px;height:28px;border-radius:7px}
   .rm:hover{background:var(--up-bg);color:var(--up)}
   .prose{font-size:13.5px;line-height:1.6;color:var(--ink2)}
@@ -554,7 +559,7 @@
         <div style="overflow:auto">
           <table class="tbl" id="basketTable"></table>
         </div>
-        <p class="hint" style="margin-top:10px">Use + and −, or type a quantity: the costs and total update as you type. Select a row to filter the overview by that product. Prices are for the month shown in the title.</p>
+        <p class="hint" style="margin-top:10px">Use + and −, or type a quantity: the costs and total update as you type. Choose a unit beside any item to enter it by weight, volume or package. Select a row to filter the overview by that product. Prices are for the month shown in the title.</p>
       </div>
     </section>
 
@@ -631,6 +636,23 @@ const addMonths=(ym,k)=>{let[y,m]=ym.split('-').map(Number);m+=k;while(m>12){m-=
 function split(p){const i=p.indexOf(', ');if(i<0){const m=p.match(/^(.*?)\s*\((.*)\)$/);return m?{name:m[1],unit:m[2]}:{name:p,unit:''}}return{name:p.slice(0,i),unit:p.slice(i+2)}}
 const unitShort=u=>u.replace('per kilogram','/ kg').replace('kilograms','kg').replace('kilogram','kg').replace('millilitres','mL').replace('litres','L').replace('litre','L').replace('grams','g').replace('unit','each');
 const perUnit=u=>u.startsWith('/')?u:(u?'for '+u:'');
+// Units a basket quantity can be entered in. Statistics Canada prices each product
+// per kilogram, per package of a set size, or per item. `per` is how many of that
+// priced unit one of the chosen unit equals, so any entry converts back exactly.
+const LB_G=453.59237;
+function unitChoices(product){
+  const u=split(product).unit.trim().toLowerCase(),short=unitShort(split(product).unit.trim());
+  if(u==='per kilogram')return[{id:'kg',label:'kg',per:1,step:.25},{id:'g',label:'g',per:1/1000,step:50},{id:'lb',label:'lb',per:LB_G/1000,step:.5}];
+  const m=u.match(/^([\d.]+)\s*(kilograms?|grams?|millilitres?|litres?|dozen)$/);
+  if(!m)return[{id:'each',label:'each',per:1,step:1}];
+  const n=+m[1],w=m[2],pack={id:'pack',label:'× '+short,per:1,step:.5};
+  if(w==='dozen')return[{id:'pack',label:'dozen',per:1,step:.5},{id:'each',label:'eggs',per:1/(12*n),step:1}];
+  if(w.startsWith('gram')||w.startsWith('kilogram')){const g=w.startsWith('kilogram')?n*1000:n;
+    return[pack,{id:'g',label:'g',per:1/g,step:50},{id:'kg',label:'kg',per:1000/g,step:.25},{id:'lb',label:'lb',per:LB_G/g,step:.5}]}
+  const ml=w.startsWith('litre')?n*1000:n;
+  return[pack,{id:'mL',label:'mL',per:1/ml,step:100},{id:'L',label:'L',per:1000/ml,step:.5}];
+}
+const unitFor=(it,product)=>{const c=unitChoices(product);return c.find(x=>x.id===it.u)||c[0]};
 const tip=$('#tip');
 function showTip(html,ev){tip.innerHTML=html;tip.style.opacity=1;moveTip(ev)}
 function moveTip(ev){const r=tip.getBoundingClientRect();let x=ev.clientX+14,y=ev.clientY-r.height-12;if(x+r.width>innerWidth-8)x=ev.clientX-r.width-14;if(y<8)y=ev.clientY+16;tip.style.left=x+'px';tip.style.top=y+'px'}
@@ -669,7 +691,7 @@ function readHash(){
     if(!location.hash.startsWith('#b='))return;
     const s=JSON.parse(decodeURIComponent(escape(atob(location.hash.slice(3)))));
     if(s.h&&D.households[s.h])state.household=s.h;
-    if(Array.isArray(s.i))state.items=s.i.filter(x=>products[x[0]]).map(x=>({product:x[0],qty:+x[1]||1,aisle:products[x[0]].aisle}));
+    if(Array.isArray(s.i))state.items=s.i.filter(x=>products[x[0]]).map(x=>({product:x[0],qty:+x[1]||1,aisle:products[x[0]].aisle,...(typeof x[2]==='string'?{u:x[2]}:{})}));
     if(Array.isArray(s.a))state.applied=s.a;
     if(PAGES.includes(s.p))state.page=s.p;
     if(s.f&&typeof s.f==='object')for(const k in state.f)if(s.f[k]!=null)state.f[k]=s.f[k];
@@ -679,7 +701,7 @@ function readHash(){
 }
 function writeHash(){
   try{
-    const s={h:state.household,i:state.items.map(x=>[x.product,+x.qty.toFixed(3)]),a:state.applied,p:state.page,f:state.f,s:state.sel};
+    const s={h:state.household,i:state.items.map(x=>x.u?[x.product,+x.qty.toFixed(3),x.u]:[x.product,+x.qty.toFixed(3)]),a:state.applied,p:state.page,f:state.f,s:state.sel};
     history.replaceState(null,'','#b='+btoa(unescape(encodeURIComponent(JSON.stringify(s)))));
   }catch(e){}
 }
@@ -1354,6 +1376,12 @@ function renderStorePage(){
 
 // Basket page
 let qtyRows=new WeakMap();
+// Under a quantity entered in another unit, the amount in the unit the price is for.
+function eqText(r,un){
+  if(un.per===1)return'';
+  const u=split(r.e.product).unit.trim(),q=+r.e.qty.toFixed(3);
+  return u.toLowerCase()==='per kilogram'?`= ${q} kg`:`= ${q} × ${unitShort(u)}`;
+}
 function renderBasketPage(){
   renderPicker();
   const i=IDX(),hh=D.households[state.household],all=effectiveItems(),total=costAt(all,i)||0;
@@ -1368,8 +1396,10 @@ function renderBasketPage(){
   if(state.softQty&&t.tBodies[0]&&rows.every(r=>qtyRows.has(r.it))){
     for(const r of rows){
       const tr=qtyRows.get(r.it),inp=tr.querySelector('input');
-      if(document.activeElement!==inp||state.softQty==='commit')inp.value=+r.e.qty.toFixed(3);
+      const un=unitFor(r.it,r.e.product);
+      if(document.activeElement!==inp||state.softQty==='commit')inp.value=+(r.e.qty/un.per).toFixed(3);
       inp.classList.remove('bad');
+      const eq=tr.querySelector('.eq');if(eq)eq.textContent=eqText(r,un);
       tr.children[4].textContent=money(r.cost);tr.children[5].textContent=r.cost==null?'n/a':Math.round(r.cost/total*100)+'%';
     }
     const ft=t.tFoot&&t.tFoot.rows[0];if(ft)ft.cells[4].textContent=money(total);
@@ -1382,25 +1412,27 @@ function renderBasketPage(){
   for(const r of rows){
     const sel=state.f.product===r.it.product,dim=(state.f.product&&!sel)||(state.f.aisle&&r.it.aisle!==state.f.aisle);
     const tr=h('tr',{class:sel?'sel':dim?'dim':''});
-    const sp=split(r.e.product);
+    const sp=split(r.e.product),choices=unitChoices(r.e.product),un=unitFor(r.it,r.e.product);
     tr.innerHTML=`<td class="nm"><b>${esc(sp.name)}</b><span>${esc(sp.unit)}${r.e.swapped?' (substituted for '+esc(split(r.it.product).name)+')':''}</span></td>
       <td>${esc(r.it.aisle)}</td>
-      <td class="num"><span class="step"><button aria-label="Less">−</button><input aria-label="Quantity of ${esc(sp.name)} for this household" inputmode="decimal" enterkeyhint="done" autocomplete="off" value="${+r.e.qty.toFixed(3)}"><button aria-label="More">+</button></span></td>
+      <td class="num"><span class="qtycell"><span class="step"><button aria-label="Less">−</button><input aria-label="Quantity of ${esc(sp.name)} for this household" inputmode="decimal" enterkeyhint="done" autocomplete="off" value="${+(r.e.qty/un.per).toFixed(3)}"><button aria-label="More">+</button></span>${choices.length>1?`<select class="unit" aria-label="Unit for ${esc(sp.name)}" title="Enter this item by weight, volume or package">${choices.map(c=>`<option value="${c.id}"${c.id===un.id?' selected':''}>${esc(c.label)}</option>`).join('')}</select>`:`<span class="unit one">${esc(un.label)}</span>`}</span><span class="eq">${esc(eqText(r,un))}</span></td>
       <td class="num">${money(r.p)}</td><td class="num">${money(r.cost)}</td><td class="num">${r.cost==null?'n/a':Math.round(r.cost/total*100)+'%'}</td>
       <td class="num" style="color:${r.yoy>0?'var(--up-ink)':r.yoy<0?'var(--down-ink)':'inherit'}">${pct(r.yoy)}</td>
       <td><button class="rm" aria-label="Remove ${esc(sp.name)}" title="Remove">✕</button></td>`;
     const[minus,plus]=tr.querySelectorAll('.step button'),inp=tr.querySelector('input');
-    const stepBy=/per kilogram/.test(r.it.product)?0.25:0.5;
     // The quantity shown is what this household buys. The basket stores family-of-4
     // amounts, so an edit is converted back with the same factor (household size, and
     // the package ratio when a substitution is applied).
     qtyRows.set(r.it,tr);
     const live=()=>{const e=effectiveItems()[state.items.indexOf(r.it)];return e?e.qty:r.e.qty};
-    const shown=()=>+live().toFixed(3);
-    const setShown=(v,mode)=>{const fac=r.it.qty>0?live()/r.it.qty:scale();r.it.qty=+(v/fac).toFixed(4);state.softQty=mode||'commit';update();state.softQty=null};
+    // Entries are in the chosen unit; un.per converts them to the priced unit.
+    const stepBy=un.step,shown=()=>+(live()/un.per).toFixed(3);
+    const setShown=(v,mode)=>{const fac=r.it.qty>0?live()/r.it.qty:scale();r.it.qty=+(v*un.per/fac).toFixed(5);state.softQty=mode||'commit';update();state.softQty=null};
+    const usel=tr.querySelector('select.unit');
+    if(usel){usel.onclick=e=>e.stopPropagation();usel.onchange=()=>{if(usel.value===choices[0].id)delete r.it.u;else r.it.u=usel.value;update()}}
     const down=()=>setShown(Math.max(stepBy,+((Math.ceil(shown()/stepBy-1e-9)-1)*stepBy).toFixed(2)));
     const up=()=>setShown(+((Math.floor(shown()/stepBy+1e-9)+1)*stepBy).toFixed(2));
-    const parse=()=>{const v=parseFloat(inp.value.replace(',','.'));return v>0&&v<1000?v:null};
+    const parse=()=>{const v=parseFloat(inp.value.replace(',','.'));return v>0&&v<1e6?v:null};
     minus.onclick=e=>{e.stopPropagation();down()};
     plus.onclick=e=>{e.stopPropagation();up()};
     inp.onclick=e=>e.stopPropagation();
