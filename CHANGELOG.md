@@ -7,7 +7,7 @@ Notable changes to this project are recorded here. The format follows
 ## [Unreleased]
 
 ### Added
-- Show my location button on both maps. It asks the browser for your location once, pins it with nearby stores and the nearest supermarket, and is never stored or added to share links. Locations outside Calgary are not pinned.
+- Use my location buttons, labelled, on the Stores page next to the search box and in the overview's Grocery stores card, alongside the icon on both maps. It asks the browser for your location once, pins it with nearby stores and the nearest supermarket, and is never stored or added to share links. Locations outside Calgary are not pinned.
 - Unit selector for every basket item. Enter an item by package, weight (g, kg or lb) or volume (mL or L), or eggs singly, and the amount is converted to the unit Statistics Canada prices. The chosen units are kept in shared links.
 - Reset view button on both maps, below the zoom buttons.
 - Address search on the Stores page. Suggestions come from the City of Calgary parcel address list as you type, together with matching stores. Choosing an address places a pin and shows nearby stores and the nearest supermarket. Only real Calgary addresses can be pinned.
