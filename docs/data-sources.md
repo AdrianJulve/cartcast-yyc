@@ -53,8 +53,8 @@ Known issues:
 - API: https://data.calgary.ca/resource/9zvu-p8uz.json
 - Licence: Open Government Licence, City of Calgary
 - Used for: the address search on the Stores page. It lists every parcel address in the city with coordinates, so only real Calgary addresses can be found and pinned.
-- How it is used: the viewer's browser queries the API as they type, at most six results per search. Nothing is downloaded at build time and no snapshot is kept. Typed text is sent to the City's open data service and nowhere else.
-- Matching: the search converts common spellings to the City's format before searching, for example "Crescent" to "CR", "41st" to "41" and "North East" to "NE", and ignores "Calgary", "AB" and postal codes. Addresses must start with the house number; a street name alone lists addresses on that street.
+- How it is used: the viewer's browser queries the API as they type, and shows the six best matches. Nothing is downloaded at build time and no snapshot is kept. Typed text is sent to the City's open data service and nowhere else.
+- Matching: the search converts common spellings to the City's format before searching, for example "Crescent" to "CR", "41st" to "41" and "North East" to "NE", and ignores "Calgary", "AB" and postal codes. The house number can come first or last, and a street name alone lists addresses on that street. Several lookups run together (exact prefix, same house number on similar street names, and partly typed house numbers), and the results are ranked by similarity, so typos, a missing or wrong street type, and unfinished words still find the address. When nothing matches exactly, the closest addresses are offered and labelled as such. Only addresses returned by the City's list can be pinned.
 - Caveats: parcel addresses do not include unit numbers, so an apartment search finds the building. If the service cannot be reached, the store search still works and the address search says it is unavailable.
 
 ## 6. Canada's Food Price Report 2026
