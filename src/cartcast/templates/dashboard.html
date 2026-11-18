@@ -199,6 +199,8 @@
   .tilemap .zoom button{width:28px;height:28px;border:0;background:var(--surface-2);font-size:16px;line-height:1;color:var(--ink2)}
   .tilemap .zoom button+button{border-top:1px solid var(--grid)}
   .tilemap .zoom button:hover{background:var(--wash)}
+  .tilemap .zoom button.busy svg{animation:pulse 1s ease-in-out infinite}
+  @keyframes pulse{50%{opacity:.3}}
   .tilemap .zoom button:disabled{color:var(--axis);cursor:default;background:var(--surface-2)}
   .tilemap .zoom svg{position:static;width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle}
   .tilemap .attr{position:absolute;right:0;bottom:0;background:color-mix(in srgb,var(--surface) 85%,transparent);font-size:10px;padding:1px 6px;color:var(--ink2);border-top-left-radius:6px;z-index:2}
@@ -731,7 +733,7 @@ function readHash(){
 }
 function writeHash(){
   try{
-    const s={h:state.household,i:state.items.map(x=>x.u?[x.product,+x.qty.toFixed(3),x.u]:[x.product,+x.qty.toFixed(3)]),a:state.applied,p:state.page,f:state.f,s:state.sel};
+    const s={h:state.household,i:state.items.map(x=>x.u?[x.product,+x.qty.toFixed(3),x.u]:[x.product,+x.qty.toFixed(3)]),a:state.applied,p:state.page,f:state.f,s:state.sel&&state.sel.mine?null:state.sel};
     history.replaceState(null,'','#b='+btoa(unescape(encodeURIComponent(JSON.stringify(s)))));
   }catch(e){}
 }
@@ -1071,7 +1073,7 @@ class TileMap{
   constructor(node,opts){
     this.node=node;this.opts=opts||{};this.z=11;this.cx=0;this.cy=0;this.points=[];this.cache=new Map();this.fitted=false;
     node.classList.add('tilemap');
-    node.innerHTML='<div class="tiles"></div><svg></svg><div class="zoom"><button aria-label="Zoom in" title="Zoom in">+</button><button aria-label="Zoom out" title="Zoom out">&minus;</button><button aria-label="Reset map view" title="Reset view"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/><circle cx="12" cy="12" r="2.5"/></svg></button></div><div class="attr"></div><div class="offmsg">Base map unavailable offline</div>';
+    node.innerHTML='<div class="tiles"></div><svg></svg><div class="zoom"><button aria-label="Zoom in" title="Zoom in">+</button><button aria-label="Zoom out" title="Zoom out">&minus;</button><button aria-label="Reset map view" title="Reset view"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/><circle cx="12" cy="12" r="2.5"/></svg></button><button aria-label="Show my location" title="Show my location"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button></div><div class="attr"></div><div class="offmsg">Base map unavailable offline</div>';
     this.tiles=node.querySelector('.tiles');this.svg=node.querySelector(':scope>svg');
     const cfg=D.meta.map||{};this.cfg=cfg;
     node.querySelector('.attr').innerHTML=cfg.attribution?`<a href="${esc(cfg.attribution_url||'#')}" target="_blank" rel="noopener">${esc(cfg.attribution)}</a>`:'';
@@ -1079,6 +1081,7 @@ class TileMap{
     const [zin,zout,zhome]=node.querySelectorAll('.zoom button');this.btns={zin,zout};
     zin.onclick=e=>{e.stopPropagation();this.zoomBy(1)};zout.onclick=e=>{e.stopPropagation();this.zoomBy(-1)};
     zhome.onclick=e=>{e.stopPropagation();this.reset()};
+    const zme=node.querySelectorAll('.zoom button')[3];if(zme)zme.onclick=e=>{e.stopPropagation();locateMe(zme)};
     // Drag to pan with the main button only; a click without movement selects or clears.
     let start=null;
     node.addEventListener('pointerdown',e=>{if(e.button!==0||e.target.closest('.zoom,.attr'))return;
@@ -1227,6 +1230,24 @@ function selectStore(s,toggle){
 }
 function selectPoint(ll){state.sel={type:'point',lat:+ll.lat.toFixed(5),lon:+ll.lon.toFixed(5)};hideTip();update()}
 function clearSel(){state.sel=null;update()}
+// One-time location: asks the browser once, pins the result, and keeps nothing.
+// The position is not watched, stored, or put in the share link.
+function locateMe(btn){
+  if(!navigator.geolocation){toast('This browser cannot share your location.');return}
+  if(!window.isSecureContext){toast('Location needs the secure (https) version of the dashboard.');return}
+  if(btn)btn.classList.add('busy');
+  navigator.geolocation.getCurrentPosition(pos=>{
+    if(btn)btn.classList.remove('busy');
+    const lat=pos.coords.latitude,lon=pos.coords.longitude,acc=Math.round(pos.coords.accuracy||0);
+    const la=D.stores.map(s=>s.lat),lo=D.stores.map(s=>s.lon);
+    if(lat<Math.min(...la)-.05||lat>Math.max(...la)+.05||lon<Math.min(...lo)-.08||lon>Math.max(...lo)+.08){
+      toast('Your location is outside Calgary, so it was not pinned. Search an address instead.');return}
+    state.sel={type:'point',lat:+lat.toFixed(5),lon:+lon.toFixed(5),label:'Your location',mine:true,acc};hideTip();update();revealMap();
+  },err=>{
+    if(btn)btn.classList.remove('busy');
+    toast(err.code===1?'Location access was not allowed. You can search an address instead.':'Your location could not be found. Try again, or search an address.');
+  },{enableHighAccuracy:true,timeout:12000,maximumAge:60000});
+}
 function onPoint(s){selectStore(s,true)}
 function onBackground(ll){selectPoint(ll)}
 
@@ -1283,7 +1304,7 @@ function nearList(rows,title){
 // itself. Coordinates alone make Google pick whatever business is nearest that point.
 const mapsPlace=p=>{
   if(p&&p.name&&p.address)return encodeURIComponent(p.name.replace(/\s*#\s*\d+/g,'').trim()+', '+p.address.replace(/^#\S+\s+/,'')+', Calgary, AB');
-  if(p&&typeof p.label==='string'&&p.label)return encodeURIComponent(p.label+', Calgary, AB');
+  if(p&&!p.mine&&typeof p.label==='string'&&p.label)return encodeURIComponent(p.label+', Calgary, AB');
   return p.lat+','+p.lon;
 };
 const gmaps=(dest,origin)=>`https://www.google.com/maps/dir/?api=1${origin?'&origin='+mapsPlace(origin):''}&destination=${mapsPlace(dest)}&travelmode=walking`;
@@ -1314,7 +1335,7 @@ function infoHTML(compact){
     const area=near.length?near[0].s.community:'Calgary';
     const lab=typeof state.sel.label==='string'?state.sel.label:'';
     return `${close}<h3>${lab?esc(lab):'Selected location'}</h3>
-      <div class="meta">${lab?'Calgary address, near':'Near'} ${esc(area)} (${c.lat.toFixed(4)}, ${c.lon.toFixed(4)})</div>
+      <div class="meta">${state.sel.mine?'Your current location'+(state.sel.acc?', accurate to about '+(state.sel.acc>=1000?(state.sel.acc/1000).toFixed(1)+' km':state.sel.acc+' m'):'')+'. Near':lab?'Calgary address, near':'Near'} ${esc(area)}${state.sel.mine?'':` (${c.lat.toFixed(4)}, ${c.lon.toFixed(4)})`}</div>
       <div class="stats"><div class="stat"><b>${n1}</b><span>food retailers within 1 km</span></div><div class="stat"><b>${n2}</b><span>within 2 km</span></div>
         <div class="stat"><b>${ns?fmtKm(ns.d):'n/a'}</b><span>to the nearest supermarket</span></div></div>
       ${ns?`<p>The nearest supermarket is <b>${esc(ns.s.name)}</b>, ${fmtKm(ns.d)} away in a straight line, about a ${walkMin(ns.d)}-minute walk. Walking routes are usually longer.</p>`:''}
@@ -1416,7 +1437,7 @@ function eqText(r,un){
 function renderBasketPage(){
   renderPicker();
   const i=IDX(),hh=D.households[state.household],all=effectiveItems(),total=costAt(all,i)||0;
-  $('#basketSub').textContent=`${state.items.length} items. Quantities are per week for this household (${hh.label.toLowerCase()})${hh.scale===1?'':', which is '+hh.scale+' of the amounts for a family of 4'}. Quantity × price = weekly cost. Prices for ${mLabel(D.months[i],true)}.`;
+  $('#basketSub').textContent=`${state.items.length} items. Quantities are per week for this household (${hh.label.toLowerCase()})${hh.scale===1?'':', which is '+hh.scale+' of the amounts for a family of 4'}. A unit is one package of the size shown under the item name, the size Statistics Canada prices. Quantity × price = weekly cost. Prices for ${mLabel(D.months[i],true)}.`;
   const rows=state.items.map((it,k)=>{const e=all[k],p=price(e.product,i);return{k,it,e,p,cost:p==null?null:cents(p*e.qty),yoy:yoyAt(e.product,i),name:split(e.product).name}});
   const s=state.sort,val=r=>({name:r.name,aisle:r.it.aisle,qty:r.e.qty,price:r.p,cost:r.cost,share:r.cost,yoy:r.yoy})[s.key];
   rows.sort((a,b)=>{const va=val(a),vb=val(b);if(typeof va==='string')return s.dir*va.localeCompare(vb);return s.dir*((va??-1e9)-(vb??-1e9))});
@@ -1673,7 +1694,7 @@ function renderDataPage(){
     item('Outlook range',`latest cost × (1 + rate) ^ (months ÷ 12), rate ${Math.round(o.annual_low*100)} to ${Math.round(o.annual_high*100)}%`,
       `The next ${o.months} months, using the range forecast for overall food prices in Canada's Food Price Report 2026. It is a scenario for context, not a forecast for this basket.`),
     item('Stores and distances','straight-line distance; walking time at 4.8 km/h',
-      'Stores are City of Calgary business licences for active food retail premises, sorted into supermarkets and specialty grocers by licence type and trade name. Supermarkets and general grocers are assumed to sell every aisle; butchers, produce stores and bakeries only their own. Real walking routes are longer, so distances and times are lower bounds. Address search looks up the City of Calgary parcel address list directly from your browser, so only real Calgary addresses can be pinned.'),
+      'Stores are City of Calgary business licences for active food retail premises, sorted into supermarkets and specialty grocers by licence type and trade name. Supermarkets and general grocers are assumed to sell every aisle; butchers, produce stores and bakeries only their own. Real walking routes are longer, so distances and times are lower bounds. Show my location asks your browser for your position once; it is used only on your device and is not saved or included in share links. Address search looks up the City of Calgary parcel address list directly from your browser, so only real Calgary addresses can be pinned.'),
   ].join('')+`<p class="more">Full details are in the <a href="https://github.com/AdrianJulve/cartcast-yyc/blob/main/docs/methodology.md" target="_blank" rel="noopener">methodology</a>.</p>`;
 }
 
