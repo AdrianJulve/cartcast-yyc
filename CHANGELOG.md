@@ -51,6 +51,7 @@ Notable changes to this project are recorded here. The format follows
 - Butchers and bakeries that hold only a no-seating food licence are now included.
 
 ### Changed
+- Address search suggests the closest real Calgary addresses, like a standard address autocomplete. It allows typos, missing or partly typed street types, a missing quadrant, the house number at the end, and unit numbers, and labels the suggestions as closest matches when nothing matches exactly.
 - The Basket page explains that a unit is one package of the size shown under the item name.
 - Packaged basket items open in "units", meaning whole packages of the size Statistics Canada prices, and can also be entered in g, kg or lb, or mL or L.
 - The basket table has fixed column widths so every row lines up, column titles and values are centred, and the quantity box and its unit have a clear gap between them.

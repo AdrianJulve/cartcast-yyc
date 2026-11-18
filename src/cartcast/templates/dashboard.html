@@ -1570,48 +1570,101 @@ function addSelected(){
 // Search box on the Stores page: stores from the dashboard data, plus any real
 // Calgary address from the City's parcel address list, looked up live.
 const STREET_TYPES={AVENUE:'AV',AVE:'AV',STREET:'ST',DRIVE:'DR',ROAD:'RD',WAY:'WY',CRESCENT:'CR',CRES:'CR',PLACE:'PL',CLOSE:'CL',
-  CIRCLE:'CI',BOULEVARD:'BV',BLVD:'BV',GREEN:'GR',MANOR:'MR',COURT:'CO',CRT:'CO',RISE:'RI',PARK:'PA',TERRACE:'TC',GARDENS:'GD',
-  VIEW:'VW',HEIGHTS:'HT',GROVE:'GV',BAY:'BA',COMMON:'CM',COMMONS:'CM',MEWS:'ME',POINT:'PT',LANDING:'LD',HILL:'HL',LANE:'LN',
-  LINK:'LI',SQUARE:'SQ',GATE:'GA',COVE:'CV',TRAIL:'TR',ROW:'RO',PASSAGE:'PS',PARADE:'PR',PARKWAY:'PY',PLAZA:'PZ',WALK:'WK'};
-const QUADS=/^(NE|NW|SE|SW)$/;
+  CIRCLE:'CI',BOULEVARD:'BV',BLVD:'BV',GREEN:'GR',GRN:'GR',MANOR:'MR',MNR:'MR',COURT:'CO',CRT:'CO',CT:'CO',RISE:'RI',PARK:'PA',
+  TERRACE:'TC',TERR:'TC',TER:'TC',GARDENS:'GD',GDNS:'GD',VIEW:'VW',HEIGHTS:'HT',HTS:'HT',GROVE:'GV',BAY:'BA',COMMON:'CM',COMMONS:'CM',
+  MEWS:'ME',POINT:'PT',LANDING:'LD',LNDG:'LD',HILL:'HL',LANE:'LN',LINK:'LI',SQUARE:'SQ',GATE:'GA',COVE:'CV',TRAIL:'TR',ROW:'RO',
+  PASSAGE:'PS',PARADE:'PR',PARKWAY:'PY',PKWY:'PY',PLAZA:'PZ',WALK:'WK',HEATH:'HE',VILLAS:'VI',ISLAND:'IS',CAPE:'CA',CROSSING:'CS'};
+const TYPE_CODES=new Set(Object.values(STREET_TYPES).concat(['AV','ST','DR','RD','WY','CR','PL','CL','CI','BV','GR','MR','CO','RI','PA','TC','GD','VW','HT','GV','BA','CM','ME','PT','LD','HL','LN','LI','SQ','GA','CV','TR','RO','PS','PR','PY','PZ','WK','GT','TE','MT','HE','VI']));
+const TYPE_WORDS={};for(const[w,c]of Object.entries(STREET_TYPES))(TYPE_WORDS[c]=TYPE_WORDS[c]||[]).push(w);
+const QUADS=/^(NE|NW|SE|SW|N|S|E|W)$/;
 function normAddr(q){
   let s=' '+q.toUpperCase().replace(/[.,]/g,' ')+' ';
   s=s.replace(/ [A-Z]\d[A-Z] ?\d[A-Z]\d /g,' ').replace(/ (CALGARY|ALBERTA|AB|CANADA)(?= )/g,' ');
   s=s.replace(/ (NORTH|SOUTH) ?(EAST|WEST)(?= )/g,(m,a,b)=>' '+a[0]+b[0]);
   s=s.replace(/ ([NS]) ([EW]) *$/,' $1$2 ');
   s=s.replace(/^ *(UNIT|SUITE|APT) +\S+ +/,' ').replace(/^ *# *\S+ +/,' ').replace(/^ *\S+ *- *(?=\d)/,' ');
+  s=s.replace(/ (UNIT|SUITE|APT) +\S+ *$/,' ').replace(/ # *\S+ *$/,' ');
   s=s.replace(/(\d+)(ST|ND|RD|TH)(?= )/g,'$1');
   const t=s.trim().split(/\s+/).filter(Boolean);
+  // "Cornerbrook Crescent 62": move a trailing house number to the front.
+  if(t.length>1&&/^\d+$/.test(t[t.length-1])&&!/^\d/.test(t[0]))t.unshift(t.pop());
   let i=t.length-1;if(i>0&&QUADS.test(t[i]))i--;
   if(i>0&&STREET_TYPES[t[i]])t[i]=STREET_TYPES[t[i]];
   return t.join(' ');
 }
+// Split a normalised query into house number, street name, street type and quadrant.
+function parseAddr(n){
+  const t=n.split(' ').filter(Boolean),o={num:'',street:'',type:'',quad:'',tail:''};
+  const numbered=/^\d+$/.test(t[0])&&t.length>1&&TYPE_CODES.has(t[1])&&(t.length===2||(t.length===3&&QUADS.test(t[2])));
+  if(/^\d+$/.test(t[0])&&!numbered)o.num=t.shift();
+  if(t.length>1&&QUADS.test(t[t.length-1]))o.quad=t.pop();
+  if(t.length>1&&TYPE_CODES.has(t[t.length-1]))o.type=t.pop();
+  // A short unfinished last word ("CRE") may be the start of a street type.
+  else if(t.length>1&&t[t.length-1].length<=4&&Object.keys(STREET_TYPES).some(w=>w.startsWith(t[t.length-1])))o.tail=t.pop();
+  o.street=t.join(' ');return o;
+}
 const soql=v=>v.replace(/'/g,"''");
 function addrWhere(n){
-  const t0=n.split(' ');
-  // "41 ST SW" is a numbered street, not house number 41.
-  const numbered=/^\d+$/.test(t0[0])&&t0.length>1&&Object.values(STREET_TYPES).includes(t0[1])&&(t0.length===2||(t0.length===3&&QUADS.test(t0[2])));
-  if(/^\d/.test(n)&&!numbered)return `starts_with(address,'${soql(n)}')`;
-  const t=n.split(' ');let quad='',type='';
-  if(t.length>1&&QUADS.test(t[t.length-1]))quad=t.pop();
-  if(t.length>1&&Object.values(STREET_TYPES).includes(t[t.length-1]))type=t.pop();
-  const name=t.join(' ');
-  return [/^\d+$/.test(name)?`street_name='${name}'`:`starts_with(street_name,'${soql(name)}')`,type&&`street_type='${type}'`,quad&&`street_quad='${quad}'`].filter(Boolean).join(' AND ');
+  const p=parseAddr(n);
+  if(p.num)return `starts_with(address,'${soql(n)}')`;
+  const name=p.street;if(!name)return '';
+  return [/^\d+$/.test(name)?`street_name='${name}'`:`starts_with(street_name,'${soql(name)}')`,p.type&&`street_type='${p.type}'`,p.quad&&`street_quad='${p.quad}'`].filter(Boolean).join(' AND ');
+}
+function lev(a,b){if(a===b)return 0;const m=a.length,n=b.length;if(!m)return n;if(!n)return m;let prev=Array.from({length:n+1},(_,j)=>j);
+  for(let i=1;i<=m;i++){const cur=[i];for(let j=1;j<=n;j++)cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));prev=cur}return prev[n]}
+const simil=(a,b)=>!a||!b?0:1-lev(a,b)/Math.max(a.length,b.length);
+// How well a City address matches what was typed. Higher is better; above about 7
+// the typed text is a prefix of the address or nearly so.
+function addrScore(p,r){
+  const sn=(r.street_name||'').toUpperCase(),hn=String(r.house_number||'');let s=0;
+  if(p.num){s+=hn===p.num?3:hn.startsWith(p.num)?1.6-Math.min(1,(hn.length-p.num.length)*.4):-1.5}
+  if(p.street||p.type){
+    // A word read as a street type ("VIEW" in "Bay View") may be part of the name.
+    const vars=[{q:p.street,t:true}].concat(p.type?(TYPE_WORDS[p.type]||[]).map(w=>({q:(p.street+' '+w).trim(),t:false})):[]);
+    let best=-9;
+    for(const v of vars){if(!v.q)continue;
+      const sim=sn.startsWith(v.q)?1:Math.max(simil(v.q,sn),simil(v.q,sn.slice(0,v.q.length)),simil(v.q+' '+(p.tail||''),sn));
+      const sc=4*sim+(v.t&&p.type?(r.street_type===p.type?1:-.7):!v.t&&sim>.999?1:0);
+      if(sc>best)best=sc}
+    s+=best}
+  else if(p.tail&&(TYPE_WORDS[r.street_type]||[]).some(w=>w.startsWith(p.tail)))s+=.6;
+  if(p.quad)s+=r.street_quad===p.quad?1:-1.5;
+  return s;
 }
 const titleAddr=a=>a.split(' ').map(w=>QUADS.test(w)||/^\d/.test(w)?w:w[0]+w.slice(1).toLowerCase()).join(' ');
 const addrCache=new Map();let addrCtl=null;
+// Several lookups run together and the results are ranked by similarity, so a
+// missing street type, a typo or an unfinished word still finds the address.
 async function fetchAddr(n){
   if(addrCache.has(n))return addrCache.get(n);
   if(addrCtl)addrCtl.abort();addrCtl=new AbortController();const signal=addrCtl.signal;
-  const run=async w=>{
-    const u=`${D.meta.address_api}?$select=address,latitude,longitude&$where=${encodeURIComponent(w)}&$order=address&$limit=6`;
+  const run=async(w,lim)=>{
+    if(!w)return[];
+    const u=`${D.meta.address_api}?$select=address,latitude,longitude,house_number,street_name,street_type,street_quad&$where=${encodeURIComponent(w)}&$order=address&$limit=${lim}`;
     const r=await fetch(u,{signal});if(!r.ok)throw new Error('HTTP '+r.status);return r.json();
   };
-  let rows=await run(addrWhere(n));
-  // A partly typed last word ("62 Cornerbrook Cre") can stop a match, so retry without it.
-  if(!rows.length&&n.split(' ').length>=3)rows=await run(addrWhere(n.split(' ').slice(0,-1).join(' ')));
-  rows=rows.filter(r=>r.address&&isFinite(+r.latitude)&&isFinite(+r.longitude));
-  addrCache.set(n,rows);return rows;
+  const p=parseAddr(n),st=p.street.replace(/'/g,''),pre=k=>soql(st.slice(0,Math.min(k,st.length)));
+  const qs=[run(addrWhere(n),8)];
+  if(p.num&&st){
+    qs.push(run(`house_number=${+p.num} AND starts_with(street_name,'${pre(3)}')`,60));
+    qs.push(run(`starts_with(address,'${p.num}') AND starts_with(street_name,'${pre(3)}')`,60));
+  }else if(st.length>=3)qs.push(run(`starts_with(street_name,'${pre(3)}')`+(p.quad?` AND street_quad='${p.quad}'`:''),80));
+  let rows=(await Promise.all(qs)).flat();
+  // Still nothing close: a typo early in the street name. Widen to every street on
+  // that house number starting with the same letter.
+  const good=rows.some(r=>addrScore(p,r)>=5);
+  if(!good&&p.num&&st){
+    rows=rows.concat(await run(`house_number=${+p.num} AND starts_with(street_name,'${pre(1)}')`+(p.quad?` AND street_quad='${p.quad}'`:''),400));
+    // A typo in the first letter: compare against every street with that house number.
+    if(!rows.some(r=>addrScore(p,r)>=5))rows=rows.concat(await run(`house_number=${+p.num}`+(p.quad?` AND street_quad='${p.quad}'`:''),2000));
+  }
+  const seen=new Set(),out=[];
+  for(const r of rows){if(!r.address||!isFinite(+r.latitude)||!isFinite(+r.longitude)||seen.has(r.address))continue;seen.add(r.address);r._s=addrScore(p,r);out.push(r)}
+  out.sort((a,b)=>b._s-a._s||a.address.localeCompare(b.address));
+  const top=out.filter(r=>r._s>=Math.max(2.2,(out[0]?out[0]._s:0)-3)).slice(0,6);
+  // Exact: the house number, street, and any type and quadrant typed all match.
+  const exact=!!top.length&&top[0]._s>=(p.num?3:0)+4+(p.type?1:0)+(p.quad?1:0)-.01;
+  const res={rows:top,exact};addrCache.set(n,res);return res;
 }
 const sug={opts:[],active:-1,seq:0,timer:0};
 function storeHits(q){const s=q.trim().toLowerCase();return s.length<2?[]:D.stores.filter(st=>(st.name+' '+st.address).toLowerCase().includes(s)).slice(0,4)}
@@ -1622,7 +1675,7 @@ function drawSuggest(stores,addrs,msg){
   let html='',k=0;
   const opt=(title,sub)=>`<button type="button" class="opt" role="option" id="sg${k}" data-i="${k++}" aria-selected="false">${title}<small>${sub}</small></button>`;
   if(stores.length)html+='<div class="grp">Stores</div>'+stores.map(s=>opt(esc(s.name),esc(s.address+', '+s.community))).join('');
-  if(addrs.length)html+='<div class="grp">Calgary addresses</div>'+addrs.map(a=>opt(esc(titleAddr(a.address)),'City of Calgary address')).join('');
+  if(addrs.length)html+=`<div class="grp">${sug.exact===false?'Closest Calgary addresses':'Calgary addresses'}</div>`+addrs.map(a=>opt(esc(titleAddr(a.address)),'City of Calgary address')).join('');
   if(msg)html+=`<div class="msg" role="status">${esc(msg)}</div>`;
   b.innerHTML=html;b.hidden=false;$('#storeSearch').setAttribute('aria-expanded','true');
   b.querySelectorAll('.opt').forEach(el=>{el.onmousedown=e=>e.preventDefault();el.onclick=()=>chooseSuggest(+el.dataset.i)});
@@ -1641,11 +1694,12 @@ function onSearchInput(){
   if(!wantAddr)return;
   sug.timer=setTimeout(async()=>{
     try{
-      const rows=await fetchAddr(n);if(seq!==sug.seq)return;
-      const hint=!rows.length?'No matching Calgary address. Check the spelling, or start with the house number.':(addrWhere(n).startsWith('starts_with(address')?'':'Add a house number to narrow the results.');
-      drawSuggest(stores,rows,hint);
+      const res=await fetchAddr(n);if(seq!==sug.seq)return;const rows=res.rows,p=parseAddr(n);
+      sug.exact=res.exact;
+      const hint=!rows.length?'No Calgary address looks like that. Check the house number and street name.':!p.num?'Add a house number to narrow the results.':res.exact?'':'No exact match. These are the closest Calgary addresses.';
+      drawSuggest(stores,rows,hint);sug.exact=null;
     }catch(e){if(e.name==='AbortError'||seq!==sug.seq)return;drawSuggest(stores,[],'Address search is not available right now.')}
-  },220);
+  },250);
 }
 function chooseSuggest(i){
   const o=sug.opts[i];if(!o)return;const inp=$('#storeSearch');
