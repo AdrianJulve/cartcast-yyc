@@ -224,6 +224,15 @@
   .stores-page .storelist{flex:1;min-height:0}
   .stores-page #bigMap{flex:1;min-height:0;scroll-margin-top:76px}
   .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+  .locbtn{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;color:var(--brand);border-color:var(--brand-line);background:var(--brand-bg)}
+  .locbtn:hover{border-color:var(--brand-2)}
+  .locbtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;flex:none}
+  .locbtn.busy svg{animation:pulse 1s ease-in-out infinite}
+  .phbtns{display:flex;gap:6px;flex:none}
+  /* Stores toolbar: search on its own line, then the location button and the community filter side by side. */
+  .stores-page .toolbar .combo{flex:1 1 100%}
+  .stores-page .toolbar .locbtn{flex:0 0 auto;justify-content:center}
+  .stores-page .toolbar #community{flex:1 1 140px;min-width:0}
   .toolbar input{flex:1;min-width:140px;padding:6px 10px;border-radius:8px}
   .combo{position:relative;flex:1;min-width:180px}
   .toolbar .combo input{width:100%;max-width:none}
@@ -547,7 +556,7 @@
           </div>
           <div class="card panel storecard">
             <div class="ph"><div><h2>Grocery stores</h2><p id="storeSub"></p></div>
-              <button class="btn small" data-goto="stores">Open map</button></div>
+              <div class="phbtns"><button class="btn small locbtn" id="locateBtnMini" title="Pin your current location once, with nearby stores"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg><span>My location</span></button><button class="btn small" data-goto="stores">Open map</button></div></div>
             <div class="ministore">
               <div class="mapcol">
                 <div class="tilemap" id="miniMap" aria-label="Map of grocery retailers"></div>
@@ -606,6 +615,7 @@
                 role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="searchSuggest" autocomplete="off">
               <div class="suggest" id="searchSuggest" role="listbox" aria-label="Suggestions" hidden></div>
             </div>
+            <button class="btn locbtn" id="locateBtn" title="Pin your current location once, with nearby stores"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>Use my location</button>
             <select id="community" aria-label="Filter by community" title="Choose a community to outline it on the map and see a summary of its stores"></select>
           </div>
           <div class="hint" id="listTitle" style="margin-bottom:4px"></div>
@@ -1233,6 +1243,7 @@ function clearSel(){state.sel=null;update()}
 // One-time location: asks the browser once, pins the result, and keeps nothing.
 // The position is not watched, stored, or put in the share link.
 function locateMe(btn){
+  if(btn&&btn.classList.contains('busy'))return;
   if(!navigator.geolocation){toast('This browser cannot share your location.');return}
   if(!window.isSecureContext){toast('Location needs the secure (https) version of the dashboard.');return}
   if(btn)btn.classList.add('busy');
@@ -1753,6 +1764,8 @@ function init(){
   sel.onchange=()=>{state.f.community=sel.value==='All'?null:sel.value;update()};
   $('#storeSearch').addEventListener('input',e=>{state.storeQuery=e.target.value;renderStorePage();onSearchInput()});
   $('#storeSearch').addEventListener('keydown',onSearchKey);
+  $('#locateBtn').onclick=e=>locateMe(e.currentTarget);
+  $('#locateBtnMini').onclick=e=>{e.stopPropagation();locateMe(e.currentTarget)};
   $('#storeSearch').addEventListener('focus',()=>{if($('#storeSearch').value.trim())onSearchInput()});
   $('#storeSearch').addEventListener('blur',()=>setTimeout(closeSuggest,120));
   miniMap=new TileMap($('#miniMap'),{onPoint,onBackground,tip:storeTip,overlay:mapOverlay});
