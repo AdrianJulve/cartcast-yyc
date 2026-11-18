@@ -559,7 +559,7 @@
         <div style="overflow:auto">
           <table class="tbl" id="basketTable"></table>
         </div>
-        <p class="hint" style="margin-top:10px">Use + and −, or type a quantity: the costs and total update as you type. Choose a unit beside any item to enter it by weight, volume or package. Select a row to filter the overview by that product. Prices are for the month shown in the title.</p>
+        <p class="hint" style="margin-top:10px">Use + and −, or type a quantity: the costs and total update as you type. Choose a unit beside any item to enter it in g, kg, lb, mL or L. Select a row to filter the overview by that product. Prices are for the month shown in the title.</p>
       </div>
     </section>
 
@@ -641,16 +641,20 @@ const perUnit=u=>u.startsWith('/')?u:(u?'for '+u:'');
 // priced unit one of the chosen unit equals, so any entry converts back exactly.
 const LB_G=453.59237;
 function unitChoices(product){
-  const u=split(product).unit.trim().toLowerCase(),short=unitShort(split(product).unit.trim());
+  const u=split(product).unit.trim().toLowerCase();
   if(u==='per kilogram')return[{id:'kg',label:'kg',per:1,step:.25},{id:'g',label:'g',per:1/1000,step:50},{id:'lb',label:'lb',per:LB_G/1000,step:.5}];
   const m=u.match(/^([\d.]+)\s*(kilograms?|grams?|millilitres?|litres?|dozen)$/);
   if(!m)return[{id:'each',label:'each',per:1,step:1}];
-  const n=+m[1],w=m[2],pack={id:'pack',label:'× '+short,per:1,step:.5};
+  const n=+m[1],w=m[2];
   if(w==='dozen')return[{id:'pack',label:'dozen',per:1,step:.5},{id:'each',label:'eggs',per:1/(12*n),step:1}];
+  // Packaged goods are entered by weight or volume, never by package. The first
+  // choice is the default: grams or millilitres for packages under 1 kg or 1 L.
   if(w.startsWith('gram')||w.startsWith('kilogram')){const g=w.startsWith('kilogram')?n*1000:n;
-    return[pack,{id:'g',label:'g',per:1/g,step:50},{id:'kg',label:'kg',per:1000/g,step:.25},{id:'lb',label:'lb',per:LB_G/g,step:.5}]}
+    const G={id:'g',label:'g',per:1/g,step:50},K={id:'kg',label:'kg',per:1000/g,step:.25},L={id:'lb',label:'lb',per:LB_G/g,step:.5};
+    return g<1000?[G,K,L]:[K,G,L]}
   const ml=w.startsWith('litre')?n*1000:n;
-  return[pack,{id:'mL',label:'mL',per:1/ml,step:100},{id:'L',label:'L',per:1000/ml,step:.5}];
+  const M={id:'mL',label:'mL',per:1/ml,step:100},Li={id:'L',label:'L',per:1000/ml,step:.5};
+  return ml<1000?[M,Li]:[Li,M];
 }
 const unitFor=(it,product)=>{const c=unitChoices(product);return c.find(x=>x.id===it.u)||c[0]};
 const tip=$('#tip');
@@ -1380,7 +1384,8 @@ let qtyRows=new WeakMap();
 function eqText(r,un){
   if(un.per===1)return'';
   const u=split(r.e.product).unit.trim(),q=+r.e.qty.toFixed(3);
-  return u.toLowerCase()==='per kilogram'?`= ${q} kg`:`= ${q} × ${unitShort(u)}`;
+  if(u.toLowerCase()==='per kilogram')return`= ${q} kg`;
+  return /dozen/i.test(u)?`= ${q} dozen`:`= ${q} ${q===1?'pack':'packs'} of ${unitShort(u)}`;
 }
 function renderBasketPage(){
   renderPicker();
@@ -1415,7 +1420,7 @@ function renderBasketPage(){
     const sp=split(r.e.product),choices=unitChoices(r.e.product),un=unitFor(r.it,r.e.product);
     tr.innerHTML=`<td class="nm"><b>${esc(sp.name)}</b><span>${esc(sp.unit)}${r.e.swapped?' (substituted for '+esc(split(r.it.product).name)+')':''}</span></td>
       <td>${esc(r.it.aisle)}</td>
-      <td class="num"><span class="qtycell"><span class="step"><button aria-label="Less">−</button><input aria-label="Quantity of ${esc(sp.name)} for this household" inputmode="decimal" enterkeyhint="done" autocomplete="off" value="${+(r.e.qty/un.per).toFixed(3)}"><button aria-label="More">+</button></span>${choices.length>1?`<select class="unit" aria-label="Unit for ${esc(sp.name)}" title="Enter this item by weight, volume or package">${choices.map(c=>`<option value="${c.id}"${c.id===un.id?' selected':''}>${esc(c.label)}</option>`).join('')}</select>`:`<span class="unit one">${esc(un.label)}</span>`}</span><span class="eq">${esc(eqText(r,un))}</span></td>
+      <td class="num"><span class="qtycell"><span class="step"><button aria-label="Less">−</button><input aria-label="Quantity of ${esc(sp.name)} for this household" inputmode="decimal" enterkeyhint="done" autocomplete="off" value="${+(r.e.qty/un.per).toFixed(3)}"><button aria-label="More">+</button></span>${choices.length>1?`<select class="unit" aria-label="Unit for ${esc(sp.name)}" title="Enter this item by weight or volume">${choices.map(c=>`<option value="${c.id}"${c.id===un.id?' selected':''}>${esc(c.label)}</option>`).join('')}</select>`:`<span class="unit one">${esc(un.label)}</span>`}</span><span class="eq">${esc(eqText(r,un))}</span></td>
       <td class="num">${money(r.p)}</td><td class="num">${money(r.cost)}</td><td class="num">${r.cost==null?'n/a':Math.round(r.cost/total*100)+'%'}</td>
       <td class="num" style="color:${r.yoy>0?'var(--up-ink)':r.yoy<0?'var(--down-ink)':'inherit'}">${pct(r.yoy)}</td>
       <td><button class="rm" aria-label="Remove ${esc(sp.name)}" title="Remove">✕</button></td>`;
