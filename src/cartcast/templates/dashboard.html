@@ -286,6 +286,31 @@
   /* Touch screens: larger buttons, and 16 px text so phones do not zoom in on the field. */
   @media (pointer:coarse){select.unit{height:38px;font-size:16px}.step button{width:38px;height:38px;font-size:17px}.step input{height:38px;font-size:16px;width:58px}}
   .rm{border:0;background:none;color:var(--muted);width:28px;height:28px;border-radius:7px}
+  /* Basket table: fixed column widths so every row lines up, titles centred over
+     their columns, and the quantity box and its unit kept a clear gap apart. */
+  #basketTable th{text-align:center}
+  #basketTable th:first-child{text-align:left}
+  #basketTable td:not(:first-child){text-align:center}
+  #basketTable th button{justify-content:center}
+  #basketTable .qtycell{display:inline-grid;grid-template-columns:auto 84px;column-gap:12px;align-items:center;justify-content:center}
+  #basketTable select.unit,#basketTable .unit.one{width:84px;min-width:0;box-sizing:border-box}
+  #basketTable .unit.one{display:inline-block;text-align:left;padding-left:9px}
+  #basketTable .eq{text-align:center}
+  #basketTable td{padding-top:11px;padding-bottom:11px}
+  @media (min-width:701px){
+    #basketTable{table-layout:fixed}
+    #basketTable col.c-name{width:19%}#basketTable col.c-aisle{width:12%}#basketTable col.c-qty{width:23%}
+    #basketTable col.c-price{width:10%}#basketTable col.c-cost{width:11%}#basketTable col.c-share{width:9%}
+    #basketTable col.c-yoy{width:12%}#basketTable col.c-rm{width:48px}
+    #basketTable th,#basketTable td{overflow:hidden;text-overflow:ellipsis}
+    #basketTable td:nth-child(3),#basketTable td:last-child{overflow:visible}
+  }
+  @media (max-width:700px){
+    #basketTable .qtycell{grid-template-columns:auto;row-gap:6px;justify-items:stretch}
+    #basketTable select.unit,#basketTable .unit.one{width:100%}
+    #basketTable .step button{width:32px}#basketTable .step input{width:46px}
+    #basketTable .nm b{overflow-wrap:anywhere;hyphens:auto}
+  }
   .rm:hover{background:var(--up-bg);color:var(--up)}
   .prose{font-size:13.5px;line-height:1.6;color:var(--ink2)}
   .methods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:40px}
@@ -1411,7 +1436,7 @@ function renderBasketPage(){
     return;
   }
   qtyRows=new WeakMap();
-  t.innerHTML='<thead><tr>'+cols.map(([k,l,c])=>`<th class="${c}"><button data-k="${k}">${l}${s.key===k?(s.dir>0?' ▲':' ▼'):''}</button></th>`).join('')+'<th></th></tr></thead>';
+  t.innerHTML='<colgroup>'+cols.map(([k])=>`<col class="c-${k}">`).join('')+'<col class="c-rm"></colgroup><thead><tr>'+cols.map(([k,l,c])=>`<th class="${c}"><button data-k="${k}">${l}${s.key===k?(s.dir>0?' ▲':' ▼'):''}</button></th>`).join('')+'<th></th></tr></thead>';
   t.querySelectorAll('th button').forEach(b=>b.onclick=()=>{const k=b.dataset.k;state.sort=k===s.key?{key:k,dir:-s.dir}:{key:k,dir:k==='name'||k==='aisle'?1:-1};renderBasketPage()});
   const tb=h('tbody');
   for(const r of rows){
