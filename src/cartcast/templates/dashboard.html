@@ -584,7 +584,7 @@
         <div style="overflow:auto">
           <table class="tbl" id="basketTable"></table>
         </div>
-        <p class="hint" style="margin-top:10px">Use + and −, or type a quantity: the costs and total update as you type. Choose a unit beside any item to enter it in g, kg, lb, mL or L. Select a row to filter the overview by that product. Prices are for the month shown in the title.</p>
+        <p class="hint" style="margin-top:10px">Use + and −, or type a quantity: the costs and total update as you type. Choose a unit beside any item to enter it in g, kg, lb, mL, L or units (whole packages). Select a row to filter the overview by that product. Prices are for the month shown in the title.</p>
       </div>
     </section>
 
@@ -672,14 +672,15 @@ function unitChoices(product){
   if(!m)return[{id:'each',label:'each',per:1,step:1}];
   const n=+m[1],w=m[2];
   if(w==='dozen')return[{id:'pack',label:'dozen',per:1,step:.5},{id:'each',label:'eggs',per:1/(12*n),step:1}];
-  // Packaged goods are entered by weight or volume, never by package. The first
-  // choice is the default: grams or millilitres for packages under 1 kg or 1 L.
+  // Packaged goods open in "units" (whole packages, the size Statistics Canada
+  // prices). They can also be entered by weight or volume.
+  const U={id:'pack',label:'units',per:1,step:.5};
   if(w.startsWith('gram')||w.startsWith('kilogram')){const g=w.startsWith('kilogram')?n*1000:n;
     const G={id:'g',label:'g',per:1/g,step:50},K={id:'kg',label:'kg',per:1000/g,step:.25},L={id:'lb',label:'lb',per:LB_G/g,step:.5};
-    return g<1000?[G,K,L]:[K,G,L]}
+    return g<1000?[U,G,K,L]:[U,K,G,L]}
   const ml=w.startsWith('litre')?n*1000:n;
   const M={id:'mL',label:'mL',per:1/ml,step:100},Li={id:'L',label:'L',per:1000/ml,step:.5};
-  return ml<1000?[M,Li]:[Li,M];
+  return ml<1000?[U,M,Li]:[U,Li,M];
 }
 const unitFor=(it,product)=>{const c=unitChoices(product);return c.find(x=>x.id===it.u)||c[0]};
 const tip=$('#tip');
@@ -1410,7 +1411,7 @@ function eqText(r,un){
   if(un.per===1)return'';
   const u=split(r.e.product).unit.trim(),q=+r.e.qty.toFixed(3);
   if(u.toLowerCase()==='per kilogram')return`= ${q} kg`;
-  return /dozen/i.test(u)?`= ${q} dozen`:`= ${q} ${q===1?'pack':'packs'} of ${unitShort(u)}`;
+  return /dozen/i.test(u)?`= ${q} dozen`:`= ${q} ${q===1?'unit':'units'} of ${unitShort(u)}`;
 }
 function renderBasketPage(){
   renderPicker();

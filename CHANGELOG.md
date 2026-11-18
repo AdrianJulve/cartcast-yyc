@@ -50,6 +50,7 @@ Notable changes to this project are recorded here. The format follows
 - Butchers and bakeries that hold only a no-seating food licence are now included.
 
 ### Changed
+- Packaged basket items open in "units", meaning whole packages of the size Statistics Canada prices, and can also be entered in g, kg or lb, or mL or L.
 - The basket table has fixed column widths so every row lines up, column titles and values are centred, and the quantity box and its unit have a clear gap between them.
 - Packaged basket items are now entered only by weight (g, kg or lb) or volume (mL or L), with no separate package option. Each item opens in grams or millilitres for packages under 1 kg or 1 L, and in kilograms or litres otherwise.
 - Editing a basket quantity is smoother. Costs and the total update as you type, the rows stay in place while you edit, the field selects its contents when opened, and Enter, Esc and the arrow keys work. On touch screens the buttons and field are larger.
