@@ -25,7 +25,7 @@ and see the weekly cost, how it has changed, where to save, and where to shop.
 - **Editable basket**, with each item entered by weight or volume, priced from monthly Alberta average retail prices and scaled by household size, with a two-year trend and a three-month outlook range.
 - **Calgary context**: grocery inflation from the Calgary CPI, and a comparison with the Market Basket Measure food cost for Calgary.
 - **Substitutions** that show the weekly saving and apply to the basket in one click.
-- **Store map** of licensed food retailers on OpenStreetMap. Search any Calgary address, or select a store or any spot, to see what is within walking distance and how far the nearest supermarket is.
+- **Store map** of licensed food retailers on OpenStreetMap. Search any Calgary address, use your current location, or select a store or any spot, to see what is within walking distance and how far the nearest supermarket is.
 - **Cross-filtering** by month, aisle, product, community or store type across every chart, card and table.
 - **Shareable views**, with the basket and filters stored in the URL, plus light and dark themes.
 - **Automated refresh**: a weekly GitHub Actions job downloads new data, commits a snapshot and redeploys the site.

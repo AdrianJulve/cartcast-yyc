@@ -7,6 +7,7 @@ Notable changes to this project are recorded here. The format follows
 ## [Unreleased]
 
 ### Added
+- Show my location button on both maps. It asks the browser for your location once, pins it with nearby stores and the nearest supermarket, and is never stored or added to share links. Locations outside Calgary are not pinned.
 - Unit selector for every basket item. Enter an item by package, weight (g, kg or lb) or volume (mL or L), or eggs singly, and the amount is converted to the unit Statistics Canada prices. The chosen units are kept in shared links.
 - Reset view button on both maps, below the zoom buttons.
 - Address search on the Stores page. Suggestions come from the City of Calgary parcel address list as you type, together with matching stores. Choosing an address places a pin and shows nearby stores and the nearest supermarket. Only real Calgary addresses can be pinned.
@@ -50,6 +51,7 @@ Notable changes to this project are recorded here. The format follows
 - Butchers and bakeries that hold only a no-seating food licence are now included.
 
 ### Changed
+- The Basket page explains that a unit is one package of the size shown under the item name.
 - Packaged basket items open in "units", meaning whole packages of the size Statistics Canada prices, and can also be entered in g, kg or lb, or mL or L.
 - The basket table has fixed column widths so every row lines up, column titles and values are centred, and the quantity box and its unit have a clear gap between them.
 - Packaged basket items are now entered only by weight (g, kg or lb) or volume (mL or L), with no separate package option. Each item opens in grams or millilitres for packages under 1 kg or 1 L, and in kilograms or litres otherwise.
