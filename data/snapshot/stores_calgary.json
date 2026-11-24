@@ -5,7 +5,7 @@
   "address": "#241 315 8 AV SW",
   "comdistnm": "DOWNTOWN COMMERCIAL CORE",
   "licencetypes": "ALCOHOL BEVERAGE SALES (RESTAURANT),\nFOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -28,6 +28,22 @@
    "coordinates": [
     -114.0232509,
     51.0188438
+   ]
+  }
+ },
+ {
+  "getbusid": "12103834",
+  "tradename": "A & A FOODS & DELI",
+  "address": "1401 20 AV NW",
+  "comdistnm": "CAPITOL HILL",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2002-08-29T17:22:16.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0924736,
+    51.0703406
    ]
   }
  },
@@ -85,7 +101,7 @@
   "address": "#3 4511 GLENMORE TR SE",
   "comdistnm": "SOUTH FOOTHILLS",
   "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING)",
-  "jobstatusdesc": "Renewal Licensed",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2011-02-10T05:52:42.000Z",
   "point": {
    "type": "Point",
@@ -165,7 +181,7 @@
   "address": "#1000 11595 ROCKYVALLEY DR NW",
   "comdistnm": "ROCKY RIDGE",
   "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nMARKET,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
-  "jobstatusdesc": "Renewal Invoiced",
+  "jobstatusdesc": "Renewal Licensed",
   "first_iss_dt": "2004-11-22T11:33:15.000Z",
   "point": {
    "type": "Point",
@@ -197,7 +213,7 @@
   "address": "3575 20 AV NE",
   "comdistnm": "SUNRIDGE",
   "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nPHOTOGRAPHER,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -213,7 +229,7 @@
   "address": "#212 7171 80 AV NE",
   "comdistnm": "TARADALE",
   "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
-  "jobstatusdesc": "Renewal Invoiced",
+  "jobstatusdesc": "Renewal Licensed",
   "first_iss_dt": "2021-12-08T14:09:59.000Z",
   "point": {
    "type": "Point",
@@ -277,7 +293,7 @@
   "address": "12000 SYMONS VALLEY RD NW",
   "comdistnm": "EVANSTON",
   "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
-  "jobstatusdesc": "Renewal Invoiced",
+  "jobstatusdesc": "Renewal Licensed",
   "first_iss_dt": "2006-11-30T10:13:59.000Z",
   "point": {
    "type": "Point",
@@ -420,8 +436,8 @@
   "tradename": "REAL CANADIAN SUPERSTORE #1545",
   "address": "7020 4 ST NW",
   "comdistnm": "HUNTINGTON HILLS",
-  "licencetypes": "PHOTOGRAPHER,\nSCHOOL (PROV. NOT REQUIRED),\nTOBACCO RETAILER,\nRETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES (SEATING),\nVAPE RETAILER",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nPHOTOGRAPHER,\nRETAIL DEALER - PREMISES,\nSCHOOL (PROV. NOT REQUIRED),\nTOBACCO RETAILER,\nVAPE RETAILER",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2009-02-12T07:22:59.000Z",
   "point": {
    "type": "Point",
@@ -668,6 +684,22 @@
    "coordinates": [
     -114.0637158,
     51.043162
+   ]
+  }
+ },
+ {
+  "getbusid": "13024104",
+  "tradename": "ALMADINA GROCERY",
+  "address": "#3 5309 RUNDLEHORN DR NE",
+  "comdistnm": "PINERIDGE",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2010-10-05T13:48:02.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.95706,
+    51.071294
    ]
   }
  },
@@ -964,8 +996,8 @@
   "tradename": "SAFEWAY #280",
   "address": "#101 2525 WOODVIEW DR SW",
   "comdistnm": "WOODBINE",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2014-02-12T15:26:30.000Z",
   "point": {
    "type": "Point",
@@ -996,8 +1028,8 @@
   "tradename": "SAFEWAY #288",
   "address": "#100B 1600 90 AV SW",
   "comdistnm": "BAYVIEW",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2014-02-12T15:28:09.000Z",
   "point": {
    "type": "Point",
@@ -1029,7 +1061,7 @@
   "address": "70 SHAWVILLE BV SE",
   "comdistnm": "SHAWNESSY",
   "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Invoiced",
+  "jobstatusdesc": "Renewal Licensed",
   "first_iss_dt": "2013-12-12T08:03:54.000Z",
   "point": {
    "type": "Point",
@@ -1061,7 +1093,7 @@
   "address": "200 STEWART GR SW",
   "comdistnm": "SIGNAL HILL",
   "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Invoiced",
+  "jobstatusdesc": "Renewal Licensed",
   "first_iss_dt": "2013-12-19T11:32:43.000Z",
   "point": {
    "type": "Point",
@@ -1141,7 +1173,7 @@
   "address": "813 11 AV SW",
   "comdistnm": "BELTLINE",
   "licencetypes": "FOOD SERVICE - PREMISES,\nOUTDOOR PATIO,\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Invoiced",
+  "jobstatusdesc": "Renewal Licensed",
   "first_iss_dt": "2013-12-17T12:43:45.000Z",
   "point": {
    "type": "Point",
@@ -1237,7 +1269,7 @@
   "address": "#3000 356 CRANSTON RD SE",
   "comdistnm": "CRANSTON",
   "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2014-12-30T13:58:44.000Z",
   "point": {
    "type": "Point",
@@ -1285,7 +1317,7 @@
   "address": "3210 17 AV SW",
   "comdistnm": "SHAGANAPPI",
   "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING)",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2014-12-29T11:53:27.000Z",
   "point": {
    "type": "Point",
@@ -1306,8 +1338,8 @@
   "point": {
    "type": "Point",
    "coordinates": [
-    -113.9746988,
-    51.1070474
+    -113.9746967,
+    51.1070467
    ]
   }
  },
@@ -1316,8 +1348,8 @@
   "tradename": "SOBEYS TUSCANY",
   "address": "#2020 11300 TUSCANY BV NW",
   "comdistnm": "TUSCANY",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2015-02-11T10:58:29.000Z",
   "point": {
    "type": "Point",
@@ -1924,8 +1956,8 @@
   "tradename": "SAVE-ON-FOODS",
   "address": "#200 1440 52 ST NE",
   "comdistnm": "MARLBOROUGH PARK",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2019-02-12T08:12:24.000Z",
   "point": {
    "type": "Point",
@@ -1989,7 +2021,7 @@
   "address": "265 20 AV NE",
   "comdistnm": "TUXEDO PARK",
   "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -2116,8 +2148,8 @@
   "tradename": "SEAFOOD CITY SUPERMARKET",
   "address": "3320 SUNRIDGE WY NE",
   "comdistnm": "SUNRIDGE",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES (SEATING)",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2020-02-13T12:34:29.000Z",
   "point": {
    "type": "Point",
@@ -2148,8 +2180,8 @@
   "tradename": "ATLAS HALAL MEAT",
   "address": "5320 17 AV SE",
   "comdistnm": "PENBROOKE MEADOWS",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2020-02-12T12:48:06.000Z",
   "point": {
    "type": "Point",
@@ -2164,8 +2196,8 @@
   "tradename": "MAYFAIR FOOD MARKET",
   "address": "#104 6707 ELBOW DR SW",
   "comdistnm": "KELVIN GROVE",
-  "licencetypes": "TOBACCO RETAILER,\nRETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2020-02-11T07:09:37.000Z",
   "point": {
    "type": "Point",
@@ -2356,8 +2388,8 @@
   "tradename": "ZAMAN ELKHAIR MEDITERRANEAN FOODS",
   "address": "#17 2015 32 AV NE",
   "comdistnm": "SOUTH AIRWAYS",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2021-02-10T13:24:05.000Z",
   "point": {
    "type": "Point",
@@ -2405,7 +2437,7 @@
   "address": "#3 6208 RUNDLEHORN DR NE",
   "comdistnm": "PINERIDGE",
   "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Renewal Invoiced",
+  "jobstatusdesc": "Renewal Licensed",
   "first_iss_dt": "2020-12-11T15:27:03.000Z",
   "point": {
    "type": "Point",
@@ -2437,7 +2469,7 @@
   "address": "#121 7 WESTWINDS CR NE",
   "comdistnm": "WESTWINDS",
   "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2024-12-31T14:31:16.000Z",
   "point": {
    "type": "Point",
@@ -2500,8 +2532,8 @@
   "tradename": "ERINA BAKERY",
   "address": "#28 2835 37 ST SW",
   "comdistnm": "GLENBROOK",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES (NO SEATING)",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2021-02-12T14:06:20.000Z",
   "point": {
    "type": "Point",
@@ -2522,8 +2554,8 @@
   "point": {
    "type": "Point",
    "coordinates": [
-    -113.974751,
-    51.1069914
+    -113.9747488,
+    51.1069907
    ]
   }
  },
@@ -3360,6 +3392,22 @@
   }
  },
  {
+  "getbusid": "16357949",
+  "tradename": "REAL CANADIAN SUPPLEMENTS",
+  "address": "#3135 4250 109 AV NE",
+  "comdistnm": "STONEY 3",
+  "licencetypes": "FOOD SERVICE - PREMISES",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2023-07-13T12:31:14.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -113.9723336,
+    51.1536898
+   ]
+  }
+ },
+ {
   "getbusid": "16361206",
   "tradename": "LINA MARKET HALL",
   "address": "#5103 901 64 AV NE",
@@ -3413,7 +3461,7 @@
   "address": "#120 750 NOLAN HILL BV NW",
   "comdistnm": "NOLAN HILL",
   "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
-  "jobstatusdesc": "Renewal Invoiced",
+  "jobstatusdesc": "Renewal Licensed",
   "first_iss_dt": "2023-12-08T16:46:15.000Z",
   "point": {
    "type": "Point",
@@ -3728,6 +3776,22 @@
   }
  },
  {
+  "getbusid": "16522278",
+  "tradename": "SAGE MEADOWS MARKET AFRICAN STORE",
+  "address": "#2 4709 14 ST NE",
+  "comdistnm": "MCCALL",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2024-09-23T16:29:33.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0289607,
+    51.0939185
+   ]
+  }
+ },
+ {
   "getbusid": "16522310",
   "tradename": "TEHRAN GROCERY",
   "address": "#104 2120 KENSINGTON RD NW",
@@ -4021,7 +4085,7 @@
   "address": "25 HERITAGE MEADOWS WY SE",
   "comdistnm": "EAST FAIRVIEW INDUSTRIAL",
   "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nOUTDOOR PATIO,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
-  "jobstatusdesc": "Renewal Invoiced",
+  "jobstatusdesc": "Renewal Licensed",
   "first_iss_dt": "2024-12-11T17:20:25.000Z",
   "point": {
    "type": "Point",
@@ -4085,7 +4149,7 @@
   "address": "10 SAGE HILL PZ NW",
   "comdistnm": "SAGE HILL",
   "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2024-12-31T12:48:18.000Z",
   "point": {
    "type": "Point",
@@ -4444,6 +4508,22 @@
    "coordinates": [
     -114.0289607,
     51.0939185
+   ]
+  }
+ },
+ {
+  "getbusid": "16674525",
+  "tradename": "MORIELS OASIS MARKET",
+  "address": "#1113 19605 WALDEN BV SE",
+  "comdistnm": "WALDEN",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Renewal Licensed",
+  "first_iss_dt": "2025-11-13T14:06:34.000Z",
+  "point": {
+   "type": "Point",
+   "coordinates": [
+    -114.0254267,
+    50.8761204
    ]
   }
  },
@@ -5077,7 +5157,7 @@
   "address": "#100 250 SHAWVILLE BV SE",
   "comdistnm": "SHAWNESSY",
   "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -5109,7 +5189,7 @@
   "address": "2853 32 ST NE",
   "comdistnm": "SUNRIDGE",
   "licencetypes": "CONTRACTOR (NO PROVINCIAL LICENCE REQUIRED),\nFOOD SERVICE - PREMISES (SEATING),\nMOTOR VEHICLE REPAIR AND SERVICE (2-PROV N/R),\nTOBACCO RETAILER,\nVAPE RETAILER,\nWHOLESALER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -5125,7 +5205,7 @@
   "address": "222 58 AV SE",
   "comdistnm": "MANCHESTER INDUSTRIAL",
   "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -5157,7 +5237,7 @@
   "address": "#111 575 28 ST SE",
   "comdistnm": "ALBERT PARK/RADISSON HEIGHTS",
   "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING)",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2020-01-20T08:08:36.000Z",
   "point": {
    "type": "Point",
@@ -5173,7 +5253,7 @@
   "address": "1421 11 ST SW",
   "comdistnm": "BELTLINE",
   "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -5189,7 +5269,7 @@
   "address": "5251 COUNTRY HILLS BV NW",
   "comdistnm": "EDGEMONT",
   "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nPHOTOGRAPHER,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -5268,8 +5348,8 @@
   "tradename": "WAL-MART CANADA",
   "address": "9650 MACLEOD TR SE",
   "comdistnm": "ACADIA",
-  "licencetypes": "RETAIL DEALER - PREMISES,\nFOOD SERVICE - PREMISES",
-  "jobstatusdesc": "Renewal Licensed",
+  "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES",
+  "jobstatusdesc": "Pending Renewal",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -5280,28 +5360,12 @@
   }
  },
  {
-  "getbusid": "313031",
-  "tradename": "FOREST LAWN BAKERY",
-  "address": "#2 4527 8 AV SE",
-  "comdistnm": "FOREST LAWN",
-  "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING)",
-  "jobstatusdesc": "Pending Renewal",
-  "first_iss_dt": "2001-06-01T00:00:00.000Z",
-  "point": {
-   "type": "Point",
-   "coordinates": [
-    -113.96879,
-    51.0443797
-   ]
-  }
- },
- {
   "getbusid": "3335",
   "tradename": "MORNING SUN HEALTH FOODS",
   "address": "#F11 3625 SHAGANAPPI TR NW",
   "comdistnm": "VARSITY",
   "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -5365,7 +5429,7 @@
   "address": "833 17 AV SW",
   "comdistnm": "LOWER MOUNT ROYAL",
   "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -5381,7 +5445,7 @@
   "address": "#A 4122 BRENTWOOD RD NW",
   "comdistnm": "BRENTWOOD",
   "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nMARKET,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -5397,7 +5461,7 @@
   "address": "#6 3330 17 AV SE",
   "comdistnm": "ALBERT PARK/RADISSON HEIGHTS",
   "licencetypes": "FOOD SERVICE - PREMISES,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -5429,7 +5493,7 @@
   "address": "8818 MACLEOD TR SE",
   "comdistnm": "ACADIA",
   "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nMARKET,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -5445,7 +5509,7 @@
   "address": "4940 RICHMOND RD SW",
   "comdistnm": "GLENBROOK",
   "licencetypes": "FOOD SERVICE - PREMISES,\nMARKET,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -5477,7 +5541,7 @@
   "address": "#15 1221 CANYON MEADOWS DR SE",
   "comdistnm": "DEER RIDGE",
   "licencetypes": "FOOD SERVICE - PREMISES (NO SEATING),\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -5493,7 +5557,7 @@
   "address": "35 CROWFOOT WY NW",
   "comdistnm": "ARBOUR LAKE",
   "licencetypes": "FOOD SERVICE - PREMISES,\nMARKET,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER,\nVAPE RETAILER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -5509,7 +5573,7 @@
   "address": "#A 5505 SHAGANAPPI TR NW",
   "comdistnm": "DALHOUSIE",
   "licencetypes": "FOOD SERVICE - PREMISES,\nMARKET,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
@@ -5589,7 +5653,7 @@
   "address": "10505 SOUTHPORT RD SW",
   "comdistnm": "SOUTHWOOD",
   "licencetypes": "FOOD SERVICE - PREMISES (SEATING),\nPHOTOGRAPHER,\nRETAIL DEALER - PREMISES,\nTOBACCO RETAILER",
-  "jobstatusdesc": "Pending Renewal",
+  "jobstatusdesc": "Renewal Invoiced",
   "first_iss_dt": "2001-06-01T00:00:00.000Z",
   "point": {
    "type": "Point",
