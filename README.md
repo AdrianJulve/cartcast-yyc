@@ -46,6 +46,15 @@ prices are Alberta averages. Average prices describe price levels, not inflation
 so every inflation figure uses the CPI. See [methodology](docs/methodology.md) and
 [data sources](docs/data-sources.md).
 
+## How it works
+
+1. **Collect.** A Python pipeline downloads prices, inflation and food-cost benchmarks from Statistics Canada, and business licences from the City of Calgary.
+2. **Clean.** Licences are filtered to food retailers and classed as supermarkets or specialty grocers, then all sources are saved as a compact snapshot.
+3. **Build.** The snapshot is combined with the basket and substitution settings into a single dashboard page.
+4. **Publish.** A scheduled job refreshes the data weekly and redeploys the site to GitHub Pages.
+
+Design notes are in [architecture](docs/architecture.md).
+
 ## Run locally
 
 ```bash
