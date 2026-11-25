@@ -46,26 +46,6 @@ prices are Alberta averages. Average prices describe price levels, not inflation
 so every inflation figure uses the CPI. See [methodology](docs/methodology.md) and
 [data sources](docs/data-sources.md).
 
-## How it works
-
-```mermaid
-flowchart LR
-  A[Statistics Canada tables] --> F[cartcast fetch]
-  C[City of Calgary licences] --> F
-  F --> N[(data/snapshot)]
-  K[config/*.yaml] --> B[cartcast build]
-  N --> B
-  B --> S[site/index.html]
-  S --> G[GitHub Pages]
-```
-
-A Python pipeline (pandas) downloads the sources, classifies business licences
-into supermarkets and specialty grocers, and writes a compact snapshot. The build
-step renders one self-contained HTML file with the data embedded. The dashboard is
-plain JavaScript with hand-built SVG charts and a custom tile map, with no
-front-end libraries and no server. Design notes are in
-[architecture](docs/architecture.md).
-
 ## Run locally
 
 ```bash
