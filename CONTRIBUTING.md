@@ -20,8 +20,8 @@ python -m cartcast serve           # http://localhost:8000
 1. Open or pick an issue using one of the templates.
 2. Create a branch from `main` named `type/short-description`, for example
    `feat/basket-presets`, `fix/map-labels` or `docs/store-rules`.
-3. Write commit messages in the [Conventional Commits](https://www.conventionalcommits.org/)
-   format, for example `feat: add family of 6 preset` or `fix: handle suppressed prices`.
+3. Write short, plain commit messages, for example `Add family of 6 preset` or
+   `Handle suppressed prices`.
 4. Run `make check`, or `python -m pytest` and `ruff check .` if `make` is not installed.
    CI runs the same checks.
 5. Open a pull request using the template. The maintainer reviews it before it is merged.

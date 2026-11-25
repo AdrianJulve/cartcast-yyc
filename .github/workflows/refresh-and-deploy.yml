@@ -80,7 +80,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Snapshot unchanged."
           else
-            git commit -m "data: refresh snapshot $(date -u +%Y-%m-%d)"
+            git commit -m "Refresh data snapshot $(date -u +%Y-%m-%d)"
             git push
           fi
 
